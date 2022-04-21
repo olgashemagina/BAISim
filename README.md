@@ -1,2 +1,2 @@
 # BAISim
-Repositiry for project БСИИРОКО
+Repository for project БСИИРОКО
