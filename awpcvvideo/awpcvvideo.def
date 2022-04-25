@@ -1,0 +1,22 @@
+LIBRARY "awpcvvideo"
+EXPORTS
+       awpcvConnect @1
+	   awpcvDisconnect @2
+	   awpcvQueryImage @3
+	   awpcvFreeImage  @4
+	   awpcvNumFrames  @5
+	   awpcvQueryImagePos @6
+	   awpcvLoadImage @7
+	   awpcvSaveImage @8
+	   awpcvCreateWriter @9
+	   awpcvWriteFrame @10
+	   awpcvCloseWriter @11
+	   awpcvDetectLines @12
+	   awpcvFreeSegments @13
+	   awpcvCornerHarris @14
+	   awpcvDuration @15
+	   awpcvCurrentTime @16
+	   awpcvFBFlow @17
+	   awpcvHoughCircles @18
+	   awpcvShowImage @19
+	   awpcvWaitKey @20

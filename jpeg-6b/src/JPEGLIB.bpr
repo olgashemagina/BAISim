@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="bin\borland6\JPEGLIB.lib"/>
+    <OBJFILES value="obj\jidctint.obj obj\jcapistd.obj obj\jccoefct.obj obj\jccolor.obj 
+      obj\jcdctmgr.obj obj\jchuff.obj obj\jcinit.obj obj\jcmainct.obj 
+      obj\jcmarker.obj obj\jcmaster.obj obj\jcomapi.obj obj\jcparam.obj 
+      obj\jcphuff.obj obj\jcprepct.obj obj\jcsample.obj obj\jctrans.obj 
+      obj\jdapimin.obj obj\jdapistd.obj obj\jdatadst.obj obj\jdatasrc.obj 
+      obj\jdcoefct.obj obj\jdcolor.obj obj\jddctmgr.obj obj\jdhuff.obj 
+      obj\jdinput.obj obj\jdmainct.obj obj\jdmarker.obj obj\jdmaster.obj 
+      obj\jdmerge.obj obj\jdphuff.obj obj\jdpostct.obj obj\jdsample.obj 
+      obj\jdtrans.obj obj\jfdctflt.obj obj\jfdctfst.obj obj\jfdctint.obj 
+      obj\jidctflt.obj obj\jidctfst.obj obj\jcapimin.obj obj\jidctred.obj 
+      obj\jmemmgr.obj obj\jmemnobs.obj obj\jquant1.obj obj\jquant2.obj 
+      obj\jutils.obj obj\rdgif.obj obj\rdbmp.obj obj\jerror.obj obj\rdtarga.obj 
+      obj\rdrle.obj obj\rdppm.obj obj\wrbmp.obj"/>
+    <RESFILES value=""/>
+    <IDLFILES value=""/>
+    <IDLGENFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES)"/>
+    <LIBFILES value=""/>
+    <LIBRARIES value=""/>
+    <PACKAGES value=""/>
+    <PATHCPP value=".;"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <LINKER value="TLib"/>
+    <USERDEFINES value="_DEBUG;JPEG_CJPEG_DJPEG"/>
+    <SYSDEFINES value="_RTLDLL;NO_STRICT"/>
+    <MAINSOURCE value="JPEGLIB.bpf"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl"/>
+    <LIBPATH value="$(BCB)\lib\obj;$(BCB)\lib"/>
+    <WARNINGS value="-w-par"/>
+    <LISTFILE value=""/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <IDLCFLAGS value="-I$(BCB)\include -I$(BCB)\include\vcl -src_suffix cpp -D_DEBUG 
+      -DJPEG_CJPEG_DJPEG USE_WINDOWS_MESSAGEBOX XMD_H -boa"/>
+    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -x- -RT- -X- -r- -a8 -b- -k -y -v 
+      -vi- -c -tW -tWM"/>
+    <PFLAGS value="-N2obj -N0obj -$YD -$W -$O- -$A8 -v -JPHNE -M"/>
+    <AFLAGS value="/mx /w2 /zd"/>
+    <LFLAGS value=""/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="$(OBJFILES)"/>
+    <ALLLIB value=""/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="JPEGLIB.bpf" FORMNAME="" UNITNAME="JPEGLIB" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jidctint.c" FORMNAME="" UNITNAME="jidctint.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jcapistd.c" FORMNAME="" UNITNAME="jcapistd.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jccoefct.c" FORMNAME="" UNITNAME="jccoefct.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jccolor.c" FORMNAME="" UNITNAME="jccolor.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jcdctmgr.c" FORMNAME="" UNITNAME="jcdctmgr.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jchuff.c" FORMNAME="" UNITNAME="jchuff.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jcinit.c" FORMNAME="" UNITNAME="jcinit.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jcmainct.c" FORMNAME="" UNITNAME="jcmainct.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jcmarker.c" FORMNAME="" UNITNAME="jcmarker.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jcmaster.c" FORMNAME="" UNITNAME="jcmaster.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jcomapi.c" FORMNAME="" UNITNAME="jcomapi.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jcparam.c" FORMNAME="" UNITNAME="jcparam.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jcphuff.c" FORMNAME="" UNITNAME="jcphuff.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jcprepct.c" FORMNAME="" UNITNAME="jcprepct.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jcsample.c" FORMNAME="" UNITNAME="jcsample.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jctrans.c" FORMNAME="" UNITNAME="jctrans.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jdapimin.c" FORMNAME="" UNITNAME="jdapimin.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jdapistd.c" FORMNAME="" UNITNAME="jdapistd.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jdatadst.c" FORMNAME="" UNITNAME="jdatadst.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jdatasrc.c" FORMNAME="" UNITNAME="jdatasrc.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jdcoefct.c" FORMNAME="" UNITNAME="jdcoefct.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jdcolor.c" FORMNAME="" UNITNAME="jdcolor.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jddctmgr.c" FORMNAME="" UNITNAME="jddctmgr.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jdhuff.c" FORMNAME="" UNITNAME="jdhuff.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jdinput.c" FORMNAME="" UNITNAME="jdinput.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jdmainct.c" FORMNAME="" UNITNAME="jdmainct.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jdmarker.c" FORMNAME="" UNITNAME="jdmarker.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jdmaster.c" FORMNAME="" UNITNAME="jdmaster.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jdmerge.c" FORMNAME="" UNITNAME="jdmerge.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jdphuff.c" FORMNAME="" UNITNAME="jdphuff.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jdpostct.c" FORMNAME="" UNITNAME="jdpostct.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jdsample.c" FORMNAME="" UNITNAME="jdsample.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jdtrans.c" FORMNAME="" UNITNAME="jdtrans.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jfdctflt.c" FORMNAME="" UNITNAME="jfdctflt.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jfdctfst.c" FORMNAME="" UNITNAME="jfdctfst.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jfdctint.c" FORMNAME="" UNITNAME="jfdctint.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jidctflt.c" FORMNAME="" UNITNAME="jidctflt.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jidctfst.c" FORMNAME="" UNITNAME="jidctfst.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jcapimin.c" FORMNAME="" UNITNAME="jcapimin.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jidctred.c" FORMNAME="" UNITNAME="jidctred.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jmemmgr.c" FORMNAME="" UNITNAME="jmemmgr.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jmemnobs.c" FORMNAME="" UNITNAME="jmemnobs.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jquant1.c" FORMNAME="" UNITNAME="jquant1.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jquant2.c" FORMNAME="" UNITNAME="jquant2.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jutils.c" FORMNAME="" UNITNAME="jutils.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="rdgif.c" FORMNAME="" UNITNAME="rdgif.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="rdbmp.c" FORMNAME="" UNITNAME="rdbmp.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="jerror.c" FORMNAME="" UNITNAME="jerror" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="rdtarga.c" FORMNAME="" UNITNAME="rdtarga.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="rdrle.c" FORMNAME="" UNITNAME="rdrle.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="rdppm.c" FORMNAME="" UNITNAME="rdppm.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="wrbmp.c" FORMNAME="" UNITNAME="wrbmp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=1033
+CodePage=1252
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=1
+Item0=$(BCB)\include;$(BCB)\include\vcl
+
+[HistoryLists\hlLibraryPath]
+Count=1
+Item0=$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=8
+Item0=_DEBUG;JPEG_CJPEG_DJPEG
+Item1=_DEBUG;PPM_SUPPORTED
+Item2=_DEBUG
+Item3=_DEBUG
+Item4=_DEBUG ;USE_WINDOWS_MESSAGEBOX
+Item5=_DEBUG USE_WINDOWS_MESSAGEBOX
+Item6=_DEBUG; XMD_H
+Item7=_DEBUG XMD_H
+
+[HistoryLists\hlIntOutputDir]
+Count=4
+Item0=obj
+Item1=..\obj
+Item2=E:\QUANTUM\D\projects\alt\Projects\lib_source\jpeg-6b\obj
+Item3=E:\projects\Photon2\lib_source\jpeg-6b\obj
+
+[HistoryLists\hlFinalOutputDir]
+Count=9
+Item0=bin\borland6\
+Item1=bin\borland6
+Item2=..\..\Lib\bin\
+Item3=..\..\Lib\
+Item4=..\..\Lib
+Item5=E:\QUANTUM\D\projects\alt\Projects\Lib\
+Item6=E:\QUANTUM\D\projects\alt\Projects\Lib
+Item7=E:\projects\Photon2\Lib\
+Item8=E:\projects\Photon2\Lib
+
+[HistoryLists\hIBPIOutputDir]
+Count=5
+Item0=..\..\Lib\bin
+Item1=..\..\Lib\bin\
+Item2=..\..\Lib
+Item3=E:\QUANTUM\D\projects\alt\Projects\Lib
+Item4=E:\projects\Photon2\Lib
+
+[HistoryLists\hlTlibPageSize]
+Count=1
+Item0=0x0010
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=0
+
+[CORBA]
+AddServerUnit=1
+AddClientUnit=1
+PrecompiledHeaders=1
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+  </IDEOPTIONS>
+</PROJECT>

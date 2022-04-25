@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="C:\Borland\Projects\Lib\awpipl2b.lib"/>
+    <OBJFILES value="..\obj\awpthreshold.obj ..\obj\_awpHSL.obj ..\obj\_awpHSV.obj 
+      ..\obj\_awpio.obj ..\obj\awpBaseAnalysis.obj ..\obj\awpchannels.obj 
+      ..\obj\awpcommon.obj ..\obj\awpcontour.obj ..\obj\awpconvert.obj 
+      ..\obj\awpcopypaste.obj ..\obj\awpdraw.obj ..\obj\awpEdge.obj 
+      ..\obj\awpfft.obj ..\obj\awpframeprocess.obj ..\obj\awpgeometry.obj 
+      ..\obj\awpio.obj ..\obj\awpmaskconvolution.obj ..\obj\awpstroke.obj 
+      ..\obj\awpPointUtils.obj ..\obj\awpcontrast.obj ..\obj\awpBlur.obj 
+      ..\obj\awpCameraUnit.obj ..\obj\awpScannersUnit.obj 
+      ..\obj\awpDetectorUnit.obj"/>
+    <RESFILES value=""/>
+    <IDLFILES value=""/>
+    <IDLGENFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES)"/>
+    <LIBFILES value=""/>
+    <LIBRARIES value=""/>
+    <PACKAGES value=""/>
+    <PATHCPP value=".;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <LINKER value="TLib"/>
+    <USERDEFINES value="WIN32;XMD_H;HAVE_JPEG;_DEBUG"/>
+    <SYSDEFINES value="_RTLDLL;NO_STRICT"/>
+    <MAINSOURCE value="awpipl2b.bpf"/>
+    <INCLUDEPATH value="..\src;$(BCB)\Projects\awpipl2\src;..\..\..;$(BCB)\Bin;$(BCB)\Projects;..\include;$(BCB)\include;$(BCB)\include\vcl;..\..\jpeg-6b\src;..\include\_include"/>
+    <LIBPATH value="..\src;$(BCB)\Projects\awpipl2\src;&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;..\..\..;$(BCB)\Bin;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <WARNINGS value="-w-par -w-aus"/>
+    <LISTFILE value=""/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <IDLCFLAGS value="-I..\src -I$(BCB)\Projects\awpipl2\src -I..\..\.. -I$(BCB)\Bin 
+      -I$(BCB)\Projects -I..\include -I$(BCB)\include -I$(BCB)\include\vcl 
+      -I..\..\jpeg-6b\src -I..\include\_include -src_suffix cpp -DWIN32 -DXMD_H 
+      -DHAVE_JPEG -D_DEBUG -boa"/>
+    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c 
+      -tW -tWM"/>
+    <PFLAGS value="-N2..\obj -N0..\obj -$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
+    <AFLAGS value="/mx /w2 /zi"/>
+    <LFLAGS value=""/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="$(OBJFILES)"/>
+    <ALLLIB value=""/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="awpipl2b.bpf" FORMNAME="" UNITNAME="awpipl2b" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\awpthreshold.c" FORMNAME="" UNITNAME="awpthreshold.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\_awpHSL.c" FORMNAME="" UNITNAME="_awpHSL.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\_awpHSV.c" FORMNAME="" UNITNAME="_awpHSV.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\_awpio.c" FORMNAME="" UNITNAME="_awpio.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\awpBaseAnalysis.c" FORMNAME="" UNITNAME="awpBaseAnalysis.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\awpchannels.c" FORMNAME="" UNITNAME="awpchannels.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\awpcommon.c" FORMNAME="" UNITNAME="awpcommon.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\awpcontour.c" FORMNAME="" UNITNAME="awpcontour.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\awpconvert.c" FORMNAME="" UNITNAME="awpconvert.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\awpcopypaste.c" FORMNAME="" UNITNAME="awpcopypaste.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\awpdraw.c" FORMNAME="" UNITNAME="awpdraw.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\awpEdge.c" FORMNAME="" UNITNAME="awpEdge.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\awpfft.c" FORMNAME="" UNITNAME="awpfft.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\awpframeprocess.c" FORMNAME="" UNITNAME="awpframeprocess.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\awpgeometry.c" FORMNAME="" UNITNAME="awpgeometry.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\awpio.c" FORMNAME="" UNITNAME="awpio.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\awpmaskconvolution.c" FORMNAME="" UNITNAME="awpmaskconvolution.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\awpstroke.c" FORMNAME="" UNITNAME="awpstroke.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\awpPointUtils.c" FORMNAME="" UNITNAME="awpPointUtils" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\awpcontrast.c" FORMNAME="" UNITNAME="awpcontrast" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\awpBlur.c" FORMNAME="" UNITNAME="awpBlur" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\awpCameraUnit.c" FORMNAME="" UNITNAME="awpCameraUnit.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\awpScannersUnit.c" FORMNAME="" UNITNAME="awpScannersUnit.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\awpDetectorUnit.c" FORMNAME="" UNITNAME="awpDetectorUnit" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=1049
+CodePage=1251
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=10
+Item0=..\src;$(BCB)\Projects\awpipl2\src;..\..\..;$(BCB)\Bin;$(BCB)\Projects;..\include;$(BCB)\include;$(BCB)\include\vcl;..\..\jpeg-6b\src;..\include\_include
+Item1=..\src;$(BCB)\Projects\awpipl2\src;..\..\..;$(BCB)\Bin;$(BCB)\Projects;..\include;$(BCB)\include;$(BCB)\include\vcl;..\..\jpeg-6b\src;..\include\_include;..\..\FFTW
+Item2=$(BCB)\Projects\awpipl2\src;..\..\..;$(BCB)\Bin;$(BCB)\Projects;..\include;$(BCB)\include;$(BCB)\include\vcl;..\..\jpeg-6b\src;..\include\_include;..\..\FFTW
+Item3=$(BCB)\Projects\awpipl2\src;..\..\..;$(BCB)\Bin;$(BCB)\Projects;..\include;$(BCB)\include;$(BCB)\include\vcl;..\..\jpeg-6b\src;..\include\_include;..\FFTW
+Item4=$(BCB)\Projects\awpipl2\src;..\..\..;$(BCB)\Bin;$(BCB)\Projects;..\include;$(BCB)\include;$(BCB)\include\vcl;..\..\jpeg-6b\src;..\include\_include
+Item5=$(BCB)\Projects\awpipl2\src;..\src;..\..\..;$(BCB)\Bin;$(BCB)\Projects;..\include;$(BCB)\include;$(BCB)\include\vcl;..\..\jpeg-6b\src;..\include\_include
+Item6=..\src;..\..\..;$(BCB)\Bin;$(BCB)\Projects;..\include;$(BCB)\include;$(BCB)\include\vcl;..\..\jpeg-6b\src;..\include\_include
+Item7=..\src;..\..\..;$(BCB)\Bin;$(BCB)\Projects;..\include;$(BCB)\include;$(BCB)\include\vcl;..\..\jpeg-6b;..\include\_include
+Item8=..\src;..\..\..;$(BCB)\Bin;$(BCB)\Projects;..\include;$(BCB)\include;$(BCB)\include\vcl;..\..\..\..\THRID_PART\jpeg-6b;..\include\_include
+Item9=..\src;;..\..\..;$(BCB)\Bin;$(BCB)\Projects;..\include;$(BCB)\include;$(BCB)\include\vcl;..\..\..\THRID_PART\jpeg-6b;..\include\_include
+
+[HistoryLists\hlLibraryPath]
+Count=6
+Item0=..\src;$(BCB)\Projects\awpipl2\src;C:\Program Files (x86)\Borland\CBuilder6\Projects;..\..\..;$(BCB)\Bin;$(BCB)\lib\obj;$(BCB)\lib
+Item1=$(BCB)\Projects\awpipl2\src;C:\Program Files (x86)\Borland\CBuilder6\Projects;..\..\..;$(BCB)\Bin;$(BCB)\lib\obj;$(BCB)\lib
+Item2=$(BCB)\Projects\awpipl2\src;C:\Program Files (x86)\Borland\CBuilder6\Projects;..\..\..;$(BCB)\Bin;..\src;$(BCB)\lib\obj;$(BCB)\lib
+Item3=C:\Program Files (x86)\Borland\CBuilder6\Projects;..\..\..;$(BCB)\Bin;..\src;$(BCB)\lib\obj;$(BCB)\lib
+Item4=..\..\..;$(BCB)\Bin;..\src;$(BCB)\lib\obj;$(BCB)\lib
+Item5=;..\..\..;&quot;$(BCB)\Bin&quot;;;..\src;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=18
+Item0=WIN32;XMD_H;HAVE_JPEG;_DEBUG
+Item1=WIN32;XMD_H;HAVE_JPEG
+Item2=WIN32;XMD_H;_DEBUG;HAVE_JPEG
+Item3=WIN32;XMD_H;_DEBUG
+Item4=WIN32;XMD_H;HAVE_CONFIG;HAVE_CONFIG_H;_DEBUG
+Item5=WIN32;XMD_H;HAVE_CONFIG;HAVE_CONFIG_H
+Item6=WIN32;XMD_H;_DEBUG;HAVE_CONFIG;HAVE_CONFIG_H
+Item7=WIN32;XMD_H;_DEBUG;HAVE_CONFIG
+Item8=HAVE_JPEG;WIN32;XMD_H;_DEBUG
+Item9=HAVE_JPEG;WIN32;XMD_H
+Item10=HAVE_JPEG;HAVE_FFTW3;WIN32;XMD_H
+Item11=HAVE_JPEG;HAVE_FFTW3;WIN32;XMD_H;_DEBUG
+Item12=HAVE_JPEG;HAVE_FFTW3;WIN32;_DEBUG;XMD_H
+Item13=HAVE_JPEG;HAVE_FFTW3;WIN32;_DEBUG
+Item14=_DEBUG;HAVE_JPEG;HAVE_FFTW3;WIN32;XMD_H
+Item15=_DEBUG;HAVE_JPEG;HAVE_FFTW3;WIN32
+Item16=_DEBUG;HAVE_JPEG;HAVE_FFTW3
+Item17=_DEBUG
+
+[HistoryLists\hlIntOutputDir]
+Count=5
+Item0=..\obj
+Item1=obj
+Item2=obj\
+Item3=..
+Item4=..\
+
+[HistoryLists\hlFinalOutputDir]
+Count=11
+Item0=C:\Borland\Projects\Lib\
+Item1=C:\Borland\Projects\Lib
+Item2=..\..\Lib\
+Item3=..\..\bin\borland6\
+Item4=..\bin\borland6\
+Item5=..\..\..\lib\bin\
+Item6=..\..\..\lib\bin
+Item7=..\..\bin\
+Item8=..\..\..\bin\
+Item9=..\..\..\bin
+Item10=..\..\LocateFace3\lib\borland\
+
+[HistoryLists\hIBPIOutputDir]
+Count=1
+Item0=..\..\..\bin
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=0
+
+[CORBA]
+AddServerUnit=1
+AddClientUnit=1
+PrecompiledHeaders=1
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+  </IDEOPTIONS>
+</PROJECT>

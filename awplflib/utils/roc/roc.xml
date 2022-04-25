@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<roc mode ="0" engine = "face_detector_subset1.xml" stage ="0" database ="C:\_alt\database\Faces2016\" output ="roc.txt"
+     overlap ="0.2">
+</roc>

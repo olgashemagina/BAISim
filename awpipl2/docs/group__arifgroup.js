@@ -1,0 +1,25 @@
+var group__arifgroup =
+[
+    [ "AWP_CALC_ADDIMAGES", "group__arifgroup.html#ga58944412bc88c20094e5489848628884", null ],
+    [ "AWP_CALC_ANDIMAGES", "group__arifgroup.html#gaea904499097c147877a02b650441a655", null ],
+    [ "AWP_CALC_AVGIMAGES", "group__arifgroup.html#gabcd8a29a0f86cba04bea97681c598a91", null ],
+    [ "AWP_CALC_DIVIMAGES", "group__arifgroup.html#ga451c0eaa7f6c84650683c89a9d430e45", null ],
+    [ "AWP_CALC_INPLACE", "group__arifgroup.html#ga225d7a7ac42f3c4b793825a76fc97c04", null ],
+    [ "AWP_CALC_MAXIMAGES", "group__arifgroup.html#ga0c33c33d162e74577dc3f6f8c01b7bd1", null ],
+    [ "AWP_CALC_MINIMAGES", "group__arifgroup.html#ga747e7496c698bcde9b44fa3baf7a950e", null ],
+    [ "AWP_CALC_MLTIMAGES", "group__arifgroup.html#gae32165589cb86fe19b18d759373ee2b5", null ],
+    [ "AWP_CALC_ORIMAGES", "group__arifgroup.html#gabf23d313aa2a0ea7badc30f0ceb93ac8", null ],
+    [ "AWP_CALC_OUTPLACE", "group__arifgroup.html#ga751203da4ef5e4c02d0e5517a432bff7", null ],
+    [ "AWP_CALC_SUBIMAGES", "group__arifgroup.html#gaf6b048d9451a5f1b7426a475e6bba5d3", null ],
+    [ "AWP_CALC_XORIMAGES", "group__arifgroup.html#ga2de81535e353abce2fdafcbf894ff372", null ],
+    [ "awpAbsDiff", "group__arifgroup.html#gaecd626ef36b019e51a1ff4d0b880e6a4", null ],
+    [ "awpAutoLevels", "group__arifgroup.html#ga8469307a9fc5eabc52a1fc0ceb961708", null ],
+    [ "awpCalcImage", "group__arifgroup.html#ga120d013d36c6445cabd1337928305f49", null ],
+    [ "awpFilter", "group__arifgroup.html#ga561ab0d7c201366703e3b35d9df12d8e", null ],
+    [ "awpGaussianBlur", "group__arifgroup.html#gaea949ea5abb3c41086c01abbf35c73a0", null ],
+    [ "awpGetSumPix", "group__arifgroup.html#gaec85788623ad482b8f5ec77f73fa726c", null ],
+    [ "awpMaskConvolution", "group__arifgroup.html#gaac2c4b19e07777d74a98bb47a79a8fd2", null ],
+    [ "awpMedian", "group__arifgroup.html#ga8bb7b2dcb26b5ab18d4781ba3aa562b4", null ],
+    [ "awpMinMax", "group__arifgroup.html#ga50b513f4dc64406690dadcb3fbfaca83", null ],
+    [ "awpRunningAvg", "group__arifgroup.html#ga945381c384c3653501fa14d3c0c70c1a", null ]
+];

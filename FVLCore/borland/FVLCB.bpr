@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="..\..\Lib\FVLCB.lib"/>
+    <OBJFILES value="..\obj\awpeigenlib.obj ..\obj\fvlcore.obj"/>
+    <RESFILES value=""/>
+    <IDLFILES value=""/>
+    <IDLGENFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES)"/>
+    <LIBFILES value=""/>
+    <LIBRARIES value=""/>
+    <PACKAGES value="vcl.bpi rtl.bpi dbrtl.bpi adortl.bpi vcldb.bpi vclx.bpi bdertl.bpi 
+      vcldbx.bpi ibxpress.bpi dsnap.bpi cds.bpi bdecds.bpi qrpt.bpi teeui.bpi 
+      teedb.bpi tee.bpi dss.bpi teeqr.bpi visualclx.bpi visualdbclx.bpi 
+      dsnapcrba.bpi dsnapcon.bpi bcbsmp.bpi vclie.bpi xmlrtl.bpi inet.bpi 
+      inetdbbde.bpi inetdbxpress.bpi inetdb.bpi nmfast.bpi webdsnap.bpi 
+      bcbie.bpi websnap.bpi soaprtl.bpi dclocx.bpi dbexpress.bpi dbxcds.bpi 
+      indy.bpi bcb2kaxserver.bpi"/>
+    <PATHCPP value=".;..\src;..\src"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <LINKER value="TLib"/>
+    <USERDEFINES value=""/>
+    <SYSDEFINES value="_RTLDLL;NO_STRICT"/>
+    <MAINSOURCE value="FVLCB.bpf"/>
+    <INCLUDEPATH value="$(BCB)\Projects\FVLCore\src;$(BCB)\include;$(BCB)\include\vcl;..\..\awpipl2\include"/>
+    <LIBPATH value="$(BCB)\Projects\FVLCore\src;..\..\..\THRID_PART\OpenCV\cxcore\src;&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;;..\..\awplf.lib;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\THRID_PART\OpenCV\bin"/>
+    <WARNINGS value="-w-par"/>
+    <LISTFILE value=""/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <IDLCFLAGS value="-I$(BCB)\Projects\FVLCore\src -I$(BCB)\include -I$(BCB)\include\vcl 
+      -I..\..\awpipl2\include -src_suffix cpp -boa"/>
+    <CFLAG1 value="-O2 -Vx -Ve -X- -a8 -b- -k- -vi -c -tW -tWM"/>
+    <PFLAGS value="-N2..\obj -N0..\obj -$Y- -$L- -$D- -$A8 -v -JPHNE -M"/>
+    <AFLAGS value="/mx /w2 /zn"/>
+    <LFLAGS value=""/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="$(OBJFILES)"/>
+    <ALLLIB value="cg32.lib"/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="FVLCB.bpf" FORMNAME="" UNITNAME="FVLCB" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\awpeigenlib.cpp" FORMNAME="" UNITNAME="awpeigenlib.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\fvlcore.cpp" FORMNAME="" UNITNAME="fvlcore.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=1049
+CodePage=1251
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[Excluded Packages]
+c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
+
+[HistoryLists\hlIncludePath]
+Count=11
+Item0=$(BCB)\Projects\FVLCore\src;$(BCB)\include;$(BCB)\include\vcl;..\..\awpipl2\include
+Item1=$(BCB)\Projects\FVLCore\src;..\src;$(BCB)\include;$(BCB)\include\vcl;..\..\awpipl2\include
+Item2=..\src;$(BCB)\include;$(BCB)\include\vcl;..\..\awpipl2\include
+Item3=..\..\awplf.lib;..\src;$(BCB)\include;$(BCB)\include\vcl;..\..\awpipl2\include
+Item4=..\..\..\THRID_PART\OpenCV\cxcore\src;C:\Program Files\Borland\CBuilder6\Projects;..\..\awplf.lib;..\src;$(BCB)\include;$(BCB)\include\vcl;..\..\awpipl2\src;..\..\..\THRID_PART\OpenCV\cxcore\include
+Item5=C:\Program Files\Borland\CBuilder6\Projects;..\..\awplf.lib;..\src;$(BCB)\include;$(BCB)\include\vcl;..\..\awpipl2\src;..\..\..\THRID_PART\OpenCV\cxcore\include
+Item6=C:\Program Files\Borland\CBuilder6\Projects;..\..\awplf.lib;..\src;$(BCB)\include;$(BCB)\include\vcl;..\..\awpipl2\src;..\..\..\THRID_PART\matrix
+Item7=C:\Program Files\Borland\CBuilder6\Projects;..\..\awplf.lib;..\src;$(BCB)\include;$(BCB)\include\vcl;..\..\awpipl2\src
+Item8=..\..\awplf.lib;..\src;$(BCB)\include;$(BCB)\include\vcl;..\..\awpipl2\src
+Item9=..\src;$(BCB)\include;$(BCB)\include\vcl;..\..\awpipl2\src
+Item10=..\src;$(BCB)\include;$(BCB)\include\vcl
+
+[HistoryLists\hlLibraryPath]
+Count=7
+Item0=$(BCB)\Projects\FVLCore\src;..\..\..\THRID_PART\OpenCV\cxcore\src;C:\Program Files\Borland\CBuilder6\Projects;..\..\awplf.lib;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\THRID_PART\OpenCV\bin
+Item1=$(BCB)\Projects\FVLCore\src;..\..\..\THRID_PART\OpenCV\cxcore\src;C:\Program Files\Borland\CBuilder6\Projects;..\..\awplf.lib;..\src;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\THRID_PART\OpenCV\bin
+Item2=..\..\..\THRID_PART\OpenCV\cxcore\src;C:\Program Files\Borland\CBuilder6\Projects;..\..\awplf.lib;..\src;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\THRID_PART\OpenCV\bin
+Item3=C:\Program Files\Borland\CBuilder6\Projects;..\..\awplf.lib;..\src;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\THRID_PART\OpenCV\bin
+Item4=C:\Program Files\Borland\CBuilder6\Projects;..\..\awplf.lib;..\src;$(BCB)\lib\obj;$(BCB)\lib
+Item5=..\..\awplf.lib;..\src;$(BCB)\lib\obj;$(BCB)\lib
+Item6=..\src;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=1
+Item0=_DEBUG
+
+[HistoryLists\hlIntOutputDir]
+Count=2
+Item0=..\obj
+Item1=obj
+
+[HistoryLists\hlFinalOutputDir]
+Count=7
+Item0=..\..\Lib\
+Item1=..\bin\borland6\
+Item2=..\..\bin\
+Item3=..\..\..\bin\
+Item4=..\..\LocateFace3\lib\borland\
+Item5=..\..\LocateFace-3\lib\borland\
+Item6=..\..\LocateFace-3\lib\borland
+
+[HistoryLists\hIBPIOutputDir]
+Count=4
+Item0=..\..\..\bin
+Item1=..\..\..\bin\
+Item2=..\..\LocateFace-3\lib\borland
+Item3=..\..\LocateFace-3\lib\borland\
+
+[HistoryLists\hlTlibPageSize]
+Count=1
+Item0=0x0010
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=0
+
+[CORBA]
+AddServerUnit=1
+AddClientUnit=1
+PrecompiledHeaders=1
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+  </IDEOPTIONS>
+</PROJECT>

@@ -1,0 +1,775 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{BD2C9908-7A2F-4116-A0C2-B8B48908B676}</ProjectGuid>
+        <ProjectType>CppStaticLibrary</ProjectType>
+        <Base>True</Base>
+        <Config Condition="'$(Config)'==''">Release</Config>
+        <TargetedPlatforms>1</TargetedPlatforms>
+        <AppType>StaticLibrary</AppType>
+        <FrameworkType>None</FrameworkType>
+        <ProjectVersion>18.8</ProjectVersion>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+        <Base_Win32>true</Base_Win32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_1)'!=''">
+        <Cfg_1>true</Cfg_1>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win32)'!=''">
+        <Cfg_1_Win32>true</Cfg_1_Win32>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
+        <Cfg_2>true</Cfg_2>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base)'!=''">
+        <Defines>TIXML_USE_STL;$(Defines)</Defines>
+        <Manifest_File>None</Manifest_File>
+        <SanitizedProjectName>awplflibb_xe7</SanitizedProjectName>
+        <IncludePath>..\src\;D:\_alt\_prj\_thridpart\TinyXML\src;$(IncludePath)</IncludePath>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_Locale>1049</VerInfo_Locale>
+        <BCC_GenerateWindowsApp>true</BCC_GenerateWindowsApp>
+        <DCC_IncludePath>.\;$(BDS)\lib;$(BDS)\lib\obj;$(DCC_IncludePath)</DCC_IncludePath>
+        <TASM_AdditionalSwitches> /w2 ..\obj\</TASM_AdditionalSwitches>
+        <DCC_ObjOutput>..\obj\</DCC_ObjOutput>
+        <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
+        <BCC_IncludePath>$(BDS)\Projects\awplflib\src;C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..\include;..;$(BDS)\include;..\..\awpipl2\include;..\..\TinyXML\src;..\..\awpipl2\include\_include;..\..\FVLCore\src;$(BCC_IncludePath)</BCC_IncludePath>
+        <BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
+        <DynamicRTL>true</DynamicRTL>
+        <BCC_DisableOptimizations>true</BCC_DisableOptimizations>
+        <FinalOutputDir>$(LF)\lib</FinalOutputDir>
+        <BRCC_OutputDir>..\obj\</BRCC_OutputDir>
+        <TASM_IncludePath>$(BDS)\Projects\awplflib\src;C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..\include;..;$(BDS)\include;..\..\awpipl2\include;..\..\TinyXML\src;..\..\awpipl2\include\_include;..\..\FVLCore\src;$(TASM_IncludePath)</TASM_IncludePath>
+        <BRCC_IncludePath>$(BDS)\Projects\awplflib\src;C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..\include;..;$(BDS)\include;..\..\awpipl2\include;..\..\TinyXML\src;..\..\awpipl2\include\_include;..\..\FVLCore\src;$(BRCC_IncludePath)</BRCC_IncludePath>
+        <BCC_DebugLineNumbers>true</BCC_DebugLineNumbers>
+        <ILINK_LibraryPath>$(BDS)\lib;$(BDS)\lib\obj;$(BDS)\lib\psdk;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <BCC_OutputDir>..\obj\</BCC_OutputDir>
+        <TASM_Debugging>Full</TASM_Debugging>
+        <DCC_AdditionalSwitches> -N0..\obj\ -M</DCC_AdditionalSwitches>
+        <BCC_InlineFunctionExpansion>false</BCC_InlineFunctionExpansion>
+        <DCC_UnitSearchPath>.\;$(BDS)\lib;$(BDS)\lib\obj;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <TLIB_PageSize>256 /C</TLIB_PageSize>
+        <ILINK_GenerateDRC>True</ILINK_GenerateDRC>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <Manifest_File>None</Manifest_File>
+        <BCC_MonitorThis>true</BCC_MonitorThis>
+        <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
+        <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
+        <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <BCC_UserSuppliedOptions> -tWM -Vx -r- -k -Ve</BCC_UserSuppliedOptions>
+        <Debugger_HostApplication>C:\facesdk\bin\AttrTest.exe</Debugger_HostApplication>
+        <BRCC_Defines>WIN32;ATTR_DEBUG;_DEBUG;_BORLAND_;$(BRCC_Defines)</BRCC_Defines>
+        <TASM_Defines>WIN32 ATTR_DEBUG _DEBUG _BORLAND_;$(TASM_Defines)</TASM_Defines>
+        <BCC_Defines>WIN32;ATTR_DEBUG;_BORLAND_;$(BCC_Defines)</BCC_Defines>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1)'!=''">
+        <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
+        <BCC_MonitorThis>true</BCC_MonitorThis>
+        <BCC_AllCodeguardOptions>true</BCC_AllCodeguardOptions>
+        <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
+        <DCC_AdditionalSwitches> -N0..\obj\ -M -V</DCC_AdditionalSwitches>
+        <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
+        <ILINK_DisableIncrementalLinking>true</ILINK_DisableIncrementalLinking>
+        <IntermediateOutputDir>Debug_Build</IntermediateOutputDir>
+        <DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
+        <ILINK_LibraryPath>$(BDS)\lib\debug;$(ILINK_LibraryPath);$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <TASM_DisplaySourceLines>true</TASM_DisplaySourceLines>
+        <DCC_Define>DEBUG;$(DCC_Define);$(DCC_Define)</DCC_Define>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <_TCHARMapping>char</_TCHARMapping>
+        <BCC_AllCodeguardOptions>false</BCC_AllCodeguardOptions>
+        <BCC_IncludePath>$(AWP);$(LF);$(BCC_IncludePath)</BCC_IncludePath>
+        <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
+        <BCC_MonitorThis>true</BCC_MonitorThis>
+        <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
+        <TLIB_PageSize>128</TLIB_PageSize>
+        <BCC_Defines>_DEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <BCC_DisableOptimizations>false</BCC_DisableOptimizations>
+        <BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <BCC_InlineFunctionExpansion>true</BCC_InlineFunctionExpansion>
+        <BCC_OptimizationLevel>Level2</BCC_OptimizationLevel>
+        <TASM_Debugging>None</TASM_Debugging>
+        <ILINK_LibraryPath>$(BDS)\lib\release;$(ILINK_LibraryPath);$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <DCC_AdditionalSwitches> -N0..\obj\ -M -$O+</DCC_AdditionalSwitches>
+        <IntermediateOutputDir>Release_Build</IntermediateOutputDir>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <_TCHARMapping>wchar_t</_TCHARMapping>
+        <Manifest_File>None</Manifest_File>
+        <TLIB_PageSize>128</TLIB_PageSize>
+        <BCC_UserSuppliedOptions> -tWM -Vx -r- -k -Ve -r</BCC_UserSuppliedOptions>
+        <BCC_Defines>NDEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
+    </PropertyGroup>
+    <ItemGroup>
+        <CppCompile Include="..\src\LFAttrFilter.cpp">
+            <BuildOrder>40</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFAvgFeature.cpp">
+            <BuildOrder>24</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFBuffer.cpp">
+            <BuildOrder>34</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFCluster.cpp">
+            <BuildOrder>29</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFColorDetector.cpp">
+            <BuildOrder>26</BuildOrder>
+            <BuildOrder>22</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFCommon.cpp">
+            <BuildOrder>29</BuildOrder>
+            <BuildOrder>23</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\lfcsboost.cpp">
+            <BuildOrder>31</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFDatabase.cpp">
+            <BuildOrder>40</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFDetectedItem.cpp">
+            <BuildOrder>38</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFDetector.cpp">
+            <BuildOrder>17</BuildOrder>
+            <BuildOrder>11</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFDistance.cpp">
+            <BuildOrder>35</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFEngine.cpp">
+            <BuildOrder>8</BuildOrder>
+            <BuildOrder>16</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFEye.cpp">
+            <BuildOrder>32</BuildOrder>
+            <BuildOrder>18</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFFaceDescriptor.cpp">
+            <BuildOrder>8</BuildOrder>
+            <BuildOrder>74</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFFeatureImpl.cpp">
+            <BuildOrder>44</BuildOrder>
+            <BuildOrder>4</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFFeatures.cpp">
+            <BuildOrder>14</BuildOrder>
+            <BuildOrder>12</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFFileUtils.cpp">
+            <BuildOrder>28</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFGeometry.cpp">
+            <BuildOrder>68</BuildOrder>
+            <BuildOrder>6</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFHistogramm.cpp">
+            <BuildOrder>36</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFImage.cpp">
+            <BuildOrder>23</BuildOrder>
+            <BuildOrder>21</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFImageProcessor.cpp">
+            <BuildOrder>27</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFLabColor.cpp">
+            <BuildOrder>31</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFLandmarks.cpp">
+            <BuildOrder>36</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFMotion.cpp">
+            <BuildOrder>33</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFParameter.cpp">
+            <BuildOrder>71</BuildOrder>
+            <BuildOrder>7</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFPredictors.cpp">
+            <BuildOrder>23</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFSample.cpp">
+            <BuildOrder>65</BuildOrder>
+            <BuildOrder>11</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFScanners.cpp">
+            <BuildOrder>35</BuildOrder>
+            <BuildOrder>19</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFSemantic.cpp">
+            <BuildOrder>39</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFStrong.cpp">
+            <BuildOrder>17</BuildOrder>
+            <BuildOrder>13</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFStrongImpl.cpp">
+            <BuildOrder>50</BuildOrder>
+            <BuildOrder>0</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFThresholdProc.cpp">
+            <BuildOrder>26</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFUtils.cpp">
+            <BuildOrder>38</BuildOrder>
+            <BuildOrder>20</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFVector.cpp">
+            <BuildOrder>37</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFWeak.cpp">
+            <BuildOrder>20</BuildOrder>
+            <BuildOrder>14</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFWeakImpl.cpp">
+            <BuildOrder>5</BuildOrder>
+            <BuildOrder>47</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\LFZones.cpp">
+            <BuildOrder>30</BuildOrder>
+        </CppCompile>
+        <BuildConfiguration Include="Release">
+            <Key>Cfg_2</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Base">
+            <Key>Base</Key>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Debug">
+            <Key>Cfg_1</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+    </ItemGroup>
+    <Import Project="$(BDS)\Bin\CodeGear.Cpp.Targets"/>
+    <ProjectExtensions>
+        <Borland.Personality>CPlusPlusBuilder.Personality.12</Borland.Personality>
+        <Borland.ProjectType>CppStaticLibrary</Borland.ProjectType>
+        <BorlandProject>
+            <CPlusPlusBuilder.Personality>
+                <VersionInfo>
+                    <VersionInfo Name="IncludeVerInfo">0</VersionInfo>
+                    <VersionInfo Name="AutoIncBuild">0</VersionInfo>
+                    <VersionInfo Name="MajorVer">1</VersionInfo>
+                    <VersionInfo Name="MinorVer">0</VersionInfo>
+                    <VersionInfo Name="Release">0</VersionInfo>
+                    <VersionInfo Name="Build">0</VersionInfo>
+                    <VersionInfo Name="Debug">0</VersionInfo>
+                    <VersionInfo Name="PreRelease">0</VersionInfo>
+                    <VersionInfo Name="Special">0</VersionInfo>
+                    <VersionInfo Name="Private">0</VersionInfo>
+                    <VersionInfo Name="DLL">0</VersionInfo>
+                    <VersionInfo Name="Locale">1049</VersionInfo>
+                    <VersionInfo Name="CodePage">1251</VersionInfo>
+                </VersionInfo>
+                <VersionInfoKeys>
+                    <VersionInfoKeys Name="CompanyName"/>
+                    <VersionInfoKeys Name="FileDescription"/>
+                    <VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+                    <VersionInfoKeys Name="InternalName"/>
+                    <VersionInfoKeys Name="LegalCopyright"/>
+                    <VersionInfoKeys Name="LegalTrademarks"/>
+                    <VersionInfoKeys Name="OriginalFilename"/>
+                    <VersionInfoKeys Name="ProductName"/>
+                    <VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+                    <VersionInfoKeys Name="Comments"/>
+                </VersionInfoKeys>
+                <HistoryLists_hlIncludePath>
+                    <HistoryLists_hlIncludePath Name="Count">9</HistoryLists_hlIncludePath>
+                    <HistoryLists_hlIncludePath Name="Item0">$(BCB)\Projects\awplflib\src;C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..\include;..;$(BCB)\include;..\..\awpipl2\include;..\..\TinyXML\src;..\..\awpipl2\include\_include;..\..\FVLCore\src</HistoryLists_hlIncludePath>
+                    <HistoryLists_hlIncludePath Name="Item1">C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..\include;..;$(BCB)\include;..\..\awpipl2\include;..\..\TinyXML\src;..\..\awpipl2\include\_include;..\..\FVLCore\src</HistoryLists_hlIncludePath>
+                    <HistoryLists_hlIncludePath Name="Item2">C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..\include;..;$(BCB)\include;..\..\awpipl2\include;..\..\TinyXML\src;..\..\awpipl2\include\_include;..\..\FVLCore\include</HistoryLists_hlIncludePath>
+                    <HistoryLists_hlIncludePath Name="Item3">C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..\include;..;$(BCB)\include;..\..\awpipl2\include;..\..\TinyXML\src;..\..\awpipl2\include\_include</HistoryLists_hlIncludePath>
+                    <HistoryLists_hlIncludePath Name="Item4">C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..\include;..;$(BCB)\include;..\..\awpipl2\include;..\..\TinyXML\src</HistoryLists_hlIncludePath>
+                    <HistoryLists_hlIncludePath Name="Item5">C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..\include;..;$(BCB)\include;..\..\awpipl2\include;..\..\TinyXML</HistoryLists_hlIncludePath>
+                    <HistoryLists_hlIncludePath Name="Item6">..\src;..\include;..;$(BCB)\include;..\..\awpipl2\include;..\..\TinyXML</HistoryLists_hlIncludePath>
+                    <HistoryLists_hlIncludePath Name="Item7">..\src;..\include;..;$(BCB)\include;..\..\awpipl2\include</HistoryLists_hlIncludePath>
+                    <HistoryLists_hlIncludePath Name="Item8">..\src;..\include;..;&quot;$(BCB)\include;$(BCB)\include\vcl;..\..\awpipl2\include</HistoryLists_hlIncludePath>
+                </HistoryLists_hlIncludePath>
+                <HistoryLists_hlLibraryPath>
+                    <HistoryLists_hlLibraryPath Name="Count">4</HistoryLists_hlLibraryPath>
+                    <HistoryLists_hlLibraryPath Name="Item0">$(BCB)\Projects\awplflib\src;C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..</HistoryLists_hlLibraryPath>
+                    <HistoryLists_hlLibraryPath Name="Item1">C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..</HistoryLists_hlLibraryPath>
+                    <HistoryLists_hlLibraryPath Name="Item2">C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..;&quot;;;$(BCB)\lib\obj;$(BCB)\lib</HistoryLists_hlLibraryPath>
+                    <HistoryLists_hlLibraryPath Name="Item3">..\src;..;&quot;;;$(BCB)\lib\obj;$(BCB)\lib</HistoryLists_hlLibraryPath>
+                </HistoryLists_hlLibraryPath>
+                <HistoryLists_hlDebugSourcePath>
+                    <HistoryLists_hlDebugSourcePath Name="Count">1</HistoryLists_hlDebugSourcePath>
+                    <HistoryLists_hlDebugSourcePath Name="Item0">$(BCB)\source\vcl</HistoryLists_hlDebugSourcePath>
+                </HistoryLists_hlDebugSourcePath>
+                <HistoryLists_hlConditionals>
+                    <HistoryLists_hlConditionals Name="Count">19</HistoryLists_hlConditionals>
+                    <HistoryLists_hlConditionals Name="Item0">WIN32;ATTR_DEBUG;_DEBUG;_BORLAND_</HistoryLists_hlConditionals>
+                    <HistoryLists_hlConditionals Name="Item1">WIN32;ATTR_DEBUG;_DEBUG</HistoryLists_hlConditionals>
+                    <HistoryLists_hlConditionals Name="Item2">WIN32;ATTR_DEBUG</HistoryLists_hlConditionals>
+                    <HistoryLists_hlConditionals Name="Item3">WIN32;_DEBUG;ATTR_DEBUG</HistoryLists_hlConditionals>
+                    <HistoryLists_hlConditionals Name="Item4">WIN32;_DEBUG</HistoryLists_hlConditionals>
+                    <HistoryLists_hlConditionals Name="Item5">WIN32;_OPEN_CV_;_DEBUG</HistoryLists_hlConditionals>
+                    <HistoryLists_hlConditionals Name="Item6">WIN32;_OPEN_CV_</HistoryLists_hlConditionals>
+                    <HistoryLists_hlConditionals Name="Item7">WIN32;_DEBUG;_OPEN_CV_</HistoryLists_hlConditionals>
+                    <HistoryLists_hlConditionals Name="Item8">WIN32</HistoryLists_hlConditionals>
+                    <HistoryLists_hlConditionals Name="Item9">_DEBUG;WIN32</HistoryLists_hlConditionals>
+                    <HistoryLists_hlConditionals Name="Item10">_DEBUG</HistoryLists_hlConditionals>
+                    <HistoryLists_hlConditionals Name="Item11">_OPEN_CV_;WIN32;_DEBUG</HistoryLists_hlConditionals>
+                    <HistoryLists_hlConditionals Name="Item12">_OPEN_CV_;WIN32</HistoryLists_hlConditionals>
+                    <HistoryLists_hlConditionals Name="Item13">_OPEN_CV_</HistoryLists_hlConditionals>
+                    <HistoryLists_hlConditionals Name="Item14">_OPEN_CV_;_DEBUG</HistoryLists_hlConditionals>
+                    <HistoryLists_hlConditionals Name="Item15">_DEBUG;_OPEN_CV_</HistoryLists_hlConditionals>
+                    <HistoryLists_hlConditionals Name="Item16">_OPEN_CV_;_DEBUG;_SDEBUG</HistoryLists_hlConditionals>
+                    <HistoryLists_hlConditionals Name="Item17">_OPEN_CV_;_SDEBUG</HistoryLists_hlConditionals>
+                    <HistoryLists_hlConditionals Name="Item18">_OPEN_CV_;_DEBUG;_ANDY_</HistoryLists_hlConditionals>
+                </HistoryLists_hlConditionals>
+                <HistoryLists_hlIntOutputDir>
+                    <HistoryLists_hlIntOutputDir Name="Count">2</HistoryLists_hlIntOutputDir>
+                    <HistoryLists_hlIntOutputDir Name="Item0">..\obj</HistoryLists_hlIntOutputDir>
+                    <HistoryLists_hlIntOutputDir Name="Item1">obj</HistoryLists_hlIntOutputDir>
+                </HistoryLists_hlIntOutputDir>
+                <HistoryLists_hlFinalOutputDir>
+                    <HistoryLists_hlFinalOutputDir Name="Count">5</HistoryLists_hlFinalOutputDir>
+                    <HistoryLists_hlFinalOutputDir Name="Item0">C:\Borland\Projects\Lib\</HistoryLists_hlFinalOutputDir>
+                    <HistoryLists_hlFinalOutputDir Name="Item1">C:\Borland\Projects\Lib</HistoryLists_hlFinalOutputDir>
+                    <HistoryLists_hlFinalOutputDir Name="Item2">..\..\Lib\</HistoryLists_hlFinalOutputDir>
+                    <HistoryLists_hlFinalOutputDir Name="Item3">..\..\bin\borland6\</HistoryLists_hlFinalOutputDir>
+                    <HistoryLists_hlFinalOutputDir Name="Item4">..\bin\borland6\</HistoryLists_hlFinalOutputDir>
+                </HistoryLists_hlFinalOutputDir>
+                <HistoryLists_hlTlibPageSize>
+                    <HistoryLists_hlTlibPageSize Name="Count">1</HistoryLists_hlTlibPageSize>
+                    <HistoryLists_hlTlibPageSize Name="Item0">0x0100</HistoryLists_hlTlibPageSize>
+                </HistoryLists_hlTlibPageSize>
+                <Debugging>
+                    <Debugging Name="DebugSourceDirs">$(BCB)\source\vcl</Debugging>
+                </Debugging>
+                <Parameters>
+                    <Parameters Name="RunParams"/>
+                    <Parameters Name="Launcher"/>
+                    <Parameters Name="UseLauncher">0</Parameters>
+                    <Parameters Name="DebugCWD"/>
+                    <Parameters Name="HostApplication">C:\facesdk\bin\AttrTest.exe</Parameters>
+                    <Parameters Name="RemoteHost"/>
+                    <Parameters Name="RemotePath"/>
+                    <Parameters Name="RemoteLauncher"/>
+                    <Parameters Name="RemoteCWD"/>
+                    <Parameters Name="RemoteDebug">0</Parameters>
+                </Parameters>
+                <Compiler>
+                    <Compiler Name="ShowInfoMsgs">0</Compiler>
+                    <Compiler Name="LinkDebugVcl">0</Compiler>
+                    <Compiler Name="LinkCGLIB">0</Compiler>
+                </Compiler>
+                <CORBA>
+                    <CORBA Name="AddServerUnit">1</CORBA>
+                    <CORBA Name="AddClientUnit">1</CORBA>
+                    <CORBA Name="PrecompiledHeaders">1</CORBA>
+                </CORBA>
+                <ProjectProperties>
+                    <ProjectProperties Name="AutoShowDeps">False</ProjectProperties>
+                    <ProjectProperties Name="ManagePaths">True</ProjectProperties>
+                    <ProjectProperties Name="VerifyPackages">True</ProjectProperties>
+                    <ProjectProperties Name="IndexFiles">False</ProjectProperties>
+                </ProjectProperties>
+            </CPlusPlusBuilder.Personality>
+            <Platforms>
+                <Platform value="Win32">True</Platform>
+            </Platforms>
+            <Deployment Version="3">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64160.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\..\photon4\\lib\awplflibb.lib" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx32\libcgcrtl.dylib" Class="DependencyModule">
+                    <Platform Name="OSX32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64160mt.dll" Class="DependencyModule"/>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32160mt.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64260.dll" Class="DependencyModule"/>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64260mt.dll" Class="DependencyModule"/>
+                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib" Class="DependencyModule"/>
+                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx64\libcgstl.dylib" Class="DependencyModule"/>
+                <DeployFile LocalName="..\..\Modules\utils\photon4\\lib\awplflibb.lib" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile LocalName="..\..\Modules\utils\photon4\lib\awplflibb.lib" Configuration="Release" Class="ProjectOutput"/>
+                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
+                    <Platform Name="OSX32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64160mt.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\Modules\utils\photon4\lib\awplflibb.lib" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile LocalName="..\..\Modules\utils\photon4\\lib\awplflibb.lib" Configuration="Release" Class="ProjectOutput"/>
+                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule"/>
+                <DeployFile Condition="'$(UsingDelphiRTL)'=='true'" LocalName="$(BDS)\bin\borlndmm.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\..\..\photon4\lib\awplflibb.lib" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32160.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32160mt.dll" Class="DependencyModule"/>
+                <DeployFile Condition="'$(UsingDelphiRTL)'=='true'" LocalName="$(BDS)\bin64\borlndmm.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx64\libcgcrtl.dylib" Class="DependencyModule"/>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64160.dll" Class="DependencyModule"/>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32160.dll" Class="DependencyModule"/>
+                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libpcre.dylib" Class="DependencyModule"/>
+                <DeployFile LocalName="..\lib\awplflibb_xe7.lib" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>awplflibb_xe7.lib</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\Modules\utils\photon4\lib\awplflibb.a" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c260mt.dll" Class="DependencyModule"/>
+                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx32\libcgstl.dylib" Class="DependencyModule">
+                    <Platform Name="OSX32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32260mt.dll" Class="DependencyModule"/>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32260.dll" Class="DependencyModule"/>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c260.dll" Class="DependencyModule"/>
+                <DeployClass Required="true" Name="DependencyPackage">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.bpl</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="OSX32">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch2048">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectOSXInfoPList"/>
+                <DeployClass Name="ProjectiOSDeviceDebug">
+                    <Platform Name="iOSDevice">
+                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_SplashImage470">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-normal</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidLibnativeX86File">
+                    <Platform Name="Android">
+                        <RemoteDir>library\lib\x86</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSResource">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectOSXEntitlements"/>
+                <DeployClass Name="AndroidGDBServer">
+                    <Platform Name="Android">
+                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch640">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_SplashImage960">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-xlarge</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_LauncherIcon96">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-xhdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch320">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_LauncherIcon144">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-xxhdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidLibnativeMipsFile">
+                    <Platform Name="Android">
+                        <RemoteDir>library\lib\mips</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidSplashImageDef">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="DebugSymbols">
+                    <Platform Name="OSX32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="DependencyFramework">
+                    <Platform Name="OSX32">
+                        <Operation>1</Operation>
+                        <Extensions>.framework</Extensions>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_SplashImage426">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-small</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSEntitlements"/>
+                <DeployClass Name="AdditionalDebugSymbols">
+                    <Platform Name="OSX32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>0</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidClassesDexFile">
+                    <Platform Name="Android">
+                        <RemoteDir>classes</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSInfoPList"/>
+                <DeployClass Name="iPad_Launch1024">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_DefaultAppIcon">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectOSXResource">
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\Resources</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSDeviceResourceRules"/>
+                <DeployClass Name="iPad_Launch768">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Required="true" Name="ProjectOutput">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android">
+                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidLibnativeArmeabiFile">
+                    <Platform Name="Android">
+                        <RemoteDir>library\lib\armeabi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_SplashImage640">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-large</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="File">
+                    <Platform Name="iOSDevice">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="Android">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>0</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch640x1136">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_LauncherIcon36">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-ldpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidSplashStyles">
+                    <Platform Name="Android">
+                        <RemoteDir>res\values</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch1536">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_LauncherIcon48">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-mdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_LauncherIcon72">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-hdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectAndroidManifest">
+                    <Platform Name="Android">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="Android64" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="OSX64" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="iOSDevice" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="Linux64" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
+            </Deployment>
+        </BorlandProject>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <Import Project="$(BDS)\Bin\CodeGear.Cpp.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Cpp.Targets')"/>
+    <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
+    <Import Project="$(MSBuildProjectName).deployproj" Condition="Exists('$(MSBuildProjectName).deployproj')"/>
+</Project>

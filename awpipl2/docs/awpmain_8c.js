@@ -1,0 +1,27 @@
+var awpmain_8c =
+[
+    [ "__GET_IDX__", "awpmain_8c.html#afcd2cfce799e8fb80c51854500a6f2f0", null ],
+    [ "_CHECK", "awpmain_8c.html#a024347fa7f943d06979fb70524d484e8", null ],
+    [ "_CHECK2", "awpmain_8c.html#a3f00fe8ce53801142f87d6989d6def89", null ],
+    [ "_CHECK3", "awpmain_8c.html#a33afb0c74639bd5134c0950791eca619", null ],
+    [ "_CRT_SECURE_NO_WARNINGS", "awpmain_8c.html#af08ec37a8c99d747fb60fa15bc28678b", null ],
+    [ "CHECK_RESULT", "awpmain_8c.html#ac00a668fc7d1d0fdd8366c8f2e6edcc0", null ],
+    [ "__LoadImage", "awpmain_8c.html#a82e7710dd5baeee5cbf6371195fa02c2", null ],
+    [ "__SaveImage", "awpmain_8c.html#a06086c90b696d708218b68a3002b9651", null ],
+    [ "Calc", "awpmain_8c.html#ab4a567ae664650118fc1a8dd881677bd", null ],
+    [ "Contrast", "awpmain_8c.html#a1df9625fde0592f61a21c7e2afa46e66", null ],
+    [ "Convert", "awpmain_8c.html#a9624a7393171119989d43f456d4ad505", null ],
+    [ "Crop", "awpmain_8c.html#ad237168dd350b0e71362f840d5fdbf94", null ],
+    [ "Draw", "awpmain_8c.html#a9626ca924b6483b459cc160600e1180e", null ],
+    [ "Filter", "awpmain_8c.html#ab55a3cb762049efd73dc0094ee5b3e88", null ],
+    [ "Flip", "awpmain_8c.html#add66a7875b554eb6d86eeaeea38a7049", null ],
+    [ "Help", "awpmain_8c.html#a1cecf4659a959c31c3f1ce3cf6fdd850", null ],
+    [ "Info", "awpmain_8c.html#a2ad41fac16240bb797cda720b262562e", null ],
+    [ "InputKey", "awpmain_8c.html#a548fcd36f1fbc49980e57beeec39d627", null ],
+    [ "main", "awpmain_8c.html#a3c04138a5bfe5d72780bb7e82a18e627", null ],
+    [ "Rescale", "awpmain_8c.html#a3cc5fd7abe136abdf80ed9e2cee18381", null ],
+    [ "Resize", "awpmain_8c.html#a325bca9712945c612a4c0fe4bc6d0f62", null ],
+    [ "Rotate", "awpmain_8c.html#af34e75e52322cda796ed58f2e03ef069", null ],
+    [ "RotateCenter", "awpmain_8c.html#a4c0cd1e256db220cb1b784bb4f67be2f", null ],
+    [ "Stat", "awpmain_8c.html#a0a3ee7811501c9aa5b5de8393158c668", null ]
+];

@@ -1,0 +1,270 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{9313C10F-5B35-4941-B570-1EA3E3171BA0}</ProjectGuid>
+        <ProjectType>CppStaticLibrary</ProjectType>
+        <Base>True</Base>
+        <Config Condition="'$(Config)'==''">Release</Config>
+        <TargetedPlatforms>1</TargetedPlatforms>
+        <AppType>StaticLibrary</AppType>
+        <FrameworkType>None</FrameworkType>
+        <ProjectVersion>19.2</ProjectVersion>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+        <Base_Win32>true</Base_Win32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Base)'=='true') or '$(Base_Win64)'!=''">
+        <Base_Win64>true</Base_Win64>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_1)'!=''">
+        <Cfg_1>true</Cfg_1>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win32)'!=''">
+        <Cfg_1_Win32>true</Cfg_1_Win32>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
+        <Cfg_2>true</Cfg_2>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base)'!=''">
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <SanitizedProjectName>TinyXML</SanitizedProjectName>
+        <IncludePath>..\src\;$(IncludePath)</IncludePath>
+        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Locale>1049</VerInfo_Locale>
+        <DCC_IncludePath>.\;$(BDS)\lib;$(BDS)\lib\obj;$(DCC_IncludePath)</DCC_IncludePath>
+        <TASM_AdditionalSwitches> /w2 ..\obj\</TASM_AdditionalSwitches>
+        <BCC_GenerateWindowsApp>true</BCC_GenerateWindowsApp>
+        <DCC_ObjOutput>..\obj\</DCC_ObjOutput>
+        <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
+        <BCC_IncludePath>$(BDS)\Projects\TinyXML\src;..\src;..;$(BDS)\include;$(BDS)\include\vcl;$(BCC_IncludePath)</BCC_IncludePath>
+        <DynamicRTL>true</DynamicRTL>
+        <BRCC_OutputDir>..\obj\</BRCC_OutputDir>
+        <BCC_OptimizationLevel>Level2</BCC_OptimizationLevel>
+        <TASM_IncludePath>$(BDS)\Projects\TinyXML\src;..\src;..;$(BDS)\include;$(BDS)\include\vcl;$(TASM_IncludePath)</TASM_IncludePath>
+        <BRCC_IncludePath>$(BDS)\Projects\TinyXML\src;..\src;..;$(BDS)\include;$(BDS)\include\vcl;$(BRCC_IncludePath)</BRCC_IncludePath>
+        <BCC_OutputDir>..\obj\</BCC_OutputDir>
+        <ILINK_LibraryPath>$(BDS)\lib;$(BDS)\lib\obj;$(BDS)\lib\psdk;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <TASM_Debugging>None</TASM_Debugging>
+        <DCC_AdditionalSwitches> -N0..\obj\ -M</DCC_AdditionalSwitches>
+        <BCC_PCHCache>true</BCC_PCHCache>
+        <DCC_UnitSearchPath>.\;$(BDS)\lib;$(BDS)\lib\obj;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <FinalOutputDir>$(TINY)\lib</FinalOutputDir>
+        <Defines>TIXML_USE_STL;$(Defines)</Defines>
+        <ILINK_GenerateDRC>True</ILINK_GenerateDRC>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <BCC_UserSuppliedOptions> -tWM -Vx -Ve</BCC_UserSuppliedOptions>
+        <BRCC_Defines>_RTLDLL;$(BRCC_Defines)</BRCC_Defines>
+        <TASM_Defines>_RTLDLL;$(TASM_Defines)</TASM_Defines>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win64)'!=''">
+        <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1)'!=''">
+        <ILINK_DisableIncrementalLinking>true</ILINK_DisableIncrementalLinking>
+        <BCC_InlineFunctionExpansion>false</BCC_InlineFunctionExpansion>
+        <BCC_DisableOptimizations>true</BCC_DisableOptimizations>
+        <BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
+        <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
+        <DCC_AdditionalSwitches> -N0..\obj\ -M -V</DCC_AdditionalSwitches>
+        <BCC_DebugLineNumbers>true</BCC_DebugLineNumbers>
+        <DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
+        <ILINK_LibraryPath>$(BDS)\lib\debug;$(ILINK_LibraryPath);$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <TASM_Debugging>Full</TASM_Debugging>
+        <IntermediateOutputDir>Debug_Build</IntermediateOutputDir>
+        <TASM_DisplaySourceLines>true</TASM_DisplaySourceLines>
+        <DCC_Define>DEBUG;$(DCC_Define);$(DCC_Define)</DCC_Define>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <TLIB_PageSize>32</TLIB_PageSize>
+        <Manifest_File>None</Manifest_File>
+        <BCC_UserSuppliedOptions> -tWM -Vx -Ve -k</BCC_UserSuppliedOptions>
+        <BCC_Defines>_DEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <DCC_AdditionalSwitches> -N0..\obj\ -M -$O+</DCC_AdditionalSwitches>
+        <ILINK_LibraryPath>$(BDS)\lib\release;$(ILINK_LibraryPath);$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IntermediateOutputDir>Release_Build</IntermediateOutputDir>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <BCC_UserSuppliedOptions> -tWM -Vx -Ve -r</BCC_UserSuppliedOptions>
+        <BCC_Defines>NDEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
+    </PropertyGroup>
+    <ItemGroup>
+        <CppCompile Include="..\src\tinystr.cpp">
+            <BuildOrder>5</BuildOrder>
+            <BuildOrder>2</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\tinyxml.cpp">
+            <BuildOrder>8</BuildOrder>
+            <BuildOrder>3</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\tinyxmlerror.cpp">
+            <BuildOrder>11</BuildOrder>
+            <BuildOrder>0</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\src\tinyxmlparser.cpp">
+            <BuildOrder>14</BuildOrder>
+            <BuildOrder>1</BuildOrder>
+        </CppCompile>
+        <BuildConfiguration Include="Release">
+            <Key>Cfg_2</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Base">
+            <Key>Base</Key>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Debug">
+            <Key>Cfg_1</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+    </ItemGroup>
+    <Import Project="$(BDS)\Bin\CodeGear.Cpp.Targets"/>
+    <ProjectExtensions>
+        <Borland.Personality>CPlusPlusBuilder.Personality.12</Borland.Personality>
+        <Borland.ProjectType>CppStaticLibrary</Borland.ProjectType>
+        <BorlandProject>
+            <CPlusPlusBuilder.Personality>
+                <VersionInfo>
+                    <VersionInfo Name="IncludeVerInfo">0</VersionInfo>
+                    <VersionInfo Name="AutoIncBuild">0</VersionInfo>
+                    <VersionInfo Name="MajorVer">1</VersionInfo>
+                    <VersionInfo Name="MinorVer">0</VersionInfo>
+                    <VersionInfo Name="Release">0</VersionInfo>
+                    <VersionInfo Name="Build">0</VersionInfo>
+                    <VersionInfo Name="Debug">0</VersionInfo>
+                    <VersionInfo Name="PreRelease">0</VersionInfo>
+                    <VersionInfo Name="Special">0</VersionInfo>
+                    <VersionInfo Name="Private">0</VersionInfo>
+                    <VersionInfo Name="DLL">0</VersionInfo>
+                    <VersionInfo Name="Locale">1049</VersionInfo>
+                    <VersionInfo Name="CodePage">1251</VersionInfo>
+                </VersionInfo>
+                <VersionInfoKeys>
+                    <VersionInfoKeys Name="CompanyName"/>
+                    <VersionInfoKeys Name="FileDescription"/>
+                    <VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+                    <VersionInfoKeys Name="InternalName"/>
+                    <VersionInfoKeys Name="LegalCopyright"/>
+                    <VersionInfoKeys Name="LegalTrademarks"/>
+                    <VersionInfoKeys Name="OriginalFilename"/>
+                    <VersionInfoKeys Name="ProductName"/>
+                    <VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+                    <VersionInfoKeys Name="Comments"/>
+                </VersionInfoKeys>
+                <HistoryLists_hlIncludePath>
+                    <HistoryLists_hlIncludePath Name="Count">6</HistoryLists_hlIncludePath>
+                    <HistoryLists_hlIncludePath Name="Item0">$(BCB)\Projects\TinyXML\src;..\src;..;$(BCB)\include;$(BCB)\include\vcl</HistoryLists_hlIncludePath>
+                    <HistoryLists_hlIncludePath Name="Item1">..\src;..;$(BCB)\include;$(BCB)\include\vcl</HistoryLists_hlIncludePath>
+                    <HistoryLists_hlIncludePath Name="Item2">..\src;..\;..;$(BCB)\include;$(BCB)\include\vcl</HistoryLists_hlIncludePath>
+                    <HistoryLists_hlIncludePath Name="Item3">..\;..;$(BCB)\include;$(BCB)\include\vcl</HistoryLists_hlIncludePath>
+                    <HistoryLists_hlIncludePath Name="Item4">..\;$(BCB)\include;$(BCB)\include\vcl</HistoryLists_hlIncludePath>
+                    <HistoryLists_hlIncludePath Name="Item5">$(BCB)\include;$(BCB)\include\vcl</HistoryLists_hlIncludePath>
+                </HistoryLists_hlIncludePath>
+                <HistoryLists_hlLibraryPath>
+                    <HistoryLists_hlLibraryPath Name="Count">6</HistoryLists_hlLibraryPath>
+                    <HistoryLists_hlLibraryPath Name="Item0">$(BCB)\Projects\TinyXML\src;..\src;..;$(BCB)\lib\obj;$(BCB)\lib</HistoryLists_hlLibraryPath>
+                    <HistoryLists_hlLibraryPath Name="Item1">..\src;..;$(BCB)\lib\obj;$(BCB)\lib</HistoryLists_hlLibraryPath>
+                    <HistoryLists_hlLibraryPath Name="Item2">..\src;..\;..;$(BCB)\lib\obj;$(BCB)\lib</HistoryLists_hlLibraryPath>
+                    <HistoryLists_hlLibraryPath Name="Item3">..\;..;$(BCB)\lib\obj;$(BCB)\lib</HistoryLists_hlLibraryPath>
+                    <HistoryLists_hlLibraryPath Name="Item4">..\;$(BCB)\lib\obj;$(BCB)\lib</HistoryLists_hlLibraryPath>
+                    <HistoryLists_hlLibraryPath Name="Item5">$(BCB)\lib\obj;$(BCB)\lib</HistoryLists_hlLibraryPath>
+                </HistoryLists_hlLibraryPath>
+                <HistoryLists_hlDebugSourcePath>
+                    <HistoryLists_hlDebugSourcePath Name="Count">1</HistoryLists_hlDebugSourcePath>
+                    <HistoryLists_hlDebugSourcePath Name="Item0">$(BCB)\source\vcl</HistoryLists_hlDebugSourcePath>
+                </HistoryLists_hlDebugSourcePath>
+                <HistoryLists_hlConditionals>
+                    <HistoryLists_hlConditionals Name="Count">1</HistoryLists_hlConditionals>
+                    <HistoryLists_hlConditionals Name="Item0">_DEBUG</HistoryLists_hlConditionals>
+                </HistoryLists_hlConditionals>
+                <HistoryLists_hlIntOutputDir>
+                    <HistoryLists_hlIntOutputDir Name="Count">2</HistoryLists_hlIntOutputDir>
+                    <HistoryLists_hlIntOutputDir Name="Item0">..\obj</HistoryLists_hlIntOutputDir>
+                    <HistoryLists_hlIntOutputDir Name="Item1">obj</HistoryLists_hlIntOutputDir>
+                </HistoryLists_hlIntOutputDir>
+                <HistoryLists_hlFinalOutputDir>
+                    <HistoryLists_hlFinalOutputDir Name="Count">9</HistoryLists_hlFinalOutputDir>
+                    <HistoryLists_hlFinalOutputDir Name="Item0">C:\Borland\Projects\Lib</HistoryLists_hlFinalOutputDir>
+                    <HistoryLists_hlFinalOutputDir Name="Item1">..\..\Lib\</HistoryLists_hlFinalOutputDir>
+                    <HistoryLists_hlFinalOutputDir Name="Item2">..\..\Lib</HistoryLists_hlFinalOutputDir>
+                    <HistoryLists_hlFinalOutputDir Name="Item3">..\..\bin\borland6\</HistoryLists_hlFinalOutputDir>
+                    <HistoryLists_hlFinalOutputDir Name="Item4">..\bin\borland6\</HistoryLists_hlFinalOutputDir>
+                    <HistoryLists_hlFinalOutputDir Name="Item5">..\bin\borland6</HistoryLists_hlFinalOutputDir>
+                    <HistoryLists_hlFinalOutputDir Name="Item6">bin\borland6\</HistoryLists_hlFinalOutputDir>
+                    <HistoryLists_hlFinalOutputDir Name="Item7">bin\borland6</HistoryLists_hlFinalOutputDir>
+                    <HistoryLists_hlFinalOutputDir Name="Item8">D:\_alt\CF\lib\bin</HistoryLists_hlFinalOutputDir>
+                </HistoryLists_hlFinalOutputDir>
+                <HistoryLists_hIBPIOutputDir>
+                    <HistoryLists_hIBPIOutputDir Name="Count">2</HistoryLists_hIBPIOutputDir>
+                    <HistoryLists_hIBPIOutputDir Name="Item0">..\bin\borland6</HistoryLists_hIBPIOutputDir>
+                    <HistoryLists_hIBPIOutputDir Name="Item1">..\bin\borland6\</HistoryLists_hIBPIOutputDir>
+                </HistoryLists_hIBPIOutputDir>
+                <HistoryLists_hlTlibPageSize>
+                    <HistoryLists_hlTlibPageSize Name="Count">1</HistoryLists_hlTlibPageSize>
+                    <HistoryLists_hlTlibPageSize Name="Item0">0x0010</HistoryLists_hlTlibPageSize>
+                </HistoryLists_hlTlibPageSize>
+                <Debugging>
+                    <Debugging Name="DebugSourceDirs">$(BCB)\source\vcl</Debugging>
+                </Debugging>
+                <Parameters>
+                    <Parameters Name="RunParams"/>
+                    <Parameters Name="Launcher"/>
+                    <Parameters Name="UseLauncher">0</Parameters>
+                    <Parameters Name="DebugCWD"/>
+                    <Parameters Name="HostApplication"/>
+                    <Parameters Name="RemoteHost"/>
+                    <Parameters Name="RemotePath"/>
+                    <Parameters Name="RemoteLauncher"/>
+                    <Parameters Name="RemoteCWD"/>
+                    <Parameters Name="RemoteDebug">0</Parameters>
+                </Parameters>
+                <Compiler>
+                    <Compiler Name="ShowInfoMsgs">0</Compiler>
+                    <Compiler Name="LinkDebugVcl">0</Compiler>
+                    <Compiler Name="LinkCGLIB">0</Compiler>
+                </Compiler>
+                <CORBA>
+                    <CORBA Name="AddServerUnit">1</CORBA>
+                    <CORBA Name="AddClientUnit">1</CORBA>
+                    <CORBA Name="PrecompiledHeaders">1</CORBA>
+                </CORBA>
+                <ProjectProperties>
+                    <ProjectProperties Name="AutoShowDeps">False</ProjectProperties>
+                    <ProjectProperties Name="ManagePaths">True</ProjectProperties>
+                    <ProjectProperties Name="VerifyPackages">True</ProjectProperties>
+                    <ProjectProperties Name="IndexFiles">False</ProjectProperties>
+                </ProjectProperties>
+            </CPlusPlusBuilder.Personality>
+            <Platforms>
+                <Platform value="Win32">True</Platform>
+                <Platform value="Win64">False</Platform>
+            </Platforms>
+        </BorlandProject>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <Import Project="$(BDS)\Bin\CodeGear.Cpp.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Cpp.Targets')"/>
+    <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
+</Project>

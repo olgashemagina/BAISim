@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--BUILD DETECTOR VERSION 1.0-->
+<BuildDetector bkground_base="E:\frames\dbexport\dron\bkg\" negative_examples="E:\frames\dbexport\negative\" log_name="csbuild.log" positive_examples="E:\frames\dbexport\dron\" num_samples_per_image="2000" min_negative="200" base_height="24" base_width="24" detector_name="dron.xml" max_stages="1000" num_negative="6000" finish_far="0.2">
+  <Features TLFHFeature="0" TLFDAFeature="0" TLFHAFeature="0" TLFCAFeature="0" TLFVAFeature="0" CSFeature="1" TLFVFeature="0" TLFDFeature="0" TLFCFeature="0" TLFLBPFeature="0"></Features>
+</BuildDetector>

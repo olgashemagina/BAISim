@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<TLFDetectEngine type="TLFDetectEngine" predictor="TLFAverageNNPredictor">
+    <ILFObjectDetector type="TSCObjectDetector">
+        <TSCObjectDetector base_width="24" base_height="24" object_type="unknown" detector="ILFObjectDetector">
+            <ILFScanner type="TLFScanner" ApertureWidth="24" ApertureHeight="24">
+                <TLFParameter type="TLFParameter" m_Value="10.000000" m_MaxValue="100.000000" m_MinValue="1.000000" m_Name="step" m_Descr="step space as a percentage of baseline resolution" />
+                <TLFParameter type="TLFParameter" m_Value="1.100000" m_MaxValue="2.000000" m_MinValue="1.100000" m_Name="grow" m_Descr="step on the scale" />
+                <TLFParameter type="TLFParameter" m_Value="1.000000" m_MaxValue="4.000000" m_MinValue="1.000000" m_Name="MinSize" m_Descr="min size of scanned object in the BaseWidth" />
+                <TLFParameter type="TLFParameter" m_Value="50.000000" m_MaxValue="100.000000" m_MinValue="1.000000" m_Name="MaxSize" m_Descr="max size of scanned object in the BaseWidth" />
+            </ILFScanner>
+        </TSCObjectDetector>
+    </ILFObjectDetector>
+</TLFDetectEngine>

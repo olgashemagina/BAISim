@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['c_512',['c',['../structcawp_rect.html#a8be3a87cc11b07696d3d464b57387f0d',1,'cawpRect::c()'],['../structcawp_detect_item.html#a8be3a87cc11b07696d3d464b57387f0d',1,'cawpDetectItem::c()']]],
+  ['c_5fcos45_513',['c_cos45',['../awp_l_b_p_unit_8c.html#ac90f48b8abe323be8979b01b0ddff834',1,'awpLBPUnit.c']]],
+  ['c_5flbpbitshift_514',['c_LBPBitShift',['../awp_l_b_p_unit_8c.html#a3fa91c7e54f02606fcb3432db07d0543',1,'awpLBPUnit.c']]],
+  ['c_5flbpepssize_515',['c_LBPEpsSize',['../awp_l_b_p_unit_8c.html#a2d0d36cb91783a89af3a91a6ebbd0d18',1,'awpLBPUnit.c']]],
+  ['c_5flbpuniform_516',['c_LBPUniform',['../awp_l_b_p_unit_8c.html#aae919da04e0baaa7a98a025e117dc726',1,'awpLBPUnit.c']]],
+  ['c_5fscalebase_517',['c_ScaleBase',['../awp_l_b_p_unit_8c.html#ad6a02acc9a3f294169d18c57e8780b45',1,'awpLBPUnit.c']]],
+  ['c_5fsin45_518',['c_sin45',['../awp_l_b_p_unit_8c.html#af692b451e7cac8273085eca0fa79053a',1,'awpLBPUnit.c']]],
+  ['calc_519',['Calc',['../awpmain_8c.html#ab4a567ae664650118fc1a8dd881677bd',1,'awpmain.c']]],
+  ['calcsum_520',['CalcSum',['../awp_detector_unit_8c.html#adf46043787b1c180d17c3ab627001d7d',1,'awpDetectorUnit.c']]],
+  ['camera_521',['camera',['../structawp_scanner.html#ac30c696c44c029aea7803f1db3cc901f',1,'awpScanner']]],
+  ['camerascanner_522',['CameraScanner',['../group__datastructures.html#gga01414cf461d16f33bbd7d6b9d9ee500ba8fbf85aaebd4a3b41769499379651ce3',1,'awpipl.h']]],
+  ['cawpdetectitem_523',['cawpDetectItem',['../structcawp_detect_item.html',1,'']]],
+  ['cawprect_524',['cawpRect',['../structcawp_rect.html',1,'']]],
+  ['center_525',['Center',['../structawp_spot_property.html#a13c80159c27ede24a715c8e643d98157',1,'awpSpotProperty']]],
+  ['check_5fresult_526',['CHECK_RESULT',['../awpmain_8c.html#ac00a668fc7d1d0fdd8366c8f2e6edcc0',1,'awpmain.c']]],
+  ['common_20functions_527',['Common functions',['../group__commongroup.html',1,'']]],
+  ['compare_528',['compare',['../awp_median_8c.html#a915dbc22508ff5f397d37b9349ca4022',1,'awpMedian.c']]],
+  ['compare_5fstr_529',['compare_str',['../awpstroke_8c.html#a8def563e1a1e44de4f8161906a0bc32d',1,'awpstroke.c']]],
+  ['config_2eh_530',['config.h',['../config_8h.html',1,'']]],
+  ['contour_20functions_531',['Contour functions',['../group__contourgroup.html',1,'']]],
+  ['contrast_532',['Contrast',['../awpmain_8c.html#a1df9625fde0592f61a21c7e2afa46e66',1,'awpmain.c']]],
+  ['convert_533',['Convert',['../awpmain_8c.html#a9624a7393171119989d43f456d4ad505',1,'awpmain.c']]],
+  ['convertion_20function_534',['Convertion function',['../group__convertgroup.html',1,'']]],
+  ['crop_535',['Crop',['../awpmain_8c.html#ad237168dd350b0e71362f840d5fdbf94',1,'awpmain.c']]],
+  ['copy_2dpaste_20functions_536',['Copy-Paste functions',['../group__editgroup.html',1,'']]]
+];

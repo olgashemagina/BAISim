@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="C:\Borland\Projects\Lib\awplflibb.lib"/>
+    <OBJFILES value="..\obj\LFAttrFilter.obj ..\obj\LFEngine.obj ..\obj\LFDetector.obj 
+      ..\obj\LFFeatures.obj ..\obj\LFStrong.obj ..\obj\LFWeak.obj 
+      ..\obj\LFImage.obj ..\obj\LFColorDetector.obj ..\obj\LFCommon.obj 
+      ..\obj\LFEye.obj ..\obj\LFScanners.obj ..\obj\LFUtils.obj 
+      ..\obj\LFHaarAttrClassify.obj ..\obj\LFFeatureImpl.obj 
+      ..\obj\LFWeakImpl.obj ..\obj\LFStrongImpl.obj ..\obj\LFCSFeature.obj 
+      ..\obj\LFAttrBuildImpl.obj ..\obj\lfcsboost.obj ..\obj\LFAttrTrainer.obj 
+      ..\obj\LFSample.obj ..\obj\LFGeometry.obj ..\obj\LFParameter.obj 
+      ..\obj\LFFaceDescriptor.obj"/>
+    <RESFILES value=""/>
+    <IDLFILES value=""/>
+    <IDLGENFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES)"/>
+    <LIBFILES value=""/>
+    <LIBRARIES value=""/>
+    <PACKAGES value=""/>
+    <PATHCPP value=".;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src;..\src"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <LINKER value="TLib"/>
+    <USERDEFINES value="WIN32;ATTR_DEBUG;_BORLAND_;_DEBUG"/>
+    <SYSDEFINES value="NO_STRICT"/>
+    <MAINSOURCE value="awplflibb.bpf"/>
+    <INCLUDEPATH value="$(BCB)\Projects\awplflib\src;&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;..\src;..\include;..;$(BCB)\include;..\..\awpipl2\include;..\..\TinyXML\src;..\..\awpipl2\include\_include;..\..\FVLCore\src"/>
+    <LIBPATH value="$(BCB)\Projects\awplflib\src;&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;..\src;.."/>
+    <WARNINGS value="-w-par -w-bei"/>
+    <LISTFILE value=""/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <IDLCFLAGS value="-I$(BCB)\Projects\awplflib\src 
+      -I&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot; -I..\src 
+      -I..\include -I.. -I$(BCB)\include -I..\..\awpipl2\include 
+      -I..\..\TinyXML\src -I..\..\awpipl2\include\_include -I..\..\FVLCore\src 
+      -src_suffix cpp -DWIN32 -DATTR_DEBUG -D_BORLAND_ -D_DEBUG"/>
+    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c -tW 
+      -tWM"/>
+    <PFLAGS value="-N2..\obj -N0..\obj -$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
+    <AFLAGS value="/mx /w2 /zi"/>
+    <LFLAGS value="/P256 /C"/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="$(OBJFILES)"/>
+    <ALLLIB value="cg32.lib"/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="awplflibb.bpf" FORMNAME="" UNITNAME="awplflibb" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFAttrFilter.cpp" FORMNAME="" UNITNAME="LFAttrFilter" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFEngine.cpp" FORMNAME="" UNITNAME="LFEngine" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFDetector.cpp" FORMNAME="" UNITNAME="LFDetector" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFFeatures.cpp" FORMNAME="" UNITNAME="LFFeatures" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFStrong.cpp" FORMNAME="" UNITNAME="LFStrong" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFWeak.cpp" FORMNAME="" UNITNAME="LFWeak" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFImage.cpp" FORMNAME="" UNITNAME="LFImage" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFColorDetector.cpp" FORMNAME="" UNITNAME="LFColorDetector.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFCommon.cpp" FORMNAME="" UNITNAME="LFCommon.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFEye.cpp" FORMNAME="" UNITNAME="LFEye.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFScanners.cpp" FORMNAME="" UNITNAME="LFScanners.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFUtils.cpp" FORMNAME="" UNITNAME="LFUtils" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFHaarAttrClassify.cpp" FORMNAME="" UNITNAME="LFHaarAttrClassify" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFFeatureImpl.cpp" FORMNAME="" UNITNAME="LFFeatureImpl" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFWeakImpl.cpp" FORMNAME="" UNITNAME="LFWeakImpl" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFStrongImpl.cpp" FORMNAME="" UNITNAME="LFStrongImpl" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFCSFeature.cpp" FORMNAME="" UNITNAME="LFCSFeature" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFAttrBuildImpl.cpp" FORMNAME="" UNITNAME="LFAttrBuildImpl" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\lfcsboost.cpp" FORMNAME="" UNITNAME="lfcsboost" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFAttrTrainer.cpp" FORMNAME="" UNITNAME="LFAttrTrainer" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFSample.cpp" FORMNAME="" UNITNAME="LFSample" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFGeometry.cpp" FORMNAME="" UNITNAME="LFGeometry" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFParameter.cpp" FORMNAME="" UNITNAME="LFParameter" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\src\LFFaceDescriptor.cpp" FORMNAME="" UNITNAME="LFFaceDescriptor" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=1049
+CodePage=1251
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=9
+Item0=$(BCB)\Projects\awplflib\src;C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..\include;..;$(BCB)\include;..\..\awpipl2\include;..\..\TinyXML\src;..\..\awpipl2\include\_include;..\..\FVLCore\src
+Item1=C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..\include;..;$(BCB)\include;..\..\awpipl2\include;..\..\TinyXML\src;..\..\awpipl2\include\_include;..\..\FVLCore\src
+Item2=C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..\include;..;$(BCB)\include;..\..\awpipl2\include;..\..\TinyXML\src;..\..\awpipl2\include\_include;..\..\FVLCore\include
+Item3=C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..\include;..;$(BCB)\include;..\..\awpipl2\include;..\..\TinyXML\src;..\..\awpipl2\include\_include
+Item4=C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..\include;..;$(BCB)\include;..\..\awpipl2\include;..\..\TinyXML\src
+Item5=C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..\include;..;$(BCB)\include;..\..\awpipl2\include;..\..\TinyXML
+Item6=..\src;..\include;..;$(BCB)\include;..\..\awpipl2\include;..\..\TinyXML
+Item7=..\src;..\include;..;$(BCB)\include;..\..\awpipl2\include
+Item8=..\src;..\include;..;&quot;$(BCB)\include;$(BCB)\include\vcl;..\..\awpipl2\include
+
+[HistoryLists\hlLibraryPath]
+Count=4
+Item0=$(BCB)\Projects\awplflib\src;C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..
+Item1=C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..
+Item2=C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..;&quot;;;$(BCB)\lib\obj;$(BCB)\lib
+Item3=..\src;..;&quot;;;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=21
+Item0=WIN32;ATTR_DEBUG;_BORLAND_;_DEBUG
+Item1=WIN32;ATTR_DEBUG;_BORLAND_
+Item2=WIN32;ATTR_DEBUG;_DEBUG;_BORLAND_
+Item3=WIN32;ATTR_DEBUG;_DEBUG
+Item4=WIN32;ATTR_DEBUG
+Item5=WIN32;_DEBUG;ATTR_DEBUG
+Item6=WIN32;_DEBUG
+Item7=WIN32;_OPEN_CV_;_DEBUG
+Item8=WIN32;_OPEN_CV_
+Item9=WIN32;_DEBUG;_OPEN_CV_
+Item10=WIN32
+Item11=_DEBUG;WIN32
+Item12=_DEBUG
+Item13=_OPEN_CV_;WIN32;_DEBUG
+Item14=_OPEN_CV_;WIN32
+Item15=_OPEN_CV_
+Item16=_OPEN_CV_;_DEBUG
+Item17=_DEBUG;_OPEN_CV_
+Item18=_OPEN_CV_;_DEBUG;_SDEBUG
+Item19=_OPEN_CV_;_SDEBUG
+Item20=_OPEN_CV_;_DEBUG;_ANDY_
+
+[HistoryLists\hlIntOutputDir]
+Count=2
+Item0=..\obj
+Item1=obj
+
+[HistoryLists\hlFinalOutputDir]
+Count=5
+Item0=C:\Borland\Projects\Lib\
+Item1=C:\Borland\Projects\Lib
+Item2=..\..\Lib\
+Item3=..\..\bin\borland6\
+Item4=..\bin\borland6\
+
+[HistoryLists\hlTlibPageSize]
+Count=1
+Item0=0x0100
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=C:\facesdk\bin\AttrTest.exe
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=0
+
+[CORBA]
+AddServerUnit=1
+AddClientUnit=1
+PrecompiledHeaders=1
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+  </IDEOPTIONS>
+</PROJECT>
