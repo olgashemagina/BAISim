@@ -8,7 +8,7 @@
 #include <SDKDDKVer.h>
 //#include "opencv\cv.h"
 //#include "opencv\highgui.h"
-#include "..\..\awpcvvideo\awpcvvideo.h"
+#include "awpcvvideo.h"
 #include "..\..\awplflib\include\_LF.h"
 
 

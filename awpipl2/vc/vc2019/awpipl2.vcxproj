@@ -204,7 +204,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include\;..\..\include\_include;%(AdditionalIncludeDirectories);..\..\..\jpeg-6b\src</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;_DEBUG;_LIB;WIN32;%(PreprocessorDefinitions);HAVE_JPEG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN34;_DEBUG;_LIB;WIN32;%(PreprocessorDefinitions);HAVE_JPEG</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
