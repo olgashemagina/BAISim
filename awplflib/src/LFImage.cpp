@@ -43,7 +43,7 @@
 //
 //      CopyRight 2004-2018 (c) NN-Videolab.net
 //M*/
-#include "_LF.h"
+#include "LFImage.h"
 
 #ifndef MIN
 #define MIN(a,b)  ((a) > (b) ? (b) : (a))

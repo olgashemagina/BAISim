@@ -45,10 +45,19 @@
 
 #ifndef HLWEAKH
 #define HLWEAKH
+
+#include "LF.h"
+#include "LFSample.h"
+#include "LFFeatures.h"
+#include "LFBuffer.h"
+
+class TCSSample;
+
 /** \defgroup LFWeaks 
 *	Implementations of the weak classifiers in the Locate Framework
 *   @{
 */
+
 
 //---------------------------------------------------------------------------
 // weak classifier based on  Census Transform
@@ -65,13 +74,10 @@ public:
 
     void SaveXML(TiXmlElement* parent);
     bool LoadXML(TiXmlElement* parent);
-    // позиционирование
-    void Scale(double factor);
-    void Shift(int dx, int dy);
-
+ 
     // классификация
     //int Classify(awpImage* pImage, double avg = 0);
-	virtual int Classify(TLFImage* pImage, double* value = NULL);
+	virtual int Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double* value = NULL) const override;
 
 	AWPBYTE Classificator(int i)
 	{
@@ -149,13 +155,10 @@ public:
     void SaveXML(TiXmlElement* parent);
     bool LoadXML(TiXmlElement* parent);
 
-    // positioning
-    void Scale(double factor);
-    void Shift(int dx, int dy);
-
+    
     //classification
-	
-	virtual int Classify(TLFImage* pImage, double* value = NULL);
+	virtual int Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double* value = NULL) const override;
+		
     //double ClassifyWeight(awpImage* pImage, double avg = 0);
 	virtual const char* GetName()
 	{
@@ -285,8 +288,8 @@ class TLFHysteresisWeak : public ILFWeak
 protected:
 	double m_t1;
 	double m_t2;
-	int    m_state;
-	int    m_startTime;
+	mutable int    m_state;
+	mutable int    m_startTime;
 	int	   m_method;
 
 	double m_a1;
@@ -306,8 +309,8 @@ public:
 
 	virtual void SaveXML(TiXmlElement* parent);
 	virtual bool LoadXML(TiXmlElement* parent);
-
-	virtual int Classify(TLFImage* pImage, double* value = NULL);
+		
+	virtual int Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double* value = NULL) const override;
 
 	double GetT1();
 	void   SetT1(double value);
@@ -359,14 +362,14 @@ class TLFAccWeak : public ILFWeak
 {
 protected:
 	int	   buf_size;
-	int	   m_counter;
+	mutable int	   m_counter;
 	double m_threshold;
-	int	   m_state;
-	int    m_begin_counter;
-	TLFRingBuffer* m_buffer;
+	mutable int	   m_state;
+	mutable int    m_begin_counter;
+	mutable TLFRingBuffer* m_buffer;
 	int    m_bg_stability;
     unsigned int    m_delay;
-    unsigned long    m_delay_counter;
+    mutable unsigned long    m_delay_counter;
 public:
 	TLFAccWeak(double t);
 	TLFAccWeak(ILFFeature* feature, double t);
@@ -377,8 +380,8 @@ public:
 	virtual void SaveXML(TiXmlElement* parent);
 	virtual bool LoadXML(TiXmlElement* parent);
 
-	virtual int Classify(TLFImage* pImage, double* value = NULL);
-
+	virtual int Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double* value = NULL) const;
+	
 	void SetThreshold(double value);
 	double GetThreshold();
 

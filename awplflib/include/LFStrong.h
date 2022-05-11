@@ -51,6 +51,10 @@
 *	Implementation the strong classifiers in the Locate Framework
 *   @{
 */
+
+#include "LF.h"
+#include "LFWeak.h"
+
 //---------------------------------------------------------------------------
 // сильный классификатор, основанный на преобразовании Census
 class TCSStrong : public ILFStrong
@@ -59,10 +63,9 @@ protected:
 	double m_sumWeakWeight;
 public:
     TCSStrong();
-    // позиционирование
-    void Setup( awpRect const& window, int det_width );
+    
     // классификафия
-	virtual int Classify(TLFImage* pImage, double& err);
+    virtual int Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double& err) const override;
 
 	virtual void SaveXML(TiXmlElement* parent);
 	virtual bool LoadXML(TiXmlElement* parent);
@@ -78,10 +81,9 @@ protected:
     double         m_sumWeakWeight;  // сумма всех весов слабых классификаторов
 public:
     TCSStrongSign();
-    // позиционирование
-    void Setup( awpRect const& window, int det_width );
+ 
     // классификафия
-    int Classify( awpImage* pImage, double& err, double avg = 0 );
+    int Classify( awpImage* pImage, const TLFAlignedTransform& transform, double& err, double avg = 0 );
     //ввод - вывод
     void SaveXML(TiXmlElement* parent);
     bool LoadXML(TiXmlElement* parent);

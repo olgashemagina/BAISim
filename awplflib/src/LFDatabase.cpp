@@ -43,7 +43,9 @@
 //
 //      CopyRight 2004-1018 (c) NN-Videolab.net
 //M*/
-#include "_LF.h"
+#include "LFDatabase.h"
+#include "LFFileUtils.h"
+#include <algorithm>
 
 static bool _IsImageFile(std::string& strFileName)
 {
@@ -289,18 +291,17 @@ void TLFDBLabeledImages::GetFarHST(TLFDetectEngine& engine, TLFHistogramm& hst, 
 			{
 				scale = (double)(rect.right - rect.left) / (double)scanner->GetBaseWidth();
 				if (!all)
-				{
-					classifier->Setup(scale, scale, rect.left, rect.top);
-					/*int result = */classifier->Classify(img1, err);
+				{					
+					/*int result = */classifier->Classify(img1, TLFAlignedTransform(scale, scale, rect.left, rect.top), err);
 				}
 				else
 				{
 					for (int k = 0; k <= stage; k++)
 					{
 						ILFStrong* s = (ILFStrong*)strongs->Get(k);
-						s->Setup(scale, scale, rect.left, rect.top);
+						
 						err = 0;
-						if (s->Classify(img1, err) == 0)
+						if (s->Classify(img1, TLFAlignedTransform(scale, scale, rect.left, rect.top), err) == 0)
 						{
 							if (k!=stage) 
 								err = 0;
@@ -353,18 +354,16 @@ void TLFDBLabeledImages::GetFrrHST(TLFDetectEngine& engine, TLFHistogramm& hst, 
 			{
 				scale = (double)(rect.right - rect.left) / (double)scanner->GetBaseWidth();
 				if (!all)
-				{
-					classifier->Setup(scale, scale, rect.left, rect.top);
-					/*int result = */classifier->Classify(img1, err);
+				{					
+					/*int result = */classifier->Classify(img1, TLFAlignedTransform(scale, scale, rect.left, rect.top), err);
 				}
 				else
 				{
 					for (int k = 0; k <= stage; k++)
 					{
 						ILFStrong* s = (ILFStrong*)strongs->Get(k);
-						s->Setup(scale, scale, rect.left, rect.top);
 						err = 0;
-						if (s->Classify(img1, err) == 0)
+						if (s->Classify(img1, TLFAlignedTransform(scale, scale, rect.left, rect.top), err) == 0)
 						{
 							if (k != stage)
 								err = 0;
@@ -417,18 +416,17 @@ void TLFDBLabeledImages::GetFarFrrHST(TLFDetectEngine& engine, TLFHistogramm& fa
 			double overlap_det = d->Overlap(lf_rect);
 			scale = (double)(rect.right - rect.left) / (double)scanner->GetBaseWidth();
 			if (!all)
-			{
-				classifier->Setup(scale, scale, rect.left, rect.top);
-				/*int result = */classifier->Classify(img1, err);
+			{				
+				/*int result = */classifier->Classify(img1, TLFAlignedTransform(scale, scale, rect.left, rect.top), err);
 			}
 			else
 			{
 				for (int k = 0; k <= stage; k++)
 				{
 					ILFStrong* s = (ILFStrong*)strongs->Get(k);
-					s->Setup(scale, scale, rect.left, rect.top);
+					
 					err = 0;
-					if (s->Classify(img1, err) == 0)
+					if (s->Classify(img1, TLFAlignedTransform(scale, scale, rect.left, rect.top), err) == 0)
 					{
 						if (k != stage)
 							err = 0;

@@ -46,6 +46,8 @@
 #ifndef _lf_landmarks_h_
 #define _lf_landmarks_h_
 
+#include "LFCore.h"
+
 /** \defgroup LFLandmarks
 *	Implementation LFLandmark
 *   @{

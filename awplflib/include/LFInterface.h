@@ -252,14 +252,16 @@ public:
 class _ILFFeature
 {
 public: 
-	virtual void shift(LFPoint delta)		  = 0;
-	virtual void scale(double factor)		  = 0;
-	virtual void setup(double factor, LFPoint shift) = 0;
-	virtual unsigned int uValue(ILFImage* image)			  = 0;
-	virtual double dValue(ILFImage* image)	  = 0;
-	virtual LFPoint corner()	  = 0;
-	virtual int width()						  = 0;
-	virtual int height()					  = 0;
+	
+	virtual unsigned int	uValue(ILFImage* image, double scale_x, double scale_y, int dx, int dy) const = 0;
+	virtual double			dValue(ILFImage* image, double scale_x, double scale_y, int dx, int dy) const = 0;
+
+	//Base Unit of feature
+	virtual const _LFRect&	baseUnit() const = 0;
+
+	//Rect of aperture in unit coordinates
+	virtual const _LFRect&	baseRect() const = 0;
+	
 };
 // weak 
 class _ILFWeak

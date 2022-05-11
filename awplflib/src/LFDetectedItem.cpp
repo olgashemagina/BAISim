@@ -43,7 +43,9 @@
 //
 //      CopyRight 2004-2018 (c) NN-Videolab.net
 //M*/
-#include "_LF.h"
+#include "LF.h"
+#include "LFZone.h"
+
 #define LF_DEFAULT_HEALTH 25
 //-----------------------detect item --------------
 TLFDetectedItem::TLFDetectedItem()

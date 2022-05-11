@@ -43,7 +43,10 @@
 //
 //      CopyRight 2004-2018 (c) NN-Videolab.net
 //M*/
-#include "_LF.h"
+#include "LFDistance.h"
+#include "LFSample.h"
+#include "LFStrong.h"
+
 double TLFL2Distance::ro(TLFDblVector* v1, TLFDblVector* v2)
 {
 	if (v1 == NULL || v2 == NULL)
@@ -78,9 +81,8 @@ double TLFL2NormDistance::ro(TLFDblVector* v1, TLFDblVector* v2)
 	}
 	return sqrt(d);
 }
-// forward declaration
-class TIEFSStrong;
-class TIEFSSample;
+
+
 TLFIEFSDistance::TLFIEFSDistance(TLFObject* strong)
 {
 	this->m_strong = NULL;

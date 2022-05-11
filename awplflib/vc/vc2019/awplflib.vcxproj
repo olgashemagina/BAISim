@@ -295,6 +295,7 @@
     <ClInclude Include="..\..\include\LFFileUtils.h" />
     <ClInclude Include="..\..\include\LFGeometry.h" />
     <ClInclude Include="..\..\include\LFHistogramm.h" />
+    <ClInclude Include="..\..\include\LFImage.h" />
     <ClInclude Include="..\..\include\LFImageProcessor.h" />
     <ClInclude Include="..\..\include\LFInterface.h" />
     <ClInclude Include="..\..\include\LFLandmarks.h" />
@@ -310,7 +311,6 @@
     <ClInclude Include="..\..\include\LFVector.h" />
     <ClInclude Include="..\..\include\LFWeak.h" />
     <ClInclude Include="..\..\include\LFZone.h" />
-    <ClInclude Include="..\..\include\_LF.h" />
     <ClInclude Include="..\..\include\_LFParameters.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

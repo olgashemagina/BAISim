@@ -4,7 +4,8 @@
     Purpose: ILFWeak implementation
     Copyright (c) AWPSoft.
 */
-#include "_LF.h"
+#include "LF.h"
+#include "LFWeak.h"
 
 ILFWeak::ILFWeak(const char* lpFeatureName)
 {
@@ -25,14 +26,7 @@ ILFWeak::~ILFWeak()
         delete m_pFeature;
 }
 
-/*
-  positioning feature on image
-*/
-void  ILFWeak::Setup(double scale_x, double scale_y, AWPWORD dx, AWPWORD dy)
-{
-    if (m_pFeature != NULL)
-        m_pFeature->Setup(scale_x,scale_y, dx, dy);
-}
+
 ILFFeature* ILFWeak::Fetaure()
 {
 	return this->m_pFeature;

@@ -1,5 +1,6 @@
 //---------------------------------------------------------------------------
-#include "_LF.h"
+#include "LFScanners.h"
+#include "LFParameter.h"
 
 ILFScanner::ILFScanner()
 {

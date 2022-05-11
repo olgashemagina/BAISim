@@ -51,6 +51,8 @@
 *	 (obsolete) Different utils to work with ROI
 *   @{
 */
+#include "awpipl.h"
+
 awp2DPoint  awpGetPointsCentroid(awp2DPoint* p, int count);
 awpPoint    awpGetPointsCentroid(awpPoint* p, int count);
 awpRect     awpResizeRect(awpRect r, double scale);

@@ -45,7 +45,8 @@
 
 #ifndef LFSAMPLE
 #define LFSAMPLE
-#include "LF.h"
+
+#include "LFImage.h"
 /** \defgroup LFSample
 *	Implementation sample data for AdaBoost trainig  of the Locate Framework
 *   @{

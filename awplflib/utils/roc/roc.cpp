@@ -46,7 +46,10 @@
 //
 
 
-#include "_LF.h"
+#include "LF.h"
+#include "LFFeatures.h"
+#include "LFDatabase.h"
+
 using namespace std;
 
 void Usage()

@@ -46,6 +46,12 @@
 
 #ifndef _lf_database_h_
 #define _lf_database_h_
+
+#include "LF.h"
+#include "LFSemantic.h"
+#include "LFEngine.h"
+#include "LFHistogramm.h"
+
 /** \defgroup LFDatabase
 *	Implementation of the Locate Framework XML labeled database
 *   @{

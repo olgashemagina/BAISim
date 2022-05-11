@@ -1,4 +1,14 @@
-#include "_LF.h"
+#include "LFFileUtils.h"
+
+#include <algorithm>
+
+#ifdef WIN32
+#include <io.h>
+#include <direct.h>
+#else
+#include <dirent.h>
+#endif
+
 #include "stdio.h"
 #ifndef __BCPLUSPLUS__
 #include <sys/stat.h> 

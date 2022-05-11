@@ -3,6 +3,11 @@
 #ifndef _LF_IMAGE_PROCESSOR_H_
 #define _LF_IMAGE_PROCESSOR_H_
 
+#include "LFCore.h"
+#include "LFImage.h"
+#include "LFGeometry.h"
+#include "LFParameter.h"
+
 /** \addtogroup LFInterfaces
 *   @{
 */

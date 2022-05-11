@@ -3,7 +3,8 @@ File: LFWeak.cpp
 Purpose: this module includes numeber of WEAK classificators
 Copyright (c) AWPSoft.
 */
-#include "_LF.h"
+#include "LFWeak.h"
+#include "LFFileUtils.h"
 
 //---------------------------------------------------------------------------
 // слабый классификатор, основанный на преобразовании Census
@@ -104,22 +105,10 @@ static void convert_512byte_16int(unsigned int* a, AWPBYTE* b)
 
 }
 
-// positioning
-void TCSWeak::Scale(double factor)
-{
-  m_pFeature->Scale(factor);
-}
-
-void TCSWeak::Shift(int dx, int dy)
-{
-	m_pFeature->Shift(dx, dy);
-}
-
-
 // classification
-int TCSWeak::Classify(TLFImage* pImage, double* value)
+int TCSWeak::Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double* value) const
 {
-	int idx = m_pFeature->uCalcValue(pImage);
+	int idx = m_pFeature->uCalcValue(pImage, transform);
 	if (value != NULL)
 		*value = (double)idx;
 	return m_Classifiacator[idx];
@@ -227,10 +216,12 @@ void TCSWeakTraining::Train()
 void TCSWeakTraining::AddSample(TCSSample* pSample,int  flag, double weight, int base_width, int base_height)
 {
 	double factor = std::min<double>(pSample->GetImage()->sSizeX / double(base_width), pSample->GetImage()->sSizeY / double(base_height));
-	m_pFeature->Scale(factor);
+
+	TLFAlignedTransform transform(factor);
+		
 	awpImage* img = pSample->GetIntegralImage();
 
-	int idx = m_pFeature->uCalcValue(pSample);//sensor->CalcValue(img);
+	int idx = m_pFeature->uCalcValue(pSample, transform);//sensor->CalcValue(img);
 	if (flag == 1)
 		m_FacesDistrib[idx] += weight;
 	else if (flag == 0)
@@ -249,11 +240,11 @@ TCSSoftWeakTraining::TCSSoftWeakTraining(TCSSoftWeakTraining* weak) : TCSWeakTra
 
 void TCSSoftWeakTraining::AddSoftSample(TCSSoftSample* pSample)
 {
-  {
-	  double factor = (double)(pSample->GetFragment().right - pSample->GetFragment().left) / 24.0f;
-       m_pFeature->Scale(factor);
-	   m_pFeature->Shift(pSample->GetFragment().left, pSample->GetFragment().top);
-  }
+  
+
+  double factor = (double)(pSample->GetFragment().right - pSample->GetFragment().left) / 24.0f;
+  TLFAlignedTransform transform(factor, factor, pSample->GetFragment().left, pSample->GetFragment().top);
+  
   TCSSensor* sensor = dynamic_cast<TCSSensor*>(this->m_pFeature);
   int idx = 0;//todo: !!! sensor->CalcValue(pSample->GetImage());
   if (pSample->GetFlag() == 1)
@@ -335,22 +326,13 @@ bool TCSWeakSign::LoadXML(TiXmlElement* parent)
 
 }
 
-// positioning
-void TCSWeakSign::Scale(double factor)
+//classification
+int TCSWeakSign::Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double* value) const
 {
-    m_pFeature->Scale(factor);
-}
-void TCSWeakSign::Shift(int dx, int dy)
-{
-    m_pFeature->Shift(dx,dy);
+	int idx = m_pFeature->uCalcValue(pImage, transform);
+	return m_table[idx];
 }
 
-//classification
-int TCSWeakSign::Classify(TLFImage* pImage, double* value)
-{
-   int idx = m_pFeature->uCalcValue(pImage);
-   return m_table[idx];
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 TCSWeakSignTrainig::TCSWeakSignTrainig() : TCSWeakSign()
@@ -397,7 +379,7 @@ void TCSWeakSignTrainig::Train()
 }
 void TCSWeakSignTrainig::AddSample(TCSSample* pSample,int  flag, double weight)
 {
-  int idx = m_pFeature->uCalcValue(pSample);
+  int idx = m_pFeature->uCalcValue(pSample, TLFAlignedTransform(1.0));
   if (flag == 1)
      m_DistribClass1[idx] += weight;
   else if (flag == -1)
@@ -784,9 +766,9 @@ bool TLFHysteresisWeak::LoadXML(TiXmlElement* parent)
 	return true;
 }
 
-int TLFHysteresisWeak::Classify(TLFImage* pImage, double* value2)
+int TLFHysteresisWeak::Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double* value2) const
 {
-	unsigned int value = m_pFeature->uCalcValue(pImage);
+	unsigned int value = m_pFeature->uCalcValue(pImage, transform);
 	int dt = 0;
 	if (m_method == HYST_METHOD_MORE)
 	{
@@ -1009,7 +991,7 @@ int TLFDynamicWeak::Classify(TLFImage* pImage, double* value)
 	int result = 0;
 	if (m_classifyCount < m_buf1Size)
 	{
-		m_buf1[m_classifyCount] = m_pFeature->uCalcValue(pImage);
+		m_buf1[m_classifyCount] = m_pFeature->uCalcValue(pImage, TLFAlignedTransform(1.0));
 
 	}
 	else if (m_classifyCount == m_buf1Size)
@@ -1023,7 +1005,7 @@ int TLFDynamicWeak::Classify(TLFImage* pImage, double* value)
 		if (m_buf1_avg < m_t1)
 			return 0;
 
-		m_buf2[0] = m_pFeature->uCalcValue(pImage);
+		m_buf2[0] = m_pFeature->uCalcValue(pImage, TLFAlignedTransform(1.0));
 		m_buf2_avg = m_buf2[0];
 
 		double t = m_t2*this->m_buf1_avg / 100.;
@@ -1126,11 +1108,11 @@ bool TLFAccWeak::LoadXML(TiXmlElement* parent)
 	return false;
 }
 
-int TLFAccWeak::Classify(TLFImage* pImage, double* value)
+int TLFAccWeak::Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double* value) const
 {
 	int result = 0;
 
-	double v = (double)m_pFeature->uCalcValue(pImage);
+	double v = (double)m_pFeature->uCalcValue(pImage, transform);
 	if (m_buffer == NULL)
 		m_buffer = new TLFRingBuffer(buf_size, v);
 	if (m_begin_counter == 0)

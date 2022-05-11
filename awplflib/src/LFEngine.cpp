@@ -1,4 +1,7 @@
-#include "_LF.h"
+#include "LFEngine.h"
+#include "LFZone.h"
+#include "LFDetector.h"
+#include "LFFileUtils.h"
 
 #define BUFFER_SIZE     1000
 #define DETECTORS_COUNT	5

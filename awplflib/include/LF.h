@@ -115,6 +115,7 @@ class  TLFZones;
 class  TLFDblVector;
 
 #include "LFCore.h"
+#include "LFGeometry.h"
 
 /** \defgroup LFInterfaces 
 *	Interfaces of the Locate Framework.
@@ -126,12 +127,6 @@ class  TLFDblVector;
 *	and distance between objects. 
 *   @{
 */
-// distcance
-class ILFDistance : public TLFObject
-{
-public:
-	virtual double ro(TLFDblVector* v1, TLFDblVector* v2) = 0;
-};
 
 class ILFPredictor : public TLFObject
 {
@@ -157,45 +152,41 @@ public:
 class ILFFeature : public TLFObject
 {
 protected:
-	int m_sxBase;              // base point  within aperture
-	int m_syBase;
-
-	int m_wBase;              // size of feature unit  within aperture
-	int m_hBase;
-
-	int m_sx;                 // base point within image
-	int m_sy;
-
-	int m_w;                  // size of feature unit within image
-	int m_h;
-
-	double					m_fValue;
-	unsigned int 			m_uValue;
+	TLFRect		m_base; // feature unit  within aperture
+	
+	
 public:
 	// construction
-	ILFFeature();
-	ILFFeature(int sxbase, int sybase, int wbase, int hbase);
-	ILFFeature(ILFFeature* pFeature);
-	virtual ~ILFFeature();
+	ILFFeature() {
+		m_base.SetRect(0, 0, 1, 1);
+	}
+	ILFFeature(int sxbase, int sybase, int wbase, int hbase) 
+		: m_base(sxbase, sybase, wbase, hbase) {}
+
+	explicit ILFFeature(ILFFeature* pFeature) : ILFFeature() {
+		if (pFeature) {
+			m_base = pFeature->m_base;
+		}
+	}
+
+	virtual ~ILFFeature() {}
 	// calc features value
-	virtual unsigned int      uCalcValue(TLFImage* pImage) = 0;
-	virtual double            fCalcValue(TLFImage* pImage) = 0;
+	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const = 0;
+	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const = 0;
 
-	unsigned int uValue();
-	double       fValue();
-
+	
 	/**
 		feature setup
-	*/
+	
 	virtual void Setup(double scale_x, double scale_y,  AWPWORD dx, AWPWORD dy);
 	virtual void Scale(double factor);
 	virtual void Shift(int dx, int dy);
-    /**
-        Setting the feature inside the specified rectangle.
+            Setting the feature inside the specified rectangle.
         The following values change:
         m_sx,m_sy,m_w,m_h
-    */
+    
     virtual void Setup(TLFRect& rect);
+	*/
 	/*
 		XML io operations
 	*/
@@ -203,22 +194,17 @@ public:
 	virtual bool SaveXML(TiXmlElement* parent);
 
 	// feature rectangle
-	virtual awpRect GetRect();
+	virtual TLFRect GetRect() const = 0;
 	// aperture position
-	int sxBase();
-	int syBase();
-	int wUnitBase();
-	int hUnitBase();
-	// image position
-	int sx();
-	int sy();
-	int wUnit();
-	int hUnit();
+	const TLFRect& UnitBase() const { return m_base; }
 
+	
 	virtual const char* GetName()
 	{
 		return "ILFFeature";
 	}
+
+
 };
 /*
 	Weak - classificator  abstraction
@@ -240,11 +226,8 @@ public:
 	  0 - object present
 	  1 - object absence
    */
-   virtual int Classify(TLFImage* pImage, double* value = NULL) = 0;
-   /*
-	  positioning feature on image
-   */
-   void  Setup(double scale_x, double scale_y,  AWPWORD dx, AWPWORD dy);
+   virtual int Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double* value = NULL) const = 0;
+  
    /*
 		io operations
    */
@@ -279,14 +262,7 @@ public:
    \brief Destructs the strong object 
    */
    virtual ~ILFStrong();
-   /**
-   \brief Scales and shift neuron over image
-   \param scale_x - x scale factor
-   \param scale_y - y scale factor 
-   \param dx - x shift in the pixels 
-   \param dy - y shift in the pixels 
-   */
-   void Setup(double scale_x, double scale_y,  AWPWORD dx, AWPWORD dy);
+  
    /*
 		XML io operations
    */
@@ -297,7 +273,7 @@ public:
 	  0 - object present
 	  1 - object absence
    */
-   virtual int Classify(TLFImage* pImage, double& err) = 0;
+   virtual int Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double& err) const = 0;
    /*
 		weak list access
    */
@@ -324,15 +300,8 @@ public:
 
 	ILFStrong* GetStrong(int index);
 	void       AddStrong(ILFStrong* strong);
-	/**
-	\brief Scales and shift cascade over image
-	\param scale_x - x scale factor
-	\param scale_y - y scale factor
-	\param dx - x shift in the pixels
-	\param dy - y shift in the pixels
-	*/
-	void Setup(double scale_x, double scale_y, AWPWORD dx, AWPWORD dy);
-	virtual int Classify(TLFImage* pImage, double& err, double* vector = NULL);
+	
+	virtual int Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double& err, double* vector = NULL) const;
 
 	/*
 	XML io operations
@@ -989,6 +958,27 @@ public:
   virtual const char* GetName () {return "ILFAttrClassifier";}
   SLFAttrResult GetlastResult();
 };
+
+
+/** \defgroup LFFactory
+*	Locate Framework factory routines
+*   @{
+*/
+ILFPredictor* LFCreatePredictor(const char* lpName, ILFDetectEngine* engine);
+ILFFeature* LFCreateFeature(ILFFeature* feature);
+ILFFeature* LFCreateFeature(const char* lpName, int sx, int sy, int w, int h);
+ILFFeature* LFCreateFeature(const char* lpName, TiXmlElement* parent);
+ILFFeature* LFCreateFeature(TiXmlElement* parent);
+
+ILFWeak* LFCreateWeak(ILFWeak* weak);
+ILFWeak* LFCreateWeak(const char* lpName);
+ILFStrong* LFCreateStrong(const char* lpName);
+awpRect		  LFRectToFeatureBlock(const char* lpName, awpRect& rect);
+
+/** @} */ /*  end of LFFactory group */
+
+
+
 /** @} */ /*  end of LFInterfaces group */
 #endif
  

@@ -58,6 +58,9 @@
 #ifndef _LF_GEOMETRY_H_
 #define _LF_GEOMETRY_H_
 
+#include "LFCore.h"
+#include "LFImage.h"
+
 /** \defgroup LFGeometry
 *	Implementation geometry objects in the Locate Framework 
 *   @{
@@ -138,10 +141,11 @@ public:
 	TLFRect();
     TLFRect(awpRect r);
 	TLFRect(int left, int top, int w, int h);
-	TLFRect(TLFRect& r);
+	TLFRect(const TLFRect& r);
 	virtual ~TLFRect();
-	awpRect GetRect();
+	awpRect GetRect() const;
 	void SetRect(awpRect Rect);
+	
 	void SetRect(int left, int top, int w, int h);
 
 	double RectOverlap(TLFRect& rect);
@@ -162,14 +166,14 @@ public:
 	bool IsEmpty();
 	void Clear();
 
-	AWPSHORT Width();
-	AWPSHORT Height();
+	AWPSHORT Width() const { return m_Rect.right - m_Rect.left; }
+	AWPSHORT Height() const { return m_Rect.bottom - m_Rect.top; }
 
-	AWPSHORT  Left();
-	AWPSHORT  Top();
-	AWPSHORT Right();
-	AWPSHORT Bottom();
-	awpPoint Center();
+	AWPSHORT  Left() const { return m_Rect.left; }
+	AWPSHORT  Top() const { return m_Rect.top; }
+	AWPSHORT Right() const { return m_Rect.right; }
+	AWPSHORT Bottom() const { return m_Rect.bottom; }
+	awpPoint Center() const;
 
 	/** Load form XML*/
 	bool LoadXML(TiXmlElement* parent);
@@ -431,5 +435,44 @@ public:
 		return "TLFOpenPolygon";
 	}
 };
+
+class TLFAlignedTransform : public TLFObject
+{
+protected:
+	double		m_scale_x = 1.0;
+	double		m_scale_y = 1.0;
+
+	int			m_dx = 0;
+	int			m_dy = 0;
+		
+public:
+	
+	TLFAlignedTransform(double scale)
+	: m_scale_x(scale)
+	, m_scale_y(scale) {
+	}
+
+	explicit TLFAlignedTransform(double scale_x, double scale_y, int dx, int dy)
+		: m_scale_x(scale_x)
+		, m_scale_y(scale_y)
+		, m_dx(dx)
+		, m_dy(dy) {
+	}
+
+	TLFRect Apply(const TLFRect& rect) const {
+
+		return TLFRect(	int(rect.Left() * m_scale_x + m_dx + 0.5), 
+						int(rect.Top() * m_scale_y + m_dy + 0.5), 
+						int(rect.Width() * m_scale_x + 0.5), 
+						int(rect.Height() * m_scale_y + 0.5) );
+	}
+
+
+	virtual const char* GetName()
+	{
+		return "TLFAlignedTransform";
+	}
+};
+
 /** @} */ /*  end of LFGeometry group */
 #endif //_LF_GEOMETRY_H_

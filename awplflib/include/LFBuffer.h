@@ -46,6 +46,8 @@
 #ifndef _lf_buffer_h_
 #define _lf_buffer_h_
 
+#include "LFCore.h"
+
 /** \defgroup LFBuffers
 *	Implementation fast buffer of doubles 
 *   @{

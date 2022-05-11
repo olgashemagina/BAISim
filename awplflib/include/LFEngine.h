@@ -46,6 +46,10 @@
 
 #ifndef __LFENGINE_H__
 #define __LFENGINE_H__
+
+#include "LF.h"
+#include "LFThresholdProc.h"
+
 /** \defgroup LFEngines
 *	Implementation general semantic engines of the Locate Framework
 *   @{

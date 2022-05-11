@@ -46,6 +46,9 @@
 #ifndef _LF_PREDICTORS_
 #define _LF_PREDICTORS_
 
+#include "LF.h"
+#include "LFScanners.h"
+
 /** \defgroup LFPredictors 
 *	Implementation of predictors and tracking engine 
 *	@{

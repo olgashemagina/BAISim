@@ -46,6 +46,12 @@
 
 #ifndef _lf_cluster_h_
 #define _lf_cluster_h_
+
+#include "LFCore.h"
+#include "LF.h"
+
+#include <map>
+
 /** \defgroup LFCluster
 *	Implementation of binary clusters 
 *   @{

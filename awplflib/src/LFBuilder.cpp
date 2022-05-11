@@ -1,4 +1,23 @@
-#include "_LF.h"
+#include "LFBuilder.h"
+#include "LFFileUtils.h"
+#include "LFScanners.h"
+
+#include <algorithm>
+
+
+#ifdef _OMP_
+#include <omp.h>
+#endif
+
+
+#ifdef WIN32
+#include <io.h>
+#include <direct.h>
+#else
+#include <dirent.h>
+#endif
+
+
 static bool _IsImageFile(std::string& strFileName)
 {
 	std::string strExt = LFGetFileExt(strFileName);

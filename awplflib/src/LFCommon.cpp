@@ -44,7 +44,9 @@
 //
 //      CopyRight 2004-2018 (c) NN-Videolab.net
 //M*/
-#include "_LF.h"
+#include "LFCore.h"
+#include "LF.h"
+#include "LFFileUtils.h"
 
 /*
     TLFObject
@@ -258,7 +260,7 @@ TLFObjectList::~TLFObjectList()
     Clear();
 }
 
-TLFObject*  TLFObjectList::Get(int index)
+TLFObject*  TLFObjectList::Get(int index) const
 {
     if (index < 0 || index >= m_Count)
         return NULL;
@@ -384,11 +386,11 @@ TLFObject* TLFObjectList::Extract(TLFObject* pObject)
     return res;
 }
 
-TLFObject* TLFObjectList::First()
+TLFObject* TLFObjectList::First() const
 {
     return Get(0);
 }
-int TLFObjectList::IndexOf(TLFObject* pObject)
+int TLFObjectList::IndexOf(TLFObject* pObject) const
 {
     int res = 0;
     while (res < m_Count && m_List[res] != pObject)
@@ -410,7 +412,7 @@ void TLFObjectList::Insert(int index, TLFObject* pObject)
     m_Count++;
 }
 
-TLFObject* TLFObjectList::Last()
+TLFObject* TLFObjectList::Last() const
 {
     return Get(m_Count -1);
 }
@@ -486,17 +488,17 @@ void TLFObjectList::Sort(TLFListSortCompare Compare)
 }
 
 // property
-int TLFObjectList::GetCapacity()
+int TLFObjectList::GetCapacity() const
 {
     return m_Capacity;
 }
 
-int TLFObjectList::GetCount()
+int TLFObjectList::GetCount() const
 {
 	return m_Count;
 }
 
-TLFObject** TLFObjectList::GetList()
+TLFObject** TLFObjectList::GetList() const
 {
     return m_List;
 }

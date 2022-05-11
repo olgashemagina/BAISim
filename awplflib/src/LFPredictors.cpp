@@ -1,4 +1,10 @@
-#include "_LF.h"
+#include "LFPredictors.h"
+#include "LFVector.h"
+#include "LFStrong.h"
+#include "LFDistance.h"
+#include "LFEngine.h"
+
+
 //-------------------------------ILFPredictor-----------------------------------
 TLFRect* ILFPredictor::GetPredicted()
 {
@@ -150,17 +156,15 @@ TLFDblVector* TLFAverageNNPredictor::Features(ILFDetectEngine* engine, TLFRect* 
 	{
 		ILFWeak  * weak = s->GetWeak(i);
 		if (weak != NULL)
-		{
-			TCSSensor* sensor = dynamic_cast<TCSSensor*>(weak->Fetaure());
-			awpRect Fragment = sensor->GetRect();
+		{			
+			const auto& sensor_rect = weak->Fetaure()->GetRect();
 
-			fragment.SetRect(Fragment);
+			fragment = sensor_rect;
 			fragment.Scale(scale_coef);
 			fragment.Shift(rect->Left(), rect->Top());
-
-			Fragment = fragment.GetRect();
+						
 			double s = fragment.Width()*fragment.Height();
-			double value = img->CalcLnSum(Fragment.left, Fragment.top, fragment.Width(), fragment.Height());
+			double value = img->CalcLnSum(fragment.Left(), fragment.Top(), fragment.Width(), fragment.Height());
 			value /= s;
 			data->AddValue(value);
 		}

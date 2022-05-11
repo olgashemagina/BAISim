@@ -1,12 +1,12 @@
 //---------------------------------------------------------------------------
 #ifndef __LF_ATTR_FILTER__
 #define __LF_ATTR_FILTER__
-/*
+
 #include <string>
 #include "LF.h"
 #include "LFStrong.h"
 #include "LFCSBoost.h"
-*/
+
 #define NAME_SIZE 32
 
 class TCSAdaBoostSign;

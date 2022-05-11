@@ -47,6 +47,13 @@
 //---------------------------------------------------------------------------
 #ifndef CSBoostH
 #define CSBoostH
+
+#include "LFCore.h"
+#include "LFStrong.h"
+
+#include <iostream>
+#include <fstream>
+
 /** \defgroup LFCSBoost
 *	Implementation of  AdaBoost trainig classes 
 *   @{

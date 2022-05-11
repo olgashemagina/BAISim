@@ -1,4 +1,4 @@
-#include "_LF.h"
+#include "LFThresholdProc.h"
 
 TLFThresholdProc::TLFThresholdProc ()
 {

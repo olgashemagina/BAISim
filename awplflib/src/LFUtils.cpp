@@ -1,7 +1,8 @@
 //---------------------------------------------------------------------------
-#include "_LF.h"
+#include "LFUtils.h"
+#include <math.h>
 
-
+/*
 #ifndef __BCPLUSPLUS__
 inline void randomize( )
 {
@@ -13,6 +14,7 @@ inline int random( int d )
     return (int)((double)rand()/(double)RAND_MAX * d);
 }
 #endif
+*/
 
 
 

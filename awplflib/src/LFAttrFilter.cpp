@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-#include "_LF.h"
+#include "LFAttrFilter.h"
 
 
 
@@ -465,14 +465,9 @@ bool TCSSeparate::DoClassify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResult& res
 	TLFImage test_img;
 	test_img.SetImage(fragment);
 
-   awpRect window;
-   window.left = 0;
-   window.top = 0;
-   window.right = fragment->sSizeX;
-   window.bottom = fragment->sSizeY;
-
-   m_Detector->Setup(window, 24);
-   m_Detector1->Setup(window, 24);
+   
+   //TODO: remove base width / height hardcoded
+   TLFAlignedTransform transform(fragment->sSizeX / 24.0, fragment->sSizeY / 24.0, 0, 0);
 
    double err1 = 0;
    double err2 = 0;
@@ -480,8 +475,8 @@ bool TCSSeparate::DoClassify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResult& res
    int res2 = -1;
 
 
-   res1 = m_Detector->Classify(&test_img, err1) ? 1 : 0;
-   res2 = m_Detector1->Classify(&test_img, err2) ? 1 : 0;
+   res1 = m_Detector->Classify(&test_img, transform, err1) ? 1 : 0;
+   res2 = m_Detector1->Classify(&test_img, transform, err2) ? 1 : 0;
 
    if (res1 + res2 == 0 || res1 + res2 == 2)
       result.m_Result = 0;
@@ -561,8 +556,11 @@ bool TAttrCSStrongSign::DoClassify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResul
 	   window.right = fragment->sSizeX;
 	   window.bottom = fragment->sSizeY;
 
+	   //TODO: remove base width / height hardcoded
+	   TLFAlignedTransform transform(fragment->sSizeX / 24.0, fragment->sSizeY / 24.0, 0, 0);
+
 	   double err1 = 0;
-	   m_Detector->Classify(pIntegral, err1);
+	   m_Detector->Classify(pIntegral, transform, err1);
 
 	   if (err1 > m_threshold1)
 	   {
@@ -589,7 +587,7 @@ bool TAttrCSStrongSign::DoClassify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResul
 		return false;
    
 	   double err1 = 0;
-	   m_Detector->Classify(img, err1);
+	   m_Detector->Classify(img, TLFAlignedTransform(1), err1);
 
 	   if (err1 > m_threshold1)
 	   {

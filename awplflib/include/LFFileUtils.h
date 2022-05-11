@@ -52,6 +52,10 @@ using namespace std;
 *   @{
 */
 
+#include <string>
+
+#include "LFCore.h"
+
 
 extern "C"
 {

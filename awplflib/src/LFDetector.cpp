@@ -44,7 +44,16 @@
 //      CopyRight 2004-2018 (c) NN-Videolab.net
 //M*/
 
-#include "_LF.h"
+#include "LFDetector.h"
+#include "LFScanners.h"
+#include "LFStrong.h"
+#include "LFWeak.h"
+#include "LFFileUtils.h"
+#include "LFParameter.h"
+
+#ifdef _OMP_
+#include <omp.h>
+#endif
 
 
 using namespace std;
@@ -279,17 +288,20 @@ bool TSCObjectDetector::AddStrong(ILFStrong* strong)
 }
 
 // classification
-int  TSCObjectDetector::ClassifyRect(awpRect Fragmnet, double* err, int* vect)
+int  TSCObjectDetector::ClassifyRect(awpRect fragment, double* err, int* vect)
 {
 	bool   result = 1;
+	double scale_x = (fragment.right - fragment.left) / double(m_baseWidth);
+	double scale_y = (fragment.bottom - fragment.top) / double(m_baseHeight);
 
+	TLFAlignedTransform transform(scale_x, scale_y, fragment.left, fragment.top);
 	for (int j = 0; j < m_Strongs.GetCount(); j++)
     {
 		double err1 = 0;
 		int    solution = 0;
 		TCSStrong* strong = (TCSStrong*)m_Strongs.Get(j);
-        strong->Setup(Fragmnet, m_baseWidth);
-		solution = strong->Classify(&m_Image, err1);
+		        
+		solution = strong->Classify(&m_Image, transform, err1);
 		if(err != NULL) 
 			err[j] = err1;
 		if (vect != NULL)
@@ -313,19 +325,29 @@ int  TSCObjectDetector::Detect()
 		return res;
 	if (this->m_Image.GetImage() == NULL)
 		return res;
+
+#ifdef _OMP_
+#pragma omp parallel for num_threads(omp_get_max_threads())
+#endif 
 	for (int i = 0; i < m_scanner->GetFragmentsCount(); i++)
 	{
 
 		if (!m_scanner->GetFragment(i)->HasObject)
 		{
 			bool has_object = true;
-			double scale = (double)(m_scanner->GetFragmentRect(i).right - m_scanner->GetFragmentRect(i).left)/(double)this->m_baseWidth;
+			auto rect = m_scanner->GetFragmentRect(i);
+
+			double scale_x = (rect.right - rect.left)/double(this->m_baseWidth);
+			double scale_y = (rect.bottom - rect.top) / double(this->m_baseHeight);
+
+			TLFAlignedTransform transform(scale_x, scale_y, rect.left, rect.top);
+
 			for (int j = 0; j < m_Strongs.GetCount(); j++)
 			{
 				TCSStrong* strong = (TCSStrong*)m_Strongs.Get(j);
-				strong->Setup(m_scanner->GetFragment(i)->Rect, m_baseWidth);
+				
 				double err = 0;
-				if (strong->Classify(&m_Image, err) == 0)
+				if (strong->Classify(&m_Image, transform, err) == 0)
 				{
 					has_object = false;
 					break;
@@ -376,6 +398,10 @@ int TSCObjectDetector::DetectInRect(awpRect roi)
 		return res;
 	if (this->m_Image.GetImage() == NULL)
 		return res;
+
+#ifdef _OMP_
+#pragma omp parallel for num_threads(omp_get_max_threads())
+#endif
 	for (int i = 0; i < m_scanner->GetFragmentsCount(); i++)
 	{
 		awpRect fr = m_scanner->GetFragmentRect(i);
@@ -389,14 +415,20 @@ int TSCObjectDetector::DetectInRect(awpRect roi)
 			{
 
 				bool has_object = true;
-				double scale = (double)(m_scanner->GetFragmentRect(i).right - m_scanner->GetFragmentRect(i).left)/(double)this->m_baseWidth;
+				auto rect = m_scanner->GetFragmentRect(i);
+
+				double scale_x = (rect.right - rect.left) / double(this->m_baseWidth);
+				double scale_y = (rect.bottom - rect.top) / double(this->m_baseHeight);
+
+				TLFAlignedTransform transform(scale_x, scale_y, rect.left, rect.top);
+
 				m_scanner->GetFragment(i)->raiting = 0;
 				for (int j = 0; j < m_Strongs.GetCount(); j++)
 				{
 					TCSStrong* strong = (TCSStrong*)m_Strongs.Get(j);
-					strong->Setup(m_scanner->GetFragment(i)->Rect, m_baseWidth);
+
 					double err = 0;
-					if (strong->Classify(&m_Image, err) == 0)
+					if (strong->Classify(&m_Image, transform, err) == 0)
 					{
 						has_object = false;
 						break;
@@ -676,6 +708,7 @@ bool TLFFGBGDetector::Init(awpImage* pImage, bool scan)
 	m_counter++;
 	return m_Image.GetImage() != NULL;
 }
+
 // classification
 int  TLFFGBGDetector::ClassifyRect(awpRect Fragmnet, double* err, int* vect)
 {
@@ -691,7 +724,8 @@ int  TLFFGBGDetector::ClassifyRect(awpRect Fragmnet, double* err, int* vect)
 	double v1 = err[0] / (double)this->m_counter;
 	*err += value;
 
-	int result = /*m_counter > 100 &&*/ fabs(value - v1) > 15 ? 1 : 0;
+	int result = //m_counter > 100 &&
+					fabs(value - v1) > 15 ? 1 : 0;
 	return result;
 }
 int  TLFFGBGDetector::Detect()
@@ -714,11 +748,14 @@ int  TLFFGBGDetector::Detect()
 				ILFWeak* weak_v = (ILFWeak*)this->m_weaks_v.Get(i);
 				ILFWeak* weak_d = (ILFWeak*)this->m_weaks_d.Get(i);
 
-			 	va = weak_a->Classify(&this->m_Image);
-		   		vs = weak_s->Classify(&this->m_Image);
-		   		vh = weak_h->Classify(&this->m_Image);
-		   		vv = weak_v->Classify(&this->m_Image);
-		   		vd = weak_d->Classify(&this->m_Image);
+				//TODO: check it? May be rect?
+				TLFAlignedTransform transform(1.0);
+
+			 	va = weak_a->Classify(&this->m_Image, transform);
+		   		vs = weak_s->Classify(&this->m_Image, transform);
+		   		vh = weak_h->Classify(&this->m_Image, transform);
+		   		vv = weak_v->Classify(&this->m_Image, transform);
+		   		vd = weak_d->Classify(&this->m_Image, transform);
 
 				di->SetHasObject(vv + vh  + vd > 0 && va + vs > 0);
                 //di->SetHasObject(false);
@@ -729,6 +766,7 @@ int  TLFFGBGDetector::Detect()
 	}
 	return 0;
 }
+
 // properties
 int TLFFGBGDetector::GetStagesCount()
 {
@@ -952,8 +990,10 @@ int  TLFSmokeDetector::Detect()
 				ILFWeak* weak_s = (ILFWeak*)this->m_weaks_s.Get(i);
 				ILFWeak* weak_a = (ILFWeak*)this->m_weaks_a.Get(i);
 
-				int v1 = weak_s->Classify(&this->m_Image);
-				int v2 = weak_a->Classify(&this->m_Image);
+				TLFAlignedTransform transform(1);
+
+				int v1 = weak_s->Classify(&this->m_Image, transform);
+				int v2 = weak_a->Classify(&this->m_Image, transform);
 
 				di->SetHasObject(v1 > 0 && v2 > 0);
 				di->SetRaiting(e);
@@ -1037,7 +1077,7 @@ bool TLFFireDetector::Init(awpImage* pImage, bool scan)
 			weak->SetT1(80);
 			weak->SetT2(105);
 			weak->Setmethod(HYST_METHOD_MORE);
-			if (feature->uCalcValue(&m_Image) < 80)
+			if (feature->uCalcValue(&m_Image, TLFAlignedTransform(1.0) ) < 80)
 			{
 				m_weaks_a.Add(weak);
 
@@ -1079,7 +1119,7 @@ int  TLFFireDetector::Detect()
 				double e = di->GetRaiting();
 				int v = 0;
 				ILFWeak* weak_a = (ILFWeak*)this->m_weaks_a.Get(i);
-				int v2 = weak_a->Classify(&this->m_Image);
+				int v2 = weak_a->Classify(&this->m_Image, TLFAlignedTransform(1));
 #ifdef _DEBUG
 				if(!old_has_object && v2>0)
 				{ 

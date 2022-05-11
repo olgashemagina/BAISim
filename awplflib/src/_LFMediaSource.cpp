@@ -46,6 +46,7 @@
 #include "LFCore.h"
 #include "LFInterface.h"
 #include "LFFileUtils.h"
+#include "LFImage.h"
 
 // single image as media source 
 // support images in the awp and jpeg file format 

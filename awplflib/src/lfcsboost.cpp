@@ -1,5 +1,21 @@
 
-#include "_LF.h"
+#include <algorithm>
+
+#include "LFCSBoost.h"
+#include "LFFileUtils.h"
+
+#ifdef _OMP_
+#include <omp.h>
+#endif
+
+
+#ifdef WIN32
+#include <io.h>
+#include <direct.h>
+#else
+#include <dirent.h>
+#endif
+
 
 
 using namespace std; 
@@ -200,9 +216,8 @@ bool TCSAdaBoost::Boost(int stage)
                 TCSSample* s = (TCSSample*)m_TrainingSamples.Get(i);
 
 				double factor = std::min<double>((double)(s->GetImage()->sSizeX) / m_widthBase, (double)(s->GetImage()->sSizeY) / m_heightBase);
-				wcinfo->Scale(factor);
-
-				int res = wcinfo->Classify( s );
+				
+				int res = wcinfo->Classify( s, TLFAlignedTransform(factor));
 
                 if ( s->GetFlag() != res )
                 {
@@ -270,9 +285,10 @@ bool TCSAdaBoost::Boost(int stage)
 
             int res = 0;
             double err = 0;
-			double factor = (double)(s->GetImage()->sSizeX)/m_widthBase;
-			pWc->Scale(factor);
-            res = pWc->Classify( s );
+
+			TLFAlignedTransform transform((s->GetImage()->sSizeX) / double(m_widthBase), (s->GetImage()->sSizeY) / double(m_heightBase), 0, 0);
+			
+            res = pWc->Classify( s, transform);
 
 
             if ( res == s->GetFlag() )
@@ -521,10 +537,11 @@ void TCSAdaBoost::InitFeatures()
 
 void TCSAdaBoost::PrintFeature(ILFFeature* pSensor)
 {
-    DbgMsg( "Found feature:" + TypeToStr(pSensor->GetName()) + " x = " + TypeToStr( pSensor->sxBase() ) +
-        ", y = " + TypeToStr( pSensor->syBase() ) +
-        ", width = " + TypeToStr( pSensor->wUnitBase() ) +
-        ", height = " + TypeToStr( pSensor->hUnitBase() ) + ";\n");
+	const auto& base = pSensor->UnitBase();
+    DbgMsg( "Found feature:" + TypeToStr(pSensor->GetName()) + " x = " + TypeToStr( base.Left() ) +
+        ", y = " + TypeToStr( base.Top() ) +
+        ", width = " + TypeToStr( base.Width() ) +
+        ", height = " + TypeToStr( base.Height() ) + ";\n");
 }
 
 double TCSAdaBoost::PrintStatistics(TCSStrong& Class, double& afrr)
@@ -538,12 +555,10 @@ double TCSAdaBoost::PrintStatistics(TCSStrong& Class, double& afrr)
         TCSSample* s = (TCSSample*)m_TrainingSamples.Get(i);
 
         double err = 0;
-		awpRect r; r.left =0; r.top = 0;
-		r.right = s->GetImage()->sSizeX;
-		r.bottom = s->GetImage()->sSizeY;
-		Class.Setup(r, m_widthBase);
+		
+		TLFAlignedTransform transform(s->GetImage()->sSizeX / double(m_widthBase), s->GetImage()->sSizeY / double(m_heightBase), 0, 0);
 
-		Class.Classify(s, err );
+		Class.Classify(s, transform, err );
 
         if ( s->GetFlag() == 1 )
         {
@@ -591,13 +606,10 @@ double TCSAdaBoost::PrintStatistics(TCSStrong& Class, double& afrr)
         TCSSample* s = (TCSSample*)m_TrainingSamples.Get(i);
 
         double err = 0;
-		awpRect r; r.left =0; r.top = 0;
-		r.right = s->GetImage()->sSizeX;
-		r.bottom = s->GetImage()->sSizeY;
-		Class.Setup(r, m_widthBase);
+		
+		TLFAlignedTransform transform(s->GetImage()->sSizeX / double(m_widthBase), s->GetImage()->sSizeY / double(m_heightBase), 0, 0);
 
-
-        Class.Classify( s, err );
+        Class.Classify( s, transform, err );
 
         if ( s->GetFlag() == 1 )
         {
@@ -666,12 +678,10 @@ void   TCSAdaBoost::SaveFRRSamples(int stage)
 		if (s->GetFlag() == 1)
 		{
 			double err = 0;
-			awpRect r; r.left =0; r.top = 0;
-			r.right = s->GetImage()->sSizeX;
-			r.bottom = s->GetImage()->sSizeY;
+			
+			TLFAlignedTransform transform(s->GetImage()->sSizeX / double(m_widthBase), s->GetImage()->sSizeY / double(m_heightBase), 0, 0);
 
-			this->m_ResultClass.Setup(r, m_widthBase);
-			this->m_ResultClass.Classify(s, err);
+			this->m_ResultClass.Classify(s, transform, err);
 			s->SetRating(err);
 			
 			positiveSamples.Add (new TCSSample(s));
@@ -864,7 +874,7 @@ bool TCSAdaBoostSign::Boost()
             {
                 TCSSample* s = (TCSSample*)m_TrainingSamples.Get(i);
 
-                int res = wcinfo->Classify( s );
+                int res = wcinfo->Classify( s, TLFAlignedTransform(1) );
 
                 if ( s->GetFlag() != res )
                 {
@@ -918,7 +928,7 @@ bool TCSAdaBoostSign::Boost()
 
             int res = 0;
             double err = 0;
-            res = pWc->Classify( s );
+            res = pWc->Classify( s, TLFAlignedTransform(1) );
 
             if ( res == s->GetFlag() )
                 s->SetWeight(s->GetWeight()*beta);
@@ -1065,13 +1075,10 @@ void    TCSAdaBoostSign::Statistics()
         TCSSample* s = (TCSSample*)m_TrainingSamples.Get(i);
 
         double err = 0;
-		//double factor = (double)(s->GetImage()->sSizeX)/24.0;
-		awpRect r; r.left =0; r.top = 0;
-		r.right = s->GetImage()->sSizeX;
-		r.bottom = s->GetImage()->sSizeY;
-		m_ResultClass.Setup(r, m_widthBase);
+				
+		TLFAlignedTransform transform(s->GetImage()->sSizeX / double(m_widthBase), s->GetImage()->sSizeY / double(m_heightBase), 0, 0);
 
-        int res = m_ResultClass.Classify( s->GetIntegralImage(), err );
+        int res = m_ResultClass.Classify( s->GetIntegralImage(), transform, err );
         if (res != s->GetFlag())
         {
               errt[0]++;
@@ -1100,13 +1107,10 @@ void    TCSAdaBoostSign::Statistics()
         TCSSample* s = (TCSSample*)m_TestingSamples.Get(i);
 
         double err = 0;
-		//double factor = (double)(s->GetImage()->sSizeX)/24.0;
-		awpRect r; r.left =0; r.top = 0;
-		r.right = s->GetImage()->sSizeX;
-		r.bottom = s->GetImage()->sSizeY;
-		m_ResultClass.Setup(r, m_widthBase);
+		
+		TLFAlignedTransform transform(s->GetImage()->sSizeX / double(m_widthBase), s->GetImage()->sSizeY / double(m_heightBase), 0, 0);
 
-        int res = m_ResultClass.Classify( s->GetIntegralImage(), err );
+        int res = m_ResultClass.Classify( s->GetIntegralImage(), transform, err );
         if (res != s->GetFlag())
         {
               errt[1]++;
@@ -1165,12 +1169,10 @@ void TCSAdaBoostSign::SaveROC(char*lpName)
 	{
 		TCSSample* s = (TCSSample*)m_TestingSamples.Get(i);
 
-		awpRect r; r.left =0; r.top = 0;
-		r.right = s->GetImage()->sSizeX;
-		r.bottom = s->GetImage()->sSizeY;
-		m_ResultClass.Setup(r, m_widthBase);
+		
+		TLFAlignedTransform transform(s->GetImage()->sSizeX / double(m_widthBase), s->GetImage()->sSizeY / double(m_heightBase), 0, 0);
 		double err = 0;
-		m_ResultClass.Classify( s->GetIntegralImage(), err );
+		m_ResultClass.Classify( s->GetIntegralImage(), transform, err );
 		if (s->GetFlag() == 1)
 		{
 			fSourceClass1[nc1] = err;
