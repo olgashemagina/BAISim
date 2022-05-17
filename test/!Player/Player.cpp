@@ -104,11 +104,28 @@ int main(int argc, char* argv[])
 						if (result == true) 
 						{
 							awpFillRect(img, &rect1, 1, 255);
-//							awpImage* tmp = NULL;
-//							awpCopyRect(img, &tmp, &rect1);
-//							result_90 = a.SetSourceImage(tmp, true);
-//							TLFDetectedItem* di_90 = a.GetItem(i);
-//							if(result_90 == true)
+							awpImage* tmp = NULL;
+							awpCopyRect(img, &tmp, &rect1);
+							if(tmp!=NULL)
+							{
+								result_90 = a.SetSourceImage(tmp, true);
+								if(result_90 == true)
+								{ 
+									int num_a = a.GetItemsCount();
+									if (num_a > 0)
+									{
+										for (int k = 0; k < num_a; k++)
+										{
+											TLFDetectedItem* di_90 = a.GetItem(k);
+											awpRect rect_90 = di_90->GetBounds()->GetRect();
+											awpRect rectInImage = {rect1.left + rect_90.left, rect1.top + rect_90.top, rect1.left + rect_90.right, rect1.top + rect_90.bottom };
+											awpFillRect(img, &rectInImage, 2, 255);
+										}
+									}
+								}
+								awpReleaseImage(&tmp); 
+							}
+							
 
 						}
 						/*if (result == false) {
