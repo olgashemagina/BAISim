@@ -335,14 +335,18 @@ awpImage* TLFImage::GetIntegralImage()
 		return this->m_pIntegralImage;
 	if (this->m_pImage == NULL)
 		return NULL;
-
-	awpImage* dbl = NULL;
-	awpCopyImage(m_pImage, &dbl);
-	if (m_pImage->bChannels == 3)
-		awpConvert(dbl, AWP_CONVERT_3TO1_BYTE);
-	awpIntegral(dbl, &this->m_pIntegralImage, AWP_LINEAR);
-	awpReleaseImage(&dbl);
-	this->m_lnpix = (double*)this->m_pIntegralImage->pPixels;
+#ifdef _OMP_
+#pragma omp critical 
+#endif
+	if (this->m_pIntegralImage == NULL) {
+		awpImage* dbl = NULL;
+		awpCopyImage(m_pImage, &dbl);
+		if (m_pImage->bChannels == 3)
+			awpConvert(dbl, AWP_CONVERT_3TO1_BYTE);
+		awpIntegral(dbl, &this->m_pIntegralImage, AWP_LINEAR);
+		awpReleaseImage(&dbl);
+		this->m_lnpix = (double*)this->m_pIntegralImage->pPixels;
+	}
 	return this->m_pIntegralImage;
 }
 
@@ -352,14 +356,21 @@ awpImage* TLFImage::GetSqIntegralImage()
 		return this->m_pIntegralSquareImage;
 	if (this->m_pImage == NULL)
 		return NULL;
-	awpImage* dbl = NULL;
-	awpCopyImage(m_pImage, &dbl);
-	if (m_pImage->bChannels == 3)
-		awpConvert(dbl, AWP_CONVERT_3TO1_BYTE);
-	awpIntegral(dbl, &this->m_pIntegralSquareImage, AWP_SQUARE);
-	awpReleaseImage(&dbl);
-	this->m_sqpix = (double*)m_pIntegralSquareImage->pPixels;
+#ifdef _OMP_
+#pragma omp critical 
+#endif
+	if (this->m_pIntegralSquareImage == NULL) {
+		awpImage* dbl = NULL;
+		awpCopyImage(m_pImage, &dbl);
+		if (m_pImage->bChannels == 3)
+			awpConvert(dbl, AWP_CONVERT_3TO1_BYTE);
+		awpIntegral(dbl, &this->m_pIntegralSquareImage, AWP_SQUARE);
+		awpReleaseImage(&dbl);
+		this->m_sqpix = (double*)m_pIntegralSquareImage->pPixels;
+	}
+	
 	return this->m_pIntegralSquareImage;
+	
 }
 
 awpImage* TLFImage::GetRedIntegral()
@@ -368,12 +379,19 @@ awpImage* TLFImage::GetRedIntegral()
 		return this->m_pIntegralRed;
 	if (this->m_pImage == NULL)
 		return NULL;
-	awpImage* img = this->GetRedImage();
-	if (img == NULL)
-		return NULL;
-	awpIntegral(img, &this->m_pIntegralRed, AWP_LINEAR);
-	if (this->m_pIntegralRed != NULL)
-		this->m_rlnpix = (double*)this->m_pIntegralRed->pPixels;
+
+#ifdef _OMP_
+#pragma omp critical 
+#endif
+	if (this->m_pIntegralRed == NULL)
+	{
+		awpImage* img = this->GetRedImage();
+		if (img != NULL) {
+			awpIntegral(img, &this->m_pIntegralRed, AWP_LINEAR);
+			if (this->m_pIntegralRed != NULL)
+				this->m_rlnpix = (double*)this->m_pIntegralRed->pPixels;
+		}
+	}
 	return this->m_pIntegralRed;
 }
 
@@ -383,13 +401,21 @@ awpImage* TLFImage::GetGreenIntegral()
 		return this->m_pIntegralGreen;
 	if (this->m_pImage == NULL)
 		return NULL;
-	awpImage* img = this->GetGreenImage();
-	if (img == NULL)
-		return NULL;
-	awpIntegral(img, &this->m_pIntegralGreen, AWP_LINEAR);
-	if (this->m_pIntegralGreen != NULL)
-		this->m_glnpix = (double*)this->m_pIntegralGreen->pPixels;
+
+#ifdef _OMP_
+#pragma omp critical 
+#endif
+	if (this->m_pIntegralGreen == NULL)
+	{
+		awpImage* img = this->GetGreenImage();
+		if (img != NULL) {
+			awpIntegral(img, &this->m_pIntegralGreen, AWP_LINEAR);
+			if (this->m_pIntegralGreen != NULL)
+				this->m_glnpix = (double*)this->m_pIntegralGreen->pPixels;
+		}
+	}
 	return this->m_pIntegralGreen;
+	
 }
 awpImage* TLFImage::GetBlueIntegral()
 {
@@ -397,12 +423,19 @@ awpImage* TLFImage::GetBlueIntegral()
 		return this->m_pIntegralBlue;
 	if (this->m_pImage == NULL)
 		return NULL;
-	awpImage* img = this->GetBlueImage();
-	if (img == NULL)
-		return NULL;
-	awpIntegral(img, &this->m_pIntegralBlue, AWP_LINEAR);
-	if (this->m_pIntegralBlue != NULL)
-		this->m_blnpix = (double*)this->m_pIntegralBlue->pPixels;
+#ifdef _OMP_
+#pragma omp critical 
+#endif
+	if (this->m_pIntegralBlue == NULL)
+	{
+		awpImage* img = this->GetBlueImage();
+		if (img != NULL) {
+
+			awpIntegral(img, &this->m_pIntegralBlue, AWP_LINEAR);
+			if (this->m_pIntegralBlue != NULL)
+				this->m_blnpix = (double*)this->m_pIntegralBlue->pPixels;
+		}
+	}
 	return this->m_pIntegralBlue;
 }
 
@@ -412,14 +445,21 @@ awpImage* TLFImage::GetSqRedIntegral()
 		return this->m_pSqIntegralRed;
 	if (this->m_pImage == NULL)
 		return NULL;
-	awpImage* img = this->GetRedImage();
-	if (img == NULL)
-		return NULL;
-	awpIntegral(img, &this->m_pSqIntegralRed, AWP_SQUARE);
-	if (this->m_pSqIntegralRed != NULL)
-		this->m_rsqlnpix = (double*)this->m_pSqIntegralRed->pPixels;
 
+#ifdef _OMP_
+#pragma omp critical 
+#endif
+	if (this->m_pSqIntegralRed == NULL)
+	{
+		awpImage* img = this->GetRedImage();
+		if (img != NULL) {
+			awpIntegral(img, &this->m_pSqIntegralRed, AWP_SQUARE);
+			if (this->m_pSqIntegralRed != NULL)
+				this->m_rsqlnpix = (double*)this->m_pSqIntegralRed->pPixels;
+		}
+	}
 	return this->m_pSqIntegralRed;
+	
 }
 awpImage* TLFImage::GetSqGreenIntegral()
 {
@@ -427,15 +467,23 @@ awpImage* TLFImage::GetSqGreenIntegral()
 		return this->m_pSqIntegralGreen;
 	if (this->m_pImage == NULL)
 		return NULL;
-	awpImage* img = this->GetGreenImage();
-	if (img == NULL)
-		return NULL;
-	awpIntegral(img, &this->m_pSqIntegralGreen, AWP_SQUARE);
-	if (this->m_pSqIntegralGreen != NULL)
-		this->m_gsqlnpix = (double*)this->m_pSqIntegralGreen->pPixels;
 
+#ifdef _OMP_
+#pragma omp critical 
+#endif
+	if (this->m_pSqIntegralGreen == NULL)
+
+	{
+		awpImage* img = this->GetGreenImage();
+		if (img != NULL) {
+
+			awpIntegral(img, &this->m_pSqIntegralGreen, AWP_SQUARE);
+			if (this->m_pSqIntegralGreen != NULL)
+				this->m_gsqlnpix = (double*)this->m_pSqIntegralGreen->pPixels;
+		}
+	}
 	return this->m_pSqIntegralGreen;
-
+	
 }
 awpImage* TLFImage::GetSqBlueIntegral()
 {
@@ -443,14 +491,21 @@ awpImage* TLFImage::GetSqBlueIntegral()
 		return this->m_pSqIntegralBlue;
 	if (this->m_pImage == NULL)
 		return NULL;
-	awpImage* img = this->GetBlueImage();
-	if (img == NULL)
-		return NULL;
-	awpIntegral(img, &this->m_pSqIntegralBlue, AWP_SQUARE);
-	if (this->m_pSqIntegralBlue != NULL)
-		this->m_bsqlnpix = (double*)this->m_pSqIntegralBlue->pPixels;
+#ifdef _OMP_
+#pragma omp critical 
+#endif
+	if (this->m_pSqIntegralBlue == NULL)
+	{
+		awpImage* img = this->GetBlueImage();
+		if (img != NULL) {
 
+			awpIntegral(img, &this->m_pSqIntegralBlue, AWP_SQUARE);
+			if (this->m_pSqIntegralBlue != NULL)
+				this->m_bsqlnpix = (double*)this->m_pSqIntegralBlue->pPixels;
+		}
+	}
 	return this->m_pSqIntegralBlue;
+	
 
 }
 

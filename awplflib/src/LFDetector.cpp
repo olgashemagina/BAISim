@@ -51,6 +51,8 @@
 #include "LFFileUtils.h"
 #include "LFParameter.h"
 
+#include <thread>
+
 #ifdef _OMP_
 #include <omp.h>
 #endif
@@ -325,7 +327,7 @@ int  TSCObjectDetector::Detect()
 		return res;
 	if (this->m_Image.GetImage() == NULL)
 		return res;
-
+		
 #ifdef _OMP_
 #pragma omp parallel for num_threads(omp_get_max_threads())
 #endif 
