@@ -282,16 +282,17 @@ bool TSCObjectDetector::AddStrong(ILFStrong* strong)
 int  TSCObjectDetector::ClassifyRect(awpRect Fragmnet, double* err, int* vect)
 {
 	bool   result = 1;
+	double totalScore = 0;
 
 	for (int j = 0; j < m_Strongs.GetCount(); j++)
     {
-		double err1 = 0;
+		double score = 0;
 		int    solution = 0;
 		TCSStrong* strong = (TCSStrong*)m_Strongs.Get(j);
         strong->Setup(Fragmnet, m_baseWidth);
-		solution = strong->Classify(&m_Image, err1);
-		if(err != NULL) 
-			err[j] = err1;
+		solution = strong->Classify(&m_Image, score);
+		totalScore += score;
+		
 		if (vect != NULL)
 			vect[j] = 1;
 		if (solution == 0)
@@ -302,6 +303,8 @@ int  TSCObjectDetector::ClassifyRect(awpRect Fragmnet, double* err, int* vect)
 			return result;
         }
     }
+	if (err != NULL)
+		*err = totalScore / m_Strongs.GetCount();
     return result;
 
 }
@@ -344,7 +347,6 @@ int  TSCObjectDetector::Detect()
 		}
 
 	}
-
 
 
 	// записываем результат в лист.

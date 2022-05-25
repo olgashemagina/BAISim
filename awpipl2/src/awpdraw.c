@@ -11,6 +11,9 @@
 #include <config.h>
 #endif
 
+#define _USE_MATH_DEFINES // для C++
+#include <cmath>
+
 #include "_awpipl.h"
 AWPRESULT _awpDrawPoint(awpImage* pImage, awpPoint p, AWPBYTE bChan, AWPDOUBLE dValue)
 {
@@ -372,6 +375,84 @@ AWPRESULT _awpDrawRect(awpImage* pImage, awpRect* pRect, AWPBYTE bChan,AWPDOUBLE
 CLEANUP:
     return res;
 }
+
+AWPRESULT _awpDrawRectangle(awpImage* pImage, awpRect* pRect, AWPBYTE bChan, AWPDOUBLE dValue)
+{
+	AWPRESULT res;
+	AWPINT iImageType;
+	AWPBYTE bValue; AWPBYTE* pbData;
+	AWPSHORT* psData;
+	AWPFLOAT* pfData;
+	AWPDOUBLE* pdData;
+	AWPINT i;
+
+	res = AWP_OK;
+
+	pbData = NULL;
+	psData = NULL;
+	pfData = NULL;
+	pdData = NULL;
+	bValue = 0;
+
+	/* check argument */
+	_CHECK_RESULT_((res = awpCheckImage(pImage)))
+		_CHECK_RESULT_((res = awpCheckRect(pRect)))
+		_CHECK_RESULT_((res = awpRectInImage(pImage, pRect)))
+
+		if (bChan >= pImage->bChannels) {
+			res = AWP_BADARG;
+			_ERR_EXIT_
+		}
+
+
+	/* calculate shift data */
+	_CHECK_RESULT_((res = awpGetImagePixelType(pImage, &iImageType)))
+
+		switch (iImageType) {
+		case AWP_BYTE:
+			bValue = (AWPBYTE)dValue;
+			pbData = (AWPBYTE*)pImage->pPixels;
+			pbData += bChan;
+			break;
+		case AWP_SHORT:
+			psData = (AWPSHORT*)pImage->pPixels;
+			psData += bChan;
+			break;
+		case AWP_FLOAT:
+			pfData = (AWPFLOAT*)pImage->pPixels;
+			pfData += bChan;
+			break;
+		case AWP_DOUBLE:
+			pdData = (AWPDOUBLE*)pImage->pPixels;
+			pdData += bChan;
+			break;
+		}
+
+	/* draw rect */
+	/* draw horizontal line */
+	for (i = pRect->left; i <= pRect->right; i++) {
+		switch (iImageType) {
+		case AWP_BYTE:
+			/* top line */
+			pbData[(pRect->top * pImage->sSizeX + i) * pImage->bChannels] = bValue;
+			/* bottom line */
+			pbData[(pRect->bottom * pImage->sSizeX + i) * pImage->bChannels] = bValue;
+			break;
+		}
+	}
+	for (i = pRect->top; i <= pRect->bottom; i++) {
+		switch (iImageType) {
+		case AWP_BYTE:
+			/* left line */
+			pbData[(i * pImage->sSizeX + pRect->left) * pImage->bChannels] = bValue;
+			pbData[(i * pImage->sSizeX + pRect->right) * pImage->bChannels] = bValue;
+			break;
+		}
+	}
+CLEANUP:
+	return res;
+}
+
 // todo: implement awpDrawThickRect
 AWPRESULT _awpDrawThickRect(awpImage* pImage, awpRect* pRect, AWPBYTE bChan, AWPDOUBLE dValue, AWPBYTE radius)
 {
@@ -415,6 +496,69 @@ AWPRESULT _awpDrawThickRect(awpImage* pImage, awpRect* pRect, AWPBYTE bChan, AWP
 
 CLEANUP:
     return res;
+}
+
+
+AWPRESULT _awpDrawThickRectangle(awpImage* pImage, awpRect* pRect, AWPBYTE bChan, AWPDOUBLE dValue, AWPBYTE radius, AWPWORD angle)
+{
+	AWPRESULT res;
+	awpPoint p1, p2, p3, p4, p1_new, p2_new, p3_new, p4_new;
+	AWPWORD x_c, y_c;
+	_CHECK_RESULT_((res = awpCheckImage(pImage)))
+		_CHECK_RESULT_((res = awpCheckRect(pRect)))
+		if (bChan >= pImage->bChannels)
+			_ERROR_EXIT_RES_(AWP_BADARG)
+
+			res = awpRectInImage(pImage, pRect);
+	if (res != AWP_OK)
+	{
+		if (pRect->top < 0)
+			pRect->top = 2 * radius;
+		if (pRect->left < 0)
+			pRect->left = 2 * radius;
+		if (pRect->right >= pImage->sSizeX)
+			pRect->right = pImage->sSizeX - 2 * radius - 1;
+		if (pRect->bottom >= pImage->sSizeY)
+			pRect->bottom = pImage->sSizeY - 2 * radius - 1;
+	}
+	_CHECK_RESULT_((res = awpRectInImage(pImage, pRect)))
+
+	x_c = (pRect->left + pRect->right) / 2;
+	y_c = (pRect->top + pRect->bottom) / 2;
+
+	p1.X = pRect->left;
+	p1.Y = pRect->top;
+
+	p1_new.X = (p1.X - x_c) * cos(angle * M_PI / 180) - (p1.Y - y_c) * sin(angle * M_PI / 180) + x_c;
+	p1_new.Y = (p1.X - x_c) * sin(angle * M_PI / 180) + (p1.Y - y_c) * cos(angle * M_PI / 180) + y_c;
+
+	p2.X = pRect->right;
+	p2.Y = pRect->top;
+
+
+
+	p2_new.X = (p2.X - x_c) * cos(angle * M_PI / 180) - (p2.Y - y_c) * sin(angle * M_PI / 180) + x_c;
+	p2_new.Y = (p2.X - x_c) * sin(angle * M_PI / 180) + (p2.Y - y_c) * cos(angle * M_PI / 180) + y_c;
+
+	p3.X = pRect->right;
+	p3.Y = pRect->bottom;
+
+	p3_new.X = (p3.X - x_c) * cos(angle * M_PI / 180) - (p3.Y - y_c) * sin(angle * M_PI / 180) + x_c;
+	p3_new.Y = (p3.X - x_c) * sin(angle * M_PI / 180) + (p3.Y - y_c) * cos(angle * M_PI / 180) + y_c;
+
+	p4.X = pRect->left;
+	p4.Y = pRect->bottom;
+
+	p4_new.X = (p4.X - x_c) * cos(angle * M_PI / 180) - (p4.Y - y_c) * sin(angle * M_PI / 180) + x_c;
+	p4_new.Y = (p4.X - x_c) * sin(angle * M_PI / 180) + (p4.Y - y_c) * cos(angle * M_PI / 180) + y_c;
+
+	_CHECK_RESULT_((res = _awpDrawThickLine(pImage, p1_new, p2_new, bChan, dValue, radius)))
+	_CHECK_RESULT_((res = _awpDrawThickLine(pImage, p2_new, p3_new, bChan, dValue, radius)))
+	_CHECK_RESULT_((res = _awpDrawThickLine(pImage, p3_new, p4_new, bChan, dValue, radius)))
+	_CHECK_RESULT_((res = _awpDrawThickLine(pImage, p4_new, p1_new, bChan, dValue, radius)))
+
+		CLEANUP:
+	return res;
 }
 
 
@@ -1085,6 +1229,22 @@ AWPRESULT awpDrawRect(awpImage* pImage, awpRect* pRect, AWPBYTE bChan, AWPDOUBLE
 	else
 	{
 		_CHECK_RESULT_(res = _awpDrawThickRect(pImage, pRect,  bChan, dValue, radius))
+	}
+
+CLEANUP:
+	return res;
+}
+AWPRESULT awpDrawRectangle(awpImage* pImage, awpRect* pRect, AWPBYTE bChan, AWPDOUBLE dValue, AWPBYTE radius, AWPDWORD angle)
+{
+	AWPRESULT res;
+	res = AWP_OK;
+	if (radius == 0)
+	{
+		_CHECK_RESULT_(res = _awpDrawRectangle(pImage, pRect, bChan, dValue))
+	}
+	else
+	{
+		_CHECK_RESULT_(res = _awpDrawThickRectangle(pImage, pRect, bChan, dValue, radius, angle))
 	}
 
 CLEANUP:

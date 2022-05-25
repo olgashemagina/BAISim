@@ -1,0 +1,53 @@
+<?xml version="1.0" ?>
+<TLFDetectEngine type="TLFDetectEngine" predictor="TLFAverageNNPredictor">
+    <ILFObjectDetector type="TSCObjectDetector">
+        <TSCObjectDetector base_width="24" base_height="24" object_type="unknown" detector="ILFObjectDetector">
+            <ILFScanner type="TLFScanner" ApertureWidth="24" ApertureHeight="24">
+                <TLFParameter type="TLFParameter" m_Value="10.000000" m_MaxValue="100.000000" m_MinValue="1.000000" m_Name="step" m_Descr="step space as a percentage of baseline resolution" />
+                <TLFParameter type="TLFParameter" m_Value="1.100000" m_MaxValue="2.000000" m_MinValue="1.100000" m_Name="grow" m_Descr="step on the scale" />
+                <TLFParameter type="TLFParameter" m_Value="1.000000" m_MaxValue="4.000000" m_MinValue="1.000000" m_Name="MinSize" m_Descr="min size of scanned object in the BaseWidth" />
+                <TLFParameter type="TLFParameter" m_Value="50.000000" m_MaxValue="100.000000" m_MinValue="1.000000" m_Name="MaxSize" m_Descr="max size of scanned object in the BaseWidth" />
+            </ILFScanner>
+            <CSClassificator threshold="7.417443">
+                <CSWeak weigth="7.528869" v0="0" v1="0" v2="0" v3="0" v4="0" v5="0" v6="0" v7="36076" v8="0" v9="0" v10="64" v11="0" v12="0" v13="128" v14="0" v15="236">
+                    <CSFeature sxBase="0" syBase="2" wBase="6" hBase="6" />
+                </CSWeak>
+                <CSWeak weigth="7.417443" v0="0" v1="0" v2="0" v3="0" v4="0" v5="0" v6="0" v7="36076" v8="0" v9="0" v10="64" v11="0" v12="0" v13="128" v14="0" v15="237">
+                    <CSFeature sxBase="0" syBase="2" wBase="6" hBase="6" />
+                </CSWeak>
+            </CSClassificator>
+            <CSClassificator threshold="5.216272">
+                <CSWeak weigth="5.216272" v0="8192" v1="0" v2="8192" v3="0" v4="2105376" v5="0" v6="8192" v7="0" v8="47104" v9="57856" v10="8192" v11="9216" v12="136323072" v13="8736" v14="8192" v15="8736">
+                    <CSFeature sxBase="10" syBase="0" wBase="3" hBase="6" />
+                </CSWeak>
+                <CSWeak weigth="5.405154" v0="0" v1="0" v2="704643072" v3="2147483648" v4="0" v5="0" v6="167772160" v7="2281701376" v8="134226432" v9="8192" v10="167784448" v11="4096" v12="0" v13="0" v14="0" v15="134217728">
+                    <CSFeature sxBase="1" syBase="7" wBase="1" hBase="3" />
+                </CSWeak>
+            </CSClassificator>
+            <CSClassificator threshold="4.491151">
+                <CSWeak weigth="4.491151" v0="0" v1="0" v2="524328" v3="32" v4="0" v5="0" v6="141354" v7="32" v8="0" v9="65536" v10="2056" v11="2090" v12="0" v13="0" v14="0" v15="0">
+                    <CSFeature sxBase="7" syBase="7" wBase="2" hBase="3" />
+                </CSWeak>
+                <CSWeak weigth="4.838033" v0="536870912" v1="537141248" v2="0" v3="539238400" v4="0" v5="0" v6="34" v7="539242528" v8="542121984" v9="0" v10="0" v11="0" v12="0" v13="0" v14="1048576" v15="0">
+                    <CSFeature sxBase="4" syBase="1" wBase="3" hBase="3" />
+                </CSWeak>
+            </CSClassificator>
+            <CSClassificator threshold="4.119600">
+                <CSWeak weigth="4.119600" v0="0" v1="0" v2="0" v3="8409088" v4="0" v5="2147483648" v6="0" v7="4096" v8="0" v9="2155872256" v10="0" v11="4194304" v12="0" v13="2189426688" v14="0" v15="0">
+                    <CSFeature sxBase="18" syBase="5" wBase="1" hBase="2" />
+                </CSWeak>
+                <CSWeak weigth="4.582110" v0="2147483648" v1="2147483648" v2="0" v3="2684354560" v4="2147483648" v5="2147483648" v6="0" v7="3925868544" v8="2147516416" v9="0" v10="0" v11="0" v12="136" v13="8" v14="8" v15="67108874">
+                    <CSFeature sxBase="7" syBase="1" wBase="2" hBase="1" />
+                </CSWeak>
+            </CSClassificator>
+            <CSClassificator threshold="3.812099">
+                <CSWeak weigth="3.812099" v0="0" v1="0" v2="0" v3="0" v4="0" v5="0" v6="0" v7="0" v8="0" v9="0" v10="2415919104" v11="0" v12="0" v13="132106" v14="0" v15="1343422464">
+                    <CSFeature sxBase="18" syBase="13" wBase="1" hBase="2" />
+                </CSWeak>
+                <CSWeak weigth="4.397638" v0="138412032" v1="4718592" v2="0" v3="4194304" v4="134217728" v5="0" v6="0" v7="0" v8="134217728" v9="134217728" v10="0" v11="0" v12="134219776" v13="512" v14="0" v15="0">
+                    <CSFeature sxBase="14" syBase="2" wBase="2" hBase="4" />
+                </CSWeak>
+            </CSClassificator>
+        </TSCObjectDetector>
+    </ILFObjectDetector>
+</TLFDetectEngine>
