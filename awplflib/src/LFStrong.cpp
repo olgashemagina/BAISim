@@ -8,8 +8,10 @@ TCSStrong::TCSStrong()
 
 // классификафия
 
-int TCSStrong::Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double& err) const
+int TCSStrong::Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double& score) const
 {
+    double sumWeight = 0;
+    double err = 0;
 	int c = GetCount();
 	if (c == 0)
 		return 0;
@@ -17,7 +19,9 @@ int TCSStrong::Classify(TLFImage* pImage, const TLFAlignedTransform& transform, 
 	for (int i = 0; i < c; i++)
 	{
 		err += pWCL[i]->Weight()* pWCL[i]->Classify(pImage, transform);
+        sumWeight += pWCL[i]->Weight();
 	}
+    score = err / sumWeight;
 	return ((err - m_threshold) > -0.00001);
 }
 

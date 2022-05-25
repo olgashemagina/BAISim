@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TLFDetectEngine type="TLFDetectEngine" predictor="TLFAverageNNPredictor">
+  <ILFObjectDetector type="TSCObjectDetector">
+    <TSCObjectDetector base_width="24" base_height="24" object_type="unknown" detector="ILFObjectDetector">
+      <ILFScanner type="TLFScanner" ApertureWidth="24" ApertureHeight="24">
+        <TLFParameter type="TLFParameter" m_Value="10.000000" m_MaxValue="100.000000" m_MinValue="1.000000" m_Name="step" m_Descr="step space as a percentage of baseline resolution" />
+        <TLFParameter type="TLFParameter" m_Value="1.100000" m_MaxValue="2.000000" m_MinValue="1.100000" m_Name="grow" m_Descr="step on the scale" />
+        <TLFParameter type="TLFParameter" m_Value="1.000000" m_MaxValue="4.000000" m_MinValue="1.000000" m_Name="MinSize" m_Descr="min size of scanned object in the BaseWidth" />
+        <TLFParameter type="TLFParameter" m_Value="50.000000" m_MaxValue="100.000000" m_MinValue="1.000000" m_Name="MaxSize" m_Descr="max size of scanned object in the BaseWidth" />
+      </ILFScanner>
+      <CSClassificator threshold="4.370692">
+        <CSWeak weigth="4.370692" v0="0" v1="0" v2="0" v3="268435456" v4="0" v5="32" v6="0" v7="3145770" v8="4282387976" v9="100683272" v10="2686984" v11="0" v12="2568" v13="3149630" v14="14" v15="271712447">
+          <CSFeature sxBase="2" syBase="0" wBase="4" hBase="2" />
+        </CSWeak>
+        <CSWeak weigth="4.931340" v0="524288" v1="1048576" v2="134348800" v3="4194304" v4="0" v5="32" v6="136445952" v7="536875056" v8="1023356984" v9="2109552" v10="285147480" v11="16" v12="234821162" v13="2192756" v14="108986413" v15="4194832">
+          <CSFeature sxBase="0" syBase="1" wBase="3" hBase="6" />
+        </CSWeak>
+      </CSClassificator>
+      <CSClassificator threshold="3.344535">
+        <CSWeak weigth="3.344535" v0="0" v1="0" v2="32768" v3="1048576" v4="2048" v5="32" v6="0" v7="7340032" v8="201591808" v9="3112" v10="1560544256" v11="0" v12="2048" v13="2109354" v14="16" v15="3145762">
+          <CSFeature sxBase="1" syBase="2" wBase="2" hBase="2" />
+        </CSWeak>
+        <CSWeak weigth="3.683262" v0="572522496" v1="3146240" v2="847183872" v3="993202432" v4="2147483648" v5="2147483648" v6="0" v7="0" v8="808452096" v9="287375361" v10="863961366" v11="326308129" v12="44032" v13="271613952" v14="2571583" v15="32">
+          <CSFeature sxBase="3" syBase="0" wBase="6" hBase="3" />
+        </CSWeak>
+      </CSClassificator>
+      <CSClassificator threshold="2.923420">
+        <CSWeak weigth="2.970063" v0="819986432" v1="16392" v2="1928413184" v3="0" v4="1084227584" v5="0" v6="11010048" v7="0" v8="1924165648" v9="21848" v10="863654976" v11="8000" v12="8392704" v13="9065540" v14="271585280" v15="135168">
+          <CSFeature sxBase="0" syBase="3" wBase="2" hBase="6" />
+        </CSWeak>
+        <CSWeak weigth="2.923420" v0="0" v1="0" v2="0" v3="4257872" v4="0" v5="2147491840" v6="2315270144" v7="28752" v8="2155872256" v9="2764865552" v10="1048576" v11="4206816" v12="2324168704" v13="2330034176" v14="234922500" v15="4608">
+          <CSFeature sxBase="18" syBase="6" wBase="1" hBase="2" />
+        </CSWeak>
+      </CSClassificator>
+      <CSClassificator threshold="3.171638">
+        <CSWeak weigth="3.171638" v0="2155872384" v1="2700083200" v2="2160083136" v3="12599296" v4="64" v5="3968335872" v6="1024" v7="671612928" v8="2290614424" v9="128" v10="8388812" v11="4194312" v12="80" v13="754974724" v14="21964" v15="318768397">
+          <CSFeature sxBase="7" syBase="1" wBase="3" hBase="1" />
+        </CSWeak>
+        <CSWeak weigth="3.200299" v0="16384" v1="128" v2="0" v3="9044096" v4="1912656000" v5="16576" v6="805326976" v7="283072" v8="839385088" v9="142606336" v10="855638016" v11="176685184" v12="2989641728" v13="786432" v14="857886784" v15="134742016">
+          <CSFeature sxBase="3" syBase="15" wBase="2" hBase="2" />
+        </CSWeak>
+      </CSClassificator>
+      <CSClassificator threshold="2.794940">
+        <CSWeak weigth="2.794940" v0="16384" v1="536887296" v2="0" v3="11272648" v4="0" v5="16384" v6="21568" v7="17612" v8="4198528" v9="2282258432" v10="0" v11="0" v12="580927552" v13="167772160" v14="838890564" v15="167772160">
+          <CSFeature sxBase="14" syBase="0" wBase="2" hBase="2" />
+        </CSWeak>
+        <CSWeak weigth="2.885519" v0="536871424" v1="0" v2="436478976" v3="1073742336" v4="134218240" v5="2097152" v6="201326594" v7="1074004224" v8="2624" v9="10752" v10="134490624" v11="272896" v12="0" v13="7350898" v14="1140850688" v15="1079246848">
+          <CSFeature sxBase="0" syBase="6" wBase="1" hBase="2" />
+        </CSWeak>
+      </CSClassificator>
+      <CSClassificator threshold="2.748519">
+        <CSWeak weigth="2.748519" v0="0" v1="0" v2="3221225472" v3="3492937728" v4="34816" v5="2248462" v6="3224371200" v7="3258058752" v8="34816" v9="2099200" v10="3238053888" v11="268568576" v12="2131970" v13="2230798" v14="69208064" v15="3276800">
+          <CSFeature sxBase="15" syBase="15" wBase="2" hBase="2" />
+        </CSWeak>
+        <CSWeak weigth="2.816350" v0="552075264" v1="3276800" v2="1156579328" v3="11993088" v4="0" v5="1610612736" v6="1024" v7="33554432" v8="1928200384" v9="0" v10="16711903" v11="2097152" v12="17600" v13="264" v14="58460" v15="3084">
+          <CSFeature sxBase="4" syBase="0" wBase="5" hBase="2" />
+        </CSWeak>
+      </CSClassificator>
+      <CSClassificator threshold="5.119268">
+        <CSWeak weigth="2.534075" v0="8192" v1="16384" v2="8448" v3="61760" v4="2953867264" v5="16798864" v6="2955964432" v7="33575040" v8="0" v9="8929280" v10="8388608" v11="13259976" v12="2281701376" v13="2147483648" v14="0" v15="0">
+          <CSFeature sxBase="0" syBase="11" wBase="2" hBase="3" />
+        </CSWeak>
+        <CSWeak weigth="2.614115" v0="67125248" v1="0" v2="4037080264" v3="40968" v4="8693920" v5="43008" v6="3030711464" v7="47104" v8="2147495936" v9="0" v10="13172718" v11="53376" v12="6849536" v13="0" v14="1073780736" v15="0">
+          <CSFeature sxBase="9" syBase="5" wBase="3" hBase="5" />
+        </CSWeak>
+        <CSWeak weigth="2.585194" v0="32768" v1="2281734272" v2="0" v3="2214592512" v4="8421504" v5="2390753472" v6="1056946" v7="1280315456" v8="0" v9="2348810240" v10="268435456" v11="1275133952" v12="166816" v13="1208090624" v14="429064369" v15="1296498688">
+          <CSFeature sxBase="7" syBase="18" wBase="3" hBase="1" />
+        </CSWeak>
+        <CSWeak weigth="2.884260" v0="1200128" v1="1196068" v2="17408" v3="16592" v4="16384" v5="16780592" v6="536899616" v7="33574912" v8="33556640" v9="143130624" v10="644" v11="1312772" v12="1024" v13="2315780096" v14="167772160" v15="134217728">
+          <CSFeature sxBase="18" syBase="3" wBase="1" hBase="1" />
+        </CSWeak>
+      </CSClassificator>
+      <CSClassificator threshold="5.000199">
+        <CSWeak weigth="2.475519" v0="3559407616" v1="268451840" v2="79167488" v3="1048576" v4="4110199944" v5="2388064" v6="3932328" v7="2105392" v8="604766208" v9="621562892" v10="537395200" v11="786724" v12="12356616" v13="813578" v14="8" v15="40">
+          <CSFeature sxBase="1" syBase="9" wBase="3" hBase="3" />
+        </CSWeak>
+        <CSWeak weigth="2.532769" v0="0" v1="0" v2="2860515328" v3="3363831808" v4="16" v5="3369598976" v6="973078528" v7="3437166721" v8="167787008" v9="553504" v10="704655872" v11="1073762304" v12="75776" v13="348140096" v14="262144" v15="1346437120">
+          <CSFeature sxBase="2" syBase="6" wBase="1" hBase="3" />
+        </CSWeak>
+        <CSWeak weigth="2.524681" v0="1073741824" v1="1073872896" v2="1077936128" v3="1365262336" v4="287311872" v5="3574282" v6="1349582848" v7="1551057410" v8="3221258248" v9="1075972104" v10="3222323204" v11="1347645715" v12="51328" v13="133130" v14="2097160" v15="131072">
+          <CSFeature sxBase="10" syBase="15" wBase="3" hBase="2" />
+        </CSWeak>
+        <CSWeak weigth="2.658450" v0="0" v1="64" v2="2281719808" v3="1073741824" v4="0" v5="3229614088" v6="2147483648" v7="3222274048" v8="34816" v9="43554" v10="134252544" v11="1073744384" v12="32768" v13="1618083882" v14="1207992832" v15="1414726144">
+          <CSFeature sxBase="18" syBase="11" wBase="1" hBase="2" />
+        </CSWeak>
+      </CSClassificator>
+    </TSCObjectDetector>
+  </ILFObjectDetector>
+</TLFDetectEngine>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31727.386
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JPEGLIB", "..\jpeg-6b\vc\vc2019\JPEGLIB.vcxproj", "{D22F6666-746D-4436-8EAD-481C2C37AF55}"
 EndProject
@@ -31,6 +31,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FVLCore", "..\FVLCore\vc\vc2019\FVLCore.vcxproj", "{DAB4EACC-6213-4462-B073-5EFF5CC53614}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Player", "..\test\!Player\Player.vcxproj", "{C48DF8E0-F07E-48D5-AEB4-997CCEB7F44C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dron", "..\test\Dron\Dron.vcxproj", "{ECB4F1FD-D028-44A6-98D6-6A6202148733}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -112,6 +114,14 @@ Global
 		{C48DF8E0-F07E-48D5-AEB4-997CCEB7F44C}.Release|Win32.Build.0 = Release|Win32
 		{C48DF8E0-F07E-48D5-AEB4-997CCEB7F44C}.Release|x64.ActiveCfg = Release|x64
 		{C48DF8E0-F07E-48D5-AEB4-997CCEB7F44C}.Release|x64.Build.0 = Release|x64
+		{ECB4F1FD-D028-44A6-98D6-6A6202148733}.Debug|Win32.ActiveCfg = Debug|Win32
+		{ECB4F1FD-D028-44A6-98D6-6A6202148733}.Debug|Win32.Build.0 = Debug|Win32
+		{ECB4F1FD-D028-44A6-98D6-6A6202148733}.Debug|x64.ActiveCfg = Debug|x64
+		{ECB4F1FD-D028-44A6-98D6-6A6202148733}.Debug|x64.Build.0 = Debug|x64
+		{ECB4F1FD-D028-44A6-98D6-6A6202148733}.Release|Win32.ActiveCfg = Release|Win32
+		{ECB4F1FD-D028-44A6-98D6-6A6202148733}.Release|Win32.Build.0 = Release|Win32
+		{ECB4F1FD-D028-44A6-98D6-6A6202148733}.Release|x64.ActiveCfg = Release|x64
+		{ECB4F1FD-D028-44A6-98D6-6A6202148733}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

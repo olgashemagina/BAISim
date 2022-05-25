@@ -738,8 +738,19 @@ bool TLFSemanticImageDescriptor::AddDetectedItem(TLFDetectedItem* item)
     if (item->GetBounds() == NULL)
         return false;
 
-    TLFRect* r = item->GetBounds();
+	TLFDetectedItem* detected = new TLFDetectedItem(item);
+    TLFRect* r = detected->GetBounds();
+
+	//Fixes Bounds
+	//TODO: move to OverlapFilter
+
     awpRect rr = r->GetRect();
+	rr.left = std::max<int>(rr.left, 0);
+	rr.right = std::min<int>(rr.right, m_imageWidth);
+	rr.top = std::max<int>(rr.top, 0);
+	rr.bottom = std::min<int>(rr.bottom, m_imageHeight);
+	
+	r->SetRect(rr);
 	/*
     if (awpRectInImage(this->m_Image.GetImage(), &rr) !=AWP_OK)
     {
@@ -762,7 +773,7 @@ bool TLFSemanticImageDescriptor::AddDetectedItem(TLFDetectedItem* item)
     }
 	*/
 
-    Add(new TLFDetectedItem(item));
+    Add(detected);
     return true;
 }
 bool TLFSemanticImageDescriptor::DeleteDetectedItem(int Index)
