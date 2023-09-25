@@ -77,11 +77,12 @@ public:
 	TLFAFeature(int sxbase, int sybase, int wbase, int hbase);
 	TLFAFeature(ILFFeature* feature);
 
-	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
-	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
+	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
+	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
 
-	virtual TLFRect GetRect() const override {
-		return { m_base.Left(), m_base.Top(), m_base.Width(), m_base.Height() };
+	virtual TLFRect GetRect() const  {
+		TLFRect r( m_base.Left(), m_base.Top(), m_base.Width(), m_base.Height() );
+		return r;
 	}
 
 	virtual const char* GetName()
@@ -100,11 +101,12 @@ public:
 	TLFSFeature(int sxbase, int sybase, int wbase, int hbase);
 	TLFSFeature(ILFFeature* feature);
 
-	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
-	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
+	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
+	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
 
-	virtual TLFRect GetRect() const override {
-		return { m_base.Left(), m_base.Top(), m_base.Width(), m_base.Height() };
+	virtual TLFRect GetRect() const  {
+		TLFRect r( m_base.Left(), m_base.Top(), m_base.Width(), m_base.Height() );
+		return r;
 	}
 
 	virtual const char* GetName()
@@ -123,11 +125,12 @@ public:
 	TLFSAFeature(int sxbase, int sybase, int wbase, int hbase);
 	TLFSAFeature(ILFFeature* feature);
 
-	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
-	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
+	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
+	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
 
-	virtual TLFRect GetRect() const override {
-		return { m_base.Left(), m_base.Top(), m_base.Width(), m_base.Height() };
+	virtual TLFRect GetRect() const  {
+		TLFRect r( m_base.Left(), m_base.Top(), m_base.Width(), m_base.Height() );
+		return r;
 	}
 
 	virtual const char* GetName()
@@ -148,11 +151,12 @@ public:
 	TLFHFeature(ILFFeature* feature);
 	TLFHFeature(int sxbase, int sybase, int wbase, int hbase);
 
-	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
-	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
+	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
+	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
 
-	virtual TLFRect GetRect() const override {
-		return { m_base.Left(), m_base.Top(), m_base.Width(), 2 * m_base.Height() };
+	virtual TLFRect GetRect() const  {
+		TLFRect r( m_base.Left(), m_base.Top(), m_base.Width(), 2 * m_base.Height() );
+		return r;
 	}
 
 	virtual const char* GetName()
@@ -171,11 +175,12 @@ public:
 	TLFVFeature(ILFFeature* feature);
 	TLFVFeature(int sxbase, int sybase, int wbase, int hbase);
 
-	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
-	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
+	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
+	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
 
-	virtual TLFRect GetRect() const override {
-		return { m_base.Left(), m_base.Top(), 2* m_base.Width(), m_base.Height() };
+	virtual TLFRect GetRect() const  {
+		TLFRect r( m_base.Left(), m_base.Top(), 2* m_base.Width(), m_base.Height()  );
+		return r;
 	}
 
 	virtual const char* GetName()
@@ -193,11 +198,12 @@ public:
 	TLFDFeature(ILFFeature* feature);
 	TLFDFeature(int sxbase, int sybase, int wbase, int hbase);
 
-	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
-	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
+	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
+	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
 
-	virtual TLFRect GetRect() const override {
-		return { m_base.Left(), m_base.Top(), 2 * m_base.Width(), 2*m_base.Height() };
+	virtual TLFRect GetRect() const  {
+		TLFRect r( m_base.Left(), m_base.Top(), 2 * m_base.Width(), 2*m_base.Height() );
+		return r;
 	}
 
 	virtual const char* GetName()
@@ -217,11 +223,12 @@ public:
 	TLFCFeature(ILFFeature* feature);
 	TLFCFeature(int sxbase, int sybase, int wbase, int hbase);
 
-	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
-	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
+	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
+	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
 
-	virtual TLFRect GetRect() const override {
-		return { m_base.Left(), m_base.Top(), 3 * m_base.Width(), 3 * m_base.Height() };
+	virtual TLFRect GetRect() const  {
+		TLFRect r( m_base.Left(), m_base.Top(), 3 * m_base.Width(), 3 * m_base.Height() );
+		return r;
 	}
 
 	virtual const char* GetName()
@@ -243,11 +250,12 @@ public:
 	TLFLBPFeature(ILFFeature* feature);
 	TLFLBPFeature(int sxbase, int sybase, int wbase, int hbase);
 
-	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
-	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
+	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
+	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
 
-	virtual TLFRect GetRect() const override {
-		return { m_base.Left(), m_base.Top(), 3*m_base.Width(), 3*m_base.Height() };
+	virtual TLFRect GetRect() const  {
+		TLFRect r( m_base.Left(), m_base.Top(), 3*m_base.Width(), 3*m_base.Height() );
+		return r;
 	}
 
 	virtual const char* GetName()
@@ -267,11 +275,12 @@ public:
 	/*
 	calc features value
 	*/
-	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
-	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
+	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
+	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
 
-	virtual TLFRect GetRect() const override {
-		return { m_base.Left(), m_base.Top(), m_base.Width(), m_base.Height() };
+	virtual TLFRect GetRect() const  {
+		TLFRect r( m_base.Left(), m_base.Top(), m_base.Width(), m_base.Height() );
+		return r;
 	}
 
 	virtual const char* GetName()
@@ -291,11 +300,12 @@ public:
 	TLFLHFeature(int sxbase, int sybase, int wbase, int hbase);
 
 
-	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
-	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
+	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
+	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
 
-	virtual TLFRect GetRect() const override {
-		return { m_base.Left(), m_base.Top(), m_base.Width(), 3 * m_base.Height() };
+	virtual TLFRect GetRect() const  {
+		TLFRect r( m_base.Left(), m_base.Top(), m_base.Width(), 3 * m_base.Height() );
+		return r;
 	}
 
 	virtual const char* GetName()
@@ -314,14 +324,15 @@ public:
 	TLFLVFeature(ILFFeature* feature);
 	TLFLVFeature(int sxbase, int sybase, int wbase, int hbase);
 
-	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
-	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
+	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
+	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
 
-	virtual TLFRect GetRect() const override {
-		return { m_base.Left(), m_base.Top(), 3 * m_base.Width(), m_base.Height() };
+	virtual TLFRect GetRect() const  {
+		TLFRect r( m_base.Left(), m_base.Top(), 3 * m_base.Width(), m_base.Height() );
+		return r;
 	}
 
-	
+
 
 	virtual const char* GetName()
 	{
@@ -342,11 +353,12 @@ public:
 	TCSSensor(const TCSSensor& Sensor);
 	TCSSensor(int sx, int sy, int uw, int uh);
 
-	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
-	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const override;
+	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
+	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const ;
 
-	virtual TLFRect GetRect() const override {
-		return { m_base.Left(), m_base.Top(), 3 * m_base.Width(), 3 * m_base.Height() };
+	virtual TLFRect GetRect() const  {
+		TLFRect r( m_base.Left(), m_base.Top(), 3 * m_base.Width(), 3 * m_base.Height() );
+		return r;
 	}
 
 
@@ -364,13 +376,17 @@ public:
 	}
 
 	//Base Unit of feature
-	virtual const _LFRect& baseUnit() const { return _LFRect{ (double)m_base.Left(), (double)m_base.Top(), (double)(m_base.Width()), (double)(m_base.Height()) };
+ /*	virtual const _LFRect baseUnit() const {
+		_LFRect r = { (double)m_base.Left(), (double)m_base.Top(), (double)(m_base.Width()), (double)(m_base.Height()) };
+		return r;
 	}
 
 	//Rect of aperture in unit coordinates
-	virtual const _LFRect& baseRect() const { return _LFRect{ (double)m_base.Left(), (double)m_base.Top(), (double)(3 * m_base.Width()), (double)(3 * m_base.Height()) }; }
+	virtual const _LFRect& baseRect() const {
+		return _LFRect{ (double)m_base.Left(), (double)m_base.Top(), (double)(3 * m_base.Width()), (double)(3 * m_base.Height()) };
+	}
 
-
+ */
 	virtual const char* GetName()
 	{
 		return "CSFeature";

@@ -1,22 +1,203 @@
 CSBuild Detector loading config .....  done.
 AdaBoost: init features ....  done .
-AdaBoost: Initiated 36100 features.
+AdaBoost: Initiated 5320 features.
 CSBuild Detector init detector ..... Removing old bkground...
 Done removing old bkground.
 Building new bkground...
-Num = 1 e:\frames\dbexport\dron\bkg\\0013BF99-38F6-407E-BBE5-D587B4B52713.awp 512x768 Total items = 0
->Num = 2 e:\frames\dbexport\dron\bkg\\00214C73-2B7D-478D-A65F-AFAB5D9F41F6.awp 768x512 Total items = 223614
->Num = 3 e:\frames\dbexport\dron\bkg\\00401F98-D653-4712-BFB6-07DE4844C545.awp 768x512 Total items = 229676
+Num = 1 C:\data\digits\6\source\train\dbexport\6\bg\\0000.awp 768x512 Total items = 0
+>Num = 2 C:\data\digits\6\source\train\dbexport\6\bg\\316099.awp 768x512 Total items = 285884
 
 Done.
 Loading training sets...
-Loading samples from e:\frames\dbexport\negative\... 
-Reading 6002 files.
-6000 ok
-Loading samples from e:\frames\dbexport\dron\... 
-Reading 2024 files.
-2021 ok
+Loading samples from C:\data\digits\6\source\train\dbexport\6\negative\... 
+Reading 2502 files.
+2500 ok
+Loading samples from C:\data\digits\6\source\train\dbexport\6\... 
+Reading 593 files.
+589 ok
 
 Boosting started.
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 1, min_eps = 0.0344801, beta = 0.0357115, alpha = 3.33228;
+Found feature:CSFeature x = 0, y = 0, width = 3, height = 4;
+
+FAR = 0.0412, FRR = 0.0356537, threshold = 1.66614;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 2, min_eps = 0.0589003, beta = 0.0625866, alpha = 2.7712;
+Found feature:CSFeature x = 0, y = 8, width = 3, height = 3;
+
+FAR = 0.0412, FRR = 0.0356537, threshold = 3.05174;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 3, min_eps = 0.0650411, beta = 0.0695657, alpha = 2.66548;
+Found feature:CSFeature x = 0, y = 6, width = 2, height = 5;
+
+FAR = 0.0148, FRR = 0.0135823, threshold = 4.38449;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 4, min_eps = 0.0545186, beta = 0.0576623, alpha = 2.85315;
+Found feature:CSFeature x = 2, y = 4, width = 1, height = 2;
+
+FAR = 0.014, FRR = 0.00509338, threshold = 5.81106;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 5, min_eps = 0.0389927, beta = 0.0405748, alpha = 3.20461;
+Found feature:CSFeature x = 0, y = 10, width = 3, height = 3;
+
+FAR = 0.002, FRR = 0.00848896, threshold = 7.41337;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 6, min_eps = 0.00688714, beta = 0.0069349, alpha = 4.97119;
+Found feature:CSFeature x = 0, y = 1, width = 3, height = 5;
+
+FAR = 0.0064, FRR = 0.00848896, threshold = 9.89896;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 7, min_eps = 0.00514529, beta = 0.0051719, alpha = 5.26451;
+Found feature:CSFeature x = 2, y = 5, width = 1, height = 3;
+
+FAR = 0.0008, FRR = 0.00339559, threshold = 12.5312;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 8, min_eps = 0.000294997, beta = 0.000295084, alpha = 8.12825;
+Found feature:CSFeature x = 3, y = 3, width = 2, height = 5;
+
+FAR = 0.002, FRR = 0.0135823, threshold = 16.5953;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 9, min_eps = 0.00131464, beta = 0.00131637, alpha = 6.63288;
+Found feature:CSFeature x = 0, y = 8, width = 2, height = 4;
+
+FAR = 0.0008, FRR = 0.00848896, threshold = 19.9118;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 10, min_eps = 3.32987e-05, beta = 3.32998e-05, alpha = 10.31;
+Found feature:CSFeature x = 0, y = 0, width = 2, height = 4;
+
+FAR = 0.0004, FRR = 0.00509338, threshold = 25.0668;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 11, min_eps = 0.000445478, beta = 0.000445677, alpha = 7.71592;
+Found feature:CSFeature x = 0, y = 6, width = 3, height = 3;
+
+FAR = 0, FRR = 0.00509338, threshold = 28.9247;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 12, min_eps = 3.47509e-06, beta = 3.4751e-06, alpha = 12.5699;
+Found feature:CSFeature x = 5, y = 8, width = 1, height = 2;
+
+FAR = 0, FRR = 0.0101868, threshold = 35.2097;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 13, min_eps = 1.99088e-08, beta = 1.99088e-08, alpha = 17.7321;
+Found feature:CSFeature x = 0, y = 0, width = 2, height = 7;
+
+FAR = 0.0004, FRR = 0.00169779, threshold = 44.0757;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 14, min_eps = 1.69868e-13, beta = 1.69868e-13, alpha = 29.4038;
+Found feature:CSFeature x = 0, y = 10, width = 3, height = 2;
+
+FAR = 0.0012, FRR = 0.0186757, threshold = 58.7776;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 15, min_eps = 1.91284e-20, beta = 1.91284e-20, alpha = 45.4031;
+Found feature:CSFeature x = 1, y = 6, width = 2, height = 4;
+
+FAR = 0.0052, FRR = 0.0543294, threshold = 81.4791;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 16, min_eps = 4.01042e-18, beta = 4.01042e-18, alpha = 40.0576;
+Found feature:CSFeature x = 3, y = 4, width = 2, height = 4;
+
+FAR = 0.0032, FRR = 0.0135823, threshold = 101.508;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 17, min_eps = 3.24003e-22, beta = 3.24003e-22, alpha = 49.4813;
+Found feature:CSFeature x = 0, y = 0, width = 3, height = 4;
+
+FAR = 0.0004, FRR = 0.00679117, threshold = 126.249;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 18, min_eps = 7.45214e-39, beta = 7.45214e-39, alpha = 87.7923;
+Found feature:CSFeature x = 3, y = 18, width = 1, height = 1;
+
+FAR = 0.0032, FRR = 0.0288625, threshold = 170.145;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 19, min_eps = 9.14611e-53, beta = 9.14611e-53, alpha = 119.824;
+Found feature:CSFeature x = 0, y = 6, width = 2, height = 5;
+
+FAR = 0.0072, FRR = 0.0288625, threshold = 230.057;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 20, min_eps = 5.03276e-83, beta = 5.03276e-83, alpha = 189.499;
+Found feature:CSFeature x = 0, y = 7, width = 3, height = 4;
+
+FAR = 0.0104, FRR = 0.0339559, threshold = 324.806;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 21, min_eps = 2.72693e-120, beta = 2.72693e-120, alpha = 275.307;
+Found feature:CSFeature x = 2, y = 10, width = 2, height = 3;
+
+FAR = 0.012, FRR = 0.108659, threshold = 462.459;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 22, min_eps = 9.27407e-187, beta = 9.27407e-187, alpha = 428.356;
+Found feature:CSFeature x = 2, y = 0, width = 2, height = 7;
+
+FAR = 0.0164, FRR = 0.0356537, threshold = 676.638;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 23, min_eps = 5.8744e-156, beta = 5.8744e-156, alpha = 357.433;
+Found feature:CSFeature x = 0, y = 6, width = 2, height = 5;
+
+FAR = 0.0032, FRR = 0.0441426, threshold = 855.354;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 24, min_eps = 1.68926e-299, beta = 1.68926e-299, alpha = 687.949;
+Found feature:CSFeature x = 6, y = 6, width = 1, height = 2;
+
+FAR = 0.0092, FRR = 0.179966, threshold = 1199.33;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 25, min_eps = 0, beta = 0, alpha = inf;
+Found feature:CSFeature x = 0, y = 0, width = 3, height = 7;
+
+FAR = 0, FRR = 1, threshold = inf;
+
+Updating: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Round num = 26, min_eps = 0, beta = 0, alpha = inf;
+Found feature:CSFeature x = 1, y = 0, width = 2, height = 7;
+
+FAR = 0, FRR = 1, threshold = inf;
 
 Updating: >>>>>>>

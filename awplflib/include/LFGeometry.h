@@ -60,6 +60,8 @@
 
 #include "LFCore.h"
 #include "LFImage.h"
+#include <float.h>
+#include <math.h>
 
 /** \defgroup LFGeometry
 *	Implementation geometry objects in the Locate Framework 
@@ -439,17 +441,27 @@ public:
 class TLFAlignedTransform : public TLFObject
 {
 protected:
-	double		m_scale_x = 1.0;
-	double		m_scale_y = 1.0;
+	double		m_scale_x;
+	double		m_scale_y;
 
 	int			m_dx = 0;
 	int			m_dy = 0;
-		
+
 public:
 	
+	TLFAlignedTransform()
+	{
+        m_scale_x = 1.0;
+		m_scale_y = 1.0;
+
+		m_dx = 0;
+		m_dy = 0;
+    }
+
 	TLFAlignedTransform(double scale)
 	: m_scale_x(scale)
-	, m_scale_y(scale) {
+	, m_scale_y(scale)
+	, m_dx(0), m_dy(0){
 	}
 
 	explicit TLFAlignedTransform(double scale_x, double scale_y, int dx, int dy)

@@ -537,7 +537,7 @@ void TCSAdaBoost::InitFeatures()
 
 void TCSAdaBoost::PrintFeature(ILFFeature* pSensor)
 {
-	const auto& base = pSensor->UnitBase();
+	const TLFRect& base = pSensor->UnitBase();
     DbgMsg( "Found feature:" + TypeToStr(pSensor->GetName()) + " x = " + TypeToStr( base.Left() ) +
         ", y = " + TypeToStr( base.Top() ) +
         ", width = " + TypeToStr( base.Width() ) +
@@ -558,21 +558,24 @@ double TCSAdaBoost::PrintStatistics(TCSStrong& Class, double& afrr)
 		
 		TLFAlignedTransform transform(s->GetImage()->sSizeX / double(m_widthBase), s->GetImage()->sSizeY / double(m_heightBase), 0, 0);
 
-		Class.Classify(s, transform, err );
+		auto res = Class.Classify(s, transform, err );
 
         if ( s->GetFlag() == 1 )
         {
-			if (err < min_err)
-				min_err = err;
+			//if (err < min_err)
+				//min_err = err;
 
-            if ( err < Class.GetThreshold() ) dFrr += 1.0;
+            //if ( err < Class.GetThreshold() ) dFrr += 1.0;
+			if (res <= 0) dFrr += 1.0;
+
         }
         else
         {
-            if ( err >= Class.GetThreshold() )
-            {
-                dFar += 1.0;
-            }
+			if (res > 0) dFar += 1.0;
+            //if ( err >= Class.GetThreshold() )
+            //{
+             //   dFar += 1.0;
+            //}
         }
 
 

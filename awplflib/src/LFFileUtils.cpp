@@ -5,6 +5,7 @@
 #ifdef WIN32
 #include <io.h>
 #include <direct.h>
+#include <string>
 #else
 #include <dirent.h>
 #endif
@@ -246,7 +247,7 @@ static bool _LFGetDirNamesWindows(const char* lpDir, TLFStrings& names)
 	{
 		do
 		{
-			string name = path + filesInfo.name;
+			std::string name = path + filesInfo.name;
 			names.push_back(name);
 
 		} while (!_findnext(handle, &filesInfo));

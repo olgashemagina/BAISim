@@ -157,7 +157,7 @@ TLFDblVector* TLFAverageNNPredictor::Features(ILFDetectEngine* engine, TLFRect* 
 		ILFWeak  * weak = s->GetWeak(i);
 		if (weak != NULL)
 		{			
-			const auto& sensor_rect = weak->Fetaure()->GetRect();
+			const TLFRect& sensor_rect = weak->Fetaure()->GetRect();
 
 			fragment = sensor_rect;
 			fragment.Scale(scale_coef);

@@ -51,7 +51,7 @@
 #include "LFFileUtils.h"
 #include "LFParameter.h"
 
-#include <thread>
+//#include <thread>
 
 #ifdef _OMP_
 #include <omp.h>
@@ -339,7 +339,7 @@ int  TSCObjectDetector::Detect()
 		if (!m_scanner->GetFragment(i)->HasObject)
 		{
 			bool has_object = true;
-			auto rect = m_scanner->GetFragmentRect(i);
+			awpRect rect = m_scanner->GetFragmentRect(i);
 
 			double scale_x = (rect.right - rect.left)/double(this->m_baseWidth);
 			double scale_y = (rect.bottom - rect.top) / double(this->m_baseHeight);
@@ -418,7 +418,7 @@ int TSCObjectDetector::DetectInRect(awpRect roi)
 			{
 
 				bool has_object = true;
-				auto rect = m_scanner->GetFragmentRect(i);
+				awpRect rect = m_scanner->GetFragmentRect(i);
 
 				double scale_x = (rect.right - rect.left) / double(this->m_baseWidth);
 				double scale_y = (rect.bottom - rect.top) / double(this->m_baseHeight);

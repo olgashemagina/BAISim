@@ -65,7 +65,7 @@ public:
     TCSStrong();
     
     // классификафия
-    virtual int Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double& err) const override;
+    virtual int Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double& err) const ;
 
 	virtual void SaveXML(TiXmlElement* parent);
 	virtual bool LoadXML(TiXmlElement* parent);

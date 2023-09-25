@@ -44,7 +44,8 @@
 //
 //      CopyRight 2004-2018 (c) NN-Videolab.net
 //M*/
-
+#include <float.h>
+#include <math.h>
 
 typedef struct _LFPoint {
 	double x;
@@ -257,10 +258,10 @@ public:
 	virtual double			dValue(ILFImage* image, double scale_x, double scale_y, int dx, int dy) const = 0;
 
 	//Base Unit of feature
-	virtual const _LFRect&	baseUnit() const = 0;
+	//virtual const _LFRect&	baseUnit() const = 0;
 
 	//Rect of aperture in unit coordinates
-	virtual const _LFRect&	baseRect() const = 0;
+	//virtual const _LFRect&	baseRect() const = 0;
 	
 };
 // weak 
@@ -314,7 +315,7 @@ public:
 class ILFModel
 {
 public:
-	virtual ILFDictinary*	Dictinary() = 0;
+	virtual ILFDictinary*	Dictionary() = 0;
 	virtual ILFDescriptor*  Descriptor() = 0;
 	virtual ILFParameters* Parameters() = 0;
 

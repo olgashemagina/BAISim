@@ -14,6 +14,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LocalDebuggerCommand>..\..\..\bin\x64\Debug\$(TargetName)$(TargetExt)</LocalDebuggerCommand>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>-b e:\frames\dbexport\csbuild_ball.xml</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-b C:\data\digits\csbuild_6.xml</LocalDebuggerCommandArguments>
   </PropertyGroup>
 </Project>

@@ -64,6 +64,7 @@ extern "C"
 #include <vector>
 #include <iostream>
 #include <stdio.h>
+#include <math.h>
 #include "tinyxml.h"
 
 typedef void (*TLFProgress)(const char* lpMessage, int progress);
@@ -163,7 +164,8 @@ public:
 	ILFFeature(int sxbase, int sybase, int wbase, int hbase) 
 		: m_base(sxbase, sybase, wbase, hbase) {}
 
-	explicit ILFFeature(ILFFeature* pFeature) : ILFFeature() {
+	explicit ILFFeature(ILFFeature* pFeature) {
+		m_base.SetRect(0, 0, 1, 1);
 		if (pFeature) {
 			m_base = pFeature->m_base;
 		}

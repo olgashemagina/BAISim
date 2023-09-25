@@ -73,7 +73,7 @@ double            TLFAFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTran
 	if (pImage == NULL)
 		return 0;
 
-	auto rect = transform.Apply(m_base);
+	TLFRect rect = transform.Apply(m_base);
 
 	int w = rect.Width();
 	int h = rect.Height();
@@ -107,7 +107,7 @@ unsigned int      TLFSFeature::uCalcValue(TLFImage* pImage, const TLFAlignedTran
 double            TLFSFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const {
 	if (pImage == NULL)
 		return 0;
-	auto rect = transform.Apply(m_base);
+	TLFRect rect = transform.Apply(m_base);
 
 	int w = rect.Width();
 	int h = rect.Height();
@@ -139,7 +139,7 @@ unsigned int      TLFSAFeature::uCalcValue(TLFImage* pImage, const TLFAlignedTra
 {
 	if (pImage == NULL)
 		return 0;
-	auto rect = transform.Apply(m_base);
+	TLFRect rect = transform.Apply(m_base);
 
 	int w = rect.Width();
 	int h = rect.Height();
@@ -157,7 +157,7 @@ unsigned int      TLFSAFeature::uCalcValue(TLFImage* pImage, const TLFAlignedTra
 	v1 /= s;
 	v2 /= s;
 	v = v2 - v1 * v1;
-	return v >= 0 ? unsigned int(floor(16 * floor((floor(sqrt(v) / 16. + 0.5))) + v1 / 16. + 0.5)) : 0;
+	return v >= 0 ? (unsigned int)(floor(16 * floor((floor(sqrt(v) / 16. + 0.5))) + v1 / 16. + 0.5)) : 0;
 }
 
 double            TLFSAFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
@@ -194,7 +194,7 @@ double            TLFHFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTran
 {
 	if (pImage == NULL)
 		return 0;
-	auto rect = transform.Apply(m_base);
+	TLFRect rect = transform.Apply(m_base);
 
 	int w = rect.Width();
 	int h = rect.Height();
@@ -243,7 +243,7 @@ double            TLFVFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTran
 {
 	if (pImage == NULL)
 		return 0;
-	auto rect = transform.Apply(m_base);
+	TLFRect rect = transform.Apply(m_base);
 
 	int w = rect.Width();
 	int h = rect.Height();
@@ -292,7 +292,7 @@ double            TLFDFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTran
 	if (pImage == NULL)
 		return 0;
 
-	auto rect = transform.Apply(m_base);
+	TLFRect rect = transform.Apply(m_base);
 
 	int w = rect.Width();
 	int h = rect.Height();
@@ -344,7 +344,7 @@ double            TLFCFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTran
 	if (pImage == NULL)
 		return 0;
 
-	auto rect = transform.Apply(m_base);
+	TLFRect rect = transform.Apply(m_base);
 
 	int w = rect.Width();
 	int h = rect.Height();
@@ -404,7 +404,7 @@ TLFLBPFeature::TLFLBPFeature(int sxbase, int sybase, int wbase, int hbase) : ILF
 int  TLFLBPFeature::CalcValue(awpImage* pImage, double avg, const TLFAlignedTransform& transform) const {
 
 
-	auto transformed = transform.Apply(m_base);
+	TLFRect transformed = transform.Apply(m_base);
 
 	int w = transformed.Width();
 	int h = transformed.Height();
@@ -497,7 +497,7 @@ unsigned int      TLFColorSensor9Bit::uCalcValue(TLFImage* pImage, const TLFAlig
 		pImage->GetRedIntegral() == NULL)
 		return 0;
 
-	auto rect = transform.Apply(m_base);
+	TLFRect rect = transform.Apply(m_base);
 
 	int w = rect.Width();
 	int h = rect.Height();
@@ -555,7 +555,7 @@ double            TLFLHFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTra
 	if (pImage == NULL)
 		return 0;
 
-	auto rect = transform.Apply(m_base);
+	TLFRect rect = transform.Apply(m_base);
 
 	int w = rect.Width();
 	int h = rect.Height();
@@ -607,7 +607,7 @@ double            TLFLVFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTra
 	if (pImage == NULL)
 		return 0;
 
-	auto rect = transform.Apply(m_base);
+	TLFRect rect = transform.Apply(m_base);
 
 	int w = rect.Width();
 	int h = rect.Height();
@@ -649,7 +649,7 @@ TCSSensor::TCSSensor(TCSSensor* sensor) : ILFFeature(sensor) {}
 int  TCSSensor::CalcValue(awpImage* pImage, double avg, const TLFAlignedTransform& transform) const {
 
 
-	auto transformed = transform.Apply(m_base);
+	TLFRect transformed = transform.Apply(m_base);
 
 	int w = transformed.Width();
 	int h = transformed.Height();
