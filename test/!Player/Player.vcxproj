@@ -82,6 +82,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>..\..\awpipl2\include\;..\..\TinyXML\src\;..\..\opencv\include\;..\..\awpcvvideo\;..\..\awplflib\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\opencv\x64\vc12\lib\;..\..\lib\x64\Debug\;..\..\bin\x64\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

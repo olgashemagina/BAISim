@@ -296,8 +296,9 @@ int  TSCObjectDetector::ClassifyRect(awpRect fragment, double* err, int* vect)
 	double totalScore = 0;
 	double scale_x = (fragment.right - fragment.left) / double(m_baseWidth);
 	double scale_y = (fragment.bottom - fragment.top) / double(m_baseHeight);
+	double scale = std::min<double>(scale_x, scale_y);
 
-	TLFAlignedTransform transform(scale_x, scale_y, fragment.left, fragment.top);
+	TLFAlignedTransform transform = TLFAlignedTransform(scale, scale, fragment.left, fragment.top);
 	for (int j = 0; j < m_Strongs.GetCount(); j++)
     {
 		double score = 0;
@@ -343,8 +344,9 @@ int  TSCObjectDetector::Detect()
 
 			double scale_x = (rect.right - rect.left)/double(this->m_baseWidth);
 			double scale_y = (rect.bottom - rect.top) / double(this->m_baseHeight);
+			double scale = std::min<double>(scale_x, scale_y);
 
-			TLFAlignedTransform transform(scale_x, scale_y, rect.left, rect.top);
+			TLFAlignedTransform transform(scale, scale, rect.left, rect.top);
 
 			for (int j = 0; j < m_Strongs.GetCount(); j++)
 			{
@@ -423,7 +425,9 @@ int TSCObjectDetector::DetectInRect(awpRect roi)
 				double scale_x = (rect.right - rect.left) / double(this->m_baseWidth);
 				double scale_y = (rect.bottom - rect.top) / double(this->m_baseHeight);
 
-				TLFAlignedTransform transform(scale_x, scale_y, rect.left, rect.top);
+				double scale = std::min<double>(scale_x, scale_y);
+
+				TLFAlignedTransform transform(scale, scale, rect.left, rect.top);
 
 				m_scanner->GetFragment(i)->raiting = 0;
 				for (int j = 0; j < m_Strongs.GetCount(); j++)

@@ -376,7 +376,7 @@ public:
 	}
 
 	//Base Unit of feature
- /*	virtual const _LFRect baseUnit() const {
+ 	virtual const _LFRect& baseUnit() const {
 		_LFRect r = { (double)m_base.Left(), (double)m_base.Top(), (double)(m_base.Width()), (double)(m_base.Height()) };
 		return r;
 	}
@@ -386,7 +386,7 @@ public:
 		return _LFRect{ (double)m_base.Left(), (double)m_base.Top(), (double)(3 * m_base.Width()), (double)(3 * m_base.Height()) };
 	}
 
- */
+ 
 	virtual const char* GetName()
 	{
 		return "CSFeature";

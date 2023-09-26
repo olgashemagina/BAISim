@@ -479,10 +479,24 @@ public:
 						int(rect.Height() * m_scale_y + 0.5) );
 	}
 
+	bool operator == (const TLFAlignedTransform& other) const {
+		return m_scale_x == other.m_scale_x && m_scale_y == other.m_scale_y && m_dx == other.m_dx && m_dy == other.m_dy;
+	}
+
+	bool operator != (const TLFAlignedTransform& other) const {
+		return !(*this == other);
+	}
+
 
 	virtual const char* GetName()
 	{
 		return "TLFAlignedTransform";
+	}
+
+public:
+	static TLFAlignedTransform	GetTransform(TLFImage* image, double base_width, double base_height, int dx = 0, int dy = 0) {
+		double scale = std::min<double>(image->width() / base_width, image->height() / base_height);
+		return TLFAlignedTransform(scale, scale, dx, dy);
 	}
 };
 

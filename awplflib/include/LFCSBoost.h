@@ -94,6 +94,8 @@ protected:
     void   PrintFeature(ILFFeature* pSensor);
     bool   LoadSample(TLFObjectList& SampleList, int flag, std::string const& path);
     double PrintStatistics(TCSStrong& Class, double& afrr);
+
+	
 public:
     TCSAdaBoost();
 

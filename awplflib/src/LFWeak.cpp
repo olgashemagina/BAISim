@@ -214,14 +214,10 @@ void TCSWeakTraining::Train()
 }
 
 void TCSWeakTraining::AddSample(TCSSample* pSample,int  flag, double weight, int base_width, int base_height)
-{
-	double factor = std::min<double>(pSample->GetImage()->sSizeX / double(base_width), pSample->GetImage()->sSizeY / double(base_height));
-
-	TLFAlignedTransform transform(factor);
-		
+{		
 	awpImage* img = pSample->GetIntegralImage();
 
-	int idx = m_pFeature->uCalcValue(pSample, transform);//sensor->CalcValue(img);
+	int idx = m_pFeature->uCalcValue(pSample, TLFAlignedTransform::GetTransform(pSample, base_width, base_height));//sensor->CalcValue(img);
 	if (flag == 1)
 		m_FacesDistrib[idx] += weight;
 	else if (flag == 0)
