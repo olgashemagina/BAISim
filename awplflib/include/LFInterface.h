@@ -11,7 +11,7 @@
 //                           License Agreement
 //                  Locate Framework  Computer Vision Library
 //
-// Copyright (C) 2004-2018, NN-Videolab.net, all rights reserved.
+// Copyright (C) 2004-2022, NN-Videolab.net, all rights reserved.
 // Third party copyrights are property of their respective owners.
 //
 // Redistribution and use in source and binary forms, with or without modification,
@@ -42,10 +42,9 @@
 //		File: LFinterface.h
 //		Purpose: Contains abstracts for Locate Framework
 //
-//      CopyRight 2004-2018 (c) NN-Videolab.net
+//      CopyRight 2004-2022 (c) NN-Videolab.net
 //M*/
-#include <float.h>
-#include <math.h>
+
 
 typedef struct _LFPoint {
 	double x;
@@ -198,7 +197,7 @@ public:
 	LF_SHAPE_TYPE Shape();
 };
 
-class ILFDictinary
+class ILFDictionary
 {
 public: 
 	virtual const char* dictID() = 0;
@@ -258,10 +257,10 @@ public:
 	virtual double			dValue(ILFImage* image, double scale_x, double scale_y, int dx, int dy) const = 0;
 
 	//Base Unit of feature
-	//virtual const _LFRect&	baseUnit() const = 0;
+	virtual const _LFRect&	baseUnit() const = 0;
 
 	//Rect of aperture in unit coordinates
-	//virtual const _LFRect&	baseRect() const = 0;
+	virtual const _LFRect&	baseRect() const = 0;
 	
 };
 // weak 
@@ -315,7 +314,7 @@ public:
 class ILFModel
 {
 public:
-	virtual ILFDictinary*	Dictionary() = 0;
+	virtual ILFDictionary*	Dictionary() = 0;
 	virtual ILFDescriptor*  Descriptor() = 0;
 	virtual ILFParameters* Parameters() = 0;
 
@@ -326,9 +325,20 @@ public:
 
 
 // database 
-// todo: add database imterface 
+class ILFDataset
+{
+public:
+	virtual size_t Size() = 0;
+	virtual ILFDictionary* Dictionary(size_t index) = 0;
+	virtual ILFDescriptor* Descriptor(size_t index) = 0;
+	virtual ILFParameters* Parameters(size_t index) = 0;
+};
 
 // trainer 
-// todo: add trainer interface 
+class ILFTrainer
+{
+public:
+	virtual ILFModel* Train(ILFDataset*) = 0;
+};
 
 // Create Instance Functions 
