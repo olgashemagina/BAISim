@@ -138,18 +138,11 @@
         <CppCompile Include="..\src\LFAttrFilter.cpp">
             <BuildOrder>40</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\src\LFAvgFeature.cpp">
-            <BuildOrder>24</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\src\LFBuffer.cpp">
             <BuildOrder>34</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\src\LFCluster.cpp">
             <BuildOrder>29</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\src\LFColorDetector.cpp">
-            <BuildOrder>26</BuildOrder>
-            <BuildOrder>22</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\src\LFCommon.cpp">
             <BuildOrder>29</BuildOrder>
@@ -200,14 +193,8 @@
         <CppCompile Include="..\src\LFImageProcessor.cpp">
             <BuildOrder>27</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\src\LFLabColor.cpp">
-            <BuildOrder>31</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\src\LFLandmarks.cpp">
             <BuildOrder>36</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\src\LFMotion.cpp">
-            <BuildOrder>33</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\src\LFParameter.cpp">
             <BuildOrder>71</BuildOrder>
@@ -410,14 +397,14 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx64\libcgcrtl.dylib" Class="DependencyModule"/>
-                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx64\libcgcrtl.dylib" Class="DependencyModule">
-                    <Platform Name="OSX64">
+                <DeployFile LocalName="..\..\Modules\utils\photon4\lib\awplflibb.lib" Configuration="Release" Class="ProjectOutput"/>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64160mt.dll" Class="DependencyModule"/>
+                <DeployFile LocalName="..\..\..\..\photon4\\lib\awplflibb.lib" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c270mt.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\..\photon4\\lib\awplflibb.lib" Configuration="Debug" Class="ProjectOutput"/>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64160.dll" Class="DependencyModule"/>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32260mt.dll" Class="DependencyModule"/>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64160.dll" Class="DependencyModule">
                     <Platform Name="Win64">
@@ -534,7 +521,7 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="..\..\Modules\utils\photon4\\lib\awplflibb.lib" Configuration="Debug" Class="ProjectOutput"/>
-                <DeployFile LocalName="..\lib\awplflibb.lib" Configuration="Release" Class="ProjectOutput">
+                <DeployFile LocalName="c:\_alt\_proj\awplflib\lib\awplflibb.lib" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>awplflibb.lib</RemoteName>
                         <Overwrite>true</Overwrite>
@@ -546,13 +533,13 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="..\..\Modules\utils\photon4\lib\awplflibb.lib" Configuration="Debug" Class="ProjectOutput"/>
-                <DeployFile LocalName="..\..\Modules\utils\photon4\lib\awplflibb.lib" Configuration="Release" Class="ProjectOutput"/>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64160mt.dll" Class="DependencyModule"/>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c270mt.dll" Class="DependencyModule">
-                    <Platform Name="Win32">
+                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx64\libcgcrtl.dylib" Class="DependencyModule"/>
+                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx64\libcgcrtl.dylib" Class="DependencyModule">
+                    <Platform Name="OSX64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64160.dll" Class="DependencyModule"/>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="OSX32">
                         <Operation>1</Operation>
