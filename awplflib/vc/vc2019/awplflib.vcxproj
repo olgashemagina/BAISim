@@ -95,7 +95,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\..\TinyXML;..\..\..\awpipl2\include;..\..\include;..\..\..\TinyXML\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>TIXML_USE_STL;WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions);LOAD_FROM_STREAM</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TIXML_USE_STL;WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_OMP_;%(PreprocessorDefinitions);LOAD_FROM_STREAM</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <ExceptionHandling>Sync</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -115,6 +115,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CallingConvention>Cdecl</CallingConvention>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -295,6 +296,7 @@
     <ClInclude Include="..\..\include\LFFileUtils.h" />
     <ClInclude Include="..\..\include\LFGeometry.h" />
     <ClInclude Include="..\..\include\LFHistogramm.h" />
+    <ClInclude Include="..\..\include\LFImage.h" />
     <ClInclude Include="..\..\include\LFImageProcessor.h" />
     <ClInclude Include="..\..\include\LFInterface.h" />
     <ClInclude Include="..\..\include\LFLandmarks.h" />
@@ -310,7 +312,6 @@
     <ClInclude Include="..\..\include\LFVector.h" />
     <ClInclude Include="..\..\include\LFWeak.h" />
     <ClInclude Include="..\..\include\LFZone.h" />
-    <ClInclude Include="..\..\include\_LF.h" />
     <ClInclude Include="..\..\include\_LFParameters.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
