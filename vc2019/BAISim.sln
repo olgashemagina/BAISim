@@ -38,6 +38,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Player", "..\test\Player\Pl
 		{505806D4-64FC-43A4-AD85-F1C94CBCE59A} = {505806D4-64FC-43A4-AD85-F1C94CBCE59A}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "semantic_desc", "..\awplflib\vc\vc2019\semantic_desc\semantic_desc.vcxproj", "{D699E71E-8457-46D1-9A6E-96C0043B9012}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -118,6 +120,14 @@ Global
 		{C48DF8E0-F07E-48D5-AEB4-997CCEB7F44C}.Release|Win32.Build.0 = Release|Win32
 		{C48DF8E0-F07E-48D5-AEB4-997CCEB7F44C}.Release|x64.ActiveCfg = Release|x64
 		{C48DF8E0-F07E-48D5-AEB4-997CCEB7F44C}.Release|x64.Build.0 = Release|x64
+		{D699E71E-8457-46D1-9A6E-96C0043B9012}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D699E71E-8457-46D1-9A6E-96C0043B9012}.Debug|Win32.Build.0 = Debug|Win32
+		{D699E71E-8457-46D1-9A6E-96C0043B9012}.Debug|x64.ActiveCfg = Debug|x64
+		{D699E71E-8457-46D1-9A6E-96C0043B9012}.Debug|x64.Build.0 = Debug|x64
+		{D699E71E-8457-46D1-9A6E-96C0043B9012}.Release|Win32.ActiveCfg = Release|Win32
+		{D699E71E-8457-46D1-9A6E-96C0043B9012}.Release|Win32.Build.0 = Release|Win32
+		{D699E71E-8457-46D1-9A6E-96C0043B9012}.Release|x64.ActiveCfg = Release|x64
+		{D699E71E-8457-46D1-9A6E-96C0043B9012}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

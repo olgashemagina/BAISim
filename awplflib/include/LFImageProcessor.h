@@ -2,7 +2,7 @@
 
 #ifndef _LF_IMAGE_PROCESSOR_H_
 #define _LF_IMAGE_PROCESSOR_H_
-
+#include "LFGeometry.h"
 /** \addtogroup LFInterfaces
 *   @{
 */

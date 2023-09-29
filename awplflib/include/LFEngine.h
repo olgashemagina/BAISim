@@ -44,6 +44,7 @@
 //      CopyRight 2004-2018 (c) NN-Videolab.net
 //M*/
 
+#include "LFThresholdProc.h"
 #ifndef __LFENGINE_H__
 #define __LFENGINE_H__
 /** \defgroup LFEngines

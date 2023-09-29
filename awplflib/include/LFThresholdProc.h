@@ -49,7 +49,7 @@
 *	(obsolete)Implementation threshold image processor 
 *   @{
 */
-
+#include "LFImageProcessor.h"
 typedef struct tagSLFBinaryMoments
 {
 	double area;
