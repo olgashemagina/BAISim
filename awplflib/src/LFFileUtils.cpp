@@ -1,4 +1,15 @@
-#include "_LF.h"
+#include "LFFileUtils.h"
+
+#include <algorithm>
+
+#ifdef WIN32
+#include <io.h>
+#include <direct.h>
+#include <string>
+#else
+#include <dirent.h>
+#endif
+
 #include "stdio.h"
 #ifndef __BCPLUSPLUS__
 #include <sys/stat.h> 
@@ -236,7 +247,7 @@ static bool _LFGetDirNamesWindows(const char* lpDir, TLFStrings& names)
 	{
 		do
 		{
-			string name = path + filesInfo.name;
+			std::string name = path + filesInfo.name;
 			names.push_back(name);
 
 		} while (!_findnext(handle, &filesInfo));

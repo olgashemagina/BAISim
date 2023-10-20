@@ -46,6 +46,10 @@
 
 #ifndef _LF_PARAMETER_H_
 #define _LF_PARAMETER_H_
+
+#include "LFCore.h"
+#include <float.h>
+
 /** \defgroup LFParameter
 *	Implementation paramenter im the Locate Framework 
 *	@{

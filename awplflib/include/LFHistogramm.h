@@ -46,6 +46,8 @@
 #ifndef _lf_histogramm_h_
 #define _lf_histogramm_h_
 
+#include "LFCore.h"
+
 /** \addtogroup LFBuffers
 *   @{
 */

@@ -49,6 +49,9 @@
 *	Implementation lebeled lists of numbers in the Locate Framework
 *   @{
 */
+
+#include "LFCore.h"
+
 class TLFDouble : public TLFObject
 {
 protected:

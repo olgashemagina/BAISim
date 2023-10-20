@@ -4,7 +4,8 @@
     Purpose: ILFStrong implementation
     Copyright (c) AWPSoft.
 */
-#include "_LF.h"
+#include "LF.h"
+#include "LFStrong.h"
 
 ILFStrong::ILFStrong()
 {
@@ -15,15 +16,6 @@ ILFStrong::~ILFStrong()
     // empty
 }
 
-void ILFStrong::Setup(double scale_x, double scale_y,  AWPWORD dx, AWPWORD dy)
-{
-    for (int i = 0; i < GetCount(); i++)
-    {
-        ILFWeak* w = (ILFWeak*)Get(i);
-        if (w != NULL)
-            w->Setup(scale_x, scale_y, dx, dy);
-    }
-}
 
 ILFWeak* ILFStrong::GetWeak(int index)
 {

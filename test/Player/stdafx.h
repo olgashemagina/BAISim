@@ -9,7 +9,8 @@
 //#include "opencv\cv.h"
 //#include "opencv\highgui.h"
 #include "awpcvvideo.h"
-#include "..\..\awplflib\include\_LF.h"
+#include "..\..\awplflib\include\LF.h"
+#include "..\..\awplflib\include\LFDetector.h"
 
 
 

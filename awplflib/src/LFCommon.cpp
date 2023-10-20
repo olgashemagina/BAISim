@@ -44,7 +44,9 @@
 //
 //      CopyRight 2004-2018 (c) NN-Videolab.net
 //M*/
-#include "_LF.h"
+#include "LFCore.h"
+#include "LF.h"
+#include "LFFileUtils.h"
 
 /*
     TLFObject
@@ -258,7 +260,7 @@ TLFObjectList::~TLFObjectList()
     Clear();
 }
 
-TLFObject*  TLFObjectList::Get(int index)
+TLFObject*  TLFObjectList::Get(int index) const
 {
     if (index < 0 || index >= m_Count)
         return NULL;
@@ -384,11 +386,11 @@ TLFObject* TLFObjectList::Extract(TLFObject* pObject)
     return res;
 }
 
-TLFObject* TLFObjectList::First()
+TLFObject* TLFObjectList::First() const
 {
     return Get(0);
 }
-int TLFObjectList::IndexOf(TLFObject* pObject)
+int TLFObjectList::IndexOf(TLFObject* pObject) const
 {
     int res = 0;
     while (res < m_Count && m_List[res] != pObject)
@@ -410,7 +412,7 @@ void TLFObjectList::Insert(int index, TLFObject* pObject)
     m_Count++;
 }
 
-TLFObject* TLFObjectList::Last()
+TLFObject* TLFObjectList::Last() const
 {
     return Get(m_Count -1);
 }
@@ -486,17 +488,17 @@ void TLFObjectList::Sort(TLFListSortCompare Compare)
 }
 
 // property
-int TLFObjectList::GetCapacity()
+int TLFObjectList::GetCapacity() const
 {
     return m_Capacity;
 }
 
-int TLFObjectList::GetCount()
+int TLFObjectList::GetCount() const
 {
 	return m_Count;
 }
 
-TLFObject** TLFObjectList::GetList()
+TLFObject** TLFObjectList::GetList() const
 {
     return m_List;
 }
@@ -736,8 +738,19 @@ bool TLFSemanticImageDescriptor::AddDetectedItem(TLFDetectedItem* item)
     if (item->GetBounds() == NULL)
         return false;
 
-    TLFRect* r = item->GetBounds();
+	TLFDetectedItem* detected = new TLFDetectedItem(item);
+    TLFRect* r = detected->GetBounds();
+
+	//Fixes Bounds
+	//TODO: move to OverlapFilter
+
     awpRect rr = r->GetRect();
+	rr.left = std::max<int>(rr.left, 0);
+	rr.right = std::min<int>(rr.right, m_imageWidth);
+	rr.top = std::max<int>(rr.top, 0);
+	rr.bottom = std::min<int>(rr.bottom, m_imageHeight);
+	
+	r->SetRect(rr);
 	/*
     if (awpRectInImage(this->m_Image.GetImage(), &rr) !=AWP_OK)
     {
@@ -760,7 +773,7 @@ bool TLFSemanticImageDescriptor::AddDetectedItem(TLFDetectedItem* item)
     }
 	*/
 
-    Add(new TLFDetectedItem(item));
+    Add(detected);
     return true;
 }
 bool TLFSemanticImageDescriptor::DeleteDetectedItem(int Index)

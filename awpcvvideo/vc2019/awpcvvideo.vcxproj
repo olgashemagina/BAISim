@@ -101,7 +101,6 @@
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
       <ModuleDefinitionFile>..\awpcvvideo.def</ModuleDefinitionFile>
-      <OutputFile>..\..\bin\x86\Debug\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -142,7 +141,7 @@
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
       <ModuleDefinitionFile>..\awpcvvideo.def</ModuleDefinitionFile>
-      <OutputFile>..\..\bin\x86\Release\$(TargetName)$(TargetExt)</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <ImportLibrary>..\..\..\..\lib\win32\$(TargetName).lib</ImportLibrary>
     </Link>

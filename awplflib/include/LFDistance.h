@@ -49,6 +49,17 @@
 *	List of doubles with Class Label
 *   @{
 */
+
+#include "LFCore.h"
+#include "LFVector.h"
+
+// distcance
+class ILFDistance : public TLFObject
+{
+public:
+	virtual double ro(TLFDblVector* v1, TLFDblVector* v2) = 0;
+};
+
 // distanses
 class TLFL2Distance : public ILFDistance
 {

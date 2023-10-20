@@ -42,15 +42,18 @@
 //      CopyRight 2004-2020 (c) NN-Videolab.net
 //M*/
 
-#ifndef _lf_file_utils_h_ 
+#ifndef _lf_file_utils_h_
 #define _lf_file_utils_h_ 
 
-using namespace std;
 
 /** \defgroup LFFileUtils
 *	Implementation of file system related routines 
 *   @{
 */
+
+#include <string>
+
+#include "LFCore.h"
 
 
 extern "C"
@@ -80,7 +83,8 @@ extern "C"
 #endif
 //functions to work with file names
 #if __BCPLUSPLUS__ != 0
-	string LFGetFilePath(const string& strPath)
+    using namespace std;
+	std::string LFGetFilePath(const std::string& strPath)
 	{
 		const string c = c_separator;
 		int len = strPath.find_last_of(c);
@@ -126,24 +130,24 @@ extern "C"
 		return strPath + strName + strExt;
 	}
 #else
-	string LFGetFilePath(const string& strPath);
-	string LFGetFileExt(const string&  strFileName);
-	string LFGetFileName(const string&  strFileName);
-	string LFChangeFileExt(string& strFileName, string strExt);
-	string LFMakeFileName(string& strPath, string strName, string strExt);
+	std::string LFGetFilePath(const std::string& strPath);
+	std::string LFGetFileExt(const std::string&  strFileName);
+	std::string LFGetFileName(const std::string&  strFileName);
+	std::string LFChangeFileExt(std::string& strFileName, std::string strExt);
+	std::string LFMakeFileName(std::string& strPath, std::string strName, std::string strExt);
 #endif
 //functions to work with file system
 bool LFCreateDir(const char* lpPath);
 bool LFDirExist(const char* lpPath);
 bool LFRemoveDir(const char* lpPath);
-bool LFFileExists(const string& strFileName);
+bool LFFileExists(const std::string& strFileName);
 bool LFDeleteFile(const char* lpName);
 bool LFGetDirFiles(const char* lpDir, TLFStrings& names);
 bool LFIsImageFile(const char* fileName);
 bool LFIsVideoFile(const char* fileName);
 // functions to convert data
-string LFIntToStr(int value);
-string LFGUIDToString(UUID* id);
+std::string LFIntToStr(int value);
+std::string LFGUIDToString(UUID* id);
 void  LFStringToUUID(const TLFString& strUUID, UUID* id);
 // functions to work with time
 unsigned long LFGetTickCount();

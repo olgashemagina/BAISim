@@ -46,6 +46,8 @@
 #ifndef LFZONEH
 #define LFZONEH
 
+#include "LF.h"
+
 /** \defgroup LFZones
 *	Imlementationi zones of interest in the Locate Framework
 *   @{

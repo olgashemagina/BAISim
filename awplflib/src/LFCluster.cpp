@@ -45,8 +45,11 @@
 //      CopyRight 2004-2018 (c) NN-Videolab.net
 //M*/
 
-#include "_LF.h"
-#include "float.h"
+#include "LFCluster.h"
+#include "LFFileUtils.h"
+#include "LFScanners.h"
+
+#include <float.h>
 TLFClusterItem::TLFClusterItem(TLFDetectedItem* item)
 {
 	this->m_di = item;

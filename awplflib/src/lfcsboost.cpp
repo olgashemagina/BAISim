@@ -1,5 +1,21 @@
 
-#include "_LF.h"
+#include <algorithm>
+
+#include "LFCSBoost.h"
+#include "LFFileUtils.h"
+
+#ifdef _OMP_
+#include <omp.h>
+#endif
+
+
+#ifdef WIN32
+#include <io.h>
+#include <direct.h>
+#else
+#include <dirent.h>
+#endif
+
 
 
 using namespace std; 
@@ -198,11 +214,8 @@ bool TCSAdaBoost::Boost(int stage)
             for ( int i = 0; i < m_TrainingSamples.GetCount(); i++)
             {
                 TCSSample* s = (TCSSample*)m_TrainingSamples.Get(i);
-
-				double factor = std::min<double>((double)(s->GetImage()->sSizeX) / m_widthBase, (double)(s->GetImage()->sSizeY) / m_heightBase);
-				wcinfo->Scale(factor);
-
-				int res = wcinfo->Classify( s );
+								
+				int res = wcinfo->Classify( s, TLFAlignedTransform::GetTransform(s, this->m_widthBase, this->m_heightBase));
 
                 if ( s->GetFlag() != res )
                 {
@@ -264,19 +277,23 @@ bool TCSAdaBoost::Boost(int stage)
 
         // для каждого образца обновим веса
         double wt = 0;
+		double debug_eps = 0;
         for ( int i = 0; i < m_TrainingSamples.GetCount(); i++ )
         {
             TCSSample* s = (TCSSample*)m_TrainingSamples.Get(i);
 
             int res = 0;
             double err = 0;
-			double factor = (double)(s->GetImage()->sSizeX)/m_widthBase;
-			pWc->Scale(factor);
-            res = pWc->Classify( s );
+					
+			
+            res = pWc->Classify( s, TLFAlignedTransform::GetTransform(s, m_widthBase, m_heightBase));
 
 
-            if ( res == s->GetFlag() )
-                s->SetWeight(s->GetWeight()*beta);
+			if (res == s->GetFlag())
+				s->SetWeight(s->GetWeight() * beta);
+			else
+				debug_eps += s->GetWeight();
+
             wt += s->GetWeight();
         }
 
@@ -521,10 +538,11 @@ void TCSAdaBoost::InitFeatures()
 
 void TCSAdaBoost::PrintFeature(ILFFeature* pSensor)
 {
-    DbgMsg( "Found feature:" + TypeToStr(pSensor->GetName()) + " x = " + TypeToStr( pSensor->sxBase() ) +
-        ", y = " + TypeToStr( pSensor->syBase() ) +
-        ", width = " + TypeToStr( pSensor->wUnitBase() ) +
-        ", height = " + TypeToStr( pSensor->hUnitBase() ) + ";\n");
+	const TLFRect& base = pSensor->UnitBase();
+    DbgMsg( "Found feature:" + TypeToStr(pSensor->GetName()) + " x = " + TypeToStr( base.Left() ) +
+        ", y = " + TypeToStr( base.Top() ) +
+        ", width = " + TypeToStr( base.Width() ) +
+        ", height = " + TypeToStr( base.Height() ) + ";\n");
 }
 
 double TCSAdaBoost::PrintStatistics(TCSStrong& Class, double& afrr)
@@ -538,26 +556,18 @@ double TCSAdaBoost::PrintStatistics(TCSStrong& Class, double& afrr)
         TCSSample* s = (TCSSample*)m_TrainingSamples.Get(i);
 
         double err = 0;
-		awpRect r; r.left =0; r.top = 0;
-		r.right = s->GetImage()->sSizeX;
-		r.bottom = s->GetImage()->sSizeY;
-		Class.Setup(r, m_widthBase);
+	
 
-		Class.Classify(s, err );
+		auto res = Class.Classify(s, TLFAlignedTransform::GetTransform(s, m_widthBase, m_heightBase), err);
 
         if ( s->GetFlag() == 1 )
         {
-			if (err < min_err)
-				min_err = err;
+			if (res <= 0) dFrr += 1.0;
 
-            if ( err < Class.GetThreshold() ) dFrr += 1.0;
         }
         else
         {
-            if ( err >= Class.GetThreshold() )
-            {
-                dFar += 1.0;
-            }
+			if (res > 0) dFar += 1.0;
         }
 
 
@@ -591,13 +601,9 @@ double TCSAdaBoost::PrintStatistics(TCSStrong& Class, double& afrr)
         TCSSample* s = (TCSSample*)m_TrainingSamples.Get(i);
 
         double err = 0;
-		awpRect r; r.left =0; r.top = 0;
-		r.right = s->GetImage()->sSizeX;
-		r.bottom = s->GetImage()->sSizeY;
-		Class.Setup(r, m_widthBase);
 
 
-        Class.Classify( s, err );
+        Class.Classify( s, TLFAlignedTransform::GetTransform(s, m_widthBase, m_heightBase), err);
 
         if ( s->GetFlag() == 1 )
         {
@@ -666,12 +672,8 @@ void   TCSAdaBoost::SaveFRRSamples(int stage)
 		if (s->GetFlag() == 1)
 		{
 			double err = 0;
-			awpRect r; r.left =0; r.top = 0;
-			r.right = s->GetImage()->sSizeX;
-			r.bottom = s->GetImage()->sSizeY;
 
-			this->m_ResultClass.Setup(r, m_widthBase);
-			this->m_ResultClass.Classify(s, err);
+			this->m_ResultClass.Classify(s, TLFAlignedTransform::GetTransform(s, m_widthBase, m_heightBase), err);
 			s->SetRating(err);
 			
 			positiveSamples.Add (new TCSSample(s));
@@ -864,7 +866,7 @@ bool TCSAdaBoostSign::Boost()
             {
                 TCSSample* s = (TCSSample*)m_TrainingSamples.Get(i);
 
-                int res = wcinfo->Classify( s );
+                int res = wcinfo->Classify( s, TLFAlignedTransform(1) );
 
                 if ( s->GetFlag() != res )
                 {
@@ -918,7 +920,7 @@ bool TCSAdaBoostSign::Boost()
 
             int res = 0;
             double err = 0;
-            res = pWc->Classify( s );
+            res = pWc->Classify( s, TLFAlignedTransform(1) );
 
             if ( res == s->GetFlag() )
                 s->SetWeight(s->GetWeight()*beta);
@@ -1065,13 +1067,9 @@ void    TCSAdaBoostSign::Statistics()
         TCSSample* s = (TCSSample*)m_TrainingSamples.Get(i);
 
         double err = 0;
-		//double factor = (double)(s->GetImage()->sSizeX)/24.0;
-		awpRect r; r.left =0; r.top = 0;
-		r.right = s->GetImage()->sSizeX;
-		r.bottom = s->GetImage()->sSizeY;
-		m_ResultClass.Setup(r, m_widthBase);
-
-        int res = m_ResultClass.Classify( s->GetIntegralImage(), err );
+				
+		
+        int res = m_ResultClass.Classify( s->GetIntegralImage(), TLFAlignedTransform::GetTransform(s, m_widthBase, m_heightBase), err );
         if (res != s->GetFlag())
         {
               errt[0]++;
@@ -1100,13 +1098,8 @@ void    TCSAdaBoostSign::Statistics()
         TCSSample* s = (TCSSample*)m_TestingSamples.Get(i);
 
         double err = 0;
-		//double factor = (double)(s->GetImage()->sSizeX)/24.0;
-		awpRect r; r.left =0; r.top = 0;
-		r.right = s->GetImage()->sSizeX;
-		r.bottom = s->GetImage()->sSizeY;
-		m_ResultClass.Setup(r, m_widthBase);
-
-        int res = m_ResultClass.Classify( s->GetIntegralImage(), err );
+				
+        int res = m_ResultClass.Classify( s->GetIntegralImage(), TLFAlignedTransform::GetTransform(s, m_widthBase, m_heightBase), err );
         if (res != s->GetFlag())
         {
               errt[1]++;
@@ -1164,13 +1157,9 @@ void TCSAdaBoostSign::SaveROC(char*lpName)
 	for (int i = 0; i < m_TestingSamples.GetCount(); i++)
 	{
 		TCSSample* s = (TCSSample*)m_TestingSamples.Get(i);
-
-		awpRect r; r.left =0; r.top = 0;
-		r.right = s->GetImage()->sSizeX;
-		r.bottom = s->GetImage()->sSizeY;
-		m_ResultClass.Setup(r, m_widthBase);
+						
 		double err = 0;
-		m_ResultClass.Classify( s->GetIntegralImage(), err );
+		m_ResultClass.Classify( s->GetIntegralImage(), TLFAlignedTransform::GetTransform(s, m_widthBase, m_heightBase), err );
 		if (s->GetFlag() == 1)
 		{
 			fSourceClass1[nc1] = err;

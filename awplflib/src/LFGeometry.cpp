@@ -1,4 +1,5 @@
-#include "_LF.h"
+#include "LFGeometry.h"
+#include "LFUtils.h"
 
 
 TLFPoint::TLFPoint()
@@ -185,14 +186,14 @@ TLFRect::TLFRect(int left, int top, int w, int h)
 	m_Rect.bottom = top + h;
 }
 
-TLFRect::TLFRect(TLFRect& r)
+TLFRect::TLFRect(const TLFRect& r)
 {
 	m_Rect = r.GetRect();
 }
 TLFRect::~TLFRect()
 {}
 
-awpRect TLFRect::GetRect()
+awpRect TLFRect::GetRect() const
 {
  	return m_Rect;
 }
@@ -291,26 +292,7 @@ void TLFRect::Inflate(int x_value, int y_value)
 }
 
 
-AWPSHORT TLFRect::Width()
-{
-    return m_Rect.right - m_Rect.left;
-}
-
-AWPSHORT TLFRect::Height()
-{
-    return m_Rect.bottom - m_Rect.top;
-}
-
-AWPSHORT TLFRect::Right()
-{
-	return m_Rect.right;
-}
-AWPSHORT TLFRect::Bottom()
-{
-	return m_Rect.bottom;
-}
-
-awpPoint TLFRect::Center()
+awpPoint TLFRect::Center() const
 {
 	awpPoint p;
 	p.X = (m_Rect.left + m_Rect.right) / 2;
@@ -460,14 +442,6 @@ void TLFRect::Scale(double coef)
 	m_Rect.bottom = (int)(m_Rect.bottom*coef+0.5);
 }
 
-AWPSHORT  TLFRect::Left()
-{
-	return m_Rect.left;
-}
-AWPSHORT  TLFRect::Top()
-{
-	return m_Rect.top;
-}
 
 /** Load form XML*/
 bool TLFRect::LoadXML(TiXmlElement* parent)

@@ -43,7 +43,7 @@
 //
 //      CopyRight 2004-2018 (c) NN-Videolab.net
 //M*/
-#include "_LF.h"
+#include "LF.h"
 
 TLFCascade::TLFCascade()
 {
@@ -64,16 +64,9 @@ void       TLFCascade::AddStrong(ILFStrong* strong)
 {
 	Add(strong);
 }
-// shift and scale all data in the cascade
-void TLFCascade::Setup(double scale_x, double scale_y, AWPWORD dx, AWPWORD dy)
-{
-	ILFStrong** cascade = (ILFStrong**)GetList();
-	int count = this->GetCount();
-	for (int i = 0; i < count; i++)
-		cascade[i]->Setup(scale_x, scale_y, dx, dy);
-}
 
-int TLFCascade::Classify(TLFImage* pImage, double& err, double* vector)
+
+int TLFCascade::Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double& err, double* vector) const
 {
 	if (pImage == NULL)
 		return 0;
@@ -84,7 +77,7 @@ int TLFCascade::Classify(TLFImage* pImage, double& err, double* vector)
 	int result = 0;
 	for (int i = 0; i < count; i++)
 	{
-		result = cascade[i]->Classify(pImage, error);
+		result = cascade[i]->Classify(pImage, transform, error);
 		err += error;
 		if (vector != NULL)
 			vector[i] = error;

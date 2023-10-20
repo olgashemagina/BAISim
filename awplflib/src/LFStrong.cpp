@@ -1,34 +1,27 @@
-#include "_LF.h"
+#include "LFStrong.h"
 
 //---------------------------------------------------------------------------
 // сильный классификатор, основанный на преобразовании Census
 TCSStrong::TCSStrong()
 {
 }
-// позиционирование
-void TCSStrong::Setup( awpRect const& window, int det_width )
-{
-	double factor = (double)(window.right - window.left) / (double)det_width;
 
-    int c = GetCount();
-    TCSWeak** pWCL = (TCSWeak**)GetList();
-    for (int i = 0; i < c; i++)
-    {
-        pWCL[i]->Scale( factor );
-        pWCL[i]->Shift( window.left, window.top);
-    }
-}
 // классификафия
-int TCSStrong::Classify(TLFImage* pImage, double& err)
+
+int TCSStrong::Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double& score) const
 {
+    double sumWeight = 0;
+    double err = 0;
 	int c = GetCount();
 	if (c == 0)
 		return 0;
 	TCSWeak** pWCL = (TCSWeak**)GetList();
 	for (int i = 0; i < c; i++)
 	{
-		err += pWCL[i]->Weight()* pWCL[i]->Classify(pImage);
+		err += pWCL[i]->Weight()* pWCL[i]->Classify(pImage, transform);
+        sumWeight += pWCL[i]->Weight();
 	}
+    score = err / sumWeight;
 	return ((err - m_threshold) > -0.00001);
 }
 
@@ -86,6 +79,7 @@ TCSStrongSign::TCSStrongSign()
 	m_sumWeakWeight = 0;
 	this->m_Threshold = 0;
 }
+/*
 // позиционирование
 void TCSStrongSign::Setup( awpRect const& window, int det_width )
 {
@@ -98,9 +92,9 @@ void TCSStrongSign::Setup( awpRect const& window, int det_width )
         pWCL[i]->Scale( factor );
         pWCL[i]->Shift( window.left+1, window.top+1);
     }
-}
+}*/
 // классификафия
-int TCSStrongSign::Classify( awpImage* pImage, double& err, double avg)
+int TCSStrongSign::Classify( awpImage* pImage, const TLFAlignedTransform& transform, double& err, double avg)
 {
 	TLFImage image;
 	image.SetImage(pImage);
@@ -109,7 +103,7 @@ int TCSStrongSign::Classify( awpImage* pImage, double& err, double avg)
     err = 0;
     for (int i = 0; i < c; i++)
     {
-        err +=  pWCL[i]->Weight()* pWCL[i]->Classify( &image);
+        err +=  pWCL[i]->Weight()* pWCL[i]->Classify( &image, transform);
     }
     //
     if (fabs(err) > m_Threshold)

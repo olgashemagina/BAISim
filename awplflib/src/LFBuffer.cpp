@@ -44,7 +44,7 @@
 //
 //      CopyRight 2004-2018 (c) NN-Videolab.net
 //M*/
-#include "_LF.h"
+#include "LFBuffer.h"
 /////////// buffer /////////////////////////////////
 TLFBuffer::TLFBuffer(unsigned int size, double value)
 {

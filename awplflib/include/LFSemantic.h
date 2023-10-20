@@ -46,6 +46,9 @@
 #ifndef _lf_semantic_h_
 #define _lf_semantic_h_
 
+#include "LFCore.h"
+#include "LFScanners.h"
+
 /** \defgroup LFSemantic
 *	Implementation of semantic dictionary 
 *   @{

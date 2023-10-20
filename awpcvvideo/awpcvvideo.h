@@ -1,7 +1,7 @@
 #ifndef _awp_cvvideo_h_
 #define _awp_cvvideo_h_
 
-#include "awpipl.h"
+#include <awpipl.h>
 
 
 #ifdef AWPCVVIDEO_EXPORTS

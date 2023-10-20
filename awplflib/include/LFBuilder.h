@@ -46,6 +46,11 @@
 
 #ifndef __lf_builder_h__
 #define __lf_builder_h__
+
+#include "LFCSBoost.h"
+#include "LFEngine.h"
+#include "LFDetector.h"
+
 /** \defgroup LFBuilder
 *	Build cascade structure, based on database of labeled images 
 *   and AdaBoost trainig algorythm

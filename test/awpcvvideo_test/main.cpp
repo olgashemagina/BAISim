@@ -9,6 +9,7 @@ extern "C"
 
 
 #include <stdio.h>
+#include <string>
 
 
 
@@ -23,14 +24,17 @@ extern "C"
             int num = -1;
             awpcvNumFrames(hvideo, &num);
             printf("num frames = %d\n", num);
+            for(int i = 0; i < num; i++)
+            { 
+                awpImage* img = NULL;
 
-            awpImage* img = NULL;
+                awpcvQueryImagePos(hvideo, &img, i);
+                std::string filename = std::to_string(i) + "_out.jpg";
+                awpSaveImage(filename.c_str(), img);
 
-            awpcvQueryImage(hvideo, &img);
-
-            awpSaveImage("out.jpg", img);
-
-            awpcvFreeImage(img);
+                awpcvFreeImage(img);
+            }
+            
         }
         return 0;
     }

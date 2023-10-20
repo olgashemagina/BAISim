@@ -46,6 +46,11 @@
 
 #ifndef _lf_mcdetector_h_
 #define _lf_mcdetector_h_
+
+#include "LFCore.h"
+#include "LFImage.h"
+#include "LFGeometry.h"
+
 class TLFMCDetector : public TLFObject
 {
 protected:

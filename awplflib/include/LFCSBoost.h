@@ -47,6 +47,13 @@
 //---------------------------------------------------------------------------
 #ifndef CSBoostH
 #define CSBoostH
+
+#include "LFCore.h"
+#include "LFStrong.h"
+
+#include <iostream>
+#include <fstream>
+
 /** \defgroup LFCSBoost
 *	Implementation of  AdaBoost trainig classes 
 *   @{
@@ -87,6 +94,8 @@ protected:
     void   PrintFeature(ILFFeature* pSensor);
     bool   LoadSample(TLFObjectList& SampleList, int flag, std::string const& path);
     double PrintStatistics(TCSStrong& Class, double& afrr);
+
+	
 public:
     TCSAdaBoost();
 

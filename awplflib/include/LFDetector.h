@@ -47,6 +47,9 @@
 #ifndef HLDETECTORH
 #define HLDETECTORH
 
+#include "LFCore.h"
+#include "LF.h"
+
 /** \defgroup LFDetectors
 *	Implementation general object and events detectors of the Locate Framework
 *   @{

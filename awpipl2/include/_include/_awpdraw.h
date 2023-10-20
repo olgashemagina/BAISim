@@ -8,7 +8,9 @@ AWPRESULT _awpDrawLine(awpImage* pImage, awpPoint p1, awpPoint p2, AWPBYTE bChan
 AWPRESULT _awpDrawThickLine(awpImage* pImage, awpPoint p1, awpPoint p2, AWPBYTE bChan, AWPDOUBLE dValue, AWPBYTE radius);
 /*draw rect*/
 AWPRESULT _awpDrawRect(awpImage* pImage, awpRect* pRect, AWPBYTE bChan, AWPDOUBLE dValue);
+AWPRESULT _awpDrawRectangle(awpImage* pImage, awpRect* pRect, AWPBYTE bChan, AWPDOUBLE dValue);
 AWPRESULT _awpDrawThickRect(awpImage* pImage, awpRect* pRect, AWPBYTE bChan, AWPDOUBLE dValue, AWPBYTE radius);
+AWPRESULT _awpDrawThickRectangle(awpImage* pImage, awpRect* pRect, AWPBYTE bChan, AWPDOUBLE dValue, AWPBYTE radius);
 /*draw cross*/
 AWPRESULT _awpDrawCross(awpImage* pImage, awpRect* pRect, AWPBYTE bChan, AWPDOUBLE dValue);
 AWPRESULT _awpDrawThickCross(awpImage* pImage, awpRect* pRect, AWPBYTE bChan, AWPDOUBLE dValue, AWPBYTE radius);

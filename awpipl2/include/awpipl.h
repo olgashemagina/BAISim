@@ -1580,6 +1580,16 @@ typedef void*			  AWPHANDLE;
     AWPRESULT awpDrawRect(awpImage* pImage, awpRect* pRect, AWPBYTE bChan, AWPDOUBLE dValue, AWPBYTE radius);
 
 	/**
+*	\brief Draw rectangle
+*	\param pImage pointer to the image
+*	\param pRect rectangle to draw
+*	\param bChan image channel
+*	\param dValue pixels value
+*	\return AWP_OK if success else AWP_ERROR
+*/
+	AWPRESULT awpDrawRectangle(awpImage* pImage, awpRect* pRect, AWPBYTE bChan, AWPDOUBLE dValue, AWPBYTE radius, AWPDWORD angle);
+
+	/**
 	*	\brief Draw cross
 	*	\param pImage pointer to the image
 	*	\param pRect cross rectangle

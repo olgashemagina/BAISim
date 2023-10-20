@@ -1,5 +1,7 @@
 
-#include "_LF.h"
+#include "LF.h"
+#include "LFBuilder.h"
+
 #include "tinyxml.h"
 #include <math.h>
 #ifdef _BORLAND_

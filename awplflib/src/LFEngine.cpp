@@ -1,4 +1,7 @@
-#include "_LF.h"
+#include "LFEngine.h"
+#include "LFZone.h"
+#include "LFDetector.h"
+#include "LFFileUtils.h"
 
 #define BUFFER_SIZE     1000
 #define DETECTORS_COUNT	5
@@ -459,10 +462,11 @@ bool TLFDetectEngine::FindObjects()
 		m_result.Clear();
 	// detecting
 	int cc = 0;
-#ifdef _OMP_
+	
+//#ifdef _OMP_
 	//omp_set_num_threads(m_detectors.GetCount());
-	#pragma omp parallel for  reduction(+: cc) num_threads(m_detectors.GetCount())
-#endif
+	//#pragma omp parallel for  reduction(+: cc) num_threads(m_detectors.GetCount())
+//#endif
 	for (int k = 0; k < m_detectors.GetCount(); k++)
 	{
 		++cc;
