@@ -1,0 +1,9 @@
+var searchData=
+[
+  ['aboutactionexecute_0',['AboutActionExecute',['../class_t_form1.html#ae23935e7b8af9da684128c37ccb678bb',1,'TForm1::AboutActionExecute(TObject *Sender)'],['../class_t_form1.html#ae23935e7b8af9da684128c37ccb678bb',1,'TForm1::AboutActionExecute(TObject *Sender)']]],
+  ['actualsizeactionexecute_1',['ActualSizeActionExecute',['../class_t_form1.html#a37aab7bc99456d1810f35585c7b5fb4d',1,'TForm1::ActualSizeActionExecute(TObject *Sender)'],['../class_t_form1.html#a37aab7bc99456d1810f35585c7b5fb4d',1,'TForm1::ActualSizeActionExecute(TObject *Sender)']]],
+  ['addnewitem_2',['AddNewItem',['../class_t_table_form.html#ae0b486b713973bf562f03c91baab77ee',1,'TTableForm']]],
+  ['applicationevents1hint_3',['ApplicationEvents1Hint',['../class_t_form1.html#a6fe2fa3541d75b55360622c5cc64a150',1,'TForm1::ApplicationEvents1Hint(TObject *Sender)'],['../class_t_form1.html#a6fe2fa3541d75b55360622c5cc64a150',1,'TForm1::ApplicationEvents1Hint(TObject *Sender)']]],
+  ['applicationevents1idle_4',['ApplicationEvents1Idle',['../class_t_form1.html#a3e131bd987c4380c9f00882b37f537d5',1,'TForm1::ApplicationEvents1Idle()'],['../class_t_db_export_dialog.html#ad7a9e9bfcf96b6fca0f944c14b7d1a39',1,'TDbExportDialog::ApplicationEvents1Idle()'],['../class_t_fragment_form.html#ac0a4793d8e58912276643622788a6632',1,'TFragmentForm::ApplicationEvents1Idle()'],['../class_t_dictionary_dialog.html#a79aaf6874662bffa1d4f80d55810a7b2',1,'TDictionaryDialog::ApplicationEvents1Idle()'],['../class_t_form1.html#a3e131bd987c4380c9f00882b37f537d5',1,'TForm1::ApplicationEvents1Idle()']]],
+  ['awprect2trect_5',['awpRect2TRect',['../_image_utils_8h.html#a996b6ca1e9a3f8fd62700c0597f397ad',1,'awpRect2TRect(awpRect r):&#160;ImageUtils.cpp'],['../_image_utils_8cpp.html#a996b6ca1e9a3f8fd62700c0597f397ad',1,'awpRect2TRect(awpRect r):&#160;ImageUtils.cpp']]]
+];

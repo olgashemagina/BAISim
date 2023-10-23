@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{8764BA9C-9EC1-4AA7-BF62-105608406CA5}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="ObjectsMarker.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\awplflib\borland\awplflibb.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="ObjectsMarker">
+        <MSBuild Projects="ObjectsMarker.cbproj"/>
+    </Target>
+    <Target Name="ObjectsMarker:Clean">
+        <MSBuild Projects="ObjectsMarker.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ObjectsMarker:Make">
+        <MSBuild Projects="ObjectsMarker.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="awplflibb">
+        <MSBuild Projects="..\..\..\awplflib\borland\awplflibb.cbproj"/>
+    </Target>
+    <Target Name="awplflibb:Clean">
+        <MSBuild Projects="..\..\..\awplflib\borland\awplflibb.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="awplflibb:Make">
+        <MSBuild Projects="..\..\..\awplflib\borland\awplflibb.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="ObjectsMarker;awplflibb"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="ObjectsMarker:Clean;awplflibb:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="ObjectsMarker:Make;awplflibb:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
