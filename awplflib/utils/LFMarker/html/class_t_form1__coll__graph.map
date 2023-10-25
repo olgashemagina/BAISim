@@ -1,8 +1,0 @@
-<map id="TForm1" name="TForm1">
-<area shape="rect" id="node1" title=" " alt="" coords="197,95,264,121"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,64,32"/>
-<area shape="rect" id="node3" href="$class_t_db_labeled_images.html" title=" " alt="" coords="89,5,221,32"/>
-<area shape="rect" id="node4" href="$struct_s_db_copy_options.html" title=" " alt="" coords="245,5,368,32"/>
-<area shape="rect" id="node5" href="$struct_s_db_convert_options.html" title=" " alt="" coords="393,5,527,32"/>
-<area shape="rect" id="node6" href="$struct_s_db_export_options.html" title=" " alt="" coords="552,5,683,32"/>
-</map>

@@ -444,8 +444,8 @@ protected:
 	double		m_scale_x;
 	double		m_scale_y;
 
-	int			m_dx = 0;
-	int			m_dy = 0;
+	int			m_dx;
+	int			m_dy;
 
 public:
 	
