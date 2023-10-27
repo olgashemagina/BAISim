@@ -48,11 +48,16 @@
 #ifndef  __lf_core_h__
 #define  __lf_core_h__
 
+#ifndef DBL_MAX
+#define DBL_MAX          1.7976931348623158e+308
+#endif
+
 #include "awpipl.h"
 #include "LFInterface.h"
 #include <string>
 #include <vector>
 #include <sstream>
+#include <math.h>
 
 #include "tinyxml.h"
 

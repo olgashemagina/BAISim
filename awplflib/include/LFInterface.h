@@ -257,10 +257,10 @@ public:
 	virtual double			dValue(ILFImage* image, double scale_x, double scale_y, int dx, int dy) const = 0;
 
 	//Base Unit of feature
-	virtual const _LFRect&	baseUnit() const = 0;
+	virtual  _LFRect	baseUnit()  = 0;
 
 	//Rect of aperture in unit coordinates
-	virtual const _LFRect&	baseRect() const = 0;
+	virtual  _LFRect	baseRect()  = 0;
 	
 };
 // weak 
