@@ -1,0 +1,1 @@
+PhVideoTrackBar - Enable / Disable перерисовка, запрет на обработку событий мыши

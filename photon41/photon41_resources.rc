@@ -1,0 +1,6 @@
+TPhImage BITMAP "photon\\bitmaps\\PhImage.bmp"
+TPhLenzTool BITMAP "photon\\bitmaps\\PhImageLenz.bmp"
+TPhPaneTool BITMAP "photon\\bitmaps\\PhImagePane.bmp"
+TPhRulerTool BITMAP "photon\\bitmaps\\PhImageRuler.bmp"
+TPhSelRectTool BITMAP "photon\\bitmaps\\PhImageSelectRect.bmp"
+TPhZoomToRectTool BITMAP "photon\\bitmaps\\PhImageZoomToRect.bmp"

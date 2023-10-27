@@ -1,0 +1,3 @@
+1. autoMosaic property
+2. mouse cursor tools
+3. SelRectTool -

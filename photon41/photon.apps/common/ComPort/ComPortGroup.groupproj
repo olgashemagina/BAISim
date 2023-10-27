@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{C94CDA16-EDA8-4055-A6F6-6D847A788215}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="ComPort.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Comtest.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="ComPort">
+        <MSBuild Projects="ComPort.cbproj"/>
+    </Target>
+    <Target Name="ComPort:Clean">
+        <MSBuild Projects="ComPort.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ComPort:Make">
+        <MSBuild Projects="ComPort.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Comtest">
+        <MSBuild Projects="Comtest.cbproj"/>
+    </Target>
+    <Target Name="Comtest:Clean">
+        <MSBuild Projects="Comtest.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Comtest:Make">
+        <MSBuild Projects="Comtest.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="ComPort;Comtest"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="ComPort:Clean;Comtest:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="ComPort:Make;Comtest:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.532,=C:\_alt\_proj\BuilderProjects\ComPort\main.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.066,C:\_alt\_proj\BuilderProjects\ComPort\Unit1.dfm=C:\_alt\_proj\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.598,C:\_alt\_proj\BuilderProjects\ComPort\ComtestPCH1.h=C:\_alt\_proj\Project1PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.846,=C:\_alt\_proj\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.949,=C:\_alt\_proj\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.066,C:\_alt\_proj\BuilderProjects\ComPort\Unit1.cpp=C:\_alt\_proj\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.066,C:\_alt\_proj\BuilderProjects\ComPort\Unit1.h=C:\_alt\_proj\Unit1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.394,=C:\_alt\_proj\Project1PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.816,=C:\_alt\_proj\Project1PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.899,C:\_alt\_proj\BuilderProjects\ComPort\Comtest.cbproj=C:\_alt\_proj\Project1.cbproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.612,C:\_alt\_proj\BuilderProjects\ComPort\Unit1.cpp=</Transaction>
+  </Transactions>
+</BorlandProject>

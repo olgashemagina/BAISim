@@ -1,0 +1,17 @@
+LIBRARY PHSERIALPORT
+
+EXPORTS
+
+phserialPortCount @1
+phserialPortInit @2
+phserialPortFree @3
+phserialPortName @4
+phserialPortLocation @5
+phserialPortDescription @6
+phserialPortManufacturer @7
+phserialPortSerialNumber @8
+phserialPortHasVendorIdentifier @9
+phserialPortHasProductIdentifier @10
+phserialPortVendorIdentifier @11
+phserialPortProductIdentifier @12
+
