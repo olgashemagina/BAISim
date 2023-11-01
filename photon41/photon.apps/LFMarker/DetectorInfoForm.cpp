@@ -71,7 +71,8 @@ void __fastcall TDetectorForm::DoDetectorInfo()
 		{
 			ILFWeak* ww = (ILFWeak*)s->GetWeak(j);
 			ILFFeature* f = ww->Fetaure();
-			awpRect r = f->GetRect();
+			TLFRect r_lf = f->GetRect();
+			awpRect r = r_lf.GetRect();
 			r.left *= 10;
 			r.top *= 10;
 			r.right *= 10;

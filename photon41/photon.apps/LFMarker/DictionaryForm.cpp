@@ -83,7 +83,9 @@ void __fastcall TDictionaryDialog::ListBox1Click(TObject *Sender)
             for (int i = 0; i < scanner->GetParamsCount(); i++)
             {
                 TLFParameter*  param = scanner->GetParameter(i);
-                if (param)
+			   /*   todo: if we need to change scanner parameters,
+							implement this oppotunity in the scanner class
+				if (param)
                 {
                       AnsiString str = param->GetPName();
                       str += "=";
@@ -91,7 +93,7 @@ void __fastcall TDictionaryDialog::ListBox1Click(TObject *Sender)
                       ValueListEditor1->Strings->Add(str);
                       Valedit::TItemProp* p = ValueListEditor1->ItemProps[i];
                       p->EditMask = L"\0\0\,09;1; ";
-                }
+				} */
             }
 /*
             // setup masks
@@ -228,20 +230,20 @@ void	__fastcall  TDictionaryDialog::CalcItemsCount()
 
         scanner->SetBaseHeight(bh);
         scanner->SetBaseWidth(bw);
-
+	 /*
        for (int i = 0; i < scanner->GetParamsCount(); i++)
        {
             TLFParameter* p = scanner->GetParameter(i);
             for (int j = 0; j < ValueListEditor1->Strings->Count; j++)
             {
-                AnsiString strName = p->GetPName();
+				AnsiString strName = p->GetPName();
                 if (strName == ValueListEditor1->Keys[j+1])
                 {
                     p->SetValue(StrToFloat(ValueListEditor1->Values[strName]));
                 }
             }
        }
-
+    */
         scanner->Scan(w,h);
 
 		this->Label1->Caption = IntToStr(scanner->GetFragmentsCount());

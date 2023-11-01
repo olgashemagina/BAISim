@@ -9,7 +9,13 @@
         <Projects Include="..\awplflib\borland\awplflibb.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\TinyXML\borland\TinyXML.cbproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="photon.apps\LFMarker\ObjectsMarker.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="photon41.cbproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -38,6 +44,15 @@
     <Target Name="awplflibb:Make">
         <MSBuild Projects="..\awplflib\borland\awplflibb.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="TinyXML">
+        <MSBuild Projects="..\TinyXML\borland\TinyXML.cbproj"/>
+    </Target>
+    <Target Name="TinyXML:Clean">
+        <MSBuild Projects="..\TinyXML\borland\TinyXML.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TinyXML:Make">
+        <MSBuild Projects="..\TinyXML\borland\TinyXML.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="ObjectsMarker">
         <MSBuild Projects="photon.apps\LFMarker\ObjectsMarker.cbproj"/>
     </Target>
@@ -47,14 +62,23 @@
     <Target Name="ObjectsMarker:Make">
         <MSBuild Projects="photon.apps\LFMarker\ObjectsMarker.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="photon41">
+        <MSBuild Projects="photon41.cbproj"/>
+    </Target>
+    <Target Name="photon41:Clean">
+        <MSBuild Projects="photon41.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="photon41:Make">
+        <MSBuild Projects="photon41.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="awpipl2b;awplflibb;ObjectsMarker"/>
+        <CallTarget Targets="awpipl2b;awplflibb;TinyXML;ObjectsMarker;photon41"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="awpipl2b:Clean;awplflibb:Clean;ObjectsMarker:Clean"/>
+        <CallTarget Targets="awpipl2b:Clean;awplflibb:Clean;TinyXML:Clean;ObjectsMarker:Clean;photon41:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="awpipl2b:Make;awplflibb:Make;ObjectsMarker:Make"/>
+        <CallTarget Targets="awpipl2b:Make;awplflibb:Make;TinyXML:Make;ObjectsMarker:Make;photon41:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

@@ -4,7 +4,8 @@
 #define PhZonesToolH
 //---------------------------------------------------------------------------
 #include "PhImageTool.h"
-#include "_LF.h"
+#include "LF.h"
+#include "LFZone.h"
 
 typedef void __fastcall (__closure *TPhAddRoiEvent)(System::TObject* Sender, TLFZone* item);
 typedef void __fastcall (__closure *TPhChangeRoiEvent)(System::TObject* Sender, int index, bool update);

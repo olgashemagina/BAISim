@@ -2,14 +2,15 @@
 #ifndef ProjectUnitH
 #define ProjectUnitH
 #include <vcl.h>
-#include "_LF.h"
+#include "LF.h"
+#include "LFDatabase.h"
 
 //---------------------------------------------------------------------------
 class TLFProject
 {
 protected:
     String m_strPath;
-    TLFDBLabeledImages 			m_database;
+	TLFDBLabeledImages 			m_database;
 public:
     TLFProject();
     ~TLFProject();

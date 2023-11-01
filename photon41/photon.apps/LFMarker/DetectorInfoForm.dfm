@@ -148,6 +148,7 @@ object DetectorForm: TDetectorForm
     Top = 425
     Width = 355
     Height = 104
+    AutoMosaic = True
     ThumbWidht = 128
     ThumbHeight = 128
     SlideShowInterval = 500
@@ -214,6 +215,8 @@ object DetectorForm: TDetectorForm
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
     object Series1: TBarSeries
+      HoverElement = []
+      Marks.OnTop = True
       XValues.Name = 'X'
       XValues.Order = loAscending
       YValues.Name = 'Bar'

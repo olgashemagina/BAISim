@@ -4,6 +4,7 @@
 #define PhImageMarkToolH
 #include "PhImageTool.h"
 #include "LF.h"
+#include "LFSemantic.h"
 //---------------------------------------------------------------------------
 typedef enum {MTRect, MTVector, MTContour} TEMarkToolModes;
 typedef void __fastcall (__closure *TPhAddDataEvent)(System::TObject* Sender, TLFDetectedItem* item);

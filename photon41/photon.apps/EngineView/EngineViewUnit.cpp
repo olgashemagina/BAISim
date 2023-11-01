@@ -139,7 +139,7 @@ void __fastcall TEngineViewForm::DrawLayer0(TCanvas* cnv, awpRect* pRect)
 				if (weak != NULL)
 				{
 					ILFFeature* feature = weak->Fetaure();
-					awpRect r = feature->GetRect();
+					awpRect r = (feature->GetRect()).GetRect();
 					TLFRect rect;
 					rect.SetRect(r);
 					rect.Scale(scale);
@@ -233,7 +233,7 @@ void __fastcall TEngineViewForm::DrawLayer1(TCanvas* cnv, awpRect* pRect)
 				if (weak != NULL)
 				{
 					ILFFeature* feature = weak->Fetaure();
-					awpRect r = feature->GetRect();
+					awpRect r = (feature->GetRect()).GetRect();
 					TLFRect rect;
 					rect.SetRect(r);
 					rect.Scale(scale);
@@ -247,8 +247,9 @@ void __fastcall TEngineViewForm::DrawLayer1(TCanvas* cnv, awpRect* pRect)
 
 						TLFImage* img = detector->GetImage();
 					//awpImage* img1 = img->GetIntegralImage();
-						weak->Setup(scale_x, scale_y, pRect->left, pRect->top);
-						if (weak->Classify(img))
+						TLFAlignedTransform transform(scale_x, scale_y, pRect->left, pRect->top);
+					   //	weak->Setup(scale_x, scale_y, pRect->left, pRect->top);
+						if (weak->Classify(img, transform))
 						{
 							cnv->Brush->Color = clGreen;
 						}
@@ -318,7 +319,7 @@ void __fastcall TEngineViewForm::DrawLayer2(TCanvas* cnv, awpRect* pRect)
 				if (weak != NULL)
 				{
 					ILFFeature* feature = weak->Fetaure();
-					awpRect r = feature->GetRect();
+					awpRect r = (feature->GetRect()).GetRect();
 					TLFRect rect;
 					rect.SetRect(r);
 					rect.Scale(scale);
@@ -340,7 +341,7 @@ void __fastcall TEngineViewForm::DrawLayer2(TCanvas* cnv, awpRect* pRect)
 				if (weak != NULL)
 				{
 					ILFFeature* feature = weak->Fetaure();
-					awpRect r = feature->GetRect();
+					awpRect r = (feature->GetRect()).GetRect();
 					TLFRect rect;
 					rect.SetRect(r);
 					rect.Scale(scale);
@@ -392,10 +393,11 @@ void __fastcall TEngineViewForm::DrawLayer2(TCanvas* cnv, awpRect* pRect)
 				double scale_x = (double)(pRect->right - pRect->left) / (double)detector->GetBaseWidth();
 				double scale_y = (double)(pRect->bottom - pRect->top) / (double)detector->GetBaseHeight();
 
-				strong->Setup(scale_x, scale_y, pRect->left, pRect->top);
+				TLFAlignedTransform transform(scale_x, scale_y, pRect->left, pRect->top);
+				//strong->Setup(scale_x, scale_y, pRect->left, pRect->top);
 				TLFImage* img = detector->GetImage();
 				double err = 0;
-				if (strong->Classify(img, err))
+				if (strong->Classify(img, transform, err))
 				{
 					cnv->Brush->Color = clRed;
 				}
@@ -415,7 +417,7 @@ void __fastcall TEngineViewForm::DrawLayer2(TCanvas* cnv, awpRect* pRect)
 				{
 
 					ILFFeature* feature = weak->Fetaure();
-					awpRect r = feature->GetRect();
+					awpRect r = (feature->GetRect()).GetRect();
 					TLFRect rect;
 					rect.SetRect(r);
 					rect.Scale(scale);
@@ -515,7 +517,7 @@ void __fastcall TEngineViewForm::DrawLayer3(TCanvas* cnv, awpRect* pRect)
 				if (weak != NULL)
 				{
 					ILFFeature* feature = weak->Fetaure();
-					awpRect r = feature->GetRect();
+					awpRect r = (feature->GetRect()).GetRect();
 					TLFRect rect;
 					rect.SetRect(r);
 					rect.Scale(scale);
@@ -589,7 +591,7 @@ void __fastcall TEngineViewForm::DrawLayer3(TCanvas* cnv, awpRect* pRect)
 				if (weak != NULL)
 				{
 					ILFFeature* feature = weak->Fetaure();
-					awpRect r = feature->GetRect();
+					awpRect r = (feature->GetRect()).GetRect();
 					TLFRect rect;
 					rect.SetRect(r);
 					rect.Scale(scale);

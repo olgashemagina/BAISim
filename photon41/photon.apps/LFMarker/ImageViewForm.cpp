@@ -6,7 +6,7 @@
 #include "ImageViewForm.h"
 #include "MainForm.h"
 #include "TableViewForm.h"
-#include "_LF.h"
+#include "LF.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "FImage41"

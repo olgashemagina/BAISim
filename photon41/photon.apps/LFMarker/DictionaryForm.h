@@ -13,6 +13,7 @@
 #include <Vcl.ValEdit.hpp>
 #include <Vcl.AppEvnts.hpp>
 #include "LF.h"
+#include "LFSemantic.h"
 #include <Vcl.Mask.hpp>
 #include <System.ImageList.hpp>
 //---------------------------------------------------------------------------

@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
-  <Transactions/>
+  <Transactions>
+    <Transaction>2023.10.26 17:47:02.929,C:\work\BAISim\photon41\ObjectMarker.groupproj=C:\Users\olgas\Documents\Embarcadero\Studio\Projects\ProjectGroup1.groupproj</Transaction>
+  </Transactions>
   <Default.Personality>
-    <Projects ActiveProject="C:\work\BAISim\awplflib\borland\awplflibb.cbproj"/>
+    <Projects ActiveProject="C:\work\BAISim\photon41\photon41.cbproj"/>
   </Default.Personality>
 </BorlandProject>

@@ -1,6 +1,7 @@
 //---------------------------------------------------------------------------
 #pragma hdrstop
 #include "PhImageMarkTool.h"
+#include "LFZone.h"
 #include "ImageUtils.h"
 #include "MainForm.h"
 //---------------------------------------------------------------------------

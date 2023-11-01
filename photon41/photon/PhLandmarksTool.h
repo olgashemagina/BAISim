@@ -5,7 +5,8 @@
 //---------------------------------------------------------------------------
 #include "PhImageTool.h"
 #include "PhPaneTool.h"
-#include "_LF.h"
+#include "LF.h"
+#include "LFLandmarks.h"
 class PACKAGE TPhLandmarksTool : public TPhPaneTool
 {
 private:

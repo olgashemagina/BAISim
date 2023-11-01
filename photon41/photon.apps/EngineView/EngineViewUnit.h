@@ -12,6 +12,7 @@
 #include <Vcl.Menus.hpp>
 #include <Vcl.Dialogs.hpp>
 #include "LF.h"
+#include "LFEngine.h"
 #include "Cube3D.h"
 #include <Vcl.CheckLst.hpp>
 //---------------------------------------------------------------------------

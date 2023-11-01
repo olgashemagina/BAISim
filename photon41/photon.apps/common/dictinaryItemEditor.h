@@ -13,7 +13,7 @@
 #include <Winapi.Windows.hpp>
 #include <System.hpp>
 #include <Vcl.Samples.Spin.hpp>
-#include "_LF.h"
+#include "LF.h"
 #include "PhImageMarkTool.h"
 #include <Vcl.ColorGrd.hpp>
 //----------------------------------------------------------------------------
