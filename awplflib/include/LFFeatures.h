@@ -376,14 +376,15 @@ public:
 	}
 
 	//Base Unit of feature
- 	virtual const _LFRect& baseUnit() const {
+	virtual  _LFRect baseUnit()  {
 		_LFRect r = { (double)m_base.Left(), (double)m_base.Top(), (double)(m_base.Width()), (double)(m_base.Height()) };
 		return r;
 	}
 
 	//Rect of aperture in unit coordinates
-	virtual const _LFRect& baseRect() const {
-		return _LFRect{ (double)m_base.Left(), (double)m_base.Top(), (double)(3 * m_base.Width()), (double)(3 * m_base.Height()) };
+	virtual  _LFRect baseRect()  {
+		_LFRect r = { (double)m_base.Left(), (double)m_base.Top(), (double)(3 * m_base.Width()), (double)(3 * m_base.Height()) };
+		return r;
 	}
 
  

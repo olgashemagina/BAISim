@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.227,C:\_alt\_proj\BuilderProjects\Cosoletest1\serialtestPCH1.h=C:\_alt\_proj\BuilderProjects\Cosoletest1\Project1PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.522,C:\_alt\_proj\BuilderProjects\Cosoletest1\Project1PCH1.h=C:\_alt\_proj\Project1PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.218,C:\_alt\_proj\BuilderProjects\Cosoletest1\main.cpp=C:\_alt\_proj\File1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.846,=C:\_alt\_proj\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.816,=C:\_alt\_proj\Project1PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.383,=C:\_alt\_proj\Project1PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.414,=C:\_alt\_proj\File1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.255,C:\_alt\_proj\BuilderProjects\Cosoletest1\serialtest.cbproj=C:\_alt\_proj\Project1.cbproj</Transaction>
+  </Transactions>
+</BorlandProject>

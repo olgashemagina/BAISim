@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.840,C:\_alt\_proj\photon\photon41\PhVideoTrackBar.cpp=C:\_alt\_proj\photon\photon41\photon\PhVideoTrackBar.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.840,C:\_alt\_proj\photon\photon41\PhVideoTrackBar.h=C:\_alt\_proj\photon\photon41\photon\PhVideoTrackBar.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.225,C:\_alt\_proj\photon\photon41\photon\PhVideoTrackBar.cpp=C:\_alt\_proj\photon\photon41\PhVideoTrackBar.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.371,=C:\_alt\_proj\photon\photon41\photon\PhVideoTrackBar.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.225,C:\_alt\_proj\photon\photon41\photon\PhVideoTrackBar.h=C:\_alt\_proj\photon\photon41\PhVideoTrackBar.h</Transaction>
+  </Transactions>
+</BorlandProject>

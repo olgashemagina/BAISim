@@ -48,6 +48,7 @@
 
 #include "LFCore.h"
 
+
 /** \defgroup LFBuffers
 *	Implementation fast buffer of doubles 
 *   @{

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.460,=C:\Users\Alex A.Telnykh\Documents\Embarcadero\Studio\Projects\Unit6.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.033,=C:\Users\Alex A.Telnykh\Documents\Embarcadero\Studio\Projects\Project8PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.908,=C:\Users\Alex A.Telnykh\Documents\Embarcadero\Studio\Projects\Project8PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.552,=C:\_alt\_proj\photon\photon41\dll\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.081,C:\_alt\_proj\photon\photon41\dll\Unit1.cpp=C:\_alt\_proj\photon\photon41\dll\photondll.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.642,=C:\Users\Alex A.Telnykh\Documents\Embarcadero\Studio\Projects\Unit6.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.183,=C:\Users\Alex A.Telnykh\Documents\Embarcadero\Studio\Projects\File1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.658,C:\Users\Alex A.Telnykh\Documents\Embarcadero\Studio\Projects\Project8.cbproj=C:\_alt\_proj\photon\photon41\dll\photondll.cbproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.081,C:\_alt\_proj\photon\photon41\dll\Unit1.h=C:\_alt\_proj\photon\photon41\dll\photondll.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.481,=C:\Users\Alex A.Telnykh\Documents\Embarcadero\Studio\Projects\Project8PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.847,C:\Users\Alex A.Telnykh\Documents\Embarcadero\Studio\Projects\Project8PCH1.h=C:\_alt\_proj\photon\photon41\dll\photonPCH.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.190,C:\Users\Alex A.Telnykh\Documents\Embarcadero\Studio\Projects\File1.cpp=C:\_alt\_proj\photon\photon41\dll\photonmain.cpp</Transaction>
+  </Transactions>
+</BorlandProject>

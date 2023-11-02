@@ -117,8 +117,9 @@ class  TLFDblVector;
 
 #include "LFCore.h"
 #include "LFGeometry.h"
+#include "LFFileUtils.h"
 
-/** \defgroup LFInterfaces 
+/** \defgroup LFInterfaces
 *	Interfaces of the Locate Framework.
 *	Locate Framework defines 11 interfaces to expand its functionality.
 *	These interfaces describe the basic abstractions that the 

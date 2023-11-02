@@ -3,7 +3,7 @@
         <ProjectGuid>{9313C10F-5B35-4941-B570-1EA3E3171BA0}</ProjectGuid>
         <ProjectType>CppStaticLibrary</ProjectType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>StaticLibrary</AppType>
         <FrameworkType>None</FrameworkType>
@@ -96,6 +96,7 @@
         <IntermediateOutputDir>Debug_Build</IntermediateOutputDir>
         <TASM_DisplaySourceLines>true</TASM_DisplaySourceLines>
         <DCC_Define>DEBUG;$(DCC_Define);$(DCC_Define)</DCC_Define>
+        <FinalOutputDir>..\..\lib\x86\Debug\borland\</FinalOutputDir>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <TLIB_PageSize>32</TLIB_PageSize>
@@ -111,6 +112,7 @@
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <BCC_UserSuppliedOptions> -tWM -Vx -Ve -r</BCC_UserSuppliedOptions>
         <BCC_Defines>NDEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
+        <FinalOutputDir>..\..\lib\x86\Release\borland\</FinalOutputDir>
     </PropertyGroup>
     <ItemGroup>
         <CppCompile Include="..\src\tinystr.cpp">

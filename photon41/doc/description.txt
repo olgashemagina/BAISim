@@ -1,0 +1,38 @@
+                                                                                                                                                                                                                                                                                                                                                                                                          Photon 4.1
+
+classes
+TCustomControl
+        TPhImage
+
+TGraphic
+        TDIBImage
+
+TImageDecoder
+        TPngDecoder
+        TTiffDecoder
+
+TImportRaster
+
+TList
+        TFramesList
+
+TThread
+        IPhThread
+                TPhJobThread
+
+TObject
+        TPhFrames
+
+TComponent
+        TPhImageTool
+                TPhLenzTool
+                TPhPaneTool
+                TPhRulerTool
+                TPhSelRectTool
+                TPhZoomToRectTool
+
+TTrackBar
+        TPhTrackBar
+
+
+

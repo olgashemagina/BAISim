@@ -1,0 +1,25 @@
+Desp       : Borland c++ builder Serial Port Components
+Date       : 22 May 1998
+Release    : Freeware, just let me know what you think of it. If you make
+             any modifications to the source, please send me a copy. I will
+             verify your changes . I will be glad if you mail me any of 
+             your FREEWARE components !
+
+
+Written by Victor Chen (Shanghai, People's Republic of China)
+E-mail : victorch@163.net
+
+ ******************************************************************************
+ *   Permission to use, copy,  modify, and distribute this software and its   *
+ *        documentation without fee for any purpose is hereby granted,        *
+ *   provided that the above copyright notice appears on all copies and that  *
+ *     both the copyright notice and this permission notice appear in all     *
+ *                         supporting documentation.                          *
+ *                                                                            *
+ * NO REPRESENTATIONS ARE MADE ABOUT THE SUITABILITY OF THIS SOFTWARE FOR ANY *
+ *    PURPOSE. IT IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.    *
+ *        ALFRED PETRI SHALL NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY        *
+ *                          THE USE OF THIS SOFTWARE.                         *
+ ******************************************************************************
+
+Source include and BCB Example include.

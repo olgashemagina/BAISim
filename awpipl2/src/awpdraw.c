@@ -504,7 +504,7 @@ CLEANUP:
 }
 
 
-AWPRESULT _awpDrawThickRectangle(awpImage* pImage, awpRect* pRect, AWPBYTE bChan, AWPDOUBLE dValue, AWPBYTE radius, AWPWORD angle)
+AWPRESULT _awpDrawRotatedThickRectangle(awpImage* pImage, awpRect* pRect, AWPBYTE bChan, AWPDOUBLE dValue, AWPBYTE radius, AWPWORD angle)
 {
 	AWPRESULT res;
 	awpPoint p1, p2, p3, p4, p1_new, p2_new, p3_new, p4_new;
@@ -565,7 +565,6 @@ AWPRESULT _awpDrawThickRectangle(awpImage* pImage, awpRect* pRect, AWPBYTE bChan
 		CLEANUP:
 	return res;
 }
-
 
 AWPRESULT _awpDrawCross(awpImage* pImage, awpRect* pRect, AWPBYTE bChan, AWPDOUBLE dValue)
 {
@@ -1249,7 +1248,7 @@ AWPRESULT awpDrawRectangle(awpImage* pImage, awpRect* pRect, AWPBYTE bChan, AWPD
 	}
 	else
 	{
-		_CHECK_RESULT_(res = _awpDrawThickRectangle(pImage, pRect, bChan, dValue, radius, angle))
+		_CHECK_RESULT_(res = _awpDrawRotatedThickRectangle(pImage, pRect, bChan, dValue, radius, angle))
 	}
 
 CLEANUP:
