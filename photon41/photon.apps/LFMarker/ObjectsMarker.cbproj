@@ -76,7 +76,6 @@
         <BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
         <DynamicRTL>true</DynamicRTL>
         <AllPackageLibs>vcl.lib;rtl.lib;vclx.lib;bcbsmp.lib;dbrtl.lib;xmlrtl.lib;inet.lib;vcldb.lib;vclimg.lib;VclSmp.lib;photon41.lib;Tee927.lib</AllPackageLibs>
-        <FinalOutputDir>$(PHOTON)\bin</FinalOutputDir>
         <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
         <BRCC_IncludePath>..\common;$(BDS)\Bin;$(BDS)\Projects\common;$(BDS)\Projects;$(BDS)\include;$(BDS)\include\vcl;..\..\awpipl2\include;..\..\awplflib\include;..\..\include;..\..\awpipl2\include\_include;$(TINY);$(PHOTON);$(LF);$(BRCC_IncludePath)</BRCC_IncludePath>
         <BCC_DebugLineNumbers>true</BCC_DebugLineNumbers>
@@ -131,6 +130,7 @@
         <DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
         <TASM_DisplaySourceLines>true</TASM_DisplaySourceLines>
         <DCC_Define>DEBUG;$(DCC_Define);$(DCC_Define)</DCC_Define>
+        <FinalOutputDir>..\..\..\bin\x86\Debug\</FinalOutputDir>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <Defines>TIXML_USE_STL;$(Defines)</Defines>
@@ -164,6 +164,7 @@
         <TASM_Debugging>None</TASM_Debugging>
         <DCC_AdditionalSwitches> -M -$O+</DCC_AdditionalSwitches>
         <IntermediateOutputDir>Release_Build</IntermediateOutputDir>
+        <FinalOutputDir>..\..\..\bin\x86\Release\</FinalOutputDir>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <BPILibOutputDir>$(PHOTON)\lib</BPILibOutputDir>
