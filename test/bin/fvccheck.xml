@@ -1,3 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
- <fvcccheck in_database = "C:\set2copy\allNumber\export\wing-1\"  tmpl_name = "tmpl.fvc" out_name = "fvccheck.txt">
- </fvcccheck>

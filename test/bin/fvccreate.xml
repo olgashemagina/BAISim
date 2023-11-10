@@ -1,4 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
- <fvccreate in_database = "c:\data\cats_part" width = 32 height = 32 num_vct = 20 out_name = "tmpl.fvc" format = "jpg">
- </fvccreate>
-
