@@ -46,7 +46,6 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <FinalOutputDir>$(PHOTON41)\lib\</FinalOutputDir>
         <SanitizedProjectName>JPEGLIB</SanitizedProjectName>
         <IncludePath>..\src\;$(IncludePath)</IncludePath>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
@@ -71,6 +70,7 @@
         <DCC_AdditionalSwitches> -N0..\obj\ -M</DCC_AdditionalSwitches>
         <BCC_InlineFunctionExpansion>false</BCC_InlineFunctionExpansion>
         <BCC_PCHCache>true</BCC_PCHCache>
+        <FinalOutputDir>..\..\..\build\lib\borland\$(Platform)\$(Config)</FinalOutputDir>
         <DCC_UnitSearchPath>.\;$(BDS)\lib;$(BDS)\lib\obj;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">

@@ -65,7 +65,7 @@
         <TASM_IncludePath>$(BDS)\Projects\awplflib\src;C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..\include;..;$(BDS)\include;..\..\awpipl2\include;..\..\TinyXML\src;..\..\awpipl2\include\_include;..\..\FVLCore\src;$(TASM_IncludePath)</TASM_IncludePath>
         <BRCC_IncludePath>$(BDS)\Projects\awplflib\src;C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..\include;..;$(BDS)\include;..\..\awpipl2\include;..\..\TinyXML\src;..\..\awpipl2\include\_include;..\..\FVLCore\src;$(BRCC_IncludePath)</BRCC_IncludePath>
         <BCC_DebugLineNumbers>true</BCC_DebugLineNumbers>
-        <ILINK_LibraryPath>$(BDS)\lib;$(BDS)\lib\obj;..\..\..\build\lib\borland\Win32\Debug\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>$(BDS)\lib;$(BDS)\lib\obj;..\..\..\build\lib\borland\$(Platform)\$(Config);..\..\..\3rdparty\bin;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_OutputDir>..\obj\</BCC_OutputDir>
         <TASM_Debugging>Full</TASM_Debugging>
         <DCC_AdditionalSwitches> -N0..\obj\ -M</DCC_AdditionalSwitches>

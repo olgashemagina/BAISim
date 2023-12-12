@@ -65,7 +65,7 @@
         <TASM_IncludePath>..\src;$(BDS)\Projects\awpipl2\src;..\..\..;$(BDS)\Bin;$(BDS)\Projects;..\include;$(BDS)\include;$(BDS)\include\vcl;..\..\jpeg-6b\src;..\include\_include;$(TASM_IncludePath)</TASM_IncludePath>
         <BRCC_IncludePath>..\src;$(BDS)\Projects\awpipl2\src;..\..\..;$(BDS)\Bin;$(BDS)\Projects;..\include;$(BDS)\include;$(BDS)\include\vcl;..\..\jpeg-6b\src;..\include\_include;$(BRCC_IncludePath)</BRCC_IncludePath>
         <BCC_DebugLineNumbers>true</BCC_DebugLineNumbers>
-        <ILINK_LibraryPath>$(BDS)\lib;$(BDS)\lib\obj;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>$(BDS)\lib;$(BDS)\lib\obj;..\..\..\3rdparty\bin;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_OutputDir>..\obj\</BCC_OutputDir>
         <TASM_Debugging>Full</TASM_Debugging>
         <DCC_AdditionalSwitches> -N0..\obj\ -M</DCC_AdditionalSwitches>
@@ -551,14 +551,14 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx64\libcgcrtl.dylib" Class="DependencyModule">
-                    <Platform Name="OSX64">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile LocalName="..\src\awpcontrast.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx64\libcgcrtl.dylib" Class="DependencyModule">
+                    <Platform Name="OSX64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
