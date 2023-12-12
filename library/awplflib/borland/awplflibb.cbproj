@@ -65,17 +65,18 @@
         <TASM_IncludePath>$(BDS)\Projects\awplflib\src;C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..\include;..;$(BDS)\include;..\..\awpipl2\include;..\..\TinyXML\src;..\..\awpipl2\include\_include;..\..\FVLCore\src;$(TASM_IncludePath)</TASM_IncludePath>
         <BRCC_IncludePath>$(BDS)\Projects\awplflib\src;C:\Program Files (x86)\Borland\CBuilder6\Projects;..\src;..\include;..;$(BDS)\include;..\..\awpipl2\include;..\..\TinyXML\src;..\..\awpipl2\include\_include;..\..\FVLCore\src;$(BRCC_IncludePath)</BRCC_IncludePath>
         <BCC_DebugLineNumbers>true</BCC_DebugLineNumbers>
-        <ILINK_LibraryPath>$(BDS)\lib;$(BDS)\lib\obj;..\..\..\lib\x86\Debug\borland\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>$(BDS)\lib;$(BDS)\lib\obj;..\..\..\build\lib\borland\Win32\Debug\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_OutputDir>..\obj\</BCC_OutputDir>
         <TASM_Debugging>Full</TASM_Debugging>
         <DCC_AdditionalSwitches> -N0..\obj\ -M</DCC_AdditionalSwitches>
         <BCC_InlineFunctionExpansion>false</BCC_InlineFunctionExpansion>
         <DCC_UnitSearchPath>.\;$(BDS)\lib;$(BDS)\lib\obj;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <TLIB_PageSize>256</TLIB_PageSize>
-        <IncludePath>..\src\;..\..\TinyXML\src;$(IncludePath)</IncludePath>
+        <IncludePath>..\src\;..\..\..\3rdparty\TinyXML\src;$(IncludePath)</IncludePath>
         <ILINK_GenerateDRC>True</ILINK_GenerateDRC>
         <BCC_CPPCompileAlways>true</BCC_CPPCompileAlways>
         <BCC_waus>false</BCC_waus>
+        <FinalOutputDir>..\..\..\build\lib\borland\$(Platform)\$(Config)</FinalOutputDir>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <Manifest_File>None</Manifest_File>
@@ -105,8 +106,6 @@
         <ILINK_LibraryPath>$(BDS)\lib\debug;$(ILINK_LibraryPath);$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <TASM_DisplaySourceLines>true</TASM_DisplaySourceLines>
         <DCC_Define>DEBUG;$(DCC_Define);$(DCC_Define)</DCC_Define>
-        <FinalOutputDir>..\..\lib\x86\Debug\borland\</FinalOutputDir>
-        <BPILibOutputDir>..\..\lib\x86\Debug\borland\</BPILibOutputDir>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <_TCHARMapping>char</_TCHARMapping>
