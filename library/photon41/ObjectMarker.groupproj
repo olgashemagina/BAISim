@@ -7,16 +7,16 @@
             <Dependencies/>
         </Projects>
         <Projects Include="..\awplflib\borland\awplflibb.cbproj">
-            <Dependencies>..\awpipl2\borland\awpipl2b.cbproj;..\TinyXML\borland\TinyXML.cbproj</Dependencies>
-        </Projects>
-        <Projects Include="..\TinyXML\borland\TinyXML.cbproj">
-            <Dependencies/>
+            <Dependencies>..\awpipl2\borland\awpipl2b.cbproj</Dependencies>
         </Projects>
         <Projects Include="photon.apps\LFMarker\ObjectsMarker.cbproj">
-            <Dependencies>photon41.cbproj;..\awpipl2\borland\awpipl2b.cbproj;..\awplflib\borland\awplflibb.cbproj;..\TinyXML\borland\TinyXML.cbproj</Dependencies>
+            <Dependencies>photon41.cbproj;..\awpipl2\borland\awpipl2b.cbproj;..\awplflib\borland\awplflibb.cbproj</Dependencies>
         </Projects>
         <Projects Include="photon41.cbproj">
-            <Dependencies>..\awpipl2\borland\awpipl2b.cbproj;..\awplflib\borland\awplflibb.cbproj;..\TinyXML\borland\TinyXML.cbproj</Dependencies>
+            <Dependencies>..\awpipl2\borland\awpipl2b.cbproj;..\awplflib\borland\awplflibb.cbproj;..\awplflib\borland\awplflibb.cbproj</Dependencies>
+        </Projects>
+        <Projects Include="..\..\3rdparty\TinyXML\borland\TinyXML.cbproj">
+            <Dependencies/>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -35,50 +35,50 @@
     <Target Name="awpipl2b:Make">
         <MSBuild Projects="..\awpipl2\borland\awpipl2b.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="awplflibb" DependsOnTargets="awpipl2b;TinyXML">
+    <Target Name="awplflibb" DependsOnTargets="awpipl2b">
         <MSBuild Projects="..\awplflib\borland\awplflibb.cbproj"/>
     </Target>
-    <Target Name="awplflibb:Clean" DependsOnTargets="awpipl2b:Clean;TinyXML:Clean">
+    <Target Name="awplflibb:Clean" DependsOnTargets="awpipl2b:Clean">
         <MSBuild Projects="..\awplflib\borland\awplflibb.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="awplflibb:Make" DependsOnTargets="awpipl2b:Make;TinyXML:Make">
+    <Target Name="awplflibb:Make" DependsOnTargets="awpipl2b:Make">
         <MSBuild Projects="..\awplflib\borland\awplflibb.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="TinyXML">
-        <MSBuild Projects="..\TinyXML\borland\TinyXML.cbproj"/>
-    </Target>
-    <Target Name="TinyXML:Clean">
-        <MSBuild Projects="..\TinyXML\borland\TinyXML.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="TinyXML:Make">
-        <MSBuild Projects="..\TinyXML\borland\TinyXML.cbproj" Targets="Make"/>
-    </Target>
-    <Target Name="ObjectsMarker" DependsOnTargets="photon41;awpipl2b;awplflibb;TinyXML">
+    <Target Name="ObjectsMarker" DependsOnTargets="photon41;awpipl2b;awplflibb">
         <MSBuild Projects="photon.apps\LFMarker\ObjectsMarker.cbproj"/>
     </Target>
-    <Target Name="ObjectsMarker:Clean" DependsOnTargets="photon41:Clean;awpipl2b:Clean;awplflibb:Clean;TinyXML:Clean">
+    <Target Name="ObjectsMarker:Clean" DependsOnTargets="photon41:Clean;awpipl2b:Clean;awplflibb:Clean">
         <MSBuild Projects="photon.apps\LFMarker\ObjectsMarker.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="ObjectsMarker:Make" DependsOnTargets="photon41:Make;awpipl2b:Make;awplflibb:Make;TinyXML:Make">
+    <Target Name="ObjectsMarker:Make" DependsOnTargets="photon41:Make;awpipl2b:Make;awplflibb:Make">
         <MSBuild Projects="photon.apps\LFMarker\ObjectsMarker.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="photon41" DependsOnTargets="awpipl2b;awplflibb;TinyXML">
+    <Target Name="photon41" DependsOnTargets="awpipl2b;awplflibb;awplflibb">
         <MSBuild Projects="photon41.cbproj"/>
     </Target>
-    <Target Name="photon41:Clean" DependsOnTargets="awpipl2b:Clean;awplflibb:Clean;TinyXML:Clean">
+    <Target Name="photon41:Clean" DependsOnTargets="awpipl2b:Clean;awplflibb:Clean;awplflibb:Clean">
         <MSBuild Projects="photon41.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="photon41:Make" DependsOnTargets="awpipl2b:Make;awplflibb:Make;TinyXML:Make">
+    <Target Name="photon41:Make" DependsOnTargets="awpipl2b:Make;awplflibb:Make;awplflibb:Make">
         <MSBuild Projects="photon41.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="TinyXML">
+        <MSBuild Projects="..\..\3rdparty\TinyXML\borland\TinyXML.cbproj"/>
+    </Target>
+    <Target Name="TinyXML:Clean">
+        <MSBuild Projects="..\..\3rdparty\TinyXML\borland\TinyXML.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TinyXML:Make">
+        <MSBuild Projects="..\..\3rdparty\TinyXML\borland\TinyXML.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="awpipl2b;awplflibb;TinyXML;ObjectsMarker;photon41"/>
+        <CallTarget Targets="awpipl2b;awplflibb;ObjectsMarker;photon41;TinyXML"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="awpipl2b:Clean;awplflibb:Clean;TinyXML:Clean;ObjectsMarker:Clean;photon41:Clean"/>
+        <CallTarget Targets="awpipl2b:Clean;awplflibb:Clean;ObjectsMarker:Clean;photon41:Clean;TinyXML:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="awpipl2b:Make;awplflibb:Make;TinyXML:Make;ObjectsMarker:Make;photon41:Make"/>
+        <CallTarget Targets="awpipl2b:Make;awplflibb:Make;ObjectsMarker:Make;photon41:Make;TinyXML:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
