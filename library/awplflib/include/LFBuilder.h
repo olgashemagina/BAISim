@@ -72,6 +72,7 @@ protected:
 	bool		    BuildDefaultBkGround();
 	void		    RemoveBkground();
 	int				GetNumObjects();
+	std::string		ConcatIfNeeded(const std::string& path, const std::string& commonPath);
 	// ключевые переменные
 	TCSAdaBoost		m_AdaBoost;
 	TLFDetectEngine	m_Engine;
