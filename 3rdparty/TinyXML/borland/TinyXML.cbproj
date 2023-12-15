@@ -69,8 +69,8 @@
         <DCC_AdditionalSwitches> -N0..\obj\ -M</DCC_AdditionalSwitches>
         <BCC_PCHCache>true</BCC_PCHCache>
         <DCC_UnitSearchPath>.\;$(BDS)\lib;$(BDS)\lib\obj;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
-        <FinalOutputDir>$(TINY)\lib</FinalOutputDir>
         <Defines>TIXML_USE_STL;$(Defines)</Defines>
+        <FinalOutputDir>..\..\build\lib\borland\$(Platform)\$(Config)</FinalOutputDir>
         <ILINK_GenerateDRC>True</ILINK_GenerateDRC>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
@@ -96,13 +96,13 @@
         <IntermediateOutputDir>Debug_Build</IntermediateOutputDir>
         <TASM_DisplaySourceLines>true</TASM_DisplaySourceLines>
         <DCC_Define>DEBUG;$(DCC_Define);$(DCC_Define)</DCC_Define>
-        <FinalOutputDir>..\..\lib\x86\Debug\borland\</FinalOutputDir>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <TLIB_PageSize>32</TLIB_PageSize>
         <Manifest_File>None</Manifest_File>
         <BCC_UserSuppliedOptions> -tWM -Vx -Ve -k</BCC_UserSuppliedOptions>
         <BCC_Defines>_DEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
+        <FinalOutputDir>..\..\..\build\lib\borland\Win32\Debug\</FinalOutputDir>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_AdditionalSwitches> -N0..\obj\ -M -$O+</DCC_AdditionalSwitches>

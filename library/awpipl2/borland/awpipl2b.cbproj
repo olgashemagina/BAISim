@@ -48,7 +48,7 @@
     <PropertyGroup Condition="'$(Base)'!=''">
         <Manifest_File>None</Manifest_File>
         <SanitizedProjectName>awpipl2b</SanitizedProjectName>
-        <IncludePath>..\src\;$(IncludePath)</IncludePath>
+        <IncludePath>..\src\;..\..\..\3rdparty\jpeg-6b\src;$(IncludePath)</IncludePath>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <VerInfo_Locale>1049</VerInfo_Locale>
@@ -65,7 +65,7 @@
         <TASM_IncludePath>..\src;$(BDS)\Projects\awpipl2\src;..\..\..;$(BDS)\Bin;$(BDS)\Projects;..\include;$(BDS)\include;$(BDS)\include\vcl;..\..\jpeg-6b\src;..\include\_include;$(TASM_IncludePath)</TASM_IncludePath>
         <BRCC_IncludePath>..\src;$(BDS)\Projects\awpipl2\src;..\..\..;$(BDS)\Bin;$(BDS)\Projects;..\include;$(BDS)\include;$(BDS)\include\vcl;..\..\jpeg-6b\src;..\include\_include;$(BRCC_IncludePath)</BRCC_IncludePath>
         <BCC_DebugLineNumbers>true</BCC_DebugLineNumbers>
-        <ILINK_LibraryPath>$(BDS)\lib;$(BDS)\lib\obj;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>$(BDS)\lib;$(BDS)\lib\obj;..\..\..\3rdparty\bin;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_OutputDir>..\obj\</BCC_OutputDir>
         <TASM_Debugging>Full</TASM_Debugging>
         <DCC_AdditionalSwitches> -N0..\obj\ -M</DCC_AdditionalSwitches>
@@ -73,6 +73,7 @@
         <BCC_PCHCache>true</BCC_PCHCache>
         <DCC_UnitSearchPath>.\;$(BDS)\lib;$(BDS)\lib\obj;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <Defines>HAVE_JPEG;$(Defines)</Defines>
+        <FinalOutputDir>..\..\..\build\lib\borland\$(Platform)\$(Config)</FinalOutputDir>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
@@ -93,7 +94,6 @@
         <ILINK_LibraryPath>$(BDS)\lib\debug;$(ILINK_LibraryPath);$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <TASM_DisplaySourceLines>true</TASM_DisplaySourceLines>
         <DCC_Define>DEBUG;$(DCC_Define);$(DCC_Define)</DCC_Define>
-        <FinalOutputDir>..\..\lib\x86\Debug\borland\</FinalOutputDir>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <BCC_MonitorThis>true</BCC_MonitorThis>
@@ -113,7 +113,6 @@
         <ILINK_LibraryPath>$(BDS)\lib\release;$(ILINK_LibraryPath);$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <DCC_AdditionalSwitches> -N0..\obj\ -M -$O+</DCC_AdditionalSwitches>
         <IntermediateOutputDir>Release_Build</IntermediateOutputDir>
-        <FinalOutputDir>..\..\lib\x86\Release\borland\</FinalOutputDir>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <BPILibOutputDir>$(AWP)\lib\</BPILibOutputDir>
@@ -546,11 +545,6 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx64\libcgcrtl.dylib" Class="DependencyModule">
-                    <Platform Name="OSX64">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile LocalName="..\src\awpgeometry.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
@@ -560,6 +554,11 @@
                 <DeployFile LocalName="..\src\awpcontrast.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx64\libcgcrtl.dylib" Class="DependencyModule">
+                    <Platform Name="OSX64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -715,12 +714,6 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="C:\_alt\_proj\awpipl2\lib\awpipl2b.lib" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>awpipl2b.lib</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32160.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
@@ -729,6 +722,12 @@
                 <DeployFile LocalName="..\src\awpEdge.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="C:\_alt\_proj\awpipl2\lib\awpipl2b.lib" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>awpipl2b.lib</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
