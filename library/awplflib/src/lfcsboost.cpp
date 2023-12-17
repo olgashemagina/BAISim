@@ -68,10 +68,7 @@ TCSAdaBoost::TCSAdaBoost()
     m_nFaces = 0;
     m_nNonFaces = 0;
     m_pLog = NULL;
-	string str = "adaboost.log";
-	if (m_pLog == NULL)
-		m_pLog = new ofstream(str.c_str());
-
+	
 	m_CSFeature  = true;
 	m_LBPFeature = false;
 	m_HFeature = false;
@@ -318,9 +315,17 @@ bool TCSAdaBoost::Boost(int stage)
 // распечатка сообщения на экране и в лог файле
 void TCSAdaBoost::DbgMsg( std::string const& msg)
 {
-    (*m_pLog) << msg;
-    cout << msg;
-    flush( *m_pLog );
+	cout << msg;
+	if (m_pLog != nullptr) {
+		(*m_pLog) << msg;
+		flush(*m_pLog);
+	}
+}
+
+void TCSAdaBoost::SetLogName(const std::string& logName)
+{
+	if (m_pLog == NULL)
+		m_pLog = new ofstream(logName.c_str());
 }
 
 std::string TCSAdaBoost::GetArtefactsBase()

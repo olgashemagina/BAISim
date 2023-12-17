@@ -105,9 +105,9 @@ bool		TCSBuildDetector::LoadConfig(std::string const& filename)
 	m_strBKG = ConcatIfNeeded(pElem->Attribute("negative_examples"), commonPath);
 	m_strOBJ = ConcatIfNeeded(pElem->Attribute("positive_examples"), commonPath);
 	m_strDetectorName = ConcatIfNeeded(pElem->Attribute("detector_name"), commonPath);
-	m_strLogName = pElem->Attribute("log_name");
+	m_strLogName = ConcatIfNeeded(pElem->Attribute("log_name"), commonPath);
 	//pElem->Attribute("overlap_thr", &m_overlapThr);
-
+	m_AdaBoost.SetLogName(m_strLogName);
 	int num_positive = this->GetNumObjects();
 
 	pElem->Attribute("num_samples_per_image", &m_nMaxSamplesPerImage);
