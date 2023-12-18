@@ -100,17 +100,14 @@ bool		TCSBuildDetector::LoadConfig(std::string const& filename)
 	}
 
 	m_strConfigName = filename;
-	m_strPathToBase = pElem->Attribute("bkground_base");
-//	m_strPathToBase += "\\";
-	m_strBKG = pElem->Attribute("negative_examples");
-//	m_strBKG += "\\";
-	m_strOBJ = pElem->Attribute("positive_examples");
-//	m_strOBJ += "\\";
-
-	m_strDetectorName = pElem->Attribute("detector_name");
-	m_strLogName = pElem->Attribute("log_name");
+	std::string commonPath = LFGetFilePath(filename) + c_separator;
+	m_strPathToBase = ConcatIfNeeded(pElem->Attribute("bkground_base"), commonPath);
+	m_strBKG = ConcatIfNeeded(pElem->Attribute("negative_examples"), commonPath);
+	m_strOBJ = ConcatIfNeeded(pElem->Attribute("positive_examples"), commonPath);
+	m_strDetectorName = ConcatIfNeeded(pElem->Attribute("detector_name"), commonPath);
+	m_strLogName = ConcatIfNeeded(pElem->Attribute("log_name"), commonPath);
 	//pElem->Attribute("overlap_thr", &m_overlapThr);
-
+	m_AdaBoost.SetLogName(m_strLogName);
 	int num_positive = this->GetNumObjects();
 
 	pElem->Attribute("num_samples_per_image", &m_nMaxSamplesPerImage);
@@ -633,6 +630,15 @@ int	TCSBuildDetector::GetNumObjects()
 		count++;
 	}
 	return count;
+}
+
+std::string TCSBuildDetector::ConcatIfNeeded(const std::string& path, const std::string& commonPath)
+{
+	size_t index = path.find(std::string(":") + c_separator);
+	if (index == 1) {
+		return path;
+	}
+	return commonPath + path;
 }
 
 void		TCSBuildDetector::PrintDetectorInfo()
