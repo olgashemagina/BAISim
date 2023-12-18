@@ -1,4 +1,4 @@
-/*Locate From 4.0
+п»ї/*Locate From 4.0
 File: LFWeak.cpp
 Purpose: this module includes numeber of WEAK classificators
 Copyright (c) AWPSoft.
@@ -7,7 +7,7 @@ Copyright (c) AWPSoft.
 #include "LFFileUtils.h"
 
 //---------------------------------------------------------------------------
-// слабый классификатор, основанный на преобразовании Census
+// СЃР»Р°Р±С‹Р№ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ, РѕСЃРЅРѕРІР°РЅРЅС‹Р№ РЅР° РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРё Census
 TCSWeak::TCSWeak() : ILFWeak()
 {
 

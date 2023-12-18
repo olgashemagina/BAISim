@@ -1,4 +1,4 @@
-/*
+﻿/*
     Locate From 4.0
     File: LFFeatureImpl.cpp
     Purpose: ILFFeature implementation

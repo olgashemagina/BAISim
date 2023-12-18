@@ -1,4 +1,4 @@
-
+п»ї
 
 #ifndef _LF_IMAGE_PROCESSOR_H_
 #define _LF_IMAGE_PROCESSOR_H_
@@ -23,7 +23,7 @@ protected:
 	/** @brief image processing area 
 	*/
 	TLFRect  m_ImageRoi;
-	/* вектор параметров
+	/* РІРµРєС‚РѕСЂ РїР°СЂР°РјРµС‚СЂРѕРІ
 	*/
 	TLFObjectList m_Params;
 	virtual bool Process() = 0;

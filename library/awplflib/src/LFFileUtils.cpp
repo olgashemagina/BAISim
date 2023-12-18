@@ -1,4 +1,4 @@
-#include "LFFileUtils.h"
+﻿#include "LFFileUtils.h"
 
 #include <algorithm>
 

@@ -1,4 +1,4 @@
-/*M///////////////////////////////////////////////////////////////////////////////////////
+п»ї/*M///////////////////////////////////////////////////////////////////////////////////////
 //
 //  IMPORTANT: READ BEFORE DOWNLOADING, COPYING, INSTALLING OR USING.
 //
@@ -322,7 +322,7 @@ int  TSCObjectDetector::ClassifyRect(awpRect fragment, double* err, int* vect)
     return result;
 
 }
-// возвращает число найденных объектов. 
+// РІРѕР·РІСЂР°С‰Р°РµС‚ С‡РёСЃР»Рѕ РЅР°Р№РґРµРЅРЅС‹С… РѕР±СЉРµРєС‚РѕРІ. 
 int  TSCObjectDetector::Detect()
 {
 	int res = 0;
@@ -374,7 +374,7 @@ int  TSCObjectDetector::Detect()
 	}
 
 
-	// записываем результат в лист.
+	// Р·Р°РїРёСЃС‹РІР°РµРј СЂРµР·СѓР»СЊС‚Р°С‚ РІ Р»РёСЃС‚.
 	m_objects.Clear();
 	for (int i = 0; i < m_scanner->GetFragmentsCount(); i++)
 	{
@@ -458,7 +458,7 @@ int TSCObjectDetector::DetectInRect(awpRect roi)
 
 
 
-	// записываем результат в лист.
+	// Р·Р°РїРёСЃС‹РІР°РµРј СЂРµР·СѓР»СЊС‚Р°С‚ РІ Р»РёСЃС‚.
 	m_objects.Clear();
 	for (int i = 0; i < m_scanner->GetFragmentsCount(); i++)
 	{
@@ -503,8 +503,8 @@ TiXmlElement* TSCObjectDetector::SaveXML()
   node1->SetAttribute("object_type", this->m_Type.c_str());
   node1->SetAttribute("detector", this->m_strDetName.c_str());
   
-  // получаем элемент с параметрами сканера.
-  // элемент уже готов к записи, так как содержит в себе все что необходимо.
+  // РїРѕР»СѓС‡Р°РµРј СЌР»РµРјРµРЅС‚ СЃ РїР°СЂР°РјРµС‚СЂР°РјРё СЃРєР°РЅРµСЂР°.
+  // СЌР»РµРјРµРЅС‚ СѓР¶Рµ РіРѕС‚РѕРІ Рє Р·Р°РїРёСЃРё, С‚Р°Рє РєР°Рє СЃРѕРґРµСЂР¶РёС‚ РІ СЃРµР±Рµ РІСЃРµ С‡С‚Рѕ РЅРµРѕР±С…РѕРґРёРјРѕ.
   if (m_scanner != NULL)
   {
 	  TiXmlElement* e = m_scanner->SaveXML();

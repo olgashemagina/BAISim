@@ -1,4 +1,4 @@
-/*M///////////////////////////////////////////////////////////////////////////////////////
+п»ї/*M///////////////////////////////////////////////////////////////////////////////////////
 //
 //  IMPORTANT: READ BEFORE DOWNLOADING, COPYING, INSTALLING OR USING.
 //
@@ -65,7 +65,7 @@ class TCSSample;
 class TCSWeak : public ILFWeak
 {
 protected:
-    AWPBYTE       m_Classifiacator[512]; //классификатор
+    AWPBYTE       m_Classifiacator[512]; //РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ
 public:
     TCSWeak();
 	TCSWeak(ILFFeature* feature);
@@ -75,7 +75,7 @@ public:
     void SaveXML(TiXmlElement* parent);
     bool LoadXML(TiXmlElement* parent);
  
-    // классификация
+    // РєР»Р°СЃСЃРёС„РёРєР°С†РёСЏ
     //int Classify(awpImage* pImage, double avg = 0);
 	virtual int Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double* value = NULL) const ;
 
@@ -194,11 +194,11 @@ public:
 	}
 };
 
-// слабый классификатор для системы IEFS
+// СЃР»Р°Р±С‹Р№ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ РґР»СЏ СЃРёСЃС‚РµРјС‹ IEFS
 class TIEFSWeak : public TLFObject
 {
 protected:
-	double     m_Eps;                   //ошибка, полученная в процессе обучения
+	double     m_Eps;                   //РѕС€РёР±РєР°, РїРѕР»СѓС‡РµРЅРЅР°СЏ РІ РїСЂРѕС†РµСЃСЃРµ РѕР±СѓС‡РµРЅРёСЏ
 	double m_Wieght;
 	double m_AvgClass0;
 	double m_AvgClass1;
@@ -239,15 +239,15 @@ public:
 	}
 };
 
-// слабый классификатор для системы IEFS
+// СЃР»Р°Р±С‹Р№ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ РґР»СЏ СЃРёСЃС‚РµРјС‹ IEFS
 class TIEFSWeak2 : public TLFObject
 {
 protected:
-	double     m_Eps;                   //ошибка, полученная в процессе обучения
+	double     m_Eps;                   //РѕС€РёР±РєР°, РїРѕР»СѓС‡РµРЅРЅР°СЏ РІ РїСЂРѕС†РµСЃСЃРµ РѕР±СѓС‡РµРЅРёСЏ
 	double	   m_Wieght;
 	double     m_Distrib1[512];
 	double     m_Distrib2[512];
-	AWPBYTE    m_Classifiacator[512]; //классификатор
+	AWPBYTE    m_Classifiacator[512]; //РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ
 
 
 	// training support

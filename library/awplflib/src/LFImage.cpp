@@ -1,4 +1,4 @@
-/*M///////////////////////////////////////////////////////////////////////////////////////
+п»ї/*M///////////////////////////////////////////////////////////////////////////////////////
 //
 //  IMPORTANT: READ BEFORE DOWNLOADING, COPYING, INSTALLING OR USING.
 //
@@ -180,7 +180,7 @@ bool TLFImage::SaveToFile(const char* szFileName)
     return res;
 }
 
-// операции с образом памяти
+// РѕРїРµСЂР°С†РёРё СЃ РѕР±СЂР°Р·РѕРј РїР°РјСЏС‚Рё
 bool TLFImage::SaveDump(const char* szFileName)
 {
     bool res = true;
@@ -260,7 +260,7 @@ bool TLFImage::LoadMemDump(const unsigned char* pDump, int nDumpSize)
 	return res;
 }
 
-//свойства изображения
+//СЃРІРѕР№СЃС‚РІР° РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
 awpImage* TLFImage::GetImage()
 {
     return m_pImage;
@@ -330,7 +330,7 @@ awpImage* TLFImage::GetBlueImage()
 
 awpImage* TLFImage::GetIntegralImage()
 {
-	// получение интегрального изображения. 
+	// РїРѕР»СѓС‡РµРЅРёРµ РёРЅС‚РµРіСЂР°Р»СЊРЅРѕРіРѕ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ. 
 	if (this->m_pIntegralImage != NULL)
 		return this->m_pIntegralImage;
 	if (this->m_pImage == NULL)
@@ -552,7 +552,7 @@ bool TLFImage::CopyImage(awpImage** ppImage)
 #ifdef WIN32
 /*bool TLFImage::LoadResourceImage(char* lpName)
 {
-    bool    res = true;         // результат работы функци
+    bool    res = true;         // СЂРµР·СѓР»СЊС‚Р°С‚ СЂР°Р±РѕС‚С‹ С„СѓРЅРєС†Рё
     HRSRC   hRC = NULL;         //
     HGLOBAL hgTempl = NULL;     //
     int     DumpSize = 0;       //

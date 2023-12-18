@@ -1,4 +1,4 @@
-/*M///////////////////////////////////////////////////////////////////////////////////////
+п»ї/*M///////////////////////////////////////////////////////////////////////////////////////
 //
 //  IMPORTANT: READ BEFORE DOWNLOADING, COPYING, INSTALLING OR USING.
 //
@@ -65,8 +65,8 @@ struct TWclErrInfo
 	double m_frr;
 };
 typedef std::vector<TWclErrInfo>      TErrTrainData;
-// класс, реализующий процедуру обучения по алгоритму adaboost
-// выходом класса является объект типа TCSStrong
+// РєР»Р°СЃСЃ, СЂРµР°Р»РёР·СѓСЋС‰РёР№ РїСЂРѕС†РµРґСѓСЂСѓ РѕР±СѓС‡РµРЅРёСЏ РїРѕ Р°Р»РіРѕСЂРёС‚РјСѓ adaboost
+// РІС‹С…РѕРґРѕРј РєР»Р°СЃСЃР° СЏРІР»СЏРµС‚СЃСЏ РѕР±СЉРµРєС‚ С‚РёРїР° TCSStrong
 class TCSAdaBoost
 {
 protected:
@@ -114,8 +114,8 @@ public:
 	// returns path to positive samples 
 	std::string GetObjectsBase();
 	void SetObjectsBase(std::string str);
-    // возвращает ширину и высоту изображений, которые используются
-    // для обучения
+    // РІРѕР·РІСЂР°С‰Р°РµС‚ С€РёСЂРёРЅСѓ Рё РІС‹СЃРѕС‚Сѓ РёР·РѕР±СЂР°Р¶РµРЅРёР№, РєРѕС‚РѕСЂС‹Рµ РёСЃРїРѕР»СЊР·СѓСЋС‚СЃСЏ
+    // РґР»СЏ РѕР±СѓС‡РµРЅРёСЏ
 	AWPWORD WidthBase();
 	void SetWidthBase(AWPWORD value);
 
@@ -156,10 +156,10 @@ class TCSAdaBoostSign
 {
 
 protected:
-    TLFObjectList       m_Features; 			// признаки TCSSensor
-    TLFObjectList       m_TrainingSamples;		// образцы для обучения
-    TLFObjectList       m_TestingSamples;       // Образцы для тестирования
-    TCSStrongSign       m_ResultClass;			// результат работы процедуры накачки
+    TLFObjectList       m_Features; 			// РїСЂРёР·РЅР°РєРё TCSSensor
+    TLFObjectList       m_TrainingSamples;		// РѕР±СЂР°Р·С†С‹ РґР»СЏ РѕР±СѓС‡РµРЅРёСЏ
+    TLFObjectList       m_TestingSamples;       // РћР±СЂР°Р·С†С‹ РґР»СЏ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ
+    TCSStrongSign       m_ResultClass;			// СЂРµР·СѓР»СЊС‚Р°С‚ СЂР°Р±РѕС‚С‹ РїСЂРѕС†РµРґСѓСЂС‹ РЅР°РєР°С‡РєРё
 
     int                 m_widthBase;
     int                 m_heightBase;
@@ -194,12 +194,12 @@ class TIEFSAdaBoost
 {
 protected:
 	std::ostream*       m_pLog;
-	// распечатка сообщения на экране и в лог файле
+	// СЂР°СЃРїРµС‡Р°С‚РєР° СЃРѕРѕР±С‰РµРЅРёСЏ РЅР° СЌРєСЂР°РЅРµ Рё РІ Р»РѕРі С„Р°Р№Р»Рµ
 	virtual void DbgMsg(std::string const&);
 
 protected:
-	TLFObjectList       m_TrainingSamples;		// образцы для обучения
-	TLFObjectList       m_Features;				// слабые классификаторы
+	TLFObjectList       m_TrainingSamples;		// РѕР±СЂР°Р·С†С‹ РґР»СЏ РѕР±СѓС‡РµРЅРёСЏ
+	TLFObjectList       m_Features;				// СЃР»Р°Р±С‹Рµ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂС‹
 	int					m_numIFS;
 	int					m_numEFS;
 	std::string			m_strSourceFile;

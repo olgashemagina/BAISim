@@ -1,4 +1,4 @@
-#include "_awpipl.h"
+﻿#include "_awpipl.h"
 
 static  AWPDOUBLE CalcSum(AWPDOUBLE* pix, AWPINT x, AWPINT y, AWPINT w, AWPINT h, AWPINT ww )
 {

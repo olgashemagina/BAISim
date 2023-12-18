@@ -1,4 +1,4 @@
-#include "_awpipl.h"
+ï»¿#include "_awpipl.h"
 
 //A macro that performs interpolation in the x - direction, regardless of
 //type of image.
@@ -163,7 +163,7 @@ AWPRESULT awpBilinearInterpolation (awpImage* src, awp2DPoint* p, awpImage* dst)
 	// the number of channels of the resulting image must be 1
     if (dst->bChannels != 1)
         return AWP_BADARG;
-    // òî÷êà äîëæíà ëåæàòü âíóòðè èçîáðàæåíèÿ öåëèêîì.
+    // Ñ‚Ð¾Ñ‡ÐºÐ° Ð´Ð¾Ð»Ð¶Ð½Ð° Ð»ÐµÐ¶Ð°Ñ‚ÑŒ Ð²Ð½ÑƒÑ‚Ñ€Ð¸ Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ñ Ñ†ÐµÐ»Ð¸ÐºÐ¾Ð¼.
     if (p->X < 1 || p->X > src->sSizeX -1 || p->Y < 1 || p->Y > src->sSizeY)
         return AWP_BADARG;
 

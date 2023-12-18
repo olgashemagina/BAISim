@@ -1,4 +1,4 @@
-#ifndef _AWP_ERROR_H
+﻿#ifndef _AWP_ERROR_H
 #define _AWP_ERROR_H
 
 #include <stdio.h>

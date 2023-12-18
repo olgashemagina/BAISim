@@ -1,4 +1,4 @@
-#include "LFEngine.h"
+﻿#include "LFEngine.h"
 #include "LFZone.h"
 #include "LFDetector.h"
 #include "LFFileUtils.h"

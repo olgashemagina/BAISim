@@ -1,9 +1,9 @@
-#include "LFThresholdProc.h"
+ï»¿#include "LFThresholdProc.h"
 
 TLFThresholdProc::TLFThresholdProc ()
 {
 	TLFParameter* param = new TLFParameter();
-	/* ïàðàìåòð: ïîðîã áèíàðèçàöèè èçîáðàæåíèÿ 
+	/* Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€: Ð¿Ð¾Ñ€Ð¾Ð³ Ð±Ð¸Ð½Ð°Ñ€Ð¸Ð·Ð°Ñ†Ð¸Ð¸ Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ñ 
 	*/
 	param->SetPName("Threshold");
 	param->SetValue(128.f);
@@ -24,7 +24,7 @@ TLFThresholdProc::~TLFThresholdProc ()
 {
 
 }
-/* ðåàëèçàöèÿ àëãîðèòìà ïîðîãîâîé îáðàáîòêè èçîáðàæåíèÿ
+/* Ñ€ÐµÐ°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ Ð°Ð»Ð³Ð¾Ñ€Ð¸Ñ‚Ð¼Ð° Ð¿Ð¾Ñ€Ð¾Ð³Ð¾Ð²Ð¾Ð¹ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸ Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ñ
 */
 bool TLFThresholdProc::Process()
 {
@@ -33,7 +33,7 @@ bool TLFThresholdProc::Process()
 	awpImage* src = m_SourceImage.GetImage();
 	if (src == NULL)
 		return false;
-	/* ïðîâåðèì èñõîäíîå èçîáðàæåíèå íà äîïóñòèìîñòü âõîäíûõ çíà÷åíèé
+	/* Ð¿Ñ€Ð¾Ð²ÐµÑ€Ð¸Ð¼ Ð¸ÑÑ…Ð¾Ð´Ð½Ð¾Ðµ Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ðµ Ð½Ð° Ð´Ð¾Ð¿ÑƒÑÑ‚Ð¸Ð¼Ð¾ÑÑ‚ÑŒ Ð²Ñ…Ð¾Ð´Ð½Ñ‹Ñ… Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ð¹
 	*/
 	if (src->dwType != AWP_BYTE)
 		return false;
@@ -53,8 +53,8 @@ bool TLFThresholdProc::Process()
 	}
 
 
-	/* äëÿ âûïîëíåíèå ïðåîáðàçîâàíèÿ âîñïîëüçóåìñÿ ôóíêöèåé
-	   èç áèáëèîòåêè awpipl2
+	/* Ð´Ð»Ñ Ð²Ñ‹Ð¿Ð¾Ð»Ð½ÐµÐ½Ð¸Ðµ Ð¿Ñ€ÐµÐ¾Ð±Ñ€Ð°Ð·Ð¾Ð²Ð°Ð½Ð¸Ñ Ð²Ð¾ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÐ¼ÑÑ Ñ„ÑƒÐ½ÐºÑ†Ð¸ÐµÐ¹
+	   Ð¸Ð· Ð±Ð¸Ð±Ð»Ð¸Ð¾Ñ‚ÐµÐºÐ¸ awpipl2
 	*/
 	AWPBYTE* pix_dst = (AWPBYTE*)dst->pPixels;
 

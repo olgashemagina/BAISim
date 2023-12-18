@@ -1,4 +1,4 @@
-/*
+﻿/*
 //
 //  RCS:
 //      $Source: awpDistance.c

@@ -1,4 +1,4 @@
-#ifndef _AWPHSV_H_
+﻿#ifndef _AWPHSV_H_
 #define _AWPHSV_H_
 /*convert RGB to HSL*/
 //void _awpRGBtoHSV(AWPBYTE rr,AWPBYTE gg,AWPBYTE bb,AWPFLOAT *h, AWPFLOAT *s, AWPFLOAT *l);

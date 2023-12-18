@@ -1,4 +1,4 @@
-/*M
+﻿/*M
 //
 //      awpipl2 image processing and image analysis library
 //		File: awpcontour.c

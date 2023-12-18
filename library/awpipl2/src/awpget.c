@@ -1,4 +1,4 @@
-#include "_awpipl.h"
+﻿#include "_awpipl.h"
 
 static void _awpCountPoints(awpImage* pImage, awpPoint p1, awpPoint p2, AWPINT* count)
 {

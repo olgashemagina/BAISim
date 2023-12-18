@@ -1,4 +1,4 @@
-#include "LFPredictors.h"
+ï»¿#include "LFPredictors.h"
 #include "LFVector.h"
 #include "LFStrong.h"
 #include "LFDistance.h"
@@ -47,7 +47,7 @@ void TLFAverageNNPredictor::Learn(ILFDetectEngine* engine, TLFRect* rect)
 			TLFRect r(b->Rect);
 			if (overlap > 0.8)
 			{
-				// äîáàâëÿåì positive sample
+				// Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼ positive sample
 				TLFDblVector* d = this->Features(engine, &r, 1);
 				if (d != NULL)
 				{
@@ -60,7 +60,7 @@ void TLFAverageNNPredictor::Learn(ILFDetectEngine* engine, TLFRect* rect)
 				int rnd = rand() % 10 + 1;
 				if (rnd > 8)
 					continue;
-				// äîáàâëÿåì negative sample
+				// Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼ negative sample
 				TLFDblVector* d = this->Features(engine, &r, 0);
 				if (d != NULL)
 				{

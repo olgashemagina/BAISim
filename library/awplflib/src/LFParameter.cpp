@@ -1,4 +1,4 @@
-#include "LFParameter.h"
+﻿#include "LFParameter.h"
 
 
 TLFParameter::TLFParameter()

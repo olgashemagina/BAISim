@@ -1,4 +1,4 @@
-/*M
+ï»¿/*M
 //
 //      awpipl2 image processing and image analysis library
 //		File: awpconvert.c
@@ -550,8 +550,8 @@ AWPRESULT awpBackProjection2D(awpImage* Image, awpImage** ppProb, awpImage* pPre
     _CHECK_RESULT_((res = awpCheckImage(pPreset)))
 
     /*Image must have 3 bytes per point
-     To get the ppProb image, use the
-     two channels Image*/
+ï¿½ï¿½ï¿½ï¿½ To get the ppProb image, use the
+ï¿½ï¿½ï¿½ï¿½ two channels Image*/
     if (Image->dwType != AWP_BYTE && Image->bChannels != 3)
     {
         res = AWP_BADARG;
@@ -559,8 +559,8 @@ AWPRESULT awpBackProjection2D(awpImage* Image, awpImage** ppProb, awpImage* pPre
     }
 
     /*pPreset should be of type AWP_DOUBLE, contain
-     one data channel and be normalized to one, the dimensions
-     pPreset images should be 256 x 256*/
+ï¿½ï¿½ï¿½ï¿½ one data channel and be normalized to one, the dimensions
+ï¿½ï¿½ï¿½ï¿½ pPreset images should be 256 x 256*/
     if (pPreset->dwType != AWP_DOUBLE || pPreset->bChannels != 1
     && pPreset->sSizeX != 256 || pPreset->sSizeY != 256)
     {

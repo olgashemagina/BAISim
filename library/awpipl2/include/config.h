@@ -1,4 +1,4 @@
-/*
+﻿/*
         awp image processing library
         configuration file.
 */

@@ -1,4 +1,4 @@
-#ifndef _FVLCORE_H_
+﻿#ifndef _FVLCORE_H_
 #define _FVLCORE_H_
 /*============================================================
 					Face Verification Core

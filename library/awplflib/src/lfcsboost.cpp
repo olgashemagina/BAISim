@@ -1,4 +1,4 @@
-
+п»ї
 #include <algorithm>
 
 #include "LFCSBoost.h"
@@ -86,7 +86,7 @@ TCSAdaBoost::TCSAdaBoost()
 bool TCSAdaBoost::LoadSamples()
 {
 	this->m_TrainingSamples.Clear();
-	//Загрузка образцов для обучения
+	//Р—Р°РіСЂСѓР·РєР° РѕР±СЂР°Р·С†РѕРІ РґР»СЏ РѕР±СѓС‡РµРЅРёСЏ
 	DbgMsg( "Loading training sets...\n" );
 	if (!LoadSample( m_TrainingSamples, 0, m_strArtefactsBase ))
         return false;
@@ -106,7 +106,7 @@ bool TCSAdaBoost::Load (TiXmlElement* node, int cascade)
 	m_TrainingSamples.Clear();
     TiXmlElement* pElem = NULL;
     pElem = node;
-	// создает новый файл протокола работы алгоритма
+	// СЃРѕР·РґР°РµС‚ РЅРѕРІС‹Р№ С„Р°Р№Р» РїСЂРѕС‚РѕРєРѕР»Р° СЂР°Р±РѕС‚С‹ Р°Р»РіРѕСЂРёС‚РјР°
 	string str = pElem->Attribute("logfile");
 	if (m_pLog == NULL)
 		m_pLog = new ofstream(str.c_str());
@@ -125,7 +125,7 @@ bool TCSAdaBoost::Load (TiXmlElement* node, int cascade)
     pElem->Attribute("count_feat", &ni);
 	m_nFeaturesCount = (int)ni;
 
-    // инициализация исходного массива признаков
+    // РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РёСЃС…РѕРґРЅРѕРіРѕ РјР°СЃСЃРёРІР° РїСЂРёР·РЅР°РєРѕРІ
 	InitFeatures( );
 	return true;
 
@@ -149,13 +149,13 @@ bool TCSAdaBoost::Load  (const char* lpFileName)
 
 bool TCSAdaBoost::Boost(int stage)
 {
-    // Начало накачки.
+    // РќР°С‡Р°Р»Рѕ РЅР°РєР°С‡РєРё.
     double wf   = 0.5/m_nFaces;
     double wnf  = 0.5/m_nNonFaces;
 
     DbgMsg("\nBoosting started.\n");
 
-    // Установка начальных весов для обучающего набора m_TrainingSet
+    // РЈСЃС‚Р°РЅРѕРІРєР° РЅР°С‡Р°Р»СЊРЅС‹С… РІРµСЃРѕРІ РґР»СЏ РѕР±СѓС‡Р°СЋС‰РµРіРѕ РЅР°Р±РѕСЂР° m_TrainingSet
     for ( int i = 0; i < m_TrainingSamples.GetCount(); i++)
     {
         TCSSample* s = (TCSSample*)m_TrainingSamples.Get(i);
@@ -226,7 +226,7 @@ bool TCSAdaBoost::Boost(int stage)
 
         DbgMsg( "\n" );
 		printf( "Count stage: %d \n", count );
-		// выбор лучшего признака, по минимальной ошибке классификации на обучающем наборе.
+		// РІС‹Р±РѕСЂ Р»СѓС‡С€РµРіРѕ РїСЂРёР·РЅР°РєР°, РїРѕ РјРёРЅРёРјР°Р»СЊРЅРѕР№ РѕС€РёР±РєРµ РєР»Р°СЃСЃРёС„РёРєР°С†РёРё РЅР° РѕР±СѓС‡Р°СЋС‰РµРј РЅР°Р±РѕСЂРµ.
 		int bestWc = 0;
 		for ( int w = 0; w < m_Features.GetCount(); ++w )
 		{
@@ -238,8 +238,8 @@ bool TCSAdaBoost::Boost(int stage)
         TCSWeakTraining* pWc       = (TCSWeakTraining*)m_Features.Get(bestWc);
 		pWc->SetWeight( pWc->GetEpsilon() );
 
-		// если ошибка лучшего классификатора превысила критический уровень 50%
-		// прекращаем процесс накачки.
+		// РµСЃР»Рё РѕС€РёР±РєР° Р»СѓС‡С€РµРіРѕ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂР° РїСЂРµРІС‹СЃРёР»Р° РєСЂРёС‚РёС‡РµСЃРєРёР№ СѓСЂРѕРІРµРЅСЊ 50%
+		// РїСЂРµРєСЂР°С‰Р°РµРј РїСЂРѕС†РµСЃСЃ РЅР°РєР°С‡РєРё.
 		if ( pWc->Weight() >= 0.5 ) break;
 
 
@@ -248,31 +248,31 @@ bool TCSAdaBoost::Boost(int stage)
         double min_eps = pWc->Weight();
         pWc->SetWeight (log(1.0/beta));
 
-        //Добавим "слабый" классификатор в "комитет".
+        //Р”РѕР±Р°РІРёРј "СЃР»Р°Р±С‹Р№" РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ РІ "РєРѕРјРёС‚РµС‚".
         m_ResultClass.AddWeak(new TCSWeak(pWc));
 
-        // распечатка атрибутов классификатора
+        // СЂР°СЃРїРµС‡Р°С‚РєР° Р°С‚СЂРёР±СѓС‚РѕРІ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂР°
         DbgMsg( "\nRound num = " + TypeToStr(i + 1) +
             ", min_eps = " + TypeToStr(min_eps) +
             ", beta = " + TypeToStr( beta ) +
 		", alpha = "+ TypeToStr(pWc->Weight())+";\n" );
-	// распечатка атрибутов выбранного признака
+	// СЂР°СЃРїРµС‡Р°С‚РєР° Р°С‚СЂРёР±СѓС‚РѕРІ РІС‹Р±СЂР°РЅРЅРѕРіРѕ РїСЂРёР·РЅР°РєР°
 	if ( pWc->Fetaure() != NULL )
             PrintFeature(pWc->Fetaure());
 
-		//распечатка ошибки на тестовом наборе.
+		//СЂР°СЃРїРµС‡Р°С‚РєР° РѕС€РёР±РєРё РЅР° С‚РµСЃС‚РѕРІРѕРј РЅР°Р±РѕСЂРµ.
 		double afrr = 100;
         double FARV = PrintStatistics( m_ResultClass, afrr );
 		//DbgMsg("afrr =" + TypeToStr(afrr) +"\n");
 
-		// завершаем процесс, если ошибка уменьшилась до порогового значения
+		// Р·Р°РІРµСЂС€Р°РµРј РїСЂРѕС†РµСЃСЃ, РµСЃР»Рё РѕС€РёР±РєР° СѓРјРµРЅСЊС€РёР»Р°СЃСЊ РґРѕ РїРѕСЂРѕРіРѕРІРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
 		if (FARV < m_FinishFar && afrr < 0.001)
 		{
             //this->SaveFRRSamples(stage);
 			return true;
 		}
 
-        // для каждого образца обновим веса
+        // РґР»СЏ РєР°Р¶РґРѕРіРѕ РѕР±СЂР°Р·С†Р° РѕР±РЅРѕРІРёРј РІРµСЃР°
         double wt = 0;
 		double debug_eps = 0;
         for ( int i = 0; i < m_TrainingSamples.GetCount(); i++ )
@@ -303,7 +303,7 @@ bool TCSAdaBoost::Boost(int stage)
             s->SetWeight(s->GetWeight()*wt);
         }
 
-        //Удалим найденный признак из списка признаков
+        //РЈРґР°Р»РёРј РЅР°Р№РґРµРЅРЅС‹Р№ РїСЂРёР·РЅР°Рє РёР· СЃРїРёСЃРєР° РїСЂРёР·РЅР°РєРѕРІ
         m_Features.Delete(bestWc);
 
     }
@@ -312,7 +312,7 @@ bool TCSAdaBoost::Boost(int stage)
     return true;
 }
 
-// распечатка сообщения на экране и в лог файле
+// СЂР°СЃРїРµС‡Р°С‚РєР° СЃРѕРѕР±С‰РµРЅРёСЏ РЅР° СЌРєСЂР°РЅРµ Рё РІ Р»РѕРі С„Р°Р№Р»Рµ
 void TCSAdaBoost::DbgMsg( std::string const& msg)
 {
 	cout << msg;
@@ -346,8 +346,8 @@ void TCSAdaBoost::SetObjectsBase(std::string str)
 	m_strObjectsbase = str;
 }
 
-// возвращает ширину и высоту изображений, которые используются
-// для обучения
+// РІРѕР·РІСЂР°С‰Р°РµС‚ С€РёСЂРёРЅСѓ Рё РІС‹СЃРѕС‚Сѓ РёР·РѕР±СЂР°Р¶РµРЅРёР№, РєРѕС‚РѕСЂС‹Рµ РёСЃРїРѕР»СЊР·СѓСЋС‚СЃСЏ
+// РґР»СЏ РѕР±СѓС‡РµРЅРёСЏ
 AWPWORD TCSAdaBoost::WidthBase()
 {
 	return m_widthBase;
@@ -419,10 +419,10 @@ static bool _IsImageFile(std::string& strFileName)
 	return false;
 }
 
-// загружает образцы для обучения из директории path и сохраняет их в списке объектов 
-// SampleList. в зависимости от установленного флага flag образцы считаются образцами 
-// объектов или образцами фонов. flag = 1 соответствует образцам объектов, flag = 0 - 
-// соответствует образцам фонов.
+// Р·Р°РіСЂСѓР¶Р°РµС‚ РѕР±СЂР°Р·С†С‹ РґР»СЏ РѕР±СѓС‡РµРЅРёСЏ РёР· РґРёСЂРµРєС‚РѕСЂРёРё path Рё СЃРѕС…СЂР°РЅСЏРµС‚ РёС… РІ СЃРїРёСЃРєРµ РѕР±СЉРµРєС‚РѕРІ 
+// SampleList. РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅРѕРіРѕ С„Р»Р°РіР° flag РѕР±СЂР°Р·С†С‹ СЃС‡РёС‚Р°СЋС‚СЃСЏ РѕР±СЂР°Р·С†Р°РјРё 
+// РѕР±СЉРµРєС‚РѕРІ РёР»Рё РѕР±СЂР°Р·С†Р°РјРё С„РѕРЅРѕРІ. flag = 1 СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ РѕР±СЂР°Р·С†Р°Рј РѕР±СЉРµРєС‚РѕРІ, flag = 0 - 
+// СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ РѕР±СЂР°Р·С†Р°Рј С„РѕРЅРѕРІ.
 bool TCSAdaBoost::LoadSample(TLFObjectList& SampleList, int flag, std::string const& path)
 {
 	DbgMsg( "Loading samples from " + path + "... \n" );
@@ -765,7 +765,7 @@ bool    TCSAdaBoostSign::Load (TiXmlElement* node)
 	m_TestingSamples.Clear();
     TiXmlElement* pElem = NULL;
     pElem = node->FirstChildElement();
-    //Загрузка образцов для обучения
+    //Р—Р°РіСЂСѓР·РєР° РѕР±СЂР°Р·С†РѕРІ РґР»СЏ РѕР±СѓС‡РµРЅРёСЏ
 	DbgMsg( "Loading training sets...\n" );
 	m_strBase2 = pElem->Attribute("database2");
 	if (!LoadSamples( -1, m_strBase2 ))
@@ -798,7 +798,7 @@ bool    TCSAdaBoostSign::Load (TiXmlElement* node)
     DbgMsg( "Samples to testing for class 1 " + TypeToStr(m_numSamplesTestBase1) +";\n" );
     DbgMsg( "Samples to testing for class -1 " + TypeToStr(m_numSamplesTestBase2) +";\n" );
 
-    // инициализация исходного массива признаков
+    // РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РёСЃС…РѕРґРЅРѕРіРѕ РјР°СЃСЃРёРІР° РїСЂРёР·РЅР°РєРѕРІ
 	InitFeatures( );
 
 	return true;
@@ -815,13 +815,13 @@ void TCSAdaBoostSign::SetLog1Name(char* lpLog1Name)
 
 bool TCSAdaBoostSign::Boost()
 {
-    // Начало накачки.
+    // РќР°С‡Р°Р»Рѕ РЅР°РєР°С‡РєРё.
     double wf   = 0.5/m_numSamplesBase1;
 	double wnf = 0.5 / m_numSamplesBase2;
 
     DbgMsg("\nBoosting started.\n");
 
-    // Установка начальных весов для обучающего набора m_TrainingSet
+    // РЈСЃС‚Р°РЅРѕРІРєР° РЅР°С‡Р°Р»СЊРЅС‹С… РІРµСЃРѕРІ РґР»СЏ РѕР±СѓС‡Р°СЋС‰РµРіРѕ РЅР°Р±РѕСЂР° m_TrainingSet
     for ( int i = 0; i < m_TrainingSamples.GetCount(); i++)
     {
         TCSSample* s = (TCSSample*)m_TrainingSamples.Get(i);
@@ -885,7 +885,7 @@ bool TCSAdaBoostSign::Boost()
 
         DbgMsg( "\n" );
 		printf( "Count stage: %d \n", count );
-		// выбор лучшего признака, по минимальной ошибке классификации на обучающем наборе.
+		// РІС‹Р±РѕСЂ Р»СѓС‡С€РµРіРѕ РїСЂРёР·РЅР°РєР°, РїРѕ РјРёРЅРёРјР°Р»СЊРЅРѕР№ РѕС€РёР±РєРµ РєР»Р°СЃСЃРёС„РёРєР°С†РёРё РЅР° РѕР±СѓС‡Р°СЋС‰РµРј РЅР°Р±РѕСЂРµ.
 		int bestWc = 0;
 		for ( int w = 0; w < m_Features.GetCount(); ++w )
 		{
@@ -897,8 +897,8 @@ bool TCSAdaBoostSign::Boost()
         TCSWeakSignTrainig* pWc       = (TCSWeakSignTrainig*)m_Features.Get(bestWc);
 		pWc->SetWeight((double)pWc->GetEpsilon());
 
-		// если ошибка лучшего классификатора превысила критический уровень 50%
-		// прекращаем процесс накачки.
+		// РµСЃР»Рё РѕС€РёР±РєР° Р»СѓС‡С€РµРіРѕ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂР° РїСЂРµРІС‹СЃРёР»Р° РєСЂРёС‚РёС‡РµСЃРєРёР№ СѓСЂРѕРІРµРЅСЊ 50%
+		// РїСЂРµРєСЂР°С‰Р°РµРј РїСЂРѕС†РµСЃСЃ РЅР°РєР°С‡РєРё.
 		if ( pWc->Weight() > 0.49 ) break;
 
 
@@ -907,17 +907,17 @@ bool TCSAdaBoostSign::Boost()
         double min_eps = pWc->Weight();
         pWc->SetWeight (log(1.0/beta));
 
-        //Добавим "слабый" классификатор в "комитет".
+        //Р”РѕР±Р°РІРёРј "СЃР»Р°Р±С‹Р№" РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ РІ "РєРѕРјРёС‚РµС‚".
         m_ResultClass.AddWeak(pWc);
 		
-        // распечатка атрибутов классификатора
+        // СЂР°СЃРїРµС‡Р°С‚РєР° Р°С‚СЂРёР±СѓС‚РѕРІ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂР°
         DbgMsg( "\nRound num = " + TypeToStr(i + 1) +
             ", min_eps = " + TypeToStr(min_eps) +
             ", beta = " + TypeToStr( beta ) +
 		", alpha = "+ TypeToStr(pWc->Weight())+";\n" );
 
         this->Statistics();
-        // для каждого образца обновим веса
+        // РґР»СЏ РєР°Р¶РґРѕРіРѕ РѕР±СЂР°Р·С†Р° РѕР±РЅРѕРІРёРј РІРµСЃР°
         double wt = 0;
         for ( int i = 0; i < m_TrainingSamples.GetCount(); i++ )
         {
@@ -941,7 +941,7 @@ bool TCSAdaBoostSign::Boost()
             s->SetWeight(s->GetWeight()*wt);
         }
 
-        //Удалим найденный признак из списка признаков
+        //РЈРґР°Р»РёРј РЅР°Р№РґРµРЅРЅС‹Р№ РїСЂРёР·РЅР°Рє РёР· СЃРїРёСЃРєР° РїСЂРёР·РЅР°РєРѕРІ
         m_Features.Delete(bestWc);
 
     }
@@ -1239,7 +1239,7 @@ TIEFSAdaBoost::TIEFSAdaBoost()
 
 bool TIEFSAdaBoost::Load(const char* lpFileName)
 {
-	/*попытка открыть файл конфигурации*/
+	/*РїРѕРїС‹С‚РєР° РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р» РєРѕРЅС„РёРіСѓСЂР°С†РёРё*/
 	TiXmlDocument doc(lpFileName);
 	if (!doc.LoadFile())
 		return false;
@@ -1254,7 +1254,7 @@ bool TIEFSAdaBoost::Load(const char* lpFileName)
 
 	return LoadSamples();
 }
-// распечатка сообщения на экране и в лог файле
+// СЂР°СЃРїРµС‡Р°С‚РєР° СЃРѕРѕР±С‰РµРЅРёСЏ РЅР° СЌРєСЂР°РЅРµ Рё РІ Р»РѕРі С„Р°Р№Р»Рµ
 void TIEFSAdaBoost::DbgMsg(std::string const& msg)
 {
 	(*m_pLog) << msg;
@@ -1264,13 +1264,13 @@ void TIEFSAdaBoost::DbgMsg(std::string const& msg)
 
 bool TIEFSAdaBoost::Boost()
 {
-	// Начало накачки.
+	// РќР°С‡Р°Р»Рѕ РЅР°РєР°С‡РєРё.
 	double wf  = 0.5 / this->m_numIFS;
 	double wnf = 0.5 / this->m_numEFS;
 
 	DbgMsg("\nBoosting started.\n");
 
-	// Установка начальных весов для обучающего набора m_TrainingSet
+	// РЈСЃС‚Р°РЅРѕРІРєР° РЅР°С‡Р°Р»СЊРЅС‹С… РІРµСЃРѕРІ РґР»СЏ РѕР±СѓС‡Р°СЋС‰РµРіРѕ РЅР°Р±РѕСЂР° m_TrainingSet
 	for (int i = 0; i < m_TrainingSamples.GetCount(); i++)
 	{
 		TIEFSSample* s = (TIEFSSample*)m_TrainingSamples.Get(i);
@@ -1338,7 +1338,7 @@ bool TIEFSAdaBoost::Boost()
 
 		DbgMsg("\n");
 		DbgMsg("Count stage: %d \n" + TypeToStr(count));
-		// выбор лучшего признака, по минимальной ошибке классификации на обучающем наборе.
+		// РІС‹Р±РѕСЂ Р»СѓС‡С€РµРіРѕ РїСЂРёР·РЅР°РєР°, РїРѕ РјРёРЅРёРјР°Р»СЊРЅРѕР№ РѕС€РёР±РєРµ РєР»Р°СЃСЃРёС„РёРєР°С†РёРё РЅР° РѕР±СѓС‡Р°СЋС‰РµРј РЅР°Р±РѕСЂРµ.
 		int bestWc = 1;
 		while (!((TIEFSWeak2*)m_Features.Get(bestWc))->IsFree())
 			bestWc++;
@@ -1355,8 +1355,8 @@ bool TIEFSAdaBoost::Boost()
 		TIEFSWeak* pWc = (TIEFSWeak*)m_Features.Get(bestWc);
 		pWc->SetWeight(pWc->GetEpsilon());
 
-		// если ошибка лучшего классификатора превысила критический уровень 50%
-		// прекращаем процесс накачки.
+		// РµСЃР»Рё РѕС€РёР±РєР° Р»СѓС‡С€РµРіРѕ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂР° РїСЂРµРІС‹СЃРёР»Р° РєСЂРёС‚РёС‡РµСЃРєРёР№ СѓСЂРѕРІРµРЅСЊ 50%
+		// РїСЂРµРєСЂР°С‰Р°РµРј РїСЂРѕС†РµСЃСЃ РЅР°РєР°С‡РєРё.
 		if (pWc->GetWeight() >= 0.5)
 		{
 		
@@ -1370,24 +1370,24 @@ bool TIEFSAdaBoost::Boost()
 		double min_eps = pWc->GetWeight();
 		pWc->SetWeight(log(1.0 / beta)); 
 
-		//Добавим "слабый" классификатор в "комитет".
+		//Р”РѕР±Р°РІРёРј "СЃР»Р°Р±С‹Р№" РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ РІ "РєРѕРјРёС‚РµС‚".
 		//result class  
 		m_ResultClass.Add(pWc->Clone());
 		m_ResultClass.SetThreshold(m_ResultClass.GetSumWeakWeight() / 2);
 		pWc->Lock();
-		// распечатка атрибутов классификатора
+		// СЂР°СЃРїРµС‡Р°С‚РєР° Р°С‚СЂРёР±СѓС‚РѕРІ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂР°
 		DbgMsg("\nRound num = " + TypeToStr(i + 1) +
 			", min_eps = " + TypeToStr(min_eps) +
 			", beta = " + TypeToStr(beta) +
 			", alpha = " + TypeToStr(pWc->GetWeight()) + ";\n");
-		// распечатка атрибутов выбранного признака
+		// СЂР°СЃРїРµС‡Р°С‚РєР° Р°С‚СЂРёР±СѓС‚РѕРІ РІС‹Р±СЂР°РЅРЅРѕРіРѕ РїСЂРёР·РЅР°РєР°
 		DbgMsg("Feature num = " + TypeToStr(pWc->GetIndex()) + "\n" );
 
-		//распечатка ошибки на тестовом наборе.
+		//СЂР°СЃРїРµС‡Р°С‚РєР° РѕС€РёР±РєРё РЅР° С‚РµСЃС‚РѕРІРѕРј РЅР°Р±РѕСЂРµ.
 		PrintStatistics();
 
 
-		// для каждого образца обновим веса
+		// РґР»СЏ РєР°Р¶РґРѕРіРѕ РѕР±СЂР°Р·С†Р° РѕР±РЅРѕРІРёРј РІРµСЃР°
 		double wt = 0;
 		for (int i = 0; i < m_TrainingSamples.GetCount(); i++)
 		{
@@ -1414,7 +1414,7 @@ bool TIEFSAdaBoost::Boost()
 			sum += s->GetWeight();
 		}
 		DbgMsg("sum  = " + TypeToStr(sum) + "\n");
-		//Удалим найденный признак из списка признаков
+		//РЈРґР°Р»РёРј РЅР°Р№РґРµРЅРЅС‹Р№ РїСЂРёР·РЅР°Рє РёР· СЃРїРёСЃРєР° РїСЂРёР·РЅР°РєРѕРІ
 		//m_Features.Delete(bestWc);
 
 	}

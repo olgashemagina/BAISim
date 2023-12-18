@@ -1,4 +1,4 @@
-#include "LFBuilder.h"
+п»ї#include "LFBuilder.h"
 #include "LFFileUtils.h"
 #include "LFScanners.h"
 
@@ -71,7 +71,7 @@ bool		TCSBuildDetector::LoadConfig(std::string const& filename)
 {
 	m_AdaBoost.DbgMsg("CSBuild Detector loading config ..... ");
 
-	/*попытка открыть файл конфигурации*/
+	/*РїРѕРїС‹С‚РєР° РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р» РєРѕРЅС„РёРіСѓСЂР°С†РёРё*/
 	TiXmlDocument doc(filename.c_str());
 	if (!doc.LoadFile())
 	{
@@ -81,7 +81,7 @@ bool		TCSBuildDetector::LoadConfig(std::string const& filename)
 	m_strConfigName = filename;
 	TiXmlHandle hDoc(&doc);
 
-	/*разделы файла конфигурации*/
+	/*СЂР°Р·РґРµР»С‹ С„Р°Р№Р»Р° РєРѕРЅС„РёРіСѓСЂР°С†РёРё*/
 	TiXmlElement* pElem = NULL;
 
 	pElem = hDoc.FirstChildElement().Element();
@@ -153,7 +153,7 @@ bool		TCSBuildDetector::LoadConfig(std::string const& filename)
 
 	pElem->QueryIntAttribute("TLFLBPFeature", &value);
 	m_AdaBoost.m_LBPFeature = value != 0;
-	// конфигурирование бустинга
+	// РєРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёРµ Р±СѓСЃС‚РёРЅРіР°
 	m_AdaBoost.SetArtefactsBase(m_strBKG);
 	m_AdaBoost.SetObjectsBase(m_strOBJ);
 	m_AdaBoost.SetWidthBase(baseWidth);
@@ -170,10 +170,10 @@ bool		TCSBuildDetector::LoadConfig(std::string const& filename)
 
 }
 
-// выполняет построение детектора
+// РІС‹РїРѕР»РЅСЏРµС‚ РїРѕСЃС‚СЂРѕРµРЅРёРµ РґРµС‚РµРєС‚РѕСЂР°
 bool		TCSBuildDetector::Build()
 {
-	// начальная инициализация детектора 
+	// РЅР°С‡Р°Р»СЊРЅР°СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РґРµС‚РµРєС‚РѕСЂР° 
 	if (!InitDetector())
 	{
 		printf("Cannot init detector.\n");
@@ -181,16 +181,16 @@ bool		TCSBuildDetector::Build()
 	}
 
 	int cascade = 1;
-	// главный цикл процесса
+	// РіР»Р°РІРЅС‹Р№ С†РёРєР» РїСЂРѕС†РµСЃСЃР°
 	while (BuildBkground())
 	{
-		//загрузка
+		//Р·Р°РіСЂСѓР·РєР°
 		if (!m_AdaBoost.LoadSamples())
 			return false;
-		//обучение
+		//РѕР±СѓС‡РµРЅРёРµ
 		if (!Boost())
 			return false;
-		//обновление
+		//РѕР±РЅРѕРІР»РµРЅРёРµ
 		if (!UpdateDetector())
 			break;
 		m_AdaBoost.InitFeatures();
@@ -198,10 +198,10 @@ bool		TCSBuildDetector::Build()
 	};
 	return true;
 }
-// формирует образцы фона для "обучения" 
-// из базы данных содержащей изображения, на которых
-// не присутствуют обучаемые объекты
-// см. файл конфигурации m_strPathToBase
+// С„РѕСЂРјРёСЂСѓРµС‚ РѕР±СЂР°Р·С†С‹ С„РѕРЅР° РґР»СЏ "РѕР±СѓС‡РµРЅРёСЏ" 
+// РёР· Р±Р°Р·С‹ РґР°РЅРЅС‹С… СЃРѕРґРµСЂР¶Р°С‰РµР№ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ, РЅР° РєРѕС‚РѕСЂС‹С…
+// РЅРµ РїСЂРёСЃСѓС‚СЃС‚РІСѓСЋС‚ РѕР±СѓС‡Р°РµРјС‹Рµ РѕР±СЉРµРєС‚С‹
+// СЃРј. С„Р°Р№Р» РєРѕРЅС„РёРіСѓСЂР°С†РёРё m_strPathToBase
 bool		TCSBuildDetector::BuildBkground()
 {
 	if (!CheckDetector())
@@ -227,7 +227,7 @@ bool		TCSBuildDetector::BuildBkground()
 		if (!_IsImageFile(names[i]))
 			continue;
 		count++;
-		//Загрузка
+		//Р—Р°РіСЂСѓР·РєР°
 		std::string strImageName = names[i];
 
 		TLFImage Image;
@@ -243,7 +243,7 @@ bool		TCSBuildDetector::BuildBkground()
 		m_AdaBoost.DbgMsg("Num = " + TypeToStr(count) + " " + names[i] + " ");
 		m_AdaBoost.DbgMsg(TypeToStr(Image.GetImage()->sSizeX) + "x" + TypeToStr(Image.GetImage()->sSizeY) + " ");
 		AWPDWORD tc = LFGetTickCount();
-		//поиск образцов
+		//РїРѕРёСЃРє РѕР±СЂР°Р·С†РѕРІ
 		int itemsFound = 0;
 		if (cs->GetStagesCount() != 0)
 		{
@@ -253,7 +253,7 @@ bool		TCSBuildDetector::BuildBkground()
 
 				m_AdaBoost.DbgMsg("Total items = " + TypeToStr(m_Engine.GetScanner()->GetFragmentsCount()) + "\n");
 				int nItemsCount = m_Engine.GetItemsCount() > m_nMaxSamplesPerImage ? m_nMaxSamplesPerImage : m_Engine.GetItemsCount();
-				//сохранение образцов на диск
+				//СЃРѕС…СЂР°РЅРµРЅРёРµ РѕР±СЂР°Р·С†РѕРІ РЅР° РґРёСЃРє
 				rect_ovr = 0;
 				for (int i = 0; i < nItemsCount; i++)
 				{
@@ -263,7 +263,7 @@ bool		TCSBuildDetector::BuildBkground()
 					awpRect r = item->GetBounds()->GetRect();
 					bool canSave = true;
 					/*
-					попытаемся загрузить xml описание изображеия.
+					РїРѕРїС‹С‚Р°РµРјСЃСЏ Р·Р°РіСЂСѓР·РёС‚СЊ xml РѕРїРёСЃР°РЅРёРµ РёР·РѕР±СЂР°Р¶РµРёСЏ.
 					*/
 					std::string strXmlFileName = LFChangeFileExt(strImageName, ".xml");
 					if (LFFileExists(strXmlFileName))
@@ -332,14 +332,14 @@ bool		TCSBuildDetector::BuildBkground()
 			s->GetFragmentsCount();
 			int nItemsCount = s->GetFragmentsCount() > m_nMaxSamplesPerImage ? m_nMaxSamplesPerImage : s->GetFragmentsCount();
 
-			//сохранение образцов на диск
+			//СЃРѕС…СЂР°РЅРµРЅРёРµ РѕР±СЂР°Р·С†РѕРІ РЅР° РґРёСЃРє
 			for (int i = 0; i < nItemsCount; i++)
 			{
 				awpImage* Fragment = NULL;
 				awpRect r = s->GetFragmentRect(i);
 				bool canSave = true;
 				/*
-				попытаемся загрузить xml описание изображеия.
+				РїРѕРїС‹С‚Р°РµРјСЃСЏ Р·Р°РіСЂСѓР·РёС‚СЊ xml РѕРїРёСЃР°РЅРёРµ РёР·РѕР±СЂР°Р¶РµРёСЏ.
 				*/
 				std::string strXmlFileName = LFChangeFileExt(strImageName, ".xml");
 				if (LFFileExists(strXmlFileName))
@@ -394,7 +394,7 @@ bool		TCSBuildDetector::BuildBkground()
 
 }
 
-// выполняет "накачку сильного классификатора"
+// РІС‹РїРѕР»РЅСЏРµС‚ "РЅР°РєР°С‡РєСѓ СЃРёР»СЊРЅРѕРіРѕ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂР°"
 bool		TCSBuildDetector::Boost()
 {
 	int stages = 0;
@@ -404,14 +404,14 @@ bool		TCSBuildDetector::Boost()
 	stages = od->GetStagesCount();
 	return m_AdaBoost.Boost(stages);
 }
-//обновление детектора. Добавление нового каскада
-//к существующему детектору.
+//РѕР±РЅРѕРІР»РµРЅРёРµ РґРµС‚РµРєС‚РѕСЂР°. Р”РѕР±Р°РІР»РµРЅРёРµ РЅРѕРІРѕРіРѕ РєР°СЃРєР°РґР°
+//Рє СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµРјСѓ РґРµС‚РµРєС‚РѕСЂСѓ.
 bool		TCSBuildDetector::UpdateDetector()
 {
 //#ifdef WIN32
 	m_AdaBoost.DbgMsg("Update detector...\n");
 
-	//анализ сильного классификатора.
+	//Р°РЅР°Р»РёР· СЃРёР»СЊРЅРѕРіРѕ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂР°.
 	TErrTrainData td = m_AdaBoost.GetTrainData();
 	double min_v = 2;
 	int    min_idx = -1;
@@ -500,7 +500,7 @@ bool	TCSBuildDetector::InitDetector()
 
 
 
-// проверяет детектор.
+// РїСЂРѕРІРµСЂСЏРµС‚ РґРµС‚РµРєС‚РѕСЂ.
 bool		    TCSBuildDetector::CheckDetector()
 {
 	std::string strPath = m_AdaBoost.GetObjectsBase();
@@ -539,7 +539,7 @@ static int boost_random(int v)
 {
 	return (int)(((double)rand() / (double)RAND_MAX) * v);
 }
-//строит начальные изображения образцов фона.
+//СЃС‚СЂРѕРёС‚ РЅР°С‡Р°Р»СЊРЅС‹Рµ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РѕР±СЂР°Р·С†РѕРІ С„РѕРЅР°.
 bool		    TCSBuildDetector::BuildDefaultBkGround()
 {
 	m_AdaBoost.DbgMsg("Building new default bkground...\n");
@@ -573,7 +573,7 @@ bool		    TCSBuildDetector::BuildDefaultBkGround()
 	m_AdaBoost.DbgMsg("\nDone.\n");
 	return true;
 }
-// удаляет все изображения из базы образцов фона
+// СѓРґР°Р»СЏРµС‚ РІСЃРµ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РёР· Р±Р°Р·С‹ РѕР±СЂР°Р·С†РѕРІ С„РѕРЅР°
 void		    TCSBuildDetector::RemoveBkground()
 {
 	m_AdaBoost.DbgMsg("Removing old bkground...\n");
@@ -603,7 +603,7 @@ void		    TCSBuildDetector::RemoveBkground()
 
 }
 
-// создание нового детектора 
+// СЃРѕР·РґР°РЅРёРµ РЅРѕРІРѕРіРѕ РґРµС‚РµРєС‚РѕСЂР° 
 bool TCSBuildDetector::CreateDetector(const char* lpDetectorName)
 {
 	if (m_Engine.GetDetector() == NULL)
@@ -656,13 +656,13 @@ void		TCSBuildDetector::PrintDetectorInfo()
 }
 void		TCSBuildDetector::AddNewClassifier()
 {
-	// начальная инициализация детектора 
+	// РЅР°С‡Р°Р»СЊРЅР°СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РґРµС‚РµРєС‚РѕСЂР° 
 	if (!InitDetector())
 	{
 		printf("Cannot init detector.\n");
 		return;
 	}
-	// главный цикл процесса
+	// РіР»Р°РІРЅС‹Р№ С†РёРєР» РїСЂРѕС†РµСЃСЃР°
 	if (!BuildBkground())
 		return;
 	if (!m_AdaBoost.LoadSamples())
@@ -916,7 +916,7 @@ bool TLFBuilder::LoadConfig(const char* fileName)
 		if (!LFDirExist(strNg.c_str()))
 			LFCreateDir(strNg.c_str());
 
-		// конфигурирование бустинга
+		// РєРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёРµ Р±СѓСЃС‚РёРЅРіР°
 		m_AdaBoost.SetArtefactsBase(strNg);
 		m_AdaBoost.SetObjectsBase(str);
 		m_AdaBoost.SetWidthBase(m_detector->GetBaseWidth());
@@ -973,7 +973,7 @@ bool TLFBuilder::BuildBackground()
 		if (!_IsImageFile(bgNames[i]))
 			continue;
 		count++;
-		//Загрузка
+		//Р—Р°РіСЂСѓР·РєР°
 		std::string strImageName = bgNames[i];
 
 		TLFImage Image;
@@ -1029,7 +1029,7 @@ bool TLFBuilder::BuildBackground()
 			s->Scan(Image.GetImage()->sSizeX, Image.GetImage()->sSizeY);
 			int nItemsCount = s->GetFragmentsCount();// > m_nMaxSamplesPerImage ? m_nMaxSamplesPerImage : s->GetFragmentsCount();
 
-			//сохранение образцов на диск
+			//СЃРѕС…СЂР°РЅРµРЅРёРµ РѕР±СЂР°Р·С†РѕРІ РЅР° РґРёСЃРє
 			for (int i = 0; i < nItemsCount; i+=100)
 			{
 				awpImage* Fragment = NULL;
@@ -1070,7 +1070,7 @@ bool TLFBuilder::UpdateDetector()
 {
 	m_AdaBoost.DbgMsg("Update detector...\n");
 
-	//анализ сильного классификатора.
+	//Р°РЅР°Р»РёР· СЃРёР»СЊРЅРѕРіРѕ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂР°.
 	TErrTrainData td = m_AdaBoost.GetTrainData();
 	double min_v = 2;
 	int    min_idx = -1;

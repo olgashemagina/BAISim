@@ -1,4 +1,4 @@
-/*
+﻿/*
     Locate Face 4.0
     File: LFStrongImpl.cpp
     Purpose: ILFStrong implementation

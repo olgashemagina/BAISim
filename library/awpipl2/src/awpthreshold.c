@@ -1,4 +1,4 @@
-/*proc/awpipl-v2/src/awpthreshold.c,v $
+﻿/*proc/awpipl-v2/src/awpthreshold.c,v $
     $Revision: 1.18 $
     $Date: 2005/02/17 07:42:55 $
 	

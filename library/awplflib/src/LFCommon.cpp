@@ -1,4 +1,4 @@
-
+ï»¿
 /*M///////////////////////////////////////////////////////////////////////////////////////
 //
 //  IMPORTANT: READ BEFORE DOWNLOADING, COPYING, INSTALLING OR USING.
@@ -169,23 +169,23 @@ void TLFList::PopBack()
 	if (m_headNode == NULL)
 		return;
 	/*
-		íàõîäèì ïîñëåäíèé óçåë è óäàëÿåì åãî. 
-		ó ïðåäïîñëåäíåãî óçëà óñòàíàâëèâàåì 
-		ñëåäóþùèé óçåë â NULL
+		Ð½Ð°Ñ…Ð¾Ð´Ð¸Ð¼ Ð¿Ð¾ÑÐ»ÐµÐ´Ð½Ð¸Ð¹ ÑƒÐ·ÐµÐ» Ð¸ ÑƒÐ´Ð°Ð»ÑÐµÐ¼ ÐµÐ³Ð¾. 
+		Ñƒ Ð¿Ñ€ÐµÐ´Ð¿Ð¾ÑÐ»ÐµÐ´Ð½ÐµÐ³Ð¾ ÑƒÐ·Ð»Ð° ÑƒÑÑ‚Ð°Ð½Ð°Ð²Ð»Ð¸Ð²Ð°ÐµÐ¼ 
+		ÑÐ»ÐµÐ´ÑƒÑŽÑ‰Ð¸Ð¹ ÑƒÐ·ÐµÐ» Ð² NULL
 	*/
-	TLFListNode* node = m_headNode;					//ïðåäïîñëåäíèé óçåë
-	TLFListNode* node1 = m_headNode->NextNode();	//ïîñëåäíèé óçåë
+	TLFListNode* node = m_headNode;					//Ð¿Ñ€ÐµÐ´Ð¿Ð¾ÑÐ»ÐµÐ´Ð½Ð¸Ð¹ ÑƒÐ·ÐµÐ»
+	TLFListNode* node1 = m_headNode->NextNode();	//Ð¿Ð¾ÑÐ»ÐµÐ´Ð½Ð¸Ð¹ ÑƒÐ·ÐµÐ»
 	if (node1 == NULL)
 	{
-		/*â ñïèñêå âñåãî îäèí ýëåìåíò - óäàëèì åãî*/
+		/*Ð² ÑÐ¿Ð¸ÑÐºÐµ Ð²ÑÐµÐ³Ð¾ Ð¾Ð´Ð¸Ð½ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ - ÑƒÐ´Ð°Ð»Ð¸Ð¼ ÐµÐ³Ð¾*/
 		delete node;
 		m_headNode = NULL;
 		return;
 	}
 	else
 	{
-		/*â ñïèñêå áîëüøå ÷åì îäèí ýëåìåíò, íàäî íàéòè ïîñëåäíèé 
-		è ïðåäïîñëåäíèé*/
+		/*Ð² ÑÐ¿Ð¸ÑÐºÐµ Ð±Ð¾Ð»ÑŒÑˆÐµ Ñ‡ÐµÐ¼ Ð¾Ð´Ð¸Ð½ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚, Ð½Ð°Ð´Ð¾ Ð½Ð°Ð¹Ñ‚Ð¸ Ð¿Ð¾ÑÐ»ÐµÐ´Ð½Ð¸Ð¹ 
+		Ð¸ Ð¿Ñ€ÐµÐ´Ð¿Ð¾ÑÐ»ÐµÐ´Ð½Ð¸Ð¹*/
 		while (true)
 		{
 			if (node1->NextNode() == NULL)
@@ -195,8 +195,8 @@ void TLFList::PopBack()
 				return;
 			}
 
-			node = node1;				// óñòàíàâëèâàåì ïðåäïîñëåäíèé ýëåìåíò
-			node1 = node1->NextNode();  // óñòàíàâëèâàåì ïîñëåäíèé ýëåìåíò
+			node = node1;				// ÑƒÑÑ‚Ð°Ð½Ð°Ð²Ð»Ð¸Ð²Ð°ÐµÐ¼ Ð¿Ñ€ÐµÐ´Ð¿Ð¾ÑÐ»ÐµÐ´Ð½Ð¸Ð¹ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚
+			node1 = node1->NextNode();  // ÑƒÑÑ‚Ð°Ð½Ð°Ð²Ð»Ð¸Ð²Ð°ÐµÐ¼ Ð¿Ð¾ÑÐ»ÐµÐ´Ð½Ð¸Ð¹ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚
 		}
 	}
 }
@@ -206,7 +206,7 @@ TLFObject* TLFList::Pop(TLFObject* object)
 		return NULL;
 	if (First() == object)
 	{
-		// óäàëÿåì ïåðâûé ýëåìåíò. 
+		// ÑƒÐ´Ð°Ð»ÑÐµÐ¼ Ð¿ÐµÑ€Ð²Ñ‹Ð¹ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚. 
 		TLFListNode* node = m_headNode->NextNode();
 		delete m_headNode;
 		m_headNode = node;
@@ -505,7 +505,7 @@ TLFObject** TLFObjectList::GetList() const
 
 
 
-/*-------------- ñåìàíòè÷åñêîå îïèñàíèå èçîáðàæåíèÿ --------------------------*/
+/*-------------- ÑÐµÐ¼Ð°Ð½Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ Ð¾Ð¿Ð¸ÑÐ°Ð½Ð¸Ðµ Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ñ --------------------------*/
 TLFSemanticImageDescriptor::TLFSemanticImageDescriptor()
 {
 	m_imageWidth = 0;
@@ -532,7 +532,7 @@ TLFSemanticImageDescriptor::TLFSemanticImageDescriptor(int w, int h)
 TLFSemanticImageDescriptor::~TLFSemanticImageDescriptor()
 {
 }
-/*ðàáîòà ñ èçîáðàæåíèåì*/
+/*Ñ€Ð°Ð±Ð¾Ñ‚Ð° Ñ Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸ÐµÐ¼*/
 void TLFSemanticImageDescriptor::SetImage(awpImage* pImage)
 {
 	if (pImage != NULL)
@@ -551,7 +551,7 @@ int TLFSemanticImageDescriptor::Height()
 	return m_imageHeight;
 }
 
-/*ðàáîòà ñ xml ôàéëîì*/
+/*Ñ€Ð°Ð±Ð¾Ñ‚Ð° Ñ xml Ñ„Ð°Ð¹Ð»Ð¾Ð¼*/
 bool TLFSemanticImageDescriptor::SaveXML(const char* lpFileName)
 {
 	TiXmlDocument doc;
@@ -727,8 +727,8 @@ bool TLFSemanticImageDescriptor::LoadStream(std::istream& in)
 	return this->_LoadXml(pElem);
 }
 #endif
-/*ðàáîòà ñî ñïèñêîì íàéäåííûõ îáúåêòîâ*/
-/*ðåäàêòèðîâàíèå*/
+/*Ñ€Ð°Ð±Ð¾Ñ‚Ð° ÑÐ¾ ÑÐ¿Ð¸ÑÐºÐ¾Ð¼ Ð½Ð°Ð¹Ð´ÐµÐ½Ð½Ñ‹Ñ… Ð¾Ð±ÑŠÐµÐºÑ‚Ð¾Ð²*/
+/*Ñ€ÐµÐ´Ð°ÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ðµ*/
 bool TLFSemanticImageDescriptor::AddDetectedItem(TLFDetectedItem* item)
 {
    //if (this->m_Image.GetImage() == NULL)
@@ -754,7 +754,7 @@ bool TLFSemanticImageDescriptor::AddDetectedItem(TLFDetectedItem* item)
 	/*
     if (awpRectInImage(this->m_Image.GetImage(), &rr) !=AWP_OK)
     {
-        // óìåíüøèì ïðÿìîóãîëüíèê íà 10%
+        // ÑƒÐ¼ÐµÐ½ÑŒÑˆÐ¸Ð¼ Ð¿Ñ€ÑÐ¼Ð¾ÑƒÐ³Ð¾Ð»ÑŒÐ½Ð¸Ðº Ð½Ð° 10%
         int delta = (rr.right - rr.left) / 20;
         if (delta > 0)
         {
@@ -784,7 +784,7 @@ bool TLFSemanticImageDescriptor::DeleteDetectedItem(int Index)
     return true;
 }
 
-/*ñâîéñòâà*/
+/*ÑÐ²Ð¾Ð¹ÑÑ‚Ð²Ð°*/
 int TLFSemanticImageDescriptor::GetItemsCount()
 {
     return GetCount();
@@ -806,7 +806,7 @@ void TLFSemanticImageDescriptor::Resize(double factor)
 }
 
 
-/*ñðàâíåíèå ñåìàíòè÷åñêèõ îïèñàíèé èçîáðàæåíèÿ*/
+/*ÑÑ€Ð°Ð²Ð½ÐµÐ½Ð¸Ðµ ÑÐµÐ¼Ð°Ð½Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ñ… Ð¾Ð¿Ð¸ÑÐ°Ð½Ð¸Ð¹ Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ñ*/
 double TLFSemanticImageDescriptor::Compare(const char* lpFileName, double overlap)
 {
     TLFSemanticImageDescriptor* descr = new TLFSemanticImageDescriptor();
@@ -953,8 +953,8 @@ void TLFSemanticImageDescriptor::Update(ILFDetectEngine* engine,  TLFSemanticIma
 {
 	if (engine == NULL || sid == NULL)
 		return;
-	// ñþäà ïðèõîäèò sid áåç ïðåäèêòîðîâ. ýòî âðåìåííîå ñîñòîÿíèå ìàøèíû
-	// çäåñü ê ýëåìåíòó îïèñàíèÿ äîáàâëÿåòñÿ ïðåäèêòîð è îí çàïèñûâàåòñÿ â ýòîò sid 
+	// ÑÑŽÐ´Ð° Ð¿Ñ€Ð¸Ñ…Ð¾Ð´Ð¸Ñ‚ sid Ð±ÐµÐ· Ð¿Ñ€ÐµÐ´Ð¸ÐºÑ‚Ð¾Ñ€Ð¾Ð². ÑÑ‚Ð¾ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð½Ð¾Ðµ ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ðµ Ð¼Ð°ÑˆÐ¸Ð½Ñ‹
+	// Ð·Ð´ÐµÑÑŒ Ðº ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ñƒ Ð¾Ð¿Ð¸ÑÐ°Ð½Ð¸Ñ Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÑ‚ÑÑ Ð¿Ñ€ÐµÐ´Ð¸ÐºÑ‚Ð¾Ñ€ Ð¸ Ð¾Ð½ Ð·Ð°Ð¿Ð¸ÑÑ‹Ð²Ð°ÐµÑ‚ÑÑ Ð² ÑÑ‚Ð¾Ñ‚ sid 
 	double d_factor = engine->GetResize() ? 1. / engine->GetResizeCoef() : 1;
 	double u_factor = engine->GetResize() ? engine->GetResizeCoef() : 1;
 	for (int i = 0; i < this->GetCount(); i++)
