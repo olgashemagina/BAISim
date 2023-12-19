@@ -79,8 +79,8 @@ object PagesDlg: TPagesDlg
             Value = 320
           end
           object CSpinEdit2: TCSpinEdit
-            Left = 48
-            Top = 56
+            Left = 45
+            Top = 52
             Width = 121
             Height = 22
             MaxValue = 480

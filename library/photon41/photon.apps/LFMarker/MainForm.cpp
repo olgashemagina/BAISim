@@ -2276,11 +2276,15 @@ void __fastcall TForm1::ModeRulerActionUpdate(TObject *Sender)
 
 void __fastcall TForm1::DtCreateActionExecute(TObject *Sender)
 {
-	AnsiString str = ExtractFilePath(Application->ExeName);
+   /*	AnsiString str = ExtractFilePath(Application->ExeName);
 	str += "\\CSBuilder64.exe";
 	UINT result = WinExec(str.c_str(), SW_SHOWNORMAL);
 	if (result < 31)
 		Memo1->Lines->Add(L"ERROR: cannot execute builder. Error code =  " + IntToStr((int)result));
+   */
+   //CSBuildOptions->Show();
+
+   SelectBuildConfForm->Show();
 }
 //---------------------------------------------------------------------------
 

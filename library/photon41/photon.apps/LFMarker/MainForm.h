@@ -37,6 +37,8 @@
 #include "PhImageMarkTool.h"
 #include "PhRulerTool.h"
 #include "PhTriangleTool.h"
+#include "BuildDetectorOptionsForm.h"
+#include "SelectBuilderConfigForm.h"
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {

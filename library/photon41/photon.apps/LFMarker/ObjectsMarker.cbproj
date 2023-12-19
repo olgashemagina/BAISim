@@ -226,6 +226,12 @@
             <DependentOn>..\EngineView\EngineViewUnit.h</DependentOn>
             <BuildOrder>22</BuildOrder>
         </CppCompile>
+        <CppCompile Include="BuildDetectorOptionsForm.cpp">
+            <Form>CSBuildOptions</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>BuildDetectorOptionsForm.h</DependentOn>
+            <BuildOrder>33</BuildOrder>
+        </CppCompile>
         <CppCompile Include="DbConvertForm.cpp">
             <Form>DbConvertDlg</Form>
             <FormType>dfm</FormType>
@@ -350,6 +356,12 @@
             <DependentOn>RotateForm.h</DependentOn>
             <BuildOrder>28</BuildOrder>
         </CppCompile>
+        <CppCompile Include="SelectBuilderConfigForm.cpp">
+            <Form>SelectBuildConfForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>SelectBuilderConfigForm.h</DependentOn>
+            <BuildOrder>34</BuildOrder>
+        </CppCompile>
         <CppCompile Include="SystemOptionsForm.cpp">
             <BuildOrder>41</BuildOrder>
             <Form>PagesDlg</Form>
@@ -385,6 +397,8 @@
         <FormResources Include="DbCopyForm.dfm"/>
         <FormResources Include="DbExportForm.dfm"/>
         <FormResources Include="DbInfoForm.dfm"/>
+        <FormResources Include="BuildDetectorOptionsForm.dfm"/>
+        <FormResources Include="SelectBuilderConfigForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -600,14 +614,14 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\bin\ObjectsMarker.tds" Configuration="Debug" Class="DebugSymbols">
+                <DeployFile LocalName="..\..\..\..\build\bin\Win32\Debug\ObjectsMarker.tds" Configuration="Debug" Class="DebugSymbols">
                     <Platform Name="Win32">
                         <RemoteName>ObjectsMarker.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="..\..\bin\ObjectsMarker.tds" Configuration="Debug" Class="DebugSymbols"/>
-                <DeployFile LocalName="..\..\bin\ObjectsMarker.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\..\..\build\bin\Win32\Debug\ObjectsMarker.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>ObjectsMarker.exe</RemoteName>
                         <Overwrite>true</Overwrite>

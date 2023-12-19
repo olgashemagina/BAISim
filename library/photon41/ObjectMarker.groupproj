@@ -9,11 +9,11 @@
         <Projects Include="..\awplflib\borland\awplflibb.cbproj">
             <Dependencies>..\awpipl2\borland\awpipl2b.cbproj</Dependencies>
         </Projects>
-        <Projects Include="photon.apps\LFMarker\ObjectsMarker.cbproj">
-            <Dependencies>photon41.cbproj;..\awpipl2\borland\awpipl2b.cbproj;..\awplflib\borland\awplflibb.cbproj</Dependencies>
-        </Projects>
         <Projects Include="photon41.cbproj">
             <Dependencies>..\awpipl2\borland\awpipl2b.cbproj;..\awplflib\borland\awplflibb.cbproj</Dependencies>
+        </Projects>
+        <Projects Include="photon.apps\LFMarker\ObjectsMarker.cbproj">
+            <Dependencies>photon41.cbproj;..\awpipl2\borland\awpipl2b.cbproj;..\awplflib\borland\awplflibb.cbproj</Dependencies>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -41,15 +41,6 @@
     <Target Name="awplflibb:Make" DependsOnTargets="awpipl2b:Make">
         <MSBuild Projects="..\awplflib\borland\awplflibb.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="ObjectsMarker" DependsOnTargets="photon41;awpipl2b;awplflibb">
-        <MSBuild Projects="photon.apps\LFMarker\ObjectsMarker.cbproj"/>
-    </Target>
-    <Target Name="ObjectsMarker:Clean" DependsOnTargets="photon41:Clean;awpipl2b:Clean;awplflibb:Clean">
-        <MSBuild Projects="photon.apps\LFMarker\ObjectsMarker.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="ObjectsMarker:Make" DependsOnTargets="photon41:Make;awpipl2b:Make;awplflibb:Make">
-        <MSBuild Projects="photon.apps\LFMarker\ObjectsMarker.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="photon41" DependsOnTargets="awpipl2b;awplflibb">
         <MSBuild Projects="photon41.cbproj"/>
     </Target>
@@ -59,14 +50,23 @@
     <Target Name="photon41:Make" DependsOnTargets="awpipl2b:Make;awplflibb:Make">
         <MSBuild Projects="photon41.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="ObjectsMarker" DependsOnTargets="photon41;awpipl2b;awplflibb">
+        <MSBuild Projects="photon.apps\LFMarker\ObjectsMarker.cbproj"/>
+    </Target>
+    <Target Name="ObjectsMarker:Clean" DependsOnTargets="photon41:Clean;awpipl2b:Clean;awplflibb:Clean">
+        <MSBuild Projects="photon.apps\LFMarker\ObjectsMarker.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ObjectsMarker:Make" DependsOnTargets="photon41:Make;awpipl2b:Make;awplflibb:Make">
+        <MSBuild Projects="photon.apps\LFMarker\ObjectsMarker.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="awpipl2b;awplflibb;ObjectsMarker;photon41"/>
+        <CallTarget Targets="awpipl2b;awplflibb;photon41;ObjectsMarker"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="awpipl2b:Clean;awplflibb:Clean;ObjectsMarker:Clean;photon41:Clean"/>
+        <CallTarget Targets="awpipl2b:Clean;awplflibb:Clean;photon41:Clean;ObjectsMarker:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="awpipl2b:Make;awplflibb:Make;ObjectsMarker:Make;photon41:Make"/>
+        <CallTarget Targets="awpipl2b:Make;awplflibb:Make;photon41:Make;ObjectsMarker:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
