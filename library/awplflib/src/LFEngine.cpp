@@ -194,15 +194,31 @@ bool ILFDetectEngine::Save(const char* lpFileName)
 	if (engine == NULL)
 		return false;
 	doc.LinkEndChild(engine);
-	return doc.SaveFile(lpFileName);
+	FILE* file = _wfopen(LFUtf8ConvertToUnicode(lpFileName).c_str(), L"w");
+	if (!file)
+	{
+		printf("ILFDetectEngine::Save _wfopen failed!!!\n");
+		return false;
+	}
+	bool result = doc.SaveFile(file);
+	fclose(file);
+	return result;
 }
 bool ILFDetectEngine::Load(const char* lpFileName)
 {
-    TiXmlDocument doc(lpFileName);
-    if (!doc.LoadFile())
+	FILE* file = _wfopen(LFUtf8ConvertToUnicode(lpFileName).c_str(), L"rb");
+	if (!file)
+	{
+		printf("ILFDetectEngine::Load _wfopen failed!!!\n");
+		return false;
+	}
+    TiXmlDocument doc;
+	bool result = doc.LoadFile(file, TIXML_ENCODING_UTF8);
+	fclose(file);
+    if (!result)
     {	
-	printf("ILFDetectEngine::Load failed!!!\n");		
-	return false;
+		printf("ILFDetectEngine::Load failed!!!\n");		
+		return false;
     }
 	this->m_strName = lpFileName;
 	TiXmlHandle hDoc(&doc);
