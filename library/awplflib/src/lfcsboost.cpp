@@ -55,9 +55,6 @@ private:
 //---------------------------------------------------------------------------
 TCSAdaBoost::TCSAdaBoost()
 {
-  	m_strArtefactsBase = "";
-	m_strObjectsbase   = "";
-
     m_widthBase = 24;
     m_heightBase = 24;
     m_nFeaturesCount = 200;
@@ -67,7 +64,6 @@ TCSAdaBoost::TCSAdaBoost()
     m_nTestNonFaces = 0;
     m_nFaces = 0;
     m_nNonFaces = 0;
-    m_pLog = NULL;
 	
 	m_CSFeature  = true;
 	m_LBPFeature = false;
@@ -101,15 +97,13 @@ bool TCSAdaBoost::LoadSamples()
 }
 
 
-bool TCSAdaBoost::Load (TiXmlElement* node, int cascade)
+bool TCSAdaBoost::Load(TiXmlElement* node, int cascade)
 {
 	m_TrainingSamples.Clear();
     TiXmlElement* pElem = NULL;
     pElem = node;
 	// создает новый файл протокола работы алгоритма
-	string str = pElem->Attribute("logfile");
-	if (m_pLog == NULL)
-		m_pLog = new ofstream(str.c_str());
+	//wstring str = LFUtf8ConvertToUnicode(pElem->Attribute("logfile"));
 
 
 	m_strArtefactsBase = pElem->Attribute("database0");
@@ -131,7 +125,7 @@ bool TCSAdaBoost::Load (TiXmlElement* node, int cascade)
 
 }
 
-bool TCSAdaBoost::Load  (const char* lpFileName)
+bool TCSAdaBoost::Load(const char* lpFileName)
 {
    TiXmlDocument doc(lpFileName);
    if (!doc.LoadFile())
@@ -313,19 +307,19 @@ bool TCSAdaBoost::Boost(int stage)
 }
 
 // распечатка сообщения на экране и в лог файле
-void TCSAdaBoost::DbgMsg( std::string const& msg)
+void TCSAdaBoost::DbgMsg(std::string const& msg)
 {
 	cout << msg;
-	if (m_pLog != nullptr) {
-		(*m_pLog) << msg;
-		flush(*m_pLog);
+	if (m_Logger.is_open()) {
+		m_Logger << msg;
+		m_Logger.flush();
 	}
 }
 
-void TCSAdaBoost::SetLogName(const std::string& logName)
+void TCSAdaBoost::SetLogName(const std::wstring& logName)
 {
-	if (m_pLog == NULL)
-		m_pLog = new ofstream(logName.c_str());
+	if (!m_Logger.is_open())
+		m_Logger.open(logName.c_str());
 }
 
 std::string TCSAdaBoost::GetArtefactsBase()
@@ -423,9 +417,9 @@ static bool _IsImageFile(std::string& strFileName)
 // SampleList. в зависимости от установленного флага flag образцы считаются образцами 
 // объектов или образцами фонов. flag = 1 соответствует образцам объектов, flag = 0 - 
 // соответствует образцам фонов.
-bool TCSAdaBoost::LoadSample(TLFObjectList& SampleList, int flag, std::string const& path)
+bool TCSAdaBoost::LoadSample(TLFObjectList& SampleList, int flag, const std::string& path)
 {
-	DbgMsg( "Loading samples from " + path + "... \n" );
+	DbgMsg("Loading samples from " + path + "... \n");
     int count = 0;
 	TLFStrings names;
 	if (!LFGetDirFiles(path.c_str(), names))
@@ -1233,8 +1227,6 @@ TIEFSAdaBoost::TIEFSAdaBoost()
 {
 	m_numIFS = 0;
 	m_numEFS = 0;
-	m_strSourceFile = "";
-	m_pLog = NULL;
 }
 
 bool TIEFSAdaBoost::Load(const char* lpFileName)

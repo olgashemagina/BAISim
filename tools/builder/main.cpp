@@ -24,11 +24,11 @@ void Usage()
 	printf("-b build new detector.\n");
 }
 
-int main(int argc, char* argv[])
+int wmain(int argc, wchar_t* argv[])
 {
-	std::string name = "";
-	std::string key  = "";
-	std::string outName = "";
+	std::string name;
+	std::wstring key;
+	std::string outName;
 	if ( argc < 2 )
 	{
 		Usage();
@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
 	else
 	{
 		key = argv[1];
-		name = argv[2];
+		name = LFUnicodeConvertToUtf8(argv[2]);
 	}
     TCSBuildDetector  Builder;
 	if (!Builder.LoadConfig(name))
@@ -52,20 +52,20 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 
-	if (key == "-i")
+	if (key == L"-i")
 	{
 		//do detector info.
 		printf("detector info.\n");
 		Builder.PrintDetectorInfo();
 		
 	}
-	else if (key == "-a")
+	else if (key == L"-a")
 	{
 		//do add new strong classifier
 		printf("Add new strong classifier.\n");
 		Builder.AddNewClassifier();
 	}
-	else if (key == "-b")
+	else if (key == L"-b")
 	{
 		//do new detecor
 		Builder.Build();

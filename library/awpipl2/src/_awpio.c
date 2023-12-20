@@ -207,7 +207,12 @@ AWPRESULT _awpLoadAWPImage(const char* lpFileName, awpImage** ppImage)
 
     *ppImage = NULL;
     /*open file*/
-    f = fopen (lpFileName, "r+b");
+    const int wchars_num = MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, NULL, 0);
+    wchar_t* wstr = (wchar_t*)malloc(wchars_num*sizeof(wchar_t));
+    MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, wstr, wchars_num);
+    
+    f = _wfopen(wstr, L"r+b");
+    free(wstr);
     if (f == NULL)
         return AWP_OPEN_FILE_ERROR;
 
@@ -348,8 +353,13 @@ AWPRESULT _awpSaveAWPImage(const char* lpFileName, awpImage* pImage)
     isize = 0;
     
     _CHECK_RESULT_((res = awpCheckImage(pImage)))
+    
+    const int wchars_num = MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, NULL, 0);
+    wchar_t* wstr = (wchar_t*)malloc(wchars_num * sizeof(wchar_t));
+    MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, wstr, wchars_num);
 
-    f = fopen(lpFileName, "w+b");
+    f = _wfopen(wstr, L"w+b");
+    free(wstr);
     if (f == NULL)
     {
         res = AWP_CREATE_FILE_ERROR;

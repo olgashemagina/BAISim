@@ -70,8 +70,8 @@ typedef std::vector<TWclErrInfo>      TErrTrainData;
 class TCSAdaBoost
 {
 protected:
-    std::ostream*       m_pLog;
-	std::string			m_strPath;
+    std::ofstream		m_Logger;
+	std::string 		m_strPath;
 
     TLFObjectList       m_Features; 			// features list ILFfeature
     TLFObjectList       m_TrainingSamples;		// trainig samples 
@@ -105,9 +105,9 @@ public:
 	bool Boost(int stage);
 	void InitFeatures();
 	
-	void SetLogName(const std::string& logName);
+	void SetLogName(const std::wstring& logName);
     // print message on the screen and in the log file
-    void DbgMsg( std::string const& );
+    void DbgMsg(std::string const&);
     // returns path to negative samples 
 	std::string GetArtefactsBase();
 	void SetArtefactsBase(std::string str);
@@ -178,7 +178,7 @@ protected:
     void    InitFeatures();
     bool    LoadSamples(int flag, std::string const& path);
    	bool    Load (TiXmlElement* node);
-    void    DbgMsg( std::string const& );
+    void    DbgMsg(std::string const&);
     void    Statistics();
 public:
     TCSAdaBoostSign();

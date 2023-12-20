@@ -61,6 +61,7 @@ extern "C"
 #ifdef WIN32
 	#include <Rpc.h>
 	#define c_separator  "\\"
+	#define w_separator  L"\\"
 #else
 	#include <uuid/uuid.h>
 	typedef uuid_t UUID;
@@ -136,13 +137,16 @@ extern "C"
 	std::string LFChangeFileExt(std::string& strFileName, std::string strExt);
 	std::string LFMakeFileName(std::string& strPath, std::string strName, std::string strExt);
 #endif
+std::string LFUnicodeConvertToUtf8(const std::wstring& wstr);
+std::wstring LFUtf8ConvertToUnicode(const std::string& str);
+std::wstring LFConcatPath(const std::wstring& parentPath, const std::wstring& path);
 //functions to work with file system
 bool LFCreateDir(const char* lpPath);
 bool LFDirExist(const char* lpPath);
 bool LFRemoveDir(const char* lpPath);
 bool LFFileExists(const std::string& strFileName);
 bool LFDeleteFile(const char* lpName);
-bool LFGetDirFiles(const char* lpDir, TLFStrings& names);
+bool LFGetDirFiles(const std::string& lpDir, TLFStrings& names);
 bool LFIsImageFile(const char* fileName);
 bool LFIsVideoFile(const char* fileName);
 // functions to convert data
