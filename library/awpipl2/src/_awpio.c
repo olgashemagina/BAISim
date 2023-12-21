@@ -207,7 +207,12 @@ AWPRESULT _awpLoadAWPImage(const char* lpFileName, awpImage** ppImage)
 
     *ppImage = NULL;
     /*open file*/
-    f = fopen (lpFileName, "r+b");
+    const int wchars_num = MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, NULL, 0);
+    wchar_t* wstr = (wchar_t*)malloc(wchars_num*sizeof(wchar_t));
+    MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, wstr, wchars_num);
+    
+    f = _wfopen(wstr, L"r+b");
+    free(wstr);
     if (f == NULL)
         return AWP_OPEN_FILE_ERROR;
 
@@ -348,8 +353,13 @@ AWPRESULT _awpSaveAWPImage(const char* lpFileName, awpImage* pImage)
     isize = 0;
     
     _CHECK_RESULT_((res = awpCheckImage(pImage)))
+    
+    const int wchars_num = MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, NULL, 0);
+    wchar_t* wstr = (wchar_t*)malloc(wchars_num * sizeof(wchar_t));
+    MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, wstr, wchars_num);
 
-    f = fopen(lpFileName, "w+b");
+    f = _wfopen(wstr, L"w+b");
+    free(wstr);
     if (f == NULL)
     {
         res = AWP_CREATE_FILE_ERROR;
@@ -475,7 +485,12 @@ AWPRESULT _awpLoadJPEGImage(const char* lpFileName, awpImage** ppImage)
         _ERR_EXIT_
     }
 
-    infile = fopen(lpFileName, "rb");
+    const int wchars_num = MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, NULL, 0);
+    wchar_t* wstr = (wchar_t*)malloc(wchars_num * sizeof(wchar_t));
+    MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, wstr, wchars_num);
+
+    infile = _wfopen(wstr, L"rb");
+    free(wstr);
     if (infile == NULL){
         res = AWP_OPEN_FILE_ERROR;
         _ERR_EXIT_
@@ -740,8 +755,12 @@ jpeg_buffer_dest (j_compress_ptr cinfo,char* buffer, AWPINT len )
         res = AWP_BADARG;
         _ERR_EXIT_
     }
+    const int wchars_num = MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, NULL, 0);
+    wchar_t* wstr = (wchar_t*)malloc(wchars_num * sizeof(wchar_t));
+    MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, wstr, wchars_num);
 
-    infile = fopen(lpFileName, "rb");
+    infile = _wfopen(wstr, L"rb");
+    free(wstr);
     if (infile == NULL){
         res = AWP_OPEN_FILE_ERROR;
         _ERR_EXIT_

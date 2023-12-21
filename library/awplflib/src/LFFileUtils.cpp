@@ -61,11 +61,37 @@ std::string LFMakeFileName(std::string& strPath, std::string strName, std::strin
 }
 #endif
 
+std::string LFUnicodeConvertToUtf8(const std::wstring& wstr)
+{
+	if (wstr.empty()) return std::string();
+	int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), NULL, 0, NULL, NULL);
+	std::string strTo(size_needed, 0);
+	WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &strTo[0], size_needed, NULL, NULL);
+	return strTo;
+}
+
+std::wstring LFUtf8ConvertToUnicode(const std::string& str)
+{
+	const int wchars_num = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, NULL, 0);
+	std::wstring ret;
+	ret.resize(wchars_num - 1);
+	//wchar_t* wstr = new wchar_t[wchars_num];
+	MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, const_cast<wchar_t*>(ret.data()), wchars_num);
+	//delete[] wstr;
+	return ret;
+}
+
+std::wstring LFConcatPath(const std::wstring& parentPath, const std::wstring& path)
+{
+	if (parentPath.find_last_of(w_separator) == parentPath.size() - 1)
+		return parentPath + path;
+	return parentPath + w_separator + path;
+}
 
 bool LFFileExists(const std::string& strFileName)
-{
+{	
 	FILE *file;
-	if ((file = fopen(strFileName.c_str(), "r")) != NULL)
+	if ((file = _wfopen(LFUtf8ConvertToUnicode(strFileName).c_str(), L"r")) != NULL)
 	{
 		fclose(file);
 		return 1;
@@ -131,20 +157,19 @@ bool LFDirExist(const char* lpPath)
 bool LFRemoveDir(const char* lpPath)
 {
 #ifdef WIN32
-	TLFString strPath = lpPath;
-	strPath += "\\*.*";
+	std::wstring dirPath = LFUtf8ConvertToUnicode(lpPath);
+	std::wstring strPath = LFConcatPath(dirPath, L"*.*");
 
-	_finddata_t filesInfo;
+	_wfinddata_t filesInfo;
 	intptr_t handle = 0;
 
-	if ((handle = _findfirst((char*)strPath.c_str(), &filesInfo)) != -1)
+	if ((handle = _wfindfirst(strPath.c_str(), &filesInfo)) != -1)
 	{
 		do
 		{
-			TLFString s = lpPath;
-			TLFString strImageName = s + "\\" + filesInfo.name;
-			DeleteFileA(strImageName.c_str());
-		} while (!_findnext(handle, &filesInfo));
+			std::wstring strImageName = LFConcatPath(dirPath, filesInfo.name);
+			DeleteFileW(strImageName.c_str());
+		} while (!_wfindnext(handle, &filesInfo));
 	}
 	_findclose(handle);
 	return true;
@@ -237,20 +262,20 @@ unsigned long LFGetTickCount()
 
 
 #ifdef WIN32 
-static bool _LFGetDirNamesWindows(const char* lpDir, TLFStrings& names)
+static bool _LFGetDirNamesWindows(const std::string& lpDir, TLFStrings& names)
 {
-	_finddata_t filesInfo;
+	const std::wstring dirPath = LFUtf8ConvertToUnicode(lpDir);
+	std::wstring strPath = LFConcatPath(dirPath, L"*.*");
+	_wfinddata_t filesInfo;
 	intptr_t handle = 0;
-	std::string path = lpDir;
-	path += c_separator;
-	if ((handle = _findfirst((char*)((path + "*.*").c_str()), &filesInfo)) != -1)
+	if ((handle = _wfindfirst(const_cast<wchar_t*>(strPath.c_str()), &filesInfo)) != -1)
 	{
 		do
 		{
-			std::string name = path + filesInfo.name;
+			std::string name = LFUnicodeConvertToUtf8(LFConcatPath(dirPath, filesInfo.name));
 			names.push_back(name);
 
-		} while (!_findnext(handle, &filesInfo));
+		} while (!_wfindnext(handle, &filesInfo));
 		_findclose(handle);
 	}
 	else
@@ -284,7 +309,7 @@ static bool _LFGetDirNamesLinux(const char* lpDir, TLFStrings& names)
 }
 #endif
 
-bool LFGetDirFiles(const char* lpDir, TLFStrings& names)
+bool LFGetDirFiles(const std::string& lpDir, TLFStrings& names)
 {
 	names.clear();
 #ifdef WIN32
@@ -296,7 +321,7 @@ bool LFGetDirFiles(const char* lpDir, TLFStrings& names)
 
 bool LFDeleteFile(const char* lpName)
 {
-  int res = remove(lpName);
+  int res = _wremove(LFUtf8ConvertToUnicode(lpName).c_str());
   return res == 0;
 }
 
