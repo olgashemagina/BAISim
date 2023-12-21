@@ -2282,7 +2282,6 @@ void __fastcall TForm1::DtCreateActionExecute(TObject *Sender)
 	if (result < 31)
 		Memo1->Lines->Add(L"ERROR: cannot execute builder. Error code =  " + IntToStr((int)result));
    */
-   //CSBuildOptions->Show();
 
    SelectBuildConfForm->Show();
 }

@@ -55,7 +55,7 @@ void __fastcall TCSBuildOptions::NextButtonClick(TObject *Sender)
 			AnsiString tmpname = SaveDialog1->FileName;
 			AnsiString tmp_value;
 			TiXmlDocument doc;
-			TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "", "" );
+			TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "utf-8", "" );
 			doc.LinkEndChild( decl );
 			TiXmlElement* de = new TiXmlElement("BuildDetector");
 			double q = CSpinEdit9->Value/100.;
@@ -140,10 +140,11 @@ void __fastcall TCSBuildOptions::NextButtonClick(TObject *Sender)
 			doc.SaveFile(tmpname.c_str());
 
 			//CSBuilder.exe start
-			AnsiString str = ExtractFilePath(Application->ExeName);
+			UnicodeString str = ExtractFilePath(Application->ExeName);
 			str += "\\CSBuilder.exe";
-			AnsiString str1 = "-b " + tmpname;
-			bool result = CreateProcess(str.c_str(),str1.c_str());
+			UnicodeString str1 = str + " -b " + tmpname;
+			STARTUPINFO si; PROCESS_INFORMATION pi;
+			bool result = CreateProcess(str.w_str(),str1.w_str(), NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
 			if (result < 31)
 				ShowMessage(L"ERROR: cannot execute builder. Error code =  " + IntToStr((int)result));
         }
