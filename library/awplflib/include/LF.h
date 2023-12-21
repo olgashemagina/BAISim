@@ -67,6 +67,8 @@ extern "C"
 #include <math.h>
 #include "tinyxml.h"
 
+#include <memory>
+
 typedef void (*TLFProgress)(const char* lpMessage, int progress);
 
 static const char* c_lpDictFileName = "dictionary.xml";
@@ -115,9 +117,12 @@ class  ILFDetectEngine;
 class  TLFZones;
 class  TLFDblVector;
 
+class	TLFObserver;
+
 #include "LFCore.h"
 #include "LFGeometry.h"
 #include "LFFileUtils.h"
+#include "LFObserver.h"
 
 /** \defgroup LFInterfaces
 *	Interfaces of the Locate Framework.
@@ -129,6 +134,7 @@ class  TLFDblVector;
 *	and distance between objects. 
 *   @{
 */
+
 
 class ILFPredictor : public TLFObject
 {
@@ -156,7 +162,8 @@ class ILFFeature : public TLFObject
 protected:
 	TLFRect		m_base; // feature unit  within aperture
 	
-	
+	//Collecting feature data and groups of features;
+	std::shared_ptr<TLFObserver>	observer_;
 public:
 	// construction
 	ILFFeature() {
@@ -173,6 +180,14 @@ public:
 	}
 
 	virtual ~ILFFeature() {}
+
+
+	//GetSet Observer Property
+	std::shared_ptr<TLFObserver> GetObserver() const { return observer_; }
+	void SetObserver(std::shared_ptr<TLFObserver> o) {
+		observer_ = o;
+	}
+
 	// calc features value
 	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const = 0;
 	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const = 0;
@@ -220,10 +235,26 @@ class ILFWeak : public TLFObject
 protected:
 	ILFFeature* m_pFeature; // pointer to rectangle feature
 	double      m_fWeight;  // weight
+
+	//Collecting feature data and groups of features;
+	std::shared_ptr<TLFObserver>	observer_;
+
 public:
    ILFWeak(const char* lpFeatureName = "");
    ILFWeak(ILFFeature* pFeature);
    virtual ~ILFWeak();
+
+   //GetSet Observer Property
+   std::shared_ptr<TLFObserver> GetObserver() const { return observer_; }
+   void SetObserver(std::shared_ptr<TLFObserver> o) { 
+	   observer_ = o; 
+	   if (observer_ && m_pFeature) {
+		   auto observer = observer_->CreateObserver(m_pFeature->GetName());
+		   m_pFeature->SetObserver(observer);
+	   }
+   
+   }
+
    /*
 	  Clssification image. Classificatoin result
 	  0 - object present
@@ -255,7 +286,9 @@ protected:
 	/**
 		Fire threshold 
 	*/
-	double m_threshold;                  
+	double m_threshold;       
+	//Collecting feature data and groups of features;
+	std::shared_ptr<TLFObserver>	observer_;
 public:
 	/**
 	\brief Construct the strong object with default parameres
@@ -265,6 +298,20 @@ public:
    \brief Destructs the strong object 
    */
    virtual ~ILFStrong();
+
+   //GetSet Observer Property
+   std::shared_ptr<TLFObserver> GetObserver() const { return observer_; }
+   void SetObserver(std::shared_ptr<TLFObserver> o) { 
+	   observer_ = o; 
+	   
+	   for (size_t i = 0; i < this->GetCount(); ++i) {
+		   if (o) {
+			   auto observer = observer_->CreateObserver(this->GetWeak(i)->GetName());
+			   this->GetWeak(i)->SetObserver(observer);
+		   } else
+			   this->GetWeak(i)->SetObserver(o);
+	   }
+   }
   
    /*
 		XML io operations
@@ -426,6 +473,9 @@ protected:
 	\brief 	List of ILFStrong. This list can be empty. 
 	*/
 	TLFObjectList       m_Strongs;
+
+	//Collecting feature data and groups of features;
+	std::shared_ptr<TLFObserver>	observer_;
 public:
 	/**
 	\brief Construct the detector object with default parameres 
@@ -438,6 +488,24 @@ public:
    \brief Destruct the detector object
    */
    virtual ~ILFObjectDetector();
+
+   //GetSet Observer Property
+   std::shared_ptr<TLFObserver> GetObserver() const { return observer_; }
+   
+   void SetObserver(std::shared_ptr<TLFObserver> o) {
+	   observer_ = o;
+
+	   for (size_t i = 0; i < m_Strongs.GetCount(); ++i) {
+		   ILFStrong* strong = (ILFStrong*)m_Strongs.Get(i);
+		   if (o) {
+			   auto observer = observer_->CreateObserver(strong->GetName());
+			   strong->SetObserver(observer);
+		   }
+		   else
+			   strong->SetObserver(o);
+	   }
+   }
+
    /**
    \brief Initialize detector with awpImage structure and calls scanner if nessesary
    \param pImage - pointer to awpImage structure 
@@ -802,6 +870,9 @@ protected:
 	TLFSemanticImageDescriptor m_result;
 	TLFSemanticImageDescriptor m_tmp_result;
 
+	//Collecting feature data and groups of features;
+	std::shared_ptr<TLFObserver>	observer_;
+
 	// virtual functions
 	virtual void InitDetectors()    = 0;
 	virtual bool FindObjects()		= 0;
@@ -811,6 +882,24 @@ public:
 	virtual ~ILFDetectEngine();
 	
 	virtual void Clear() = 0;
+
+	//GetSet Observer Property
+	std::shared_ptr<TLFObserver> GetObserver() const { return observer_; }
+	
+	void SetObserver(std::shared_ptr<TLFObserver> o) {
+		observer_ = o;
+
+		for (size_t i = 0; i < m_detectors.GetCount(); ++i) {
+			ILFObjectDetector* det = (ILFObjectDetector*)m_detectors.Get(i);
+			if (o) {
+				auto observer = observer_->CreateObserver(det->GetName());
+				det->SetObserver(observer);
+			}
+			else
+				det->SetObserver(o);
+		}
+	}
+
 	
 	/*Loading from-to xml files*/
 	virtual bool Load(const char* lpFileName);

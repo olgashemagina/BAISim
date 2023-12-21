@@ -309,6 +309,7 @@
     <ClInclude Include="..\..\include\LFInterface.h" />
     <ClInclude Include="..\..\include\LFLandmarks.h" />
     <ClInclude Include="..\..\include\LFMCDetector.h" />
+    <ClInclude Include="..\..\include\LFObserver.h" />
     <ClInclude Include="..\..\include\LFParameter.h" />
     <ClInclude Include="..\..\include\LFPredictors.h" />
     <ClInclude Include="..\..\include\LFSample.h" />

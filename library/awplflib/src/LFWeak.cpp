@@ -109,6 +109,10 @@ static void convert_512byte_16int(unsigned int* a, AWPBYTE* b)
 int TCSWeak::Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double* value) const
 {
 	int idx = m_pFeature->uCalcValue(pImage, transform);
+
+	if (observer_)
+		observer_->Add(m_pFeature->GetName(), idx);
+
 	if (value != NULL)
 		*value = (double)idx;
 	return m_Classifiacator[idx];

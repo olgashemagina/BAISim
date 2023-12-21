@@ -687,9 +687,17 @@ int  TCSSensor::CalcValue(awpImage* pImage, double avg, const TLFAlignedTransfor
    v[7] = CalcSum(pix, x + w, y + 2* h, w, h, pImage->sSizeX) * area;
    v[8] = CalcSum(pix, x + 2* w, y + 2* h, w, h, pImage->sSizeX) * area;
 
-   for (i = 0; i < 9; i++)
-	  if (v[i] > total)
-		iv[i] = 1;
+   for (i = 0; i < 9; i++) {
+	   if (v[i] > total)
+		   iv[i] = 1;
+
+	   if (observer_) {
+		   observer_->Add(std::to_string(i), v[i]);
+	   }
+   }
+   if (observer_) {
+	   observer_->Add("Total", total);
+   }
 
 	int idx = 0;
 	idx |= iv[0];
