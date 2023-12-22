@@ -207,12 +207,16 @@ AWPRESULT _awpLoadAWPImage(const char* lpFileName, awpImage** ppImage)
 
     *ppImage = NULL;
     /*open file*/
+#ifdef _USE_UNICODE_VS_
     const int wchars_num = MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, NULL, 0);
     wchar_t* wstr = (wchar_t*)malloc(wchars_num*sizeof(wchar_t));
     MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, wstr, wchars_num);
     
     f = _wfopen(wstr, L"r+b");
     free(wstr);
+#else
+    f = fopen(lpFileName, "r+b");
+#endif
     if (f == NULL)
         return AWP_OPEN_FILE_ERROR;
 
@@ -353,13 +357,16 @@ AWPRESULT _awpSaveAWPImage(const char* lpFileName, awpImage* pImage)
     isize = 0;
     
     _CHECK_RESULT_((res = awpCheckImage(pImage)))
-    
+#ifdef _USE_UNICODE_VS_
     const int wchars_num = MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, NULL, 0);
     wchar_t* wstr = (wchar_t*)malloc(wchars_num * sizeof(wchar_t));
     MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, wstr, wchars_num);
 
     f = _wfopen(wstr, L"w+b");
     free(wstr);
+#else
+    f = fopen(lpFileName, "w+b");
+#endif
     if (f == NULL)
     {
         res = AWP_CREATE_FILE_ERROR;
@@ -484,13 +491,16 @@ AWPRESULT _awpLoadJPEGImage(const char* lpFileName, awpImage** ppImage)
         res = AWP_BADARG;
         _ERR_EXIT_
     }
-
+#ifdef _USE_UNICODE_VS_
     const int wchars_num = MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, NULL, 0);
     wchar_t* wstr = (wchar_t*)malloc(wchars_num * sizeof(wchar_t));
     MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, wstr, wchars_num);
 
     infile = _wfopen(wstr, L"rb");
     free(wstr);
+#else
+    infile = fopen(lpFileName, "rb");
+#endif
     if (infile == NULL){
         res = AWP_OPEN_FILE_ERROR;
         _ERR_EXIT_
@@ -755,12 +765,16 @@ jpeg_buffer_dest (j_compress_ptr cinfo,char* buffer, AWPINT len )
         res = AWP_BADARG;
         _ERR_EXIT_
     }
+#ifdef _USE_UNICODE_VS_
     const int wchars_num = MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, NULL, 0);
     wchar_t* wstr = (wchar_t*)malloc(wchars_num * sizeof(wchar_t));
     MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, wstr, wchars_num);
 
     infile = _wfopen(wstr, L"rb");
     free(wstr);
+#else
+    infile = fopen(lpFileName, "rb");
+#endif
     if (infile == NULL){
         res = AWP_OPEN_FILE_ERROR;
         _ERR_EXIT_
