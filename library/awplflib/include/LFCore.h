@@ -1,4 +1,4 @@
-/*M///////////////////////////////////////////////////////////////////////////////////////
+п»ї/*M///////////////////////////////////////////////////////////////////////////////////////
 //
 //  IMPORTANT: READ BEFORE DOWNLOADING, COPYING, INSTALLING OR USING.
 //
@@ -175,7 +175,7 @@ public:
 	TLFObject* Last();
 	TLFObject* Next(TLFObject* object);
 	/*
-		полная очистка списка.
+		РїРѕР»РЅР°СЏ РѕС‡РёСЃС‚РєР° СЃРїРёСЃРєР°.
 	*/
 	void Clear(bool del = false);
 	void PushBack(TLFObject* object);

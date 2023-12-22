@@ -1,4 +1,4 @@
-/*M///////////////////////////////////////////////////////////////////////////////////////
+п»ї/*M///////////////////////////////////////////////////////////////////////////////////////
 //
 //  IMPORTANT: READ BEFORE DOWNLOADING, COPYING, INSTALLING OR USING.
 //
@@ -643,8 +643,8 @@ TCSSensor::TCSSensor(int sx, int sy, int uw, int uh) : ILFFeature(sx, sy, uw, uh
 TCSSensor::TCSSensor(TCSSensor* sensor) : ILFFeature(sensor) {}
 
 
-// вычисление значения признака.
-// возвращает значение [0..511]
+// РІС‹С‡РёСЃР»РµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ РїСЂРёР·РЅР°РєР°.
+// РІРѕР·РІСЂР°С‰Р°РµС‚ Р·РЅР°С‡РµРЅРёРµ [0..511]
 
 int  TCSSensor::CalcValue(awpImage* pImage, double avg, const TLFAlignedTransform& transform) const {
 

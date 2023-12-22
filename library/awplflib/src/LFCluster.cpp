@@ -1,4 +1,4 @@
-/*M///////////////////////////////////////////////////////////////////////////////////////
+п»ї/*M///////////////////////////////////////////////////////////////////////////////////////
 //
 //  IMPORTANT: READ BEFORE DOWNLOADING, COPYING, INSTALLING OR USING.
 //
@@ -333,7 +333,7 @@ void TLFClusterMaker::Painting()
 
 void TLFClusterMaker::UpdateBlobs()
 {
-	// очистка массива наблюдаемых объектов. 
+	// РѕС‡РёСЃС‚РєР° РјР°СЃСЃРёРІР° РЅР°Р±Р»СЋРґР°РµРјС‹С… РѕР±СЉРµРєС‚РѕРІ. 
 	for (int i = 0; i < LF_NUM_CLUSTERS; i++)
 	{
 		m_blobs[i].angle = 0;
@@ -430,7 +430,7 @@ void TLFClusterMaker::UpdateBlobs()
 		{
 			m_blobs[i].state = 1;
 
-			// todo: добавить GUID
+			// todo: РґРѕР±Р°РІРёС‚СЊ GUID
 			LF_UUID_CREATE(m_blobs[i].id)
 		}
 		else if (m_blobs[i].area > 0 && m_blobs[i].state == 1)
@@ -625,7 +625,7 @@ static void DoUpdateBlobs(SLFBinaryBlob* blobs, TLFObjectList* list)
 {
 	TLFObjectList* m_clusterItems = list;
 	SLFBinaryBlob* m_blobs = blobs;
-	// очистка массива наблюдаемых объектов. 
+	// РѕС‡РёСЃС‚РєР° РјР°СЃСЃРёРІР° РЅР°Р±Р»СЋРґР°РµРјС‹С… РѕР±СЉРµРєС‚РѕРІ. 
 	for (int i = 0; i < LF_NUM_CLUSTERS; i++)
 	{
 		blobs[i].angle = 0;

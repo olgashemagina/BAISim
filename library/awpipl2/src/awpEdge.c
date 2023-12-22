@@ -1,4 +1,4 @@
-/*	$Id: awpEdge.c,v 1.2 2005/04/02 15:48:52 alt Exp $	*/
+﻿/*	$Id: awpEdge.c,v 1.2 2005/04/02 15:48:52 alt Exp $	*/
 
 #include "_awpipl.h"
 

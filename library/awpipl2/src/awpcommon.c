@@ -1,4 +1,4 @@
-/*M
+ï»¿/*M
 //
 //      awpipl2 image processing and image analysis library
 //		File: awpcommon.c
@@ -302,7 +302,7 @@ AWPRESULT awpRectInImage(const awpImage* pImage,const awpRect* pRect)
     /* check rect coordinates in image */
 
     /* width */
-	//áûëî >=  íå äåëàëñÿ âåñü ýêðàí
+	//Ð±Ñ‹Ð»Ð¾ >=  Ð½Ðµ Ð´ÐµÐ»Ð°Ð»ÑÑ Ð²ÐµÑÑŒ ÑÐºÑ€Ð°Ð½
     if(pRect->right>pImage->sSizeX){
         res=AWP_BADARG;
         _ERR_EXIT_
@@ -313,7 +313,7 @@ AWPRESULT awpRectInImage(const awpImage* pImage,const awpRect* pRect)
         _ERR_EXIT_
     }
     /* height */
-  //áûëî >=  íå äåëàëñÿ âåñü ýêðàí
+  //Ð±Ñ‹Ð»Ð¾ >=  Ð½Ðµ Ð´ÐµÐ»Ð°Ð»ÑÑ Ð²ÐµÑÑŒ ÑÐºÑ€Ð°Ð½
     if(pRect->bottom>pImage->sSizeY){
         res=AWP_BADARG;
         _ERR_EXIT_

@@ -1,14 +1,14 @@
-//---------------------------------------------------------------------------
+п»ї//---------------------------------------------------------------------------
 #pragma hdrstop
 #include "_awpipl.h"
 //#include "awpGauss.h"
 
 /*
-  Модуль "линейная алгебра"
-  1. Решение систем линейных уравнений методом Гаусса.
-  2. Перемножение матриц.
-  3. Транспонирование матрицы
-  4. Нахождение обратной матрицы.
+  РњРѕРґСѓР»СЊ "Р»РёРЅРµР№РЅР°СЏ Р°Р»РіРµР±СЂР°"
+  1. Р РµС€РµРЅРёРµ СЃРёСЃС‚РµРј Р»РёРЅРµР№РЅС‹С… СѓСЂР°РІРЅРµРЅРёР№ РјРµС‚РѕРґРѕРј Р“Р°СѓСЃСЃР°.
+  2. РџРµСЂРµРјРЅРѕР¶РµРЅРёРµ РјР°С‚СЂРёС†.
+  3. РўСЂР°РЅСЃРїРѕРЅРёСЂРѕРІР°РЅРёРµ РјР°С‚СЂРёС†С‹
+  4. РќР°С…РѕР¶РґРµРЅРёРµ РѕР±СЂР°С‚РЅРѕР№ РјР°С‚СЂРёС†С‹.
 */
 
 //---------------------------------------------------------------------------
@@ -31,7 +31,7 @@ AWPRESULT awpGaussLinear(awpImage* matrix, awpImage* y, awpImage* result)
 	    _ERROR_EXIT_RES_(AWP_BADARG)
     if (y->sSizeY != result->sSizeY || y->sSizeY != matrix->sSizeX)
 	    _ERROR_EXIT_RES_(AWP_BADARG)
-    //Метод Гаусса
+    //РњРµС‚РѕРґ Р“Р°СѓСЃСЃР°
 
     xx  = (AWPDOUBLE*)result->pPixels;
     yy  = (AWPDOUBLE*)y->pPixels;
@@ -44,7 +44,7 @@ AWPRESULT awpGaussLinear(awpImage* matrix, awpImage* y, awpImage* result)
     k = 0;
     while (k < h)
     {
-    // Поиск строки с максимальным a[i][k]
+    // РџРѕРёСЃРє СЃС‚СЂРѕРєРё СЃ РјР°РєСЃРёРјР°Р»СЊРЅС‹Рј a[i][k]
     max = abs(a[k*w+k]);
     index = k;
     for (i = k + 1; i < h; i++)
@@ -55,7 +55,7 @@ AWPRESULT awpGaussLinear(awpImage* matrix, awpImage* y, awpImage* result)
         index = i;
       }
     }
-    // Перестановка строк
+    // РџРµСЂРµСЃС‚Р°РЅРѕРІРєР° СЃС‚СЂРѕРє
     if (max < eps)
         _ERROR_EXIT_RES_(AWP_BADARG)
     for (j = 0; j < h; j++)
@@ -67,16 +67,16 @@ AWPRESULT awpGaussLinear(awpImage* matrix, awpImage* y, awpImage* result)
     c = yy[k];
     yy[k] = yy[index];
     yy[index] = c;
-    // Нормализация уравнений
+    // РќРѕСЂРјР°Р»РёР·Р°С†РёСЏ СѓСЂР°РІРЅРµРЅРёР№
     for (i = k; i < h; i++)
     {
       c = a[i*w+k];
       if (abs(c) < eps)
-        continue; // для нулевого коэффициента пропустить
+        continue; // РґР»СЏ РЅСѓР»РµРІРѕРіРѕ РєРѕСЌС„С„РёС†РёРµРЅС‚Р° РїСЂРѕРїСѓСЃС‚РёС‚СЊ
       for ( j = 0; j < h; j++)
         a[i*w+j] = a[i*w+j] / c;
       yy[i] = yy[i] / c;
-      if (i == k)  continue; // уравнение не вычитать само из себя
+      if (i == k)  continue; // СѓСЂР°РІРЅРµРЅРёРµ РЅРµ РІС‹С‡РёС‚Р°С‚СЊ СЃР°РјРѕ РёР· СЃРµР±СЏ
       for ( j = 0; j < h; j++)
         a[i*w+j] = a[i*w+j] - a[k*w+j];
       yy[i] = yy[i] - yy[k];
@@ -84,7 +84,7 @@ AWPRESULT awpGaussLinear(awpImage* matrix, awpImage* y, awpImage* result)
     k++;
     }
 
-    // обратная подстановка
+    // РѕР±СЂР°С‚РЅР°СЏ РїРѕРґСЃС‚Р°РЅРѕРІРєР°
     for (k = h - 1; k >= 0; k--)
     {
         xx[k] = yy[k];
@@ -94,7 +94,7 @@ AWPRESULT awpGaussLinear(awpImage* matrix, awpImage* y, awpImage* result)
 CLEANUP:
 	return res;
 }
-// транспонирование матрицы
+// С‚СЂР°РЅСЃРїРѕРЅРёСЂРѕРІР°РЅРёРµ РјР°С‚СЂРёС†С‹
 AWPRESULT awpMatrixTranspose(awpImage* matrix, awpImage* result)
 {
  	AWPRESULT  res = AWP_OK;
@@ -187,7 +187,7 @@ static  void  _invers(AWPDOUBLE** m, AWPINT N)
     {  //int jved,kved;
        vved=-1;
 
-      // поиск ведущего
+      // РїРѕРёСЃРє РІРµРґСѓС‰РµРіРѕ
       for(j=N;j--;)
       {  if(~rn[j])
          for(k=N;k--;)
@@ -213,9 +213,9 @@ static  void  _invers(AWPDOUBLE** m, AWPINT N)
 
       if(jt!=kved)
         gaus_deter=-gaus_deter;
-      // меняем знак детерминанта если перестановка
+      // РјРµРЅСЏРµРј Р·РЅР°Рє РґРµС‚РµСЂРјРёРЅР°РЅС‚Р° РµСЃР»Рё РїРµСЂРµСЃС‚Р°РЅРѕРІРєР°
 
-      // перестановки
+      // РїРµСЂРµСЃС‚Р°РЅРѕРІРєРё
       for(j=N;j--;)
           t=m[kt][j],m[kt][j]=m[jved][j],m[jved][j]=t;
       for(j=N;j--;)
@@ -233,7 +233,7 @@ static  void  _invers(AWPDOUBLE** m, AWPINT N)
          m[j][jt]=0;
          for(k=N;k--;)
            m[j][k]-=m[kt][k]*mul;
-           // самый внутренний цикл ровно N^3 операций
+           // СЃР°РјС‹Р№ РІРЅСѓС‚СЂРµРЅРЅРёР№ С†РёРєР» СЂРѕРІРЅРѕ N^3 РѕРїРµСЂР°С†РёР№
       }
       for(k=N;k--;)
           m[kt][k]/=vved;

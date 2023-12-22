@@ -1,4 +1,4 @@
-#include "LFZone.h"
+﻿#include "LFZone.h"
 #include "LF.h"
 
 TLFZone::TLFZone()

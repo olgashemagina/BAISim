@@ -1,4 +1,4 @@
-/*
+﻿/*
 //
 // The code is based on that found (in C) on:
 //

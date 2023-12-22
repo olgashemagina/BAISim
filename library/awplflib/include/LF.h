@@ -1,4 +1,4 @@
-/*M///////////////////////////////////////////////////////////////////////////////////////
+п»ї/*M///////////////////////////////////////////////////////////////////////////////////////
 //
 //  IMPORTANT: READ BEFORE DOWNLOADING, COPYING, INSTALLING OR USING.
 //
@@ -146,10 +146,10 @@ public:
 /*
 	Feature abstraction
 	Feature  = Receptor = Sensor
-	todo: усложенение признака:
-	1.  Возвращает число используемых бит < 32
-	2.  возвращает массив действительных значений
-	3.  Конструктор из XML элемента
+	todo: СѓСЃР»РѕР¶РµРЅРµРЅРёРµ РїСЂРёР·РЅР°РєР°:
+	1.  Р’РѕР·РІСЂР°С‰Р°РµС‚ С‡РёСЃР»Рѕ РёСЃРїРѕР»СЊР·СѓРµРјС‹С… Р±РёС‚ < 32
+	2.  РІРѕР·РІСЂР°С‰Р°РµС‚ РјР°СЃСЃРёРІ РґРµР№СЃС‚РІРёС‚РµР»СЊРЅС‹С… Р·РЅР°С‡РµРЅРёР№
+	3.  РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РёР· XML СЌР»РµРјРµРЅС‚Р°
 */
 class ILFFeature : public TLFObject
 {
@@ -211,9 +211,9 @@ public:
 };
 /*
 	Weak - classificator  abstraction
-	на данном этапе разработки используем два типа слабых классификаторов
-	1й работает на одном действительном признаке
-	2й работает на коде
+	РЅР° РґР°РЅРЅРѕРј СЌС‚Р°РїРµ СЂР°Р·СЂР°Р±РѕС‚РєРё РёСЃРїРѕР»СЊР·СѓРµРј РґРІР° С‚РёРїР° СЃР»Р°Р±С‹С… РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂРѕРІ
+	1Р№ СЂР°Р±РѕС‚Р°РµС‚ РЅР° РѕРґРЅРѕРј РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕРј РїСЂРёР·РЅР°РєРµ
+	2Р№ СЂР°Р±РѕС‚Р°РµС‚ РЅР° РєРѕРґРµ
 */
 class ILFWeak : public TLFObject
 {
@@ -247,7 +247,7 @@ public:
 };
 /**
 	ILFStrongStrong - TLU logic classificator abstraction. Implements simply artificial neurons, 
-	such as the McCulloch–Pitts model, based on the list of ILFWeak input elements.
+	such as the McCullochвЂ“Pitts model, based on the list of ILFWeak input elements.
 */
 class ILFStrong : public TLFObjectList
 {
@@ -633,7 +633,7 @@ protected:
 	TLFString		m_strDetectorName; /*ID detector*/
 	TLFString 		m_strComment;      /*additional description*/
 	TLFRect*		m_pRect;		   /*bounding box*/
-	double			m_Raiting;         /*рейтинг 0..1*/
+	double			m_Raiting;         /*СЂРµР№С‚РёРЅРі 0..1*/
 	TLFString		m_type;            /*type of detection. set by the detector*/
 	int				m_angle;           /*detection angle*/
 	int				m_racurs;		   /**/
@@ -703,12 +703,12 @@ public:
 	void SetZone(TLFZone* zone, int w = 640, int h = 480);
 	TLFZone* GetZone();
 
-	/*работа с  xml файлом*/
+	/*СЂР°Р±РѕС‚Р° СЃ  xml С„Р°Р№Р»РѕРј*/
 	TiXmlElement* SaveXML();
 	bool LoadXML(TiXmlElement* parent);
 
-	int				m_bh;			   /*базовая высота объекта*/
-	int				m_bw;			   /*базовая ширина объекта*/
+	int				m_bh;			   /*Р±Р°Р·РѕРІР°СЏ РІС‹СЃРѕС‚Р° РѕР±СЉРµРєС‚Р°*/
+	int				m_bw;			   /*Р±Р°Р·РѕРІР°СЏ С€РёСЂРёРЅР° РѕР±СЉРµРєС‚Р°*/
 
 
 	virtual const char* GetName()
@@ -736,7 +736,7 @@ public:
 	virtual ~TLFSemanticImageDescriptor();
 	/*Working with image*/
 	void SetImage(awpImage* pImage);
-	/*работа с xml файлом*/
+	/*СЂР°Р±РѕС‚Р° СЃ xml С„Р°Р№Р»РѕРј*/
 	virtual bool SaveXML(const char* lpFileName);
 	virtual bool LoadXML(const char* lpFileName);
 	virtual TiXmlElement* SaveXML();

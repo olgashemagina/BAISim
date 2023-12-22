@@ -1,4 +1,4 @@
-/*M///////////////////////////////////////////////////////////////////////////////////////
+ï»¿/*M///////////////////////////////////////////////////////////////////////////////////////
 //
 //  IMPORTANT: READ BEFORE DOWNLOADING, COPYING, INSTALLING OR USING.
 //
@@ -230,7 +230,7 @@ bool TLFSemanticDictinaryItem::LoadXML(TiXmlElement* parent)
 	}
 	return true;
 }
-//---------------------------ñåìàíòè÷åñêîé ñëîâàðü-----------------------------
+//---------------------------ÑÐµÐ¼Ð°Ð½Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¾Ð¹ ÑÐ»Ð¾Ð²Ð°Ñ€ÑŒ-----------------------------
 TLFSemanticDictinary::TLFSemanticDictinary()
 {
 	this->m_Description = "default dictinary";

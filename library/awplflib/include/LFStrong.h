@@ -1,4 +1,4 @@
-/*M///////////////////////////////////////////////////////////////////////////////////////
+п»ї/*M///////////////////////////////////////////////////////////////////////////////////////
 //
 //  IMPORTANT: READ BEFORE DOWNLOADING, COPYING, INSTALLING OR USING.
 //
@@ -40,7 +40,7 @@
 //	Locate Framework  4.0
 //	File: LFStrong.h
 //	Purpose: Strong classifiers. Implements simply artificial neurons, 
-//	such as the McCulloch–Pitts model, based on the list of ILFWeak input elements.
+//	such as the McCullochвЂ“Pitts model, based on the list of ILFWeak input elements.
 //
 //	Copyright (C) 2004-2020, NN-Videolab.net, all rights reserved.
 //M*/
@@ -56,7 +56,7 @@
 #include "LFWeak.h"
 
 //---------------------------------------------------------------------------
-// сильный классификатор, основанный на преобразовании Census
+// СЃРёР»СЊРЅС‹Р№ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ, РѕСЃРЅРѕРІР°РЅРЅС‹Р№ РЅР° РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРё Census
 class TCSStrong : public ILFStrong
 {
 protected:
@@ -64,7 +64,7 @@ protected:
 public:
     TCSStrong();
     
-    // классификафия
+    // РєР»Р°СЃСЃРёС„РёРєР°С„РёСЏ
     virtual int Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double& err) const ;
 
 	virtual void SaveXML(TiXmlElement* parent);
@@ -72,23 +72,23 @@ public:
 
 	double GetSumWeakWeight();
 };
-// сильный классификатор, основанный на MCT и TCSWeakSign
+// СЃРёР»СЊРЅС‹Р№ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ, РѕСЃРЅРѕРІР°РЅРЅС‹Р№ РЅР° MCT Рё TCSWeakSign
 class TCSStrongSign : public TLFObject
 {
 protected:
-    TLFObjectList  m_WeakList;      // список слабых класификаторов
-    double         m_Threshold;      // порог принятия решения.
-    double         m_sumWeakWeight;  // сумма всех весов слабых классификаторов
+    TLFObjectList  m_WeakList;      // СЃРїРёСЃРѕРє СЃР»Р°Р±С‹С… РєР»Р°СЃРёС„РёРєР°С‚РѕСЂРѕРІ
+    double         m_Threshold;      // РїРѕСЂРѕРі РїСЂРёРЅСЏС‚РёСЏ СЂРµС€РµРЅРёСЏ.
+    double         m_sumWeakWeight;  // СЃСѓРјРјР° РІСЃРµС… РІРµСЃРѕРІ СЃР»Р°Р±С‹С… РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂРѕРІ
 public:
     TCSStrongSign();
  
-    // классификафия
+    // РєР»Р°СЃСЃРёС„РёРєР°С„РёСЏ
     int Classify( awpImage* pImage, const TLFAlignedTransform& transform, double& err, double avg = 0 );
-    //ввод - вывод
+    //РІРІРѕРґ - РІС‹РІРѕРґ
     void SaveXML(TiXmlElement* parent);
     bool LoadXML(TiXmlElement* parent);
 
-    // порог принятия решения
+    // РїРѕСЂРѕРі РїСЂРёРЅСЏС‚РёСЏ СЂРµС€РµРЅРёСЏ
     double GetThreshold();
     void   SetThreshold(double Value);
 

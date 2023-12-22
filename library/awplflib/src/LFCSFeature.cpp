@@ -1,4 +1,4 @@
-#include "_LF.h"
+п»ї#include "_LF.h"
 //#pragma hdrstop
 TLFCSFeature::TLFCSFeature() : ILFFeature()
 {
@@ -20,7 +20,7 @@ unsigned int     TLFCSFeature::uCalcValue(TLFImage* pImage)
    return 0;
 }
 /*
-    Действительное значение для данного типа признака не вычисляется
+    Р”РµР№СЃС‚РІРёС‚РµР»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ РґР»СЏ РґР°РЅРЅРѕРіРѕ С‚РёРїР° РїСЂРёР·РЅР°РєР° РЅРµ РІС‹С‡РёСЃР»СЏРµС‚СЃСЏ
 */
 double TLFCSFeature::fCalcValue(TLFImage* pImage)
 {

@@ -1,4 +1,4 @@
-#include "LFImageProcessor.h"
+ï»¿#include "LFImageProcessor.h"
 
 ILFImageProcessor::ILFImageProcessor()
 {}
@@ -52,7 +52,7 @@ bool ILFImageProcessor::SetSourceImage(TLFImage* pImage)
 		return false;
 	if (pImage->GetImage() == NULL)
 		return false;
-	// ïðîâåðêà èçîáðàæåíèÿ 
+	// Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ° Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ñ 
 	awpImage* img = pImage->GetImage();
 	if (awpCheckImage(img) != AWP_OK)
 		return false;

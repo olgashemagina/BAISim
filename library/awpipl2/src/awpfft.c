@@ -1,4 +1,4 @@
-/*
+﻿/*
     AWP Image library v2
     
     $Source: /home/cvs/awp/imageproc/awpipl-v2/src/awpfft.c,v $

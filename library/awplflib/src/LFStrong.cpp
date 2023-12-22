@@ -1,12 +1,12 @@
-#include "LFStrong.h"
+п»ї#include "LFStrong.h"
 
 //---------------------------------------------------------------------------
-// сильный классификатор, основанный на преобразовании Census
+// СЃРёР»СЊРЅС‹Р№ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ, РѕСЃРЅРѕРІР°РЅРЅС‹Р№ РЅР° РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРё Census
 TCSStrong::TCSStrong()
 {
 }
 
-// классификафия
+// РєР»Р°СЃСЃРёС„РёРєР°С„РёСЏ
 
 int TCSStrong::Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double& score) const
 {
@@ -80,7 +80,7 @@ TCSStrongSign::TCSStrongSign()
 	this->m_Threshold = 0;
 }
 /*
-// позиционирование
+// РїРѕР·РёС†РёРѕРЅРёСЂРѕРІР°РЅРёРµ
 void TCSStrongSign::Setup( awpRect const& window, int det_width )
 {
 	double factor = (double)(window.right - window.left - 1) / (double)det_width;
@@ -93,7 +93,7 @@ void TCSStrongSign::Setup( awpRect const& window, int det_width )
         pWCL[i]->Shift( window.left+1, window.top+1);
     }
 }*/
-// классификафия
+// РєР»Р°СЃСЃРёС„РёРєР°С„РёСЏ
 int TCSStrongSign::Classify( awpImage* pImage, const TLFAlignedTransform& transform, double& err, double avg)
 {
 	TLFImage image;
@@ -116,7 +116,7 @@ int TCSStrongSign::Classify( awpImage* pImage, const TLFAlignedTransform& transf
     else
         return 0;
 }
-//ввод - вывод
+//РІРІРѕРґ - РІС‹РІРѕРґ
 void TCSStrongSign::SaveXML(TiXmlElement* parent)
 {
    if (parent == NULL)
@@ -162,7 +162,7 @@ bool TCSStrongSign::LoadXML(TiXmlElement* parent)
     return true;
 }
 
-// порог принятия решения
+// РїРѕСЂРѕРі РїСЂРёРЅСЏС‚РёСЏ СЂРµС€РµРЅРёСЏ
 double TCSStrongSign::GetThreshold()
 {
     return m_Threshold;

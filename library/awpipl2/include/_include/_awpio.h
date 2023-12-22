@@ -1,4 +1,4 @@
-#ifndef _AWP_IO_H_
+﻿#ifndef _AWP_IO_H_
 #define _AWP_IO_H_
 /*utilites*/
 AWPRESULT _awpGetFileExt(const char* lpFileName, char* lpFileExt);

@@ -1,4 +1,4 @@
-/*M///////////////////////////////////////////////////////////////////////////////////////
+п»ї/*M///////////////////////////////////////////////////////////////////////////////////////
 //
 //  IMPORTANT: READ BEFORE DOWNLOADING, COPYING, INSTALLING OR USING.
 //
@@ -56,9 +56,9 @@
 *   and AdaBoost trainig algorythm
 *   @{
 */
-// класс TCSBuildDetector предназначен для построения
-// многокаскадного детектора с использованием
-// алгоритма AdaBoost и преобразования Census
+// РєР»Р°СЃСЃ TCSBuildDetector РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅ РґР»В¤ РїРѕСЃС‚СЂРѕРµРЅРёВ¤
+// РјРЅРѕРіРѕРєР°СЃРєР°РґРЅРѕРіРѕ РґРµС‚РµРєС‚РѕСЂР° СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј
+// Р°Р»РіРѕСЂРёС‚РјР° AdaBoost Рё РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёВ¤ Census
 class TCSBuildDetector
 {
 protected:
@@ -73,24 +73,24 @@ protected:
 	void		    RemoveBkground();
 	int				GetNumObjects();
 	std::string		ConcatIfNeeded(const std::string& path, const std::string& commonPath);
-	// ключевые переменные
+	// РєР»СЋС‡РµРІС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ
 	TCSAdaBoost		m_AdaBoost;
 	TLFDetectEngine	m_Engine;
 
 	/*Builder configuration variables*/
-	std::string     m_strDetectorName;   // имя файла детектора
-	std::string		m_strBKG;			 //источник объектов фона
-	std::string     m_strOBJ;			 //размеченная база данных объектов
-	std::string     m_strPathToBase;     // путь к базе данных изобжений,
-	// служащих источником для образцов фона
-	std::string	    m_strConfigName;     //имя файла конфигурации
-	std::string     m_strLogName;		 // имя лог файла. 
+	std::string     m_strDetectorName;   // РёРјВ¤ С„Р°Р№Р»Р° РґРµС‚РµРєС‚РѕСЂР°
+	std::string		m_strBKG;			 //РёСЃС‚РѕС‡РЅРёРє РѕР±СЉРµРєС‚РѕРІ С„РѕРЅР°
+	std::string     m_strOBJ;			 //СЂР°Р·РјРµС‡РµРЅРЅР°В¤ Р±Р°Р·Р° РґР°РЅРЅС‹С… РѕР±СЉРµРєС‚РѕРІ
+	std::string     m_strPathToBase;     // РїСѓС‚СЊ Рє Р±Р°Р·Рµ РґР°РЅРЅС‹С… РёР·РѕР±Р¶РµРЅРёР№,
+	// СЃР»СѓР¶Р°С‰РёС… РёСЃС‚РѕС‡РЅРёРєРѕРј РґР»В¤ РѕР±СЂР°Р·С†РѕРІ С„РѕРЅР°
+	std::string	    m_strConfigName;     //РёРјВ¤ С„Р°Р№Р»Р° РєРѕРЅС„РёРіСѓСЂР°С†РёРё
+	std::string     m_strLogName;		 // РёРјВ¤ Р»РѕРі С„Р°Р№Р»Р°. 
 
 	int				m_SPI;			/*samples per image */
 	int				m_NS;			/*num stages*/
 
-	// управляющие параметры
-	int             m_nBgrdCount;         // количество образцов фона
+	// СѓРїСЂР°РІР»В¤СЋС‰РёРµ РїР°СЂР°РјРµС‚СЂС‹
+	int             m_nBgrdCount;         // РєРѕР»РёС‡РµСЃС‚РІРѕ РѕР±СЂР°Р·С†РѕРІ С„РѕРЅР°
 	int             m_nMaxSamplesPerImage;
 	int             m_nMinBgrdCount;
 	double			m_overlapThr;

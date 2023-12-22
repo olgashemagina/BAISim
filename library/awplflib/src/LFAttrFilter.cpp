@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+п»ї//---------------------------------------------------------------------------
 #include "LFAttrFilter.h"
 
 
@@ -303,8 +303,8 @@ bool TLFAttrCascadeDetector::DoClassify(TLFImage* pImage, TLFRect* pRoi, SLFAttr
 
 	if (m_Experts.GetCount() == 0)
 		return false;
-	// если установлен флаг m_needResize, то выполним первичное 
-	// преобразование изображения
+	// РµСЃР»Рё СѓСЃС‚Р°РЅРѕРІР»РµРЅ С„Р»Р°Рі m_needResize, С‚Рѕ РІС‹РїРѕР»РЅРёРј РїРµСЂРІРёС‡РЅРѕРµ 
+	// РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
 	if (this->m_needResize)
 	{
 		TLFImage fragment;
@@ -491,7 +491,7 @@ bool TCSSeparate::DoClassify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResult& res
    awpReleaseImage(&fragment);
    return true;
 }
-// сохранение структуры в xml узел
+// СЃРѕС…СЂР°РЅРµРЅРёРµ СЃС‚СЂСѓРєС‚СѓСЂС‹ РІ xml СѓР·РµР»
 bool TCSSeparate::SaveToNode(TiXmlElement* parent)
 {
    TiXmlElement* attr_node = new TiXmlElement("AttrNode");
@@ -505,7 +505,7 @@ bool TCSSeparate::SaveToNode(TiXmlElement* parent)
 
 
 
-//реализация класса TAttrCSStrongSign
+//СЂРµР°Р»РёР·Р°С†РёСЏ РєР»Р°СЃСЃР° TAttrCSStrongSign
 
 TAttrCSStrongSign::TAttrCSStrongSign()
 {

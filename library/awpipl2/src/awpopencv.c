@@ -1,4 +1,4 @@
-#include "_awpipl.h"
+﻿#include "_awpipl.h"
 #ifdef _OPENCV_
 int awpImageDepthToCvDepth(awpImage* src)
 {

@@ -1,4 +1,4 @@
-/*
+п»ї/*
     AWP Image library v2
     
     $Source: /home/cvs/awp/imageproc/awpipl-v2/src/awpdraw.c,v $
@@ -11,7 +11,7 @@
 #include <config.h>
 #endif
 
-//#define _USE_MATH_DEFINES // для C++
+//#define _USE_MATH_DEFINES // РґР»СЏ C++
 #include <math.h>
 
 #ifndef M_PI

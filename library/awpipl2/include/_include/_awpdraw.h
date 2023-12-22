@@ -1,4 +1,4 @@
-#ifndef _AWP_DRAW_H_
+﻿#ifndef _AWP_DRAW_H_
 #define _AWP_DRAW_H_
 /*draw point*/
 AWPRESULT _awpDrawPoint(awpImage* pImage, awpPoint p, AWPBYTE bChan, AWPDOUBLE dValue);

@@ -1,4 +1,4 @@
-#include "_awpipl.h"
+﻿#include "_awpipl.h"
 static AWPDOUBLE blur_mask[9] =
 	{1,1,1,
 	 1,1,1,
