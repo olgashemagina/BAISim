@@ -65,6 +65,9 @@ extern "C"
 #include <iostream>
 #include <stdio.h>
 #include <math.h>
+
+#include <functional>
+
 #include "tinyxml.h"
 
 typedef void (*TLFProgress)(const char* lpMessage, int progress);
@@ -79,17 +82,7 @@ typedef enum {ZTUnknown, ZTRect, ZTContour, ZTLineSegment, ZTOpenPolygon, ZTCirc
 class TLFZone;
 
 
-using namespace std;
 
-
-typedef struct
-{
-	bool	HasObject;
-	int		Angle;
-	int     ItemIndex;
-	awpRect Rect;
-    double  raiting;
-}TLFBounds;
 
 /*
 Attribute classification result
@@ -155,6 +148,22 @@ class ILFFeature : public TLFObject
 {
 protected:
 	TLFRect		m_base; // feature unit  within aperture
+
+public:
+
+	struct TResult {
+		enum ELayout {
+			kLayout_None = 0,
+			kLayout_CS,
+		};
+
+		float				value = 0.f;
+		uint32_t			discrete = 0;
+
+		std::vector<float>	features;
+		ELayout				layout = kLayout_None;
+		
+	};
 	
 	
 public:
@@ -174,22 +183,10 @@ public:
 
 	virtual ~ILFFeature() {}
 	// calc features value
-	virtual unsigned int      uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const = 0;
-	virtual double            fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const = 0;
+	
+	virtual TResult           CalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const = 0;
 
-	
-	/**
-		feature setup
-	
-	virtual void Setup(double scale_x, double scale_y,  AWPWORD dx, AWPWORD dy);
-	virtual void Scale(double factor);
-	virtual void Shift(int dx, int dy);
-            Setting the feature inside the specified rectangle.
-        The following values change:
-        m_sx,m_sy,m_w,m_h
-    
-    virtual void Setup(TLFRect& rect);
-	*/
+		
 	/*
 		XML io operations
 	*/
@@ -220,6 +217,16 @@ class ILFWeak : public TLFObject
 protected:
 	ILFFeature* m_pFeature; // pointer to rectangle feature
 	double      m_fWeight;  // weight
+
+
+public:
+	struct TResult {
+		//Classification result
+		int						result;
+
+		ILFFeature::TResult		feature;
+	};
+
 public:
    ILFWeak(const char* lpFeatureName = "");
    ILFWeak(ILFFeature* pFeature);
@@ -229,7 +236,7 @@ public:
 	  0 - object present
 	  1 - object absence
    */
-   virtual int Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double* value = NULL) const = 0;
+   virtual TResult Classify(TLFImage* pImage, const TLFAlignedTransform& transform) = 0;
   
    /*
 		io operations
@@ -251,6 +258,19 @@ public:
 */
 class ILFStrong : public TLFObjectList
 {
+public:
+	struct TResult {
+		using TFeatures = std::vector<ILFFeature::TResult>;
+
+		//Classification result
+		int					result;
+
+		float				score;
+
+		TFeatures			features;
+		
+	};
+
 protected:
 	/**
 		Fire threshold 
@@ -276,7 +296,7 @@ public:
 	  0 - object present
 	  1 - object absence
    */
-   virtual int Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double& err) const = 0;
+   virtual TResult Classify(TLFImage* pImage, const TLFAlignedTransform& transform) = 0;
    /*
 		weak list access
    */
@@ -318,15 +338,25 @@ public:
 	}
 };
 
+
+
+struct TLFBounds
+{
+	int			Angle;
+	size_t		ItemIndex;
+	awpRect		Rect;
+};
+
 /*  Interface that defines the methods of systems
 	decomposition the image into rectangular pieces
 */
 class ILFScanner : public TLFObject
 {
 protected:
-	TLFBounds*    m_Fragments;
-	int		      m_FragmentsCount;
-	TLFObjectList m_Params;
+	
+	std::vector<TLFBounds>	fragments_;
+
+	TLFObjectList			m_Params;
 	unsigned int	   	   m_BaseWidth; /*Base object width. default 24*/
 	unsigned int           m_BaseHeight;
 	unsigned int		   m_minX;
@@ -385,6 +415,7 @@ ILFScanner* CreateScanner(TiXmlElement* parent);
 */
 class ILFObjectDetector : public TLFObject
 {
+
 protected:
 	/**
 	\brief Name of detector: for example FaceDetector, FireDetector etc.  
@@ -427,6 +458,16 @@ protected:
 	*/
 	TLFObjectList       m_Strongs;
 public:
+	using TDescription = std::vector<ILFStrong::TResult>;
+	using FDescCallback = std::function<void (	size_t index, 
+												const TLFBounds& bounds, 
+												const TDescription& desc)>;
+
+protected:
+	FDescCallback		desc_callback_;
+
+
+public:
 	/**
 	\brief Construct the detector object with default parameres 
 	*/
@@ -438,6 +479,9 @@ public:
    \brief Destruct the detector object
    */
    virtual ~ILFObjectDetector();
+
+   void SetDescCallback(FDescCallback callback) { desc_callback_ = callback; }
+
    /**
    \brief Initialize detector with awpImage structure and calls scanner if nessesary
    \param pImage - pointer to awpImage structure 
@@ -455,12 +499,12 @@ public:
    \each stage 
    \retrurn 1 - detection success, 0 - detection fail
    */
-   virtual int  ClassifyRect(awpRect Fragmnet, double* err, int* vect)				= 0;
+   virtual int  ClassifyRect(awpRect Fragmnet)				= 0;
    /**
    \brief performs classification withing image with all rectangles generates by IScanner 
    \retrurn positive - num positive responce, 0 - nothing found, negative - function fail
    */
-   virtual int  Detect()								   							=0;
+   virtual int  Detect()								   							= 0;
    /**
    \brief returns number of stages (strong classificators) in the detector structure 
    \return count of stages

@@ -8,21 +8,28 @@ TCSStrong::TCSStrong()
 
 // классификафия
 
-int TCSStrong::Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double& score) const
+TCSStrong::TResult TCSStrong::Classify(TLFImage* pImage, const TLFAlignedTransform& transform)
 {
     double sumWeight = 0;
     double err = 0;
 	int c = GetCount();
 	if (c == 0)
-		return 0;
+        return {};
 	TCSWeak** pWCL = (TCSWeak**)GetList();
+    TResult result;
+
 	for (int i = 0; i < c; i++)
 	{
-		err += pWCL[i]->Weight()* pWCL[i]->Classify(pImage, transform);
+        auto weak = pWCL[i]->Classify(pImage, transform);
+		err += pWCL[i]->Weight() * weak.result;
         sumWeight += pWCL[i]->Weight();
+        result.features.emplace_back(std::move(weak.feature));
 	}
-    score = err / sumWeight;
-	return ((err - m_threshold) > -0.00001);
+          
+
+    result.score = err / sumWeight;
+    result.result = ((err - m_threshold) > -0.00001);
+    return result;
 }
 
 void TCSStrong::SaveXML(TiXmlElement* parent)
@@ -94,27 +101,28 @@ void TCSStrongSign::Setup( awpRect const& window, int det_width )
     }
 }*/
 // классификафия
-int TCSStrongSign::Classify( awpImage* pImage, const TLFAlignedTransform& transform, double& err, double avg)
+ILFStrong::TResult TCSStrongSign::Classify(TLFImage* pImage, const TLFAlignedTransform& transform)
 {
-	TLFImage image;
-	image.SetImage(pImage);
+	
 	int c = m_WeakList.GetCount();
     TCSWeakSign** pWCL = (TCSWeakSign**)m_WeakList.GetList();
-    err = 0;
+    double err = 0;
+    ILFStrong::TResult result;
     for (int i = 0; i < c; i++)
     {
-        err +=  pWCL[i]->Weight()* pWCL[i]->Classify( &image, transform);
+        auto weak = pWCL[i]->Classify(pImage, transform); 
+        err +=  pWCL[i]->Weight() * weak.result;
+        result.features.emplace_back(std::move(weak.feature));
     }
     //
+    int cls = 0;
     if (fabs(err) > m_Threshold)
     {
-        if (err > 0)
-            return 1;
-        else
-            return -1;
+        cls = err > 0 ? 1 : -1;
     }
-    else
-        return 0;
+    result.result = cls;
+    return result;
+
 }
 //ввод - вывод
 void TCSStrongSign::SaveXML(TiXmlElement* parent)

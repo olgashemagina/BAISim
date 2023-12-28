@@ -74,14 +74,15 @@ int TLFCascade::Classify(TLFImage* pImage, const TLFAlignedTransform& transform,
 	double error = 0;
 	ILFStrong** cascade = (ILFStrong**)GetList();
 	int count = this->GetCount();
-	int result = 0;
+	
 	for (int i = 0; i < count; i++)
 	{
-		result = cascade[i]->Classify(pImage, transform, error);
-		err += error;
+		auto res = cascade[i]->Classify(pImage, transform);
+		
+		err += res.score;
 		if (vector != NULL)
 			vector[i] = error;
-		if (result == 0)
+		if (res.result == 0)
 			return 0;
 	}
 	return 1;

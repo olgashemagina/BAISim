@@ -528,7 +528,7 @@ bool		    TCSBuildDetector::CheckDetector()
 		r.right = img.GetImage()->sSizeX;
 		r.top = 0;
 		r.bottom = img.GetImage()->sSizeY;
-		if (d->ClassifyRect(r, NULL, NULL) == 0)
+		if (d->ClassifyRect(r) == 0)
 		{
 			//NumFailed++;
 			m_AdaBoost.DbgMsg(names[i] + " Failed.\n");

@@ -65,8 +65,8 @@ public:
    // init detector with image
 	virtual bool Init(awpImage* pImage, bool scan = false);
    // classification
-   virtual int  ClassifyRect(awpRect Fragmnet, double* err, int* vect);
-   virtual int  Detect();
+   virtual int  ClassifyRect(awpRect Fragmnet) override;
+   virtual int  Detect() override;
    int DetectInRect(awpRect roi);
    // properties
 	virtual  double GetThreshold();
@@ -106,10 +106,10 @@ public:
 	TLFFGBGDetector();
 	virtual ~TLFFGBGDetector();
 
-	virtual bool Init(awpImage* pImage, bool scan = false);
+	virtual bool Init(awpImage* pImage, bool scan = false) override;
 	// classification
-	virtual int  ClassifyRect(awpRect Fragmnet, double* err, int* vect);
-	virtual int  Detect();
+	virtual int  ClassifyRect(awpRect Fragmnet) override;
+	virtual int  Detect() override;
 	// properties
 	virtual int	  GetStagesCount();
 	virtual bool  AddStrong(ILFStrong* strong);

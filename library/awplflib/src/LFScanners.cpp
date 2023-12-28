@@ -6,8 +6,6 @@ ILFScanner::ILFScanner()
 {
 	this->m_BaseHeight = 24;
 	this->m_BaseWidth = 24;
-	m_FragmentsCount = 0;
-	m_Fragments = NULL;
 
 	m_minX = 0;
 	m_minY = 0;
@@ -21,26 +19,20 @@ ILFScanner::~ILFScanner()
 }
 int ILFScanner::GetFragmentsCount()
 {
-	return m_FragmentsCount;
+	return fragments_.size();
 }
 TLFBounds* ILFScanner::GetFragment(int index)
 {
-	if (m_Fragments == NULL) {
-        return NULL;
-	}
-	return &m_Fragments[index];
+	return &fragments_.at(index);
 }
 
 awpRect	 ILFScanner::GetFragmentRect(int index)
 {
-	return m_Fragments[index].Rect;
+	return GetFragment(index)->Rect;
 }
 void ILFScanner::Clear()
 {
-	if (m_Fragments != NULL)
-		free(m_Fragments);
-	m_FragmentsCount = 0;
-	m_Fragments = NULL;
+	fragments_.clear();
 }
 
 
@@ -92,49 +84,40 @@ bool ILFScanner::ScanRect(awpRect& rect)
 	int h = rect.bottom - rect.top;
 	if (!Scan(w,h))
 		return false;
-	if (m_FragmentsCount == 0)
+	if (fragments_.empty())
 		return false;
-	for (int i = 0; i < m_FragmentsCount; i++)
-	{
-		m_Fragments[i].Rect.left += rect.left;
-		m_Fragments[i].Rect.right += rect.left;
-		m_Fragments[i].Rect.top += rect.top;
-		m_Fragments[i].Rect.bottom += rect.top;
+
+	for (auto& fragment : fragments_) {
+		fragment.Rect.left += rect.left;
+		fragment.Rect.right += rect.left;
+		fragment.Rect.top += rect.top;
+		fragment.Rect.bottom += rect.top;
 	}
+	
 	return true;
 }
 
 bool ILFScanner::Filter(awpRect& rect)
 {
 	int count = 0;
+	std::vector<TLFBounds> filtered;
+	filtered.reserve(fragments_.size());
+
 	// the first pass calculates the number of elements
-	for (int i = 0; i < m_FragmentsCount; i++)
-	{
-		awpRect r = m_Fragments[i].Rect;
+	for (auto& fragment : fragments_) {
+		const awpRect& r = fragment.Rect;
 		if (r.left > rect.left && r.right < rect.right &&
-			r.top > rect.top && r.bottom < rect.bottom)
-			count++;
-	}
-	if (count == 0)
-		return false;
-	TLFBounds* b = (TLFBounds*)malloc(count*sizeof(TLFBounds));
-	if (b == NULL)
-		return false;
-	// the second pass copies the elements into a new array b
-	int c = 0;
-	for (int i = 0; i < m_FragmentsCount; i++)
-	{
-		awpRect r = m_Fragments[i].Rect;
-		if (r.left > rect.left && r.right < rect.right &&
-			r.top > rect.top && r.bottom < rect.bottom)
-		{
-			b[c] = m_Fragments[i];
-			c++;
+			r.top > rect.top && r.bottom < rect.bottom) {
+			fragment.ItemIndex = filtered.size();
+			filtered.emplace_back(std::move(fragment));
 		}
 	}
-	free(m_Fragments);
-	m_Fragments = b;
-	m_FragmentsCount = count;
+
+	if (filtered.empty()) 
+		return false;
+
+	fragments_ = filtered;
+
 	return true;
 }
 
@@ -267,25 +250,16 @@ TLFScanner::TLFScanner() : ILFScanner()
 }
 TLFScanner::~TLFScanner()
 {
-	if (m_Fragments != NULL)
-	{
-		free(m_Fragments);
-		m_Fragments = NULL;
-	}
+
 }
 bool TLFScanner::Scan(int w0, int h0)
 {
-
-	if (m_Fragments != NULL)
-	{
-		free(m_Fragments);
-		m_Fragments = NULL;
-	}
+		
+	fragments_.clear();
 
 	if (w0 <= 0 || h0 <= 0)
 		return false;
-
-	m_FragmentsCount = 0;
+		
 	double st = (double)((TLFParameter*)(this->m_Params.Get(0)))->GetValue();
 	double grow = (double)((TLFParameter*)(this->m_Params.Get(1)))->GetValue();
 	double mins = (double)((TLFParameter*)(this->m_Params.Get(2)))->GetValue();
@@ -298,66 +272,7 @@ bool TLFScanner::Scan(int w0, int h0)
 	int h = (AWPSHORT)floor(w*m_ar + 0.5);
 	double _height;// = 0;
 	double _width;// = 0;
-	if (w > h)
-	{
-		_width  =  width-2.f;
-		_height = _width*m_ar;
-	}
-	else
-	{
-	   _height = height-2.f;
-	   _width = _height / m_ar;
-	}
-
-	double stepx = floor(st*_width / 100.f +0.5f);
-	double stepy = floor(st*_height / 100.f +0.5f);
-
-	stepx = stepx < 1 ? 4.:stepx;
-	stepy = stepy < 1 ? 4.:stepy;
-
-	while (_width >= mins*m_BaseWidth)
-	{
-		if (_width >= maxs*m_BaseWidth)
-		{
-			_width /= grow;
-			_height /= grow;
-			continue;
-		}
-		double y = 0;
-		double ey = y + _height;
-		while (ey < height-1)
-		{
-			double x = 0;
-			double ex = x + _width;
-			while(ex < width-1)
-			{
-
-				m_FragmentsCount++;
-
-				ex +=stepx;
-				x += stepx;
-			}
-			y  += stepy;
-			ey += stepy;
-		}
-
-		_width /=  grow;
-		_height /= grow;
-
-		stepx = st*_width / 100;
-		stepx = stepx < 4 ? 4:stepx;
-		stepy = st*_height / 100;
-		if (stepy < 4 )
-			stepy = 4;
-	}
-	if (m_FragmentsCount == 0)
-		return false;
-	m_Fragments =  (TLFBounds*)malloc(m_FragmentsCount* sizeof(TLFBounds));
-	if (m_Fragments == NULL)
-	{
-        m_FragmentsCount = 0;
-		return false;
-	}
+	
 
 	if (w > h)
 	{
@@ -370,8 +285,8 @@ bool TLFScanner::Scan(int w0, int h0)
 	   _width = _height / m_ar;
 	}
 
-	 stepx = floor(st*_width / 100.f +0.5f);
-	 stepy = floor(st*_height / 100.f +0.5f);
+	double stepx = floor(st*_width / 100.f +0.5f);
+	double stepy = floor(st*_height / 100.f +0.5f);
 
 	stepx = stepx < 1 ? 4:stepx;
 	stepy = stepy < 1 ? 4:stepy;
@@ -395,39 +310,40 @@ bool TLFScanner::Scan(int w0, int h0)
 			while(ex < width-1)
 			{
 
-			 if (x + _width < w0 || y + _height < h0 )
-			 {
-				  m_Fragments[c].Rect.left   = (AWPSHORT)x;
-				  m_Fragments[c].Rect.top = (AWPSHORT)y;
-				  m_Fragments[c].Rect.bottom = m_Fragments[c].Rect.top + (AWPSHORT)_height;
-				  m_Fragments[c].Rect.right = m_Fragments[c].Rect.left + (AWPSHORT)_width;
-				  m_Fragments[c].HasObject = false;
-				  m_Fragments[c].Angle = 0;
-				  m_Fragments[c].ItemIndex = -1;
+				if (x + _width < w0 || y + _height < h0 )
+				{
+					awpRect rect = { (AWPSHORT)x, (AWPSHORT)y, (AWPSHORT)x + (AWPSHORT)_width, (AWPSHORT)y + (AWPSHORT)_height };
+					
+					
+						/*m_Fragments[c].Rect.left = (AWPSHORT)x;
+					m_Fragments[c].Rect.top = (AWPSHORT)y;
+					m_Fragments[c].Rect.bottom = m_Fragments[c].Rect.top + (AWPSHORT)_height;
+					m_Fragments[c].Rect.right = m_Fragments[c].Rect.left + (AWPSHORT)_width;
+					m_Fragments[c].HasObject = false;
+					m_Fragments[c].Angle = 0;
+					m_Fragments[c].ItemIndex = -1;*/
 
-				  if (c == 0)
-				  {
-					m_minX = (unsigned int)x;
-					m_maxX = (unsigned int)(x + _width);
-					m_minY = (unsigned int)y;
-					m_maxY = (unsigned int)(y + _height);
-				  }
-				  else
-				  {
-					if (m_minX > x)
+					if (fragments_.empty())
+					{
 						m_minX = (unsigned int)x;
-					if (m_maxX < x+_width)
 						m_maxX = (unsigned int)(x + _width);
-					if (m_minY > y)
 						m_minY = (unsigned int)y;
-					if (m_maxY < y + _height)
 						m_maxY = (unsigned int)(y + _height);
-				  }
-
-				  c++;
-				  if (c>=this->m_FragmentsCount)
-					  break;
-			 }
+					}
+					else
+					{
+						if (m_minX > x)
+							m_minX = (unsigned int)x;
+						if (m_maxX < x + _width)
+							m_maxX = (unsigned int)(x + _width);
+						if (m_minY > y)
+							m_minY = (unsigned int)y;
+						if (m_maxY < y + _height)
+							m_maxY = (unsigned int)(y + _height);
+					}
+					fragments_.push_back({ 0, fragments_.size(), rect});
+										
+				}
 				ex +=stepx;
 				x += stepx;
 			}
@@ -444,7 +360,7 @@ bool TLFScanner::Scan(int w0, int h0)
 		if (stepy < 4 )
 			stepy = 4;
 	}
-	m_FragmentsCount = c;
+
 	return true;
 }
 //------------------------------------------------------------------------------
@@ -476,20 +392,17 @@ int TLFTileScanner::GetNumY()
 
 bool TLFTileScanner::Scan(int w, int h)
 {
+	fragments_.clear();
 	double overlap = (double)((TLFParameter*)(this->m_Params.Get(0)))->GetValue();
 	overlap = 1 - overlap / 100.;
-
-	if (m_Fragments != NULL)
-		free(m_Fragments);
 
 	int num_x = (int)floor((double)w / (overlap*this->m_BaseWidth));
 	int num_y = (int)floor((double)h / (overlap*this->m_BaseHeight));
 
-	this->m_FragmentsCount = num_x*num_y;
-	if (m_FragmentsCount == 0)
-		return false;
-	m_Fragments = (TLFBounds*)malloc(m_FragmentsCount* sizeof(TLFBounds));
-	int c = 0;
+	size_t fragments = num_x * num_y;
+
+	fragments_.reserve(fragments);
+
 	for (int i = 0; i < num_y; i++)
 	{
 		for (int j = 0; j < num_x; j++)
@@ -497,44 +410,45 @@ bool TLFTileScanner::Scan(int w, int h)
 			if (overlap*j*this->m_BaseWidth + m_BaseWidth > w || overlap*i*this->m_BaseHeight + m_BaseHeight > h)
 				continue;
 
-			m_Fragments[c].Angle = 0;
-			m_Fragments[c].HasObject = false;
-			m_Fragments[c].Rect.left = AWPSHORT(overlap*j*this->m_BaseWidth + 0.5);
-			m_Fragments[c].Rect.top  = AWPSHORT(overlap*i*this->m_BaseHeight + 0.5);
+			awpRect rect;
+		
+			rect.left = AWPSHORT(overlap*j*this->m_BaseWidth + 0.5);
+			rect.top  = AWPSHORT(overlap*i*this->m_BaseHeight + 0.5);
 
             if (overlap*j*this->m_BaseWidth + m_BaseWidth == w)
-				m_Fragments[c].Rect.right = m_Fragments[c].Rect.left + this->m_BaseWidth - 1;
+				rect.right = rect.left + this->m_BaseWidth - 1;
             else
-				m_Fragments[c].Rect.right = m_Fragments[c].Rect.left + this->m_BaseWidth;
+				rect.right = rect.left + this->m_BaseWidth;
 
-           if (overlap*i*this->m_BaseHeight + m_BaseHeight == h)
-				m_Fragments[c].Rect.bottom = m_Fragments[c].Rect.top + this->m_BaseHeight - 1;
-            else
-				m_Fragments[c].Rect.bottom = m_Fragments[c].Rect.top + this->m_BaseHeight;
+			if (overlap * i * this->m_BaseHeight + m_BaseHeight == h)
+				rect.bottom = rect.top + this->m_BaseHeight - 1;
+			else
+				rect.bottom = rect.top + this->m_BaseHeight;
 
-				  if (c == 0)
-				  {
-					m_minX = m_Fragments[c].Rect.left;
-					m_maxX = m_Fragments[c].Rect.left + m_BaseWidth;
-					m_minY = m_Fragments[c].Rect.top;
-					m_maxY = m_Fragments[c].Rect.top +m_BaseHeight;
-				  }
-				  else
-				  {
-					if ((int)m_minX > m_Fragments[c].Rect.left)
-						m_minX = m_Fragments[c].Rect.left;
-					if (m_maxX < m_Fragments[c].Rect.left+m_BaseWidth)
-						m_maxX = m_Fragments[c].Rect.left + m_BaseWidth;
-					if ((int)m_minY > m_Fragments[c].Rect.top)
-						m_minY = m_Fragments[c].Rect.top;
-					if (m_maxY < m_Fragments[c].Rect.top + m_BaseHeight)
-						m_maxY = m_Fragments[c].Rect.top + m_BaseHeight;
-				  }
+			if (fragments_.empty())
+			{
+				m_minX = rect.left;
+				m_maxX = rect.left + m_BaseWidth;
+				m_minY = rect.top;
+				m_maxY = rect.top + m_BaseHeight;
+			}
+			else
+			{
+				if ((int)m_minX > rect.left)
+					m_minX = rect.left;
+				if (m_maxX < rect.left + m_BaseWidth)
+					m_maxX = rect.left + m_BaseWidth;
+				if ((int)m_minY > rect.top)
+					m_minY = rect.top;
+				if (m_maxY < rect.top + m_BaseHeight)
+					m_maxY = rect.top + m_BaseHeight;
+			}
 
-			c++;
+			fragments_.push_back({ 0, fragments_.size(), rect});
+
 		}
 	}
-	m_FragmentsCount = c;
+	
 	m_numX = num_x;
 	m_numY = num_y;
 	return true;
@@ -576,18 +490,11 @@ TLFTileScaleScanner::TLFTileScaleScanner(unsigned int bw, unsigned int bh, doubl
 
 bool TLFTileScaleScanner::Scan(int w, int h)
 {
-	if (m_Fragments != NULL)
-	{
-		free(m_Fragments);
-		m_Fragments = NULL;
-    }
+	fragments_.clear();
+
  	double o = (double)m_overlap;
 	o = 1 - o / 100.;
-
-
-
-	int num;// =  0;
-	int c = 0;
+		
 	int size = 0;
 	double bh = (double)m_BaseHeight*m_min_scale;
 	double bw = (double)m_BaseWidth*m_min_scale;
@@ -595,11 +502,11 @@ bool TLFTileScaleScanner::Scan(int w, int h)
 	{
 		int num_x = (int)floor((double)w / (o*bw));
 		int num_y = (int)floor((double)h / (o*bh));
-		num = num_x*num_y;
+		int num = num_x*num_y;
 		size += num;
 		if (num > 0)
-		{
-			m_Fragments = (TLFBounds*)realloc(m_Fragments, size*sizeof(TLFBounds));
+		{		
+			fragments_.reserve(size);
 
 			for (int i = 0; i < num_y; i++)
 			{
@@ -608,13 +515,15 @@ bool TLFTileScaleScanner::Scan(int w, int h)
 					if (o*j*bw + bw >= w || o*i*bh + bh >= h)
 						continue;
 
-					m_Fragments[c].Angle = 0;
-					m_Fragments[c].HasObject = false;
-					m_Fragments[c].Rect.left = AWPSHORT(o*j*bw);
-					m_Fragments[c].Rect.top = AWPSHORT(o*i*bh);
-					m_Fragments[c].Rect.right = AWPSHORT(m_Fragments[c].Rect.left + bw);
-					m_Fragments[c].Rect.bottom = AWPSHORT(m_Fragments[c].Rect.top + bh);
-					c++;
+					awpRect rect;
+										
+					rect.left = AWPSHORT(o*j*bw);
+					rect.top = AWPSHORT(o*i*bh);
+					rect.right = AWPSHORT(rect.left + bw);
+					rect.bottom = AWPSHORT(rect.top + bh);
+
+					fragments_.push_back({ 0, fragments_.size(), rect});
+					
 				}
 			}
 
@@ -622,37 +531,31 @@ bool TLFTileScaleScanner::Scan(int w, int h)
 		bh *= m_grow;
 		bw *= m_grow;
 	}while(bh < m_BaseHeight*m_max_scale && bw < m_BaseWidth*m_max_scale);
-
-	m_FragmentsCount = c;
 	return true;
 }
 
 TLFAllScanner::TLFAllScanner() : ILFScanner()
 {
-	m_Fragments = NULL;
+
 }
 
 bool TLFAllScanner::Scan(int w, int h)
 {
-	if (m_Fragments != NULL)
-		free(m_Fragments);
-	m_FragmentsCount = (w - m_BaseWidth / 2)*(h - m_BaseHeight / 2);
-	if (m_FragmentsCount <= 0)
-		return false;
-	m_Fragments = (TLFBounds*)malloc(m_FragmentsCount* sizeof(TLFBounds));
-	int c = 0;
+	fragments_.clear();
+	fragments_.reserve((w - m_BaseWidth / 2) * (h - m_BaseHeight / 2));
+
 	for (unsigned int y = m_BaseHeight / 2; y < h - m_BaseHeight / 2; y++)
 	{
 		for (unsigned int x = m_BaseWidth / 2; x < w - m_BaseWidth / 2; x++)
 		{
-			m_Fragments[c].Angle = 0;
-			m_Fragments[c].HasObject = false;
-			m_Fragments[c].ItemIndex = 0;
-			m_Fragments[c].Rect.left  = x - m_BaseWidth / 2;
-			m_Fragments[c].Rect.right = x + m_BaseWidth / 2;
-			m_Fragments[c].Rect.top = y - m_BaseHeight / 2;
-			m_Fragments[c].Rect.bottom = y + m_BaseHeight / 2;
-			c++;
+			awpRect rect;
+			
+			rect.left  = x - m_BaseWidth / 2;
+			rect.right = x + m_BaseWidth / 2;
+			rect.top = y - m_BaseHeight / 2;
+			rect.bottom = y + m_BaseHeight / 2;
+			
+			fragments_.push_back({ 0, fragments_.size(), rect});
 		}
 	}
 	return true;
@@ -661,22 +564,21 @@ bool TLFAllScanner::Scan(int w, int h)
 
 TLFWholeImageScanner::TLFWholeImageScanner() : ILFScanner()
 {
-	this->m_Fragments = NULL;
-	this->m_FragmentsCount = 0;
+	
 }
 bool TLFWholeImageScanner::Scan(int w, int h)
 {
-	if (m_Fragments != NULL)
-		free(m_Fragments);
-	m_FragmentsCount = 1;
-	m_Fragments = (TLFBounds*)malloc(m_FragmentsCount* sizeof(TLFBounds));
-	m_Fragments[0].Angle = 0;
-	m_Fragments[0].HasObject = false;
-	m_Fragments[0].ItemIndex = 0;
-	m_Fragments[0].Rect.left = 0;
-	m_Fragments[0].Rect.right = w;
-	m_Fragments[0].Rect.top = 0;
-	m_Fragments[0].Rect.bottom = h;
+	fragments_.clear();
+	
+	awpRect rect;
+
+	rect.left = 0;
+	rect.right = w;
+	rect.top = 0;
+	rect.bottom = h;
+
+	fragments_.push_back({ 0, 0, rect });
+
 	return true;
 }
 

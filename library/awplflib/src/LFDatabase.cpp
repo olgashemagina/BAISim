@@ -273,7 +273,7 @@ void TLFDBLabeledImages::GetFarHST(TLFDetectEngine& engine, TLFHistogramm& hst, 
 	for (int i = 0; i < m_dataFiles.GetCount(); i++)
 	{
 		TLFDBSemanticDescriptor* d = (TLFDBSemanticDescriptor*)m_dataFiles.Get(i);
-		string strImageName = d->GetImageFile();
+		std::string strImageName = d->GetImageFile();
 		TLFImage img;
 		if (!img.LoadFromFile(strImageName.c_str()))
 			continue;
@@ -292,7 +292,8 @@ void TLFDBLabeledImages::GetFarHST(TLFDetectEngine& engine, TLFHistogramm& hst, 
 				scale = (double)(rect.right - rect.left) / (double)scanner->GetBaseWidth();
 				if (!all)
 				{					
-					/*int result = */classifier->Classify(img1, TLFAlignedTransform(scale, scale, rect.left, rect.top), err);
+					auto res = classifier->Classify(img1, TLFAlignedTransform(scale, scale, rect.left, rect.top));
+					err = res.score;
 				}
 				else
 				{
@@ -300,8 +301,10 @@ void TLFDBLabeledImages::GetFarHST(TLFDetectEngine& engine, TLFHistogramm& hst, 
 					{
 						ILFStrong* s = (ILFStrong*)strongs->Get(k);
 						
-						err = 0;
-						if (s->Classify(img1, TLFAlignedTransform(scale, scale, rect.left, rect.top), err) == 0)
+						
+						auto res = s->Classify(img1, TLFAlignedTransform(scale, scale, rect.left, rect.top));
+						err = res.score;
+						if (res.result == 0)
 						{
 							if (k!=stage) 
 								err = 0;
@@ -336,7 +339,7 @@ void TLFDBLabeledImages::GetFrrHST(TLFDetectEngine& engine, TLFHistogramm& hst, 
 	for (int i = 0; i < m_dataFiles.GetCount(); i++)
 	{
 		TLFDBSemanticDescriptor* d = (TLFDBSemanticDescriptor*)m_dataFiles.Get(i);
-		string strImageName = d->GetImageFile();
+		std::string strImageName = d->GetImageFile();
 		TLFImage img;
 		if (!img.LoadFromFile(strImageName.c_str()))
 			continue;
@@ -354,16 +357,19 @@ void TLFDBLabeledImages::GetFrrHST(TLFDetectEngine& engine, TLFHistogramm& hst, 
 			{
 				scale = (double)(rect.right - rect.left) / (double)scanner->GetBaseWidth();
 				if (!all)
-				{					
-					/*int result = */classifier->Classify(img1, TLFAlignedTransform(scale, scale, rect.left, rect.top), err);
+				{
+					auto res = classifier->Classify(img1, TLFAlignedTransform(scale, scale, rect.left, rect.top));
+					err = res.score;
 				}
 				else
 				{
 					for (int k = 0; k <= stage; k++)
 					{
 						ILFStrong* s = (ILFStrong*)strongs->Get(k);
-						err = 0;
-						if (s->Classify(img1, TLFAlignedTransform(scale, scale, rect.left, rect.top), err) == 0)
+
+						auto res = s->Classify(img1, TLFAlignedTransform(scale, scale, rect.left, rect.top));
+						err = res.score;
+						if (res.result == 0)
 						{
 							if (k != stage)
 								err = 0;
@@ -371,6 +377,7 @@ void TLFDBLabeledImages::GetFrrHST(TLFDetectEngine& engine, TLFHistogramm& hst, 
 						}
 					}
 				}
+			
 				hst.AddElememt(err);
 			}
 		}
@@ -399,7 +406,7 @@ void TLFDBLabeledImages::GetFarFrrHST(TLFDetectEngine& engine, TLFHistogramm& fa
 	for (int i = 0; i < m_dataFiles.GetCount(); i++)
 	{
 		TLFDBSemanticDescriptor* d = (TLFDBSemanticDescriptor*)m_dataFiles.Get(i);
-		string strImageName = d->GetImageFile();
+		std::string strImageName = d->GetImageFile();
 		TLFImage img;
 		if (!img.LoadFromFile(strImageName.c_str()))
 			continue;
@@ -415,18 +422,21 @@ void TLFDBLabeledImages::GetFarFrrHST(TLFDetectEngine& engine, TLFHistogramm& fa
 			TLFRect lf_rect(rect);
 			double overlap_det = d->Overlap(lf_rect);
 			scale = (double)(rect.right - rect.left) / (double)scanner->GetBaseWidth();
+
 			if (!all)
-			{				
-				/*int result = */classifier->Classify(img1, TLFAlignedTransform(scale, scale, rect.left, rect.top), err);
+			{
+				auto res = classifier->Classify(img1, TLFAlignedTransform(scale, scale, rect.left, rect.top));
+				err = res.score;
 			}
 			else
 			{
 				for (int k = 0; k <= stage; k++)
 				{
 					ILFStrong* s = (ILFStrong*)strongs->Get(k);
-					
-					err = 0;
-					if (s->Classify(img1, TLFAlignedTransform(scale, scale, rect.left, rect.top), err) == 0)
+
+					auto res = s->Classify(img1, TLFAlignedTransform(scale, scale, rect.left, rect.top));
+					err = res.score;
+					if (res.result == 0)
 					{
 						if (k != stage)
 							err = 0;
@@ -434,8 +444,7 @@ void TLFDBLabeledImages::GetFarFrrHST(TLFDetectEngine& engine, TLFHistogramm& fa
 					}
 				}
 			}
-
-
+						
 			if (overlap_det > overlap)
 			{
 				frr_hst.AddElememt(err);
@@ -461,7 +470,7 @@ void TLFDBLabeledImages::GetFarFrr(TLFDetectEngine& engine, double& Far, double&
 	for (int i = 0; i < m_dataFiles.GetCount(); i++)
 	{
 		TLFDBSemanticDescriptor* d = (TLFDBSemanticDescriptor*)m_dataFiles.Get(i);
-		string strImageName = d->GetImageFile();
+		std::string strImageName = d->GetImageFile();
 		printf("processing: %s\n", strImageName.c_str());
 		TLFImage img;
 		img.LoadFromFile(strImageName.c_str());
@@ -504,7 +513,7 @@ void TLFDBLabeledImages::CheckEngine(TLFDetectEngine& engine, double overlap)
 		TLFDBSemanticDescriptor* d = (TLFDBSemanticDescriptor*)m_dataFiles.Get(i);
 		if (d == NULL)
 			continue;
-		string strImageName = d->GetImageFile();
+		std::string strImageName = d->GetImageFile();
 		printf("processing: %s\n", strImageName.c_str());
 		TLFImage img;
 		img.LoadFromFile(strImageName.c_str());
@@ -515,7 +524,7 @@ void TLFDBLabeledImages::CheckEngine(TLFDetectEngine& engine, double overlap)
 			TLFRect* lf_rect = item->GetBounds();
 			awpRect rect = lf_rect->GetRect();
 			detector->Init(img.GetImage());
-		    int result = detector->ClassifyRect(rect, NULL, NULL);
+		    int result = detector->ClassifyRect(rect);
 			awpImage* fragment = NULL;
 			awpCopyRect(img.GetImage(), &fragment, &rect);
 			if (fragment == NULL)
@@ -528,7 +537,7 @@ void TLFDBLabeledImages::CheckEngine(TLFDetectEngine& engine, double overlap)
 			rect.right  = fragment->sSizeX;
 			rect.bottom = fragment->sSizeY;
 			detector->Init(fragment);
-			int result1 = detector->ClassifyRect( rect, NULL, NULL);
+			int result1 = detector->ClassifyRect( rect);
 			if (result1 != result || result == 0)
 				printf("failed with result %i.\n", result);
 			else
@@ -552,8 +561,8 @@ void TLFDBLabeledImages::SetLabel(const char* label)
 			TLFDetectedItem* item = d->GetDetectedItem(j);
 			item->SetType(label);
 		}
-		string fname = d->GetImageFile();
-		string ext = ".xml";
+		std::string fname = d->GetImageFile();
+		std::string ext = ".xml";
 		d->SaveXML(LFChangeFileExt(fname, ext).c_str());
 	}
 

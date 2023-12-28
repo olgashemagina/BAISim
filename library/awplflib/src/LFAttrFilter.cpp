@@ -469,24 +469,19 @@ bool TCSSeparate::DoClassify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResult& res
    //TODO: remove base width / height hardcoded
    TLFAlignedTransform transform(fragment->sSizeX / 24.0, fragment->sSizeY / 24.0, 0, 0);
 
-   double err1 = 0;
-   double err2 = 0;
-   int res1 = -1;
-   int res2 = -1;
 
+   auto res1 = m_Detector->Classify(&test_img, transform);
+   auto res2 = m_Detector1->Classify(&test_img, transform);
 
-   res1 = m_Detector->Classify(&test_img, transform, err1) ? 1 : 0;
-   res2 = m_Detector1->Classify(&test_img, transform, err2) ? 1 : 0;
-
-   if (res1 + res2 == 0 || res1 + res2 == 2)
+   if (res1.result + res2.result == 0 || res1.result + res2.result == 2)
       result.m_Result = 0;
-   else if (res1 == 1)
+   else if (res1.result == 1)
      result.m_Result = 1;
    else
      result.m_Result = -1;
 
-   result.m_Raiting1 = double(err1 /  m_Detector->GetSumWeakWeight());
-   result.m_Raiting2 = double(err2 /  m_Detector1->GetSumWeakWeight());
+   result.m_Raiting1 = double(res1.score /  m_Detector->GetSumWeakWeight());
+   result.m_Raiting2 = double(res2.score /  m_Detector1->GetSumWeakWeight());
 
    awpReleaseImage(&fragment);
    return true;
@@ -547,8 +542,7 @@ bool TAttrCSStrongSign::DoClassify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResul
 	   awpCopyRect(img, &fragment, &r);
 	   if (fragment == NULL)
 		return false;
-	   awpConvert(fragment, AWP_CONVERT_3TO1_BYTE);
-	   awpIntegral( fragment, &pIntegral, 0 );
+	  
 
 	   awpRect window;
 	   window.left = 0;
@@ -559,12 +553,12 @@ bool TAttrCSStrongSign::DoClassify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResul
 	   //TODO: remove base width / height hardcoded
 	   TLFAlignedTransform transform(fragment->sSizeX / 24.0, fragment->sSizeY / 24.0, 0, 0);
 
-	   double err1 = 0;
-	   m_Detector->Classify(pIntegral, transform, err1);
+	   
+	   auto res = m_Detector->Classify(pImage, transform);
 
-	   if (err1 > m_threshold1)
+	   if (res.score > m_threshold1)
 	   {
-		  if (err1 > m_threshold2)
+		  if (res.score > m_threshold2)
 			result.m_Result = 1;
 		  else
 			result.m_Result = 0;
@@ -572,8 +566,8 @@ bool TAttrCSStrongSign::DoClassify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResul
 	   else
 		 result.m_Result = -1;
 
-	   result.m_Raiting1 = err1;
-	   result.m_Raiting2 = err1;
+	   result.m_Raiting1 = res.score;
+	   result.m_Raiting2 = res.score;
 
 	   awpReleaseImage(&fragment);
 	   awpReleaseImage(&pIntegral);
@@ -582,16 +576,12 @@ bool TAttrCSStrongSign::DoClassify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResul
    }
    else
    {
-	   awpImage* img = pImage->GetImage();
-	   if (img == NULL)
-		return false;
-   
-	   double err1 = 0;
-	   m_Detector->Classify(img, TLFAlignedTransform(1), err1);
+	   
+	   auto res = m_Detector->Classify(pImage, TLFAlignedTransform(1));
 
-	   if (err1 > m_threshold1)
+	   if (res.score > m_threshold1)
 	   {
-		  if (err1 > m_threshold2)
+		  if (res.score > m_threshold2)
 			result.m_Result = 1;
 		  else
 			result.m_Result = 0;
@@ -599,8 +589,8 @@ bool TAttrCSStrongSign::DoClassify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResul
 	   else
 		 result.m_Result = -1;
 
-	   result.m_Raiting1 = err1;
-	   result.m_Raiting2 = err1;
+	   result.m_Raiting1 = res.score;
+	   result.m_Raiting2 = res.score;
 	   return true;
    }
 }

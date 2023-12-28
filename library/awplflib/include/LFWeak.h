@@ -76,8 +76,8 @@ public:
     bool LoadXML(TiXmlElement* parent);
  
     // классификация
-    //int Classify(awpImage* pImage, double avg = 0);
-	virtual int Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double* value = NULL) const ;
+	TResult Classify(TLFImage* pImage, const TLFAlignedTransform& transform) override;
+	
 
 	AWPBYTE Classificator(int i)
 	{
@@ -157,7 +157,7 @@ public:
 
     
     //classification
-	virtual int Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double* value = NULL) const ;
+	TResult Classify(TLFImage* pImage, const TLFAlignedTransform& transform) override;
 		
     //double ClassifyWeight(awpImage* pImage, double avg = 0);
 	virtual const char* GetName()
@@ -310,7 +310,7 @@ public:
 	virtual void SaveXML(TiXmlElement* parent);
 	virtual bool LoadXML(TiXmlElement* parent);
 		
-	virtual int Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double* value = NULL) const ;
+	TResult Classify(TLFImage* pImage, const TLFAlignedTransform& transform) override;
 
 	double GetT1();
 	void   SetT1(double value);
@@ -348,7 +348,7 @@ public:
 	virtual void SaveXML(TiXmlElement* parent);
 	virtual bool LoadXML(TiXmlElement* parent);
 
-	virtual int Classify(TLFImage* pImage, double* value = NULL);
+	//TResult Classify(TLFImage* pImage, const TLFAlignedTransform& transform) override;
 
 	void Reset();
 
@@ -380,7 +380,7 @@ public:
 	virtual void SaveXML(TiXmlElement* parent);
 	virtual bool LoadXML(TiXmlElement* parent);
 
-	virtual int Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double* value = NULL) const;
+	TResult Classify(TLFImage* pImage, const TLFAlignedTransform& transform) override;
 	
 	void SetThreshold(double value);
 	double GetThreshold();

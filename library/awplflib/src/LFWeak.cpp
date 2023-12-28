@@ -106,12 +106,12 @@ static void convert_512byte_16int(unsigned int* a, AWPBYTE* b)
 }
 
 // classification
-int TCSWeak::Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double* value) const
+TCSWeak::TResult TCSWeak::Classify(TLFImage* pImage, const TLFAlignedTransform& transform)
 {
-	int idx = m_pFeature->uCalcValue(pImage, transform);
-	if (value != NULL)
-		*value = (double)idx;
-	return m_Classifiacator[idx];
+	auto feature = m_pFeature->CalcValue(pImage, transform);
+	auto cls = m_Classifiacator[feature.discrete];
+	
+	return {cls, std::move(feature)};
 }
 //
 TCSWeak& TCSWeak::operator = (TCSWeak& Weak)
@@ -217,11 +217,11 @@ void TCSWeakTraining::AddSample(TCSSample* pSample,int  flag, double weight, int
 {		
 	awpImage* img = pSample->GetIntegralImage();
 
-	int idx = m_pFeature->uCalcValue(pSample, TLFAlignedTransform::GetTransform(pSample, base_width, base_height));//sensor->CalcValue(img);
+	auto feature = m_pFeature->CalcValue(pSample, TLFAlignedTransform::GetTransform(pSample, base_width, base_height));//sensor->CalcValue(img);
 	if (flag == 1)
-		m_FacesDistrib[idx] += weight;
+		m_FacesDistrib[feature.discrete] += weight;
 	else if (flag == 0)
-		m_NonFacesDistrib[idx] += weight;
+		m_NonFacesDistrib[feature.discrete] += weight;
 }
 
 //------------------------------------------------------------------------------
@@ -323,10 +323,11 @@ bool TCSWeakSign::LoadXML(TiXmlElement* parent)
 }
 
 //classification
-int TCSWeakSign::Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double* value) const
+TCSWeakSign::TResult TCSWeakSign::Classify(TLFImage* pImage, const TLFAlignedTransform& transform)
 {
-	int idx = m_pFeature->uCalcValue(pImage, transform);
-	return m_table[idx];
+	auto feature = m_pFeature->CalcValue(pImage, transform);
+	auto idx = feature.discrete;
+	return { m_table[idx], std::move(feature)};
 }
 
 
@@ -375,11 +376,11 @@ void TCSWeakSignTrainig::Train()
 }
 void TCSWeakSignTrainig::AddSample(TCSSample* pSample,int  flag, double weight)
 {
-  int idx = m_pFeature->uCalcValue(pSample, TLFAlignedTransform(1.0));
+  auto feature = m_pFeature->CalcValue(pSample, TLFAlignedTransform(1.0));
   if (flag == 1)
-     m_DistribClass1[idx] += weight;
+     m_DistribClass1[feature.discrete] += weight;
   else if (flag == -1)
-     m_DistribClass2[idx] += weight;
+     m_DistribClass2[feature.discrete] += weight;
 }
 
 TIEFSWeak::TIEFSWeak()
@@ -762,48 +763,51 @@ bool TLFHysteresisWeak::LoadXML(TiXmlElement* parent)
 	return true;
 }
 
-int TLFHysteresisWeak::Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double* value2) const
+TLFHysteresisWeak::TResult TLFHysteresisWeak::Classify(TLFImage* pImage, const TLFAlignedTransform& transform)
 {
-	unsigned int value = m_pFeature->uCalcValue(pImage, transform);
+	auto feature = m_pFeature->CalcValue(pImage, transform);
+	
 	int dt = 0;
 	if (m_method == HYST_METHOD_MORE)
 	{
-		if (value > m_t2)
+		if (feature.discrete > m_t2)
 		{
 			if (m_state == 0)
 			{
 				m_state = 1;
 				m_startTime = 0;
 				m_buffer->Clear();
-				return 0;
+				return { 0, std::move(feature) };
 			}
 			else
 			{
 				m_startTime++;
 				dt = m_startTime;
-				m_buffer->Push((double)value);
+				m_buffer->Push(feature.value);
 			}
 			if (dt >= HYST_BUF_LEN)
 			{
 				double v = m_buffer->GetDisp();
-				v = 0.5*((v - m_a2)*(v - m_a2)/m_d2 - (v - m_a1)*(v - m_a1)/m_d1);
-				return v >= m_theta ? 1 : 0;
+				v = 0.5 * ((v - m_a2) * (v - m_a2) / m_d2 - (v - m_a1) * (v - m_a1) / m_d1);
+				return { v >= m_theta ? 1 : 0, std::move(feature)};
 			}
 			else
-				return 0;
+				return { 0, std::move(feature) };
 		}
 		else
 		{
 			m_state = 0;
 			m_buffer->Clear();
-			return 0;
+			return { 0, std::move(feature) };
 		}
 	}
 	else if (m_method == HYST_METHOD_LESS)
-		return value < m_t1 ? 1 : 0;
+		return { feature.value < m_t1 ? 1 : 0, std::move(feature) };
 	else
-		return 0;
+		return { 0, std::move(feature) };
+	
 }
+
 
 double TLFHysteresisWeak::GetT1()
 {
@@ -982,11 +986,14 @@ bool TLFDynamicWeak::LoadXML(TiXmlElement* parent)
 	return true;
 }
 
-int TLFDynamicWeak::Classify(TLFImage* pImage, double* value)
+/*
+TLFDynamicWeak::TResult TLFDynamicWeak::Classify(TLFImage* pImage, const TLFAlignedTransform& transform)
 {
+	
 	int result = 0;
 	if (m_classifyCount < m_buf1Size)
 	{
+		auto feature = m_pFeature->CalcValue(pImage, transform);
 		m_buf1[m_classifyCount] = m_pFeature->uCalcValue(pImage, TLFAlignedTransform(1.0));
 
 	}
@@ -1021,6 +1028,7 @@ int TLFDynamicWeak::Classify(TLFImage* pImage, double* value)
 	m_classifyCount++;
 	return result;
 }
+*/
 
 void TLFDynamicWeak::Reset()
 {
@@ -1104,13 +1112,15 @@ bool TLFAccWeak::LoadXML(TiXmlElement* parent)
 	return false;
 }
 
-int TLFAccWeak::Classify(TLFImage* pImage, const TLFAlignedTransform& transform, double* value) const
+TLFAccWeak::TResult TLFAccWeak::Classify(TLFImage* pImage, const TLFAlignedTransform& transform)
 {
 	int result = 0;
 
-	double v = (double)m_pFeature->uCalcValue(pImage, transform);
+	
+	auto feature = m_pFeature->CalcValue(pImage, transform);
+
 	if (m_buffer == NULL)
-		m_buffer = new TLFRingBuffer(buf_size, v);
+		m_buffer = new TLFRingBuffer(buf_size, feature.value);
 	if (m_begin_counter == 0)
 		m_begin_counter = LFGetTickCount();
 	double a = m_buffer->GetAvg();
@@ -1119,7 +1129,7 @@ int TLFAccWeak::Classify(TLFImage* pImage, const TLFAlignedTransform& transform,
 	{
 		if (m_state == 0)
 		{
-			if (v > a + 2 * this->m_threshold || v < a - 2 * this->m_threshold)
+			if (feature.value > a + 2 * this->m_threshold || feature.value < a - 2 * this->m_threshold)
 			{
 				if (m_delay == 0)
 				{
@@ -1135,7 +1145,7 @@ int TLFAccWeak::Classify(TLFImage* pImage, const TLFAlignedTransform& transform,
 		}
 		else if (m_state == -1)
 		{
-			if (v >= a - m_threshold && v <= a + m_threshold)
+			if (feature.value >= a - m_threshold && feature.value <= a + m_threshold)
 			{
 				m_state = 0;
 				m_delay_counter = 0;
@@ -1152,16 +1162,16 @@ int TLFAccWeak::Classify(TLFImage* pImage, const TLFAlignedTransform& transform,
 		else
 		{
 			// deactivate classifier 
-			if (v >= a - this->m_threshold && v <= a + this->m_threshold)
+			if (feature.value >= a - this->m_threshold && feature.value <= a + this->m_threshold)
 				m_state = 0;
 		}
 
 	}
 	m_counter++;
 	if (m_counter % m_bg_stability == 0)
-		m_buffer->Push(v);
+		m_buffer->Push(feature.value);
 
-	return m_state == 1;
+	return { m_state == 1, std::move(feature)};
 }
 
 void TLFAccWeak::Reset()
