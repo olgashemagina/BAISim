@@ -1,4 +1,4 @@
-#include "LFBuilder.h"
+﻿#include "LFBuilder.h"
 #include "LFFileUtils.h"
 #include "LFScanners.h"
 
@@ -78,7 +78,7 @@ bool		TCSBuildDetector::LoadConfig(std::string const& filename)
 	m_strConfigName = filename;
 	TiXmlHandle hDoc(&doc);
 
-	/*??????? ????? ????????????*/
+	/*разделы файла конфигурации*/
 	TiXmlElement* pElem = NULL;
 
 	pElem = hDoc.FirstChildElement().Element();
@@ -150,7 +150,7 @@ bool		TCSBuildDetector::LoadConfig(std::string const& filename)
 
 	pElem->QueryIntAttribute("TLFLBPFeature", &value);
 	m_AdaBoost.m_LBPFeature = value != 0;
-	// ???????????????? ????????
+	// конфигурирование бустинга
 	m_AdaBoost.SetArtefactsBase(m_strBKG);
 	m_AdaBoost.SetObjectsBase(m_strOBJ);
 	m_AdaBoost.SetWidthBase(baseWidth);
@@ -167,10 +167,10 @@ bool		TCSBuildDetector::LoadConfig(std::string const& filename)
 
 }
 
-// ????????? ?????????? ?????????
+// выполняет построение детектора
 bool		TCSBuildDetector::Build()
 {
-	// ????????? ????????????? ????????? 
+	// начальная инициализация детектора 
 	if (!InitDetector())
 	{
 		printf("Cannot init detector.\n");
@@ -178,16 +178,16 @@ bool		TCSBuildDetector::Build()
 	}
 
 	int cascade = 1;
-	// ??????? ???? ????????
+	// главный цикл процесса
 	while (BuildBkground())
 	{
-		//????????
+		//загрузка
 		if (!m_AdaBoost.LoadSamples())
 			return false;
-		//????????
+		//обучение
 		if (!Boost())
 			return false;
-		//??????????
+		//обновление
 		if (!UpdateDetector())
 			break;
 		m_AdaBoost.InitFeatures();
@@ -195,10 +195,10 @@ bool		TCSBuildDetector::Build()
 	};
 	return true;
 }
-// ????????? ??????? ???? ??? "????????" 
-// ?? ???? ?????? ?????????? ???????????, ?? ???????
-// ?? ???????????? ????????? ???????
-// ??. ???? ???????????? m_strPathToBase
+// формирует образцы фона для "обучения" 
+// из базы данных содержащей изображения, на которых
+// не присутствуют обучаемые объекты
+// см. файл конфигурации m_strPathToBase
 bool		TCSBuildDetector::BuildBkground()
 {
 	if (!CheckDetector())
@@ -224,7 +224,7 @@ bool		TCSBuildDetector::BuildBkground()
 		if (!_IsImageFile(names[i]))
 			continue;
 		count++;
-		//????????
+		//Загрузка
 		std::string strImageName = names[i];
 
 		TLFImage Image;
@@ -240,7 +240,7 @@ bool		TCSBuildDetector::BuildBkground()
 		m_AdaBoost.DbgMsg("Num = " + TypeToStr(count) + " " + names[i] + " ");
 		m_AdaBoost.DbgMsg(TypeToStr(Image.GetImage()->sSizeX) + "x" + TypeToStr(Image.GetImage()->sSizeY) + " ");
 		AWPDWORD tc = LFGetTickCount();
-		//????? ????????
+		//поиск образцов
 		int itemsFound = 0;
 		if (cs->GetStagesCount() != 0)
 		{
@@ -250,7 +250,7 @@ bool		TCSBuildDetector::BuildBkground()
 
 				m_AdaBoost.DbgMsg("Total items = " + TypeToStr(m_Engine.GetScanner()->GetFragmentsCount()) + "\n");
 				int nItemsCount = m_Engine.GetItemsCount() > m_nMaxSamplesPerImage ? m_nMaxSamplesPerImage : m_Engine.GetItemsCount();
-				//?????????? ???????? ?? ????
+				//сохранение образцов на диск
 				rect_ovr = 0;
 				for (int i = 0; i < nItemsCount; i++)
 				{
@@ -260,7 +260,7 @@ bool		TCSBuildDetector::BuildBkground()
 					awpRect r = item->GetBounds()->GetRect();
 					bool canSave = true;
 					/*
-					?????????? ????????? xml ???????? ??????????.
+					попытаемся загрузить xml описание изображеия.
 					*/
 					std::string strXmlFileName = LFChangeFileExt(strImageName, ".xml");
 					if (LFFileExists(strXmlFileName))
@@ -270,7 +270,7 @@ bool		TCSBuildDetector::BuildBkground()
 						{
 							for (int ii = 0; ii < sd.GetItemsCount(); ii++)
 							{
-								TLFDetectedItem*  di = sd.GetDetectedItem(ii);
+								TLFDetectedItem* di = sd.GetDetectedItem(ii);
 								TLFRect* bounds = di->GetBounds();
 								rect_ovr = bounds->RectOverlap(r);
 								if (rect_ovr > 0.1)
@@ -329,14 +329,14 @@ bool		TCSBuildDetector::BuildBkground()
 			s->GetFragmentsCount();
 			int nItemsCount = s->GetFragmentsCount() > m_nMaxSamplesPerImage ? m_nMaxSamplesPerImage : s->GetFragmentsCount();
 
-			//?????????? ???????? ?? ????
+			//сохранение образцов на диск
 			for (int i = 0; i < nItemsCount; i++)
 			{
 				awpImage* Fragment = NULL;
 				awpRect r = s->GetFragmentRect(i);
 				bool canSave = true;
 				/*
-				?????????? ????????? xml ???????? ??????????.
+				попытаемся загрузить xml описание изображеия.
 				*/
 				std::string strXmlFileName = LFChangeFileExt(strImageName, ".xml");
 				if (LFFileExists(strXmlFileName))
@@ -346,7 +346,7 @@ bool		TCSBuildDetector::BuildBkground()
 					{
 						for (int ii = 0; ii < sd.GetItemsCount(); ii++)
 						{
-							TLFDetectedItem*  di = sd.GetDetectedItem(ii);
+							TLFDetectedItem* di = sd.GetDetectedItem(ii);
 							TLFRect* bounds = di->GetBounds();
 							if (bounds->RectOverlap(r) > 0.75)
 							{
@@ -391,7 +391,7 @@ bool		TCSBuildDetector::BuildBkground()
 
 }
 
-// ????????? "??????? ???????? ??????????????"
+// выполняет "накачку сильного классификатора"
 bool		TCSBuildDetector::Boost()
 {
 	int stages = 0;
@@ -401,14 +401,14 @@ bool		TCSBuildDetector::Boost()
 	stages = od->GetStagesCount();
 	return m_AdaBoost.Boost(stages);
 }
-//?????????? ?????????. ?????????? ?????? ???????
-//? ????????????? ?????????.
+//обновление детектора. Добавление нового каскада
+//к существующему детектору.
 bool		TCSBuildDetector::UpdateDetector()
 {
-//#ifdef WIN32
+	//#ifdef WIN32
 	m_AdaBoost.DbgMsg("Update detector...\n");
 
-	//?????? ???????? ??????????????.
+	//анализ сильного классификатора.
 	TErrTrainData td = m_AdaBoost.GetTrainData();
 	double min_v = 2;
 	int    min_idx = -1;
@@ -442,7 +442,7 @@ bool		TCSBuildDetector::UpdateDetector()
 	TCSStrong cls;
 	for (int i = 0; i < m_AdaBoost.GetClass()->GetCount(); i++)
 	{
-		TCSWeak* wcl1 = (TCSWeak *)m_AdaBoost.GetClass()->GetWeak(i);
+		TCSWeak* wcl1 = (TCSWeak*)m_AdaBoost.GetClass()->GetWeak(i);
 		cls.AddWeak(new TCSWeak(wcl1));
 	}
 	cls.SetThreshold(td[min_idx].m_thr);
@@ -459,7 +459,7 @@ bool		TCSBuildDetector::UpdateDetector()
 	m_Engine.Save(this->m_strDetectorName.c_str());
 
 	return InitDetector();
-//#endif
+	//#endif
 }
 
 bool TCSBuildDetector::SaveConfig(std::string const& filename)
@@ -502,7 +502,7 @@ bool	TCSBuildDetector::InitDetector()
 
 
 
-// ????????? ????????.
+// проверяет детектор.
 bool		    TCSBuildDetector::CheckDetector()
 {
 	std::string strPath = m_AdaBoost.GetObjectsBase();
@@ -541,7 +541,7 @@ static int boost_random(int v)
 {
 	return (int)(((double)rand() / (double)RAND_MAX) * v);
 }
-//?????? ????????? ??????????? ???????? ????.
+//строит начальные изображения образцов фона.
 bool		    TCSBuildDetector::BuildDefaultBkGround()
 {
 	m_AdaBoost.DbgMsg("Building new default bkground...\n");
@@ -561,7 +561,7 @@ bool		    TCSBuildDetector::BuildDefaultBkGround()
 			AWPBYTE* b = (AWPBYTE*)img->pPixels;
 			int v = boost_random(230);
 
-			for (int j = 0; j < img->sSizeX*img->sSizeY; j++)
+			for (int j = 0; j < img->sSizeX * img->sSizeY; j++)
 			{
 				b[j] = (AWPBYTE)(v + boost_random(20));
 			}
@@ -575,7 +575,7 @@ bool		    TCSBuildDetector::BuildDefaultBkGround()
 	m_AdaBoost.DbgMsg("\nDone.\n");
 	return true;
 }
-// ??????? ??? ??????????? ?? ???? ???????? ????
+// удаляет все изображения из базы образцов фона
 void		    TCSBuildDetector::RemoveBkground()
 {
 	m_AdaBoost.DbgMsg("Removing old bkground...\n");
@@ -605,7 +605,7 @@ void		    TCSBuildDetector::RemoveBkground()
 
 }
 
-// ???????? ?????? ????????? 
+// создание нового детектора 
 bool TCSBuildDetector::CreateDetector(const char* lpDetectorName)
 {
 	if (m_Engine.GetDetector() == NULL)
@@ -658,13 +658,13 @@ void		TCSBuildDetector::PrintDetectorInfo()
 }
 void		TCSBuildDetector::AddNewClassifier()
 {
-	// ????????? ????????????? ????????? 
+	// начальная инициализация детектора 
 	if (!InitDetector())
 	{
 		printf("Cannot init detector.\n");
 		return;
 	}
-	// ??????? ???? ????????
+	// главный цикл процесса
 	if (!BuildBkground())
 		return;
 	if (!m_AdaBoost.LoadSamples())
@@ -755,7 +755,7 @@ bool TLFBuilder::LoadFromEngine(const char* fileName, int index)
 	TSCObjectDetector* d = dynamic_cast<TSCObjectDetector*>(detector);
 	if (d == NULL)
 		return false;
-	TiXmlElement*e = d->SaveXML();
+	TiXmlElement* e = d->SaveXML();
 	if (m_detector != NULL)
 		delete m_detector;
 	m_detector = new TSCObjectDetector();
@@ -790,7 +790,7 @@ void TLFBuilder::PrintInfo()
 	for (int i = 0; i < s->GetParamsCount(); i++)
 	{
 		TLFParameter* p = s->GetParameter(i);
-		printf("Scanner param[%i] name: %s = %lf\n", i,  p->GetPName(), p->GetValue());
+		printf("Scanner param[%i] name: %s = %lf\n", i, p->GetPName(), p->GetValue());
 	}
 
 	int num_stages = m_detector->GetStagesCount();
@@ -819,11 +819,11 @@ void TLFBuilder::Build(const char* fileName)
 }
 /*
 TLFBuilder configuration:
-Path:		contains path to database 
-Name:		name of detector 
+Path:		contains path to database
+Name:		name of detector
 Sanner:		[TLFScanner, TLFAllScanner, TLFTileScanner]
-BaseWidth:  width of detector 
-BaseHeight: height of detector 
+BaseWidth:  width of detector
+BaseHeight: height of detector
 */
 bool TLFBuilder::LoadConfig(const char* fileName)
 {
@@ -831,7 +831,7 @@ bool TLFBuilder::LoadConfig(const char* fileName)
 	TiXmlDocument doc;
 	if (!doc.LoadFile(fileName))
 		return false;
-	
+
 	TiXmlElement* e = doc.FirstChildElement();
 	if (e == NULL)
 		return false;
@@ -918,7 +918,7 @@ bool TLFBuilder::LoadConfig(const char* fileName)
 		if (!LFDirExist(strNg.c_str()))
 			LFCreateDir(strNg.c_str());
 
-		// ???????????????? ????????
+		// конфигурирование бустинга
 		m_AdaBoost.SetArtefactsBase(strNg);
 		m_AdaBoost.SetObjectsBase(str);
 		m_AdaBoost.SetWidthBase(m_detector->GetBaseWidth());
@@ -932,10 +932,10 @@ bool TLFBuilder::LoadConfig(const char* fileName)
 		m_AdaBoost.m_HFeature = 0;
 		m_AdaBoost.m_DFeature = 0;
 		m_AdaBoost.m_CFeature = 0;
-		m_AdaBoost.m_VAFeature =0;
-		m_AdaBoost.m_HAFeature =0;
-		m_AdaBoost.m_DAFeature =0;
-		m_AdaBoost.m_CAFeature =0;
+		m_AdaBoost.m_VAFeature = 0;
+		m_AdaBoost.m_HAFeature = 0;
+		m_AdaBoost.m_DAFeature = 0;
+		m_AdaBoost.m_CAFeature = 0;
 
 
 		m_AdaBoost.DbgMsg(" done.\n");
@@ -975,7 +975,7 @@ bool TLFBuilder::BuildBackground()
 		if (!_IsImageFile(bgNames[i]))
 			continue;
 		count++;
-		//????????
+		//Загрузка
 		std::string strImageName = bgNames[i];
 
 		TLFImage Image;
@@ -1031,8 +1031,8 @@ bool TLFBuilder::BuildBackground()
 			s->Scan(Image.GetImage()->sSizeX, Image.GetImage()->sSizeY);
 			int nItemsCount = s->GetFragmentsCount();// > m_nMaxSamplesPerImage ? m_nMaxSamplesPerImage : s->GetFragmentsCount();
 
-			//?????????? ???????? ?? ????
-			for (int i = 0; i < nItemsCount; i+=100)
+			//сохранение образцов на диск
+			for (int i = 0; i < nItemsCount; i += 100)
 			{
 				awpImage* Fragment = NULL;
 				awpRect r = s->GetFragmentRect(i);
@@ -1055,7 +1055,7 @@ bool TLFBuilder::BuildBackground()
 		//if (nCount % 10 == 0)
 		m_AdaBoost.DbgMsg(">");
 	}
-	
+
 	if (nCount < names.size() / 20)
 	{
 		m_AdaBoost.DbgMsg("\n Bkground not found.\n");
@@ -1072,7 +1072,7 @@ bool TLFBuilder::UpdateDetector()
 {
 	m_AdaBoost.DbgMsg("Update detector...\n");
 
-	//?????? ???????? ??????????????.
+	//анализ сильного классификатора.
 	TErrTrainData td = m_AdaBoost.GetTrainData();
 	double min_v = 2;
 	int    min_idx = -1;
@@ -1101,7 +1101,7 @@ bool TLFBuilder::UpdateDetector()
 	TCSStrong cls;
 	for (int i = 0; i < m_AdaBoost.GetClass()->GetCount(); i++)
 	{
-		TCSWeak* wcl1 = (TCSWeak *)m_AdaBoost.GetClass()->GetWeak(i);
+		TCSWeak* wcl1 = (TCSWeak*)m_AdaBoost.GetClass()->GetWeak(i);
 		cls.AddWeak(new TCSWeak(wcl1));
 	}
 	cls.SetThreshold(td[min_idx].m_thr);
