@@ -214,7 +214,7 @@ TColor TPhImageMarkTool::GetItemColor(TLFDetectedItem* itm)
 		if (strcmp(itm->GetType().c_str(), ci->GetId().c_str()) == 0)
 		{
 			int color = ci->GetColor();
-			return color;
+			return TColor(color);
 		}
 	}
 	return clBlack;

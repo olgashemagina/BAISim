@@ -58,7 +58,7 @@
 #endif
 
 
-using namespace std;
+//using namespace std;
 #ifndef __CLR_OR_THIS_CALL
 	#define __CLR_OR_THIS_CALL __cdecl
 #endif

@@ -21,7 +21,7 @@ protected:
     virtual void __fastcall ReadScanLine(int ScanLine) = 0;
 public:
     TImageDecoder(const AnsiString& FileName);
-    ~TImageDecoder();
+	virtual ~TImageDecoder();
 
     virtual void __fastcall Init() =0;
     virtual void __fastcall Close()=0;
@@ -53,9 +53,9 @@ private:
     void __fastcall SetFileName(AnsiString FileName);
     void __fastcall SetBitmap(TDIBImage* ABitmap);
 public:
-   __fastcall TImportRaster();
-   __fastcall TImportRaster(const AnsiString& FileName);
-   __fastcall ~TImportRaster();
+   TImportRaster();
+   TImportRaster(const AnsiString& FileName);
+   ~TImportRaster();
    void __fastcall UpdateUI();
    virtual void __fastcall Execute();
    //properties

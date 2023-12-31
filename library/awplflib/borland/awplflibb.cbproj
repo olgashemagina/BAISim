@@ -84,7 +84,6 @@
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
-        <BCC_UserSuppliedOptions> -tWM -Vx -r- -k -Ve</BCC_UserSuppliedOptions>
         <Debugger_HostApplication>C:\facesdk\bin\AttrTest.exe</Debugger_HostApplication>
         <BRCC_Defines>WIN32;ATTR_DEBUG;_DEBUG;_BORLAND_;$(BRCC_Defines)</BRCC_Defines>
         <TASM_Defines>WIN32 ATTR_DEBUG _DEBUG _BORLAND_;$(TASM_Defines)</TASM_Defines>
@@ -116,6 +115,7 @@
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <TLIB_PageSize>256</TLIB_PageSize>
         <BCC_Defines>_DEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
+        <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <BCC_DisableOptimizations>false</BCC_DisableOptimizations>
@@ -133,7 +133,6 @@
         <_TCHARMapping>wchar_t</_TCHARMapping>
         <Manifest_File>None</Manifest_File>
         <TLIB_PageSize>256</TLIB_PageSize>
-        <BCC_UserSuppliedOptions> -tWM -Vx -r- -k -Ve -r</BCC_UserSuppliedOptions>
         <BCC_Defines>NDEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
     </PropertyGroup>
     <ItemGroup>

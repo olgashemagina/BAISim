@@ -38,7 +38,7 @@ extern "C"
               устанавливает для внутренних переменныех значения по умолчанию
     Comments:
 */
-__fastcall TPhImage::TPhImage(TComponent* Owner)
+TPhImage::TPhImage(TComponent* Owner)
     : TCustomControl(Owner)
 {
 	m_Bitmap     = new TDIBImage();
@@ -83,7 +83,7 @@ __fastcall TPhImage::TPhImage(TComponent* Owner)
 	m_mosaic = false;
     m_autoMosaic = true;
 }
-__fastcall TPhImage::TPhImage(HWND Parent):TCustomControl(Parent)
+TPhImage::TPhImage(HWND Parent):TCustomControl(Parent)
 {
 
 }
@@ -92,7 +92,7 @@ __fastcall TPhImage::TPhImage(HWND Parent):TCustomControl(Parent)
 	Purpose:   if we have raster data abs other objects delete them
 	Comments:
 ---------------------------------------------------------------------------*/
-__fastcall TPhImage::~TPhImage()
+TPhImage::~TPhImage()
 {
 	Close();
     delete this->m_Frames;
@@ -708,7 +708,7 @@ void __fastcall TPhImage::MoveBy(int in_dX, int in_dY)
    if ( m_Bitmap->Width * m_Scale > Width )
       if ( m_StartPoint.x + dX > m_Bitmap->Width - Width/m_Scale )
          m_StartPoint.x = m_Bitmap->Width - Width/m_Scale;
-      else if (m_StartPoint.x + dX < 0)
+	  else if (m_StartPoint.x + dX < 0)
          m_StartPoint.x = 0;
       else
          m_StartPoint.x += dX;
@@ -985,10 +985,10 @@ void __fastcall TPhImage::Paint(void)
 	}
 
 
-	if (m_Paint != NULL)
+/*f (m_Paint != NULL)
 	{
 		m_Paint(this);
-	}
+	}   */
 }
 
 /*  ----------------------------------------------------------
@@ -1710,7 +1710,7 @@ void __fastcall TPhImage::SetImageData(int w, int h, int c, unsigned char* data)
     if (dib != NULL)
     {
 		dib->SetAWPImage(&img);
-        Paint();
+		Paint();
 		//BestFit();
     }
 }

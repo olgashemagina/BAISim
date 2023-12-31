@@ -59,7 +59,7 @@
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <_TCHARMapping>wchar_t</_TCHARMapping>
         <Multithreaded>true</Multithreaded>
-        <IncludePath>photon\;photon\include;..\awpipl2\include;..\awplflib\include;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\3rdparty\zlib;..\..\3rdparty\libpng;..\..\3rdparty\libtiff\libtiff;..\..\3rdparty\tinyxml\src;photon\;..\awpipl2\include;..\awplflib\include;$(IncludePath)</IncludePath>
         <ILINK_LibraryPath>photon\;..\..\build\lib\borland\$(Platform)\$(Config);..\..\3rdparty\bin;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <SanitizedProjectName>photon41</SanitizedProjectName>
         <VerInfo_Locale>1049</VerInfo_Locale>
@@ -72,6 +72,7 @@
         <VerInfo_Release>1</VerInfo_Release>
         <VerInfo_Build>33</VerInfo_Build>
         <ILINK_GenerateDRC>True</ILINK_GenerateDRC>
+        <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <PackageImports>appanalytics;bcbsmp;bindcomp;bindcompfmx;bindcompvcl;bindengine;CustomIPTransport;dbrtl;dsnap;fmx;fmxase;fmxdae;fmxobj;IndyCore;IndyProtocols;IndySystem;rtl;svn;tethering;vcl;vclactnband;vcldb;vcldsnap;vclie;vclimg;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
@@ -113,6 +114,7 @@
         <Defines>HAVE_JPEG;$(Defines)</Defines>
         <Debugger_IncludeSystemVars>true</Debugger_IncludeSystemVars>
         <BPILibOutputDir>..\..\build\lib\borland\$(Platform)\$(Config)</BPILibOutputDir>
+        <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -232,11 +234,11 @@
         </CppCompile>
         <CppCompile Include="photon\pnglibio.cpp">
             <DependentOn>photon\pnglibio.h</DependentOn>
-            <BuildOrder>7</BuildOrder>
+            <BuildOrder>33</BuildOrder>
         </CppCompile>
         <CppCompile Include="photon\tifflibio.cpp">
             <DependentOn>photon\tifflibio.h</DependentOn>
-            <BuildOrder>8</BuildOrder>
+            <BuildOrder>33</BuildOrder>
         </CppCompile>
         <PackageImport Include="rtl.bpi">
             <BuildOrder>1</BuildOrder>
@@ -291,9 +293,8 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="photon\lib\photon41.bpl" Configuration="Release" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>photon41.bpl</RemoteName>
+                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx64\libcgcrtl.dylib" Class="DependencyModule">
+                    <Platform Name="OSX64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -353,7 +354,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="lib\photon41.bpl" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\build\lib\photon\Win32\Debug\photon41.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>photon41.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
@@ -364,7 +365,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c270mt.dll" Class="DependencyModule">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c270.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
                     </Platform>
@@ -394,13 +395,14 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx64\libcgcrtl.dylib" Class="DependencyModule">
-                    <Platform Name="OSX64">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c270mt.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c270.dll" Class="DependencyModule">
+                <DeployFile LocalName="photon\lib\photon41.bpl" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
+                        <RemoteName>photon41.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

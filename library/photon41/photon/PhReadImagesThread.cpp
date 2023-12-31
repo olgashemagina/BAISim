@@ -357,7 +357,7 @@ static bool _needConvertImage(EPhImageFormats format, UnicodeString& strExt)
 		case pngFormat:
 			return strExt != L".png";
 		case tiffFormat:
-			return !(strExt == L".tif" || strExt == L".tiff");
+	 		return !(strExt == L".tif" || strExt == L".tiff");
 		case  tgaFormat:
 			return strExt != L".tga";
 		 case  bmpFormat:

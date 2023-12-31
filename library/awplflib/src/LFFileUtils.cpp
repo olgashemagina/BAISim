@@ -163,7 +163,7 @@ bool LFRemoveDir(const char* lpPath)
 	_wfinddata_t filesInfo;
 	intptr_t handle = 0;
 
-	if ((handle = _wfindfirst(strPath.c_str(), &filesInfo)) != -1)
+/*	if ((handle = _wfindfirst(strPath.c_str(), &filesInfo)) != -1)
 	{
 		do
 		{
@@ -171,7 +171,7 @@ bool LFRemoveDir(const char* lpPath)
 			DeleteFileW(strImageName.c_str());
 		} while (!_wfindnext(handle, &filesInfo));
 	}
-	_findclose(handle);
+	_findclose(handle);   */
 	return true;
 #else
 	const char *com = "exec rm -r ";
@@ -261,13 +261,31 @@ unsigned long LFGetTickCount()
 }
 
 
-#ifdef WIN32 
+#ifdef WIN32
+#include <filesystem>
+namespace fs = std::filesystem;
 static bool _LFGetDirNamesWindows(const std::string& lpDir, TLFStrings& names)
 {
-	const std::wstring dirPath = LFUtf8ConvertToUnicode(lpDir);
-	std::wstring strPath = LFConcatPath(dirPath, L"*.*");
-	_wfinddata_t filesInfo;
+	//const std::wstring dirPath = LFUtf8ConvertToUnicode(lpDir);
+	//std::wstring strPath = LFConcatPath(dirPath, L"*.*");
+	const fs::path cur_dir{lpDir};
+	if(fs::is_empty(cur_dir))
+		return false;
+	else
+	{
+		for (const auto &f : fs::directory_iterator(cur_dir))
+		{
+			if (is_regular_file(status(f)))
+			{
+				std::string tmp = f.path().string();
+				names.push_back(tmp);
+			}
+		}
+		return true;
+	}
+/*	_wfinddata_t filesInfo;
 	intptr_t handle = 0;
+
 	if ((handle = _wfindfirst(const_cast<wchar_t*>(strPath.c_str()), &filesInfo)) != -1)
 	{
 		do
@@ -280,13 +298,13 @@ static bool _LFGetDirNamesWindows(const std::string& lpDir, TLFStrings& names)
 	}
 	else
 		return false;
-	
-	return true;
+
+	return true;*/
 }
 #else
 static bool _LFGetDirNamesLinux(const char* lpDir, TLFStrings& names)
 {
-    //printf("enter _LFGetDirNamesLinux \n");
+	//printf("enter _LFGetDirNamesLinux \n");
     DIR *dir;
     struct dirent *entry;
 	std::string path = lpDir;

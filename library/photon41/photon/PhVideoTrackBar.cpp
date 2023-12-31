@@ -37,7 +37,7 @@ void __fastcall TPhVideoTrackBar::Paint(void)
 {
 
 	TRect rect = this->ClientRect;
-	Canvas->Brush->Color = 0x00333333;
+	Canvas->Brush->Color = TColor(0x00333333);
 
 	Canvas->FillRect(rect);
 	TColor oldBrushColor = this->Canvas->Brush->Color;

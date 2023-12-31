@@ -54,7 +54,7 @@
 #pragma link "PhRulerTool"
 #pragma link "PhTriangleTool"
 #pragma resource "*.dfm"
-using namespace std;
+//using namespace std;
 TForm1 *Form1;
 extern TMarkerIniParams* IniParams;
 //---------------------------------------------------------------------------
@@ -996,7 +996,7 @@ void __fastcall TForm1::DrawOverlaps(TCanvas* cnv)
 	for (int i = 0; i < m_Descr.GetItemsCount(); i++)
 	{
 		TLFDetectedItem* di = m_Descr.GetDetectedItem(i);
-		string uuid = di->GetType();
+		std::string uuid = di->GetType();
 		TLFRect* rr = di->GetBounds();
 		awpRect  r  = rr->GetRect();
 		TRect  rect(r.left, r.top, r.right, r.bottom);

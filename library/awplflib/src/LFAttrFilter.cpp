@@ -3,15 +3,15 @@
 
 
 
-using namespace std;
+//using namespace std;
 
 // #if defined(_CRT_SECURE_NO_DEPRECATE) && !defined(_CRT_SECURE_NO_WARNINGS)
 //	 #define _CRT_SECURE_NO_WARNINGS
 // #endif
 
-static    string ExtractFilePath( string path )
+static    std::string ExtractFilePath( std::string path )
     {
-	string output("");
+	std::string output("");
 	unsigned int pos = path.rfind( "/", path.size() );
 	if( pos != path.size() )
 	{

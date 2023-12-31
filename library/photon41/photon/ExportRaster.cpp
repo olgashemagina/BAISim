@@ -23,14 +23,14 @@ void rgb_to_bgr(BYTE *ptr,int count)
 
 void saveToTiff( char* filename, TDIBImage* FBitmap){
     uint32 w = 0;
-    uint32 h = 0;
+	uint32 h = 0;
     BYTE* iraster = NULL;
     tstrip_t strip;
     tsize_t stripsize;
     DWORD row;
     DWORD	i;
     DWORD rowsperstrip = 1;
-    TIFF    *tif = NULL;
+	TIFF    *tif = NULL;
 
   //  rgb_to_bgr((BYTE*)pImg->pPixels, pImg->sSizeX*pImg->sSizeY);
 
@@ -45,15 +45,15 @@ void saveToTiff( char* filename, TDIBImage* FBitmap){
 
     TIFFSetField(tif, TIFFTAG_IMAGEWIDTH,  w);	
     TIFFSetField(tif, TIFFTAG_IMAGELENGTH, h);
-    TIFFSetField(tif, TIFFTAG_PHOTOMETRIC,  PHOTOMETRIC_RGB);
+	TIFFSetField(tif, TIFFTAG_PHOTOMETRIC,  PHOTOMETRIC_RGB);
     TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 8);
     TIFFSetField(tif, TIFFTAG_COMPRESSION, COMPRESSION_LZW);
     TIFFSetField(tif, TIFFTAG_THRESHHOLDING, THRESHHOLD_HALFTONE);
     TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 3);
     TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, 
-        rowsperstrip = TIFFDefaultStripSize(tif, rowsperstrip));
+		rowsperstrip = TIFFDefaultStripSize(tif, rowsperstrip));
     TIFFSetField(tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_NONE);
-    TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+	TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
 
     iraster = new BYTE [ w*h*3*sizeof (BYTE)];
     if (!iraster)
@@ -74,10 +74,10 @@ void saveToTiff( char* filename, TDIBImage* FBitmap){
     }
     FBitmap->ClosePixels();
     strip = 0;
-    stripsize = TIFFStripSize(tif);
+	stripsize = TIFFStripSize(tif);
     for (row=0; row<h; row += rowsperstrip)
     {
-        if (TIFFWriteEncodedStrip(tif, strip, iraster+row*w*3, stripsize) < 0)
+		if (TIFFWriteEncodedStrip(tif, strip, iraster+row*w*3, stripsize) < 0)
         break;
         strip++;
     }

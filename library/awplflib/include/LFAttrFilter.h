@@ -34,7 +34,7 @@ public :
 	bool Load(const char* pXmlFileName);
 };
 
-using namespace std;
+//using namespace std;
 
 typedef enum names { unknown = 0, adult, child } ClassName;
 /*

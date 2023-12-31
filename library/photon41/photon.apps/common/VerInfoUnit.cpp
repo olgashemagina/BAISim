@@ -74,7 +74,7 @@ void  TVersionInfo::SetVersionInfo()
       subBlock += sVersionType;
       char* pcValue;
       unsigned int iLenOfValue = 0;
-      if (VerQueryValueA(pcBuf, subBlock.c_str(), &((void*)pcValue), &iLenOfValue))
+      if (VerQueryValueA(pcBuf, subBlock.c_str(), (void**)&pcValue, &iLenOfValue))
         FVersionInfo[i] = pcValue;
     }
     free(pcBuf);

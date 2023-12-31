@@ -16,11 +16,14 @@
 #include "DbLabeledImages.h"
 #include <VCLTee.Chart.hpp>
 #include <VCLTee.Series.hpp>
-#include <VclTee.TeeGDIPlus.hpp>
+#include <Vcl.Grids.hpp>
+#include <Vcl.ValEdit.hpp>
+
 #include <VCLTee.TeEngine.hpp>
 #include <VCLTee.TeeProcs.hpp>
 #include <Vcl.Grids.hpp>
 #include <Vcl.ValEdit.hpp>
+
 
 //----------------------------------------------------------------------------
 class TDbInfoDialog : public TForm

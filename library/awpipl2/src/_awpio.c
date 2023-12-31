@@ -203,21 +203,37 @@ AWPRESULT _awpLoadAWPImage(const char* lpFileName, awpImage** ppImage)
     awpImage* p_tmp_image; /*image*/
     AWPRESULT res;
     AWPINT isize,isize1;
-    AWPINT itmp;
-
-    *ppImage = NULL;
+	AWPINT itmp;
+	*ppImage = NULL;
     /*open file*/
+#ifdef _USE_UNICODE_VS_
     const int wchars_num = MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, NULL, 0);
     wchar_t* wstr = (wchar_t*)malloc(wchars_num*sizeof(wchar_t));
     MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, wstr, wchars_num);
-    
+
     f = _wfopen(wstr, L"r+b");
     free(wstr);
+#else
+    f = fopen(lpFileName, "r+b");
+#endif
     if (f == NULL)
-        return AWP_OPEN_FILE_ERROR;
+		return AWP_OPEN_FILE_ERROR;
+
+//	*ppImage = NULL;
+//	/*open file*/
+//	wstr = (wchar_t*)malloc(wchars_num*sizeof(wchar_t));
+//	wchars_num = MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, NULL, 0);
+//	MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, wstr, wchars_num);
+//
+//
+//
+//    f = _wfopen(wstr, L"r+b");
+//    free(wstr);
+	if (f == NULL)
+		return AWP_OPEN_FILE_ERROR;
 
     /*alloc memory for image */
-//    p_tmp_image = NULL;
+	p_tmp_image = NULL;
     p_tmp_image = (awpImage*)malloc(sizeof(awpImage));
 
     if (p_tmp_image == NULL)
@@ -342,7 +358,7 @@ AWPRESULT _awpSaveAWPImage(const char* lpFileName, awpImage* pImage)
 {
     AWPRESULT res;
     FILE* f;
-    AWPINT  isize;
+	AWPINT  isize;
 
     if (lpFileName == NULL)
         return AWP_BADARG;
@@ -353,18 +369,29 @@ AWPRESULT _awpSaveAWPImage(const char* lpFileName, awpImage* pImage)
     isize = 0;
     
     _CHECK_RESULT_((res = awpCheckImage(pImage)))
-    
+
+#ifdef _USE_UNICODE_VS_
     const int wchars_num = MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, NULL, 0);
     wchar_t* wstr = (wchar_t*)malloc(wchars_num * sizeof(wchar_t));
     MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, wstr, wchars_num);
 
     f = _wfopen(wstr, L"w+b");
     free(wstr);
-    if (f == NULL)
-    {
-        res = AWP_CREATE_FILE_ERROR;
-        _ERR_EXIT_
-    }
+#else
+    f = fopen(lpFileName, "w+b");
+#endif
+//	wstr = (wchar_t*)malloc(wchars_num * sizeof(wchar_t));
+//	wchars_num = MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, NULL, 0);
+//
+//	MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, wstr, wchars_num);
+//
+//    f = _wfopen(wstr, L"w+b");
+//    free(wstr);
+	if (f == NULL)
+	{
+		res = AWP_CREATE_FILE_ERROR;
+		_ERR_EXIT_
+	}
 
     _CHECK_RESULT_((res = awpGetImageSize(pImage, &isize)))
 
@@ -477,20 +504,31 @@ AWPRESULT _awpLoadJPEGImage(const char* lpFileName, awpImage** ppImage)
     JSAMPARRAY buffer;		/* Output row buffer */
     AWPINT row_stride;		/* physical row width in output buffer */
 
+
  //   res = AWP_OK;/*initialize result */
-    infile=NULL;
+	infile=NULL;
 
-    if (lpFileName == NULL){
-        res = AWP_BADARG;
-        _ERR_EXIT_
-    }
+	if (lpFileName == NULL){
+		res = AWP_BADARG;
+		_ERR_EXIT_
+	}
 
+//	wchars_num = MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, NULL, 0);
+//	wstr = (wchar_t*)malloc(wchars_num * sizeof(wchar_t));
+//	MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, wstr, wchars_num);
+//
+//	infile = _wfopen(wstr, L"rb");
+//	free(wstr);
+#ifdef _USE_UNICODE_VS_
     const int wchars_num = MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, NULL, 0);
     wchar_t* wstr = (wchar_t*)malloc(wchars_num * sizeof(wchar_t));
     MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, wstr, wchars_num);
 
     infile = _wfopen(wstr, L"rb");
     free(wstr);
+#else
+    infile = fopen(lpFileName, "rb");
+#endif
     if (infile == NULL){
         res = AWP_OPEN_FILE_ERROR;
         _ERR_EXIT_
@@ -749,18 +787,29 @@ jpeg_buffer_dest (j_compress_ptr cinfo,char* buffer, AWPINT len )
     JSAMPARRAY buffer;		/* Output row buffer */
     AWPINT row_stride;		/* physical row width in output buffer */
 
-    infile=NULL;
 
-    if (lpFileName == NULL){
-        res = AWP_BADARG;
-        _ERR_EXIT_
-    }
+	infile=NULL;
+
+	if (lpFileName == NULL){
+		res = AWP_BADARG;
+		_ERR_EXIT_
+	}
+ #ifdef _USE_UNICODE_VS_
     const int wchars_num = MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, NULL, 0);
     wchar_t* wstr = (wchar_t*)malloc(wchars_num * sizeof(wchar_t));
     MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, wstr, wchars_num);
 
     infile = _wfopen(wstr, L"rb");
     free(wstr);
+#else
+    infile = fopen(lpFileName, "rb");
+#endif
+//	wchars_num = MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, NULL, 0);
+//	wstr = (wchar_t*)malloc(wchars_num * sizeof(wchar_t));
+//	MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, wstr, wchars_num);
+//
+//	infile = _wfopen(wstr, L"rb");
+//	free(wstr);
     if (infile == NULL){
         res = AWP_OPEN_FILE_ERROR;
         _ERR_EXIT_

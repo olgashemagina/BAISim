@@ -21,7 +21,7 @@ void __fastcall TTiffDecoder::Init()
 	buf = new char[tiff_buf_size];
 
 	FBufferSize = 3*FWidth;
-	FScanBuffer = new char[FBufferSize];
+	FScanBuffer = new unsigned char[FBufferSize];
 }
 
 void __fastcall TTiffDecoder::ReadScanLine( int ScanLine )

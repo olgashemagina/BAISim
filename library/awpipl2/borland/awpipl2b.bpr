@@ -40,7 +40,7 @@
       -I$(BCB)\Projects -I..\include -I$(BCB)\include -I$(BCB)\include\vcl 
       -I..\..\jpeg-6b\src -I..\include\_include -src_suffix cpp -DWIN32 -DXMD_H 
       -DHAVE_JPEG -D_DEBUG -boa"/>
-    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c 
+    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Ve -X- -r- -a8 -b- -k -y -v -vi- -c 
       -tW -tWM"/>
     <PFLAGS value="-N2..\obj -N0..\obj -$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
     <AFLAGS value="/mx /w2 /zi"/>

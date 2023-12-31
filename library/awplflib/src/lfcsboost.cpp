@@ -18,7 +18,7 @@
 
 
 
-using namespace std; 
+//using namespace std;
 class ProgressMeter
 {
 public:
@@ -309,7 +309,7 @@ bool TCSAdaBoost::Boost(int stage)
 // ?????????? ????????? ?? ?????? ? ? ??? ?????
 void TCSAdaBoost::DbgMsg(std::string const& msg)
 {
-	cout << msg;
+	std::cout << msg;
 	if (m_Logger.is_open()) {
 		m_Logger << msg;
 		m_Logger.flush();
@@ -435,7 +435,7 @@ bool TCSAdaBoost::LoadSample(TLFObjectList& SampleList, int flag, const std::str
 	DbgMsg("Reading " + TypeToStr(names.size()) + " files.\n");
 	for (int i = 0; i < names.size(); i++)
 	{
-		string name = names[i];
+		std::string name = names[i];
 		if (!_IsImageFile(name))
 			continue;
 		TCSSample* pSample = new TCSSample();
@@ -700,7 +700,7 @@ void   TCSAdaBoost::SaveFRRSamples(int stage)
 
 void   TCSAdaBoost::SaveNegativeSamples(const char* lpPath)
 {
-	string path = lpPath;
+	std::string path = lpPath;
 	int total = 0;
 	LFCreateDir(lpPath);
 	for (int i = 0; i < this->m_TrainingSamples.GetCount(); i++)
@@ -708,7 +708,7 @@ void   TCSAdaBoost::SaveNegativeSamples(const char* lpPath)
 		TCSSample* s = (TCSSample*)m_TrainingSamples.Get(i);
 		if (s->GetFlag() == 0)
 		{
-			string filename = path;
+			std::string filename = path;
 			filename += TypeToStr(total);
 			filename += ".awp";
 			total++;
@@ -989,7 +989,7 @@ bool    TCSAdaBoostSign::LoadSamples(int flag, std::string const& path)
     {
 		do
         {
-	       string name = path + filesInfo.name;
+		   std::string name = path + filesInfo.name;
 		
             TCSSample* pSample = new TCSSample();
             pSample->LoadFromFile((char*)name.c_str());
@@ -1239,7 +1239,7 @@ bool TIEFSAdaBoost::Load(const char* lpFileName)
 	if (e == NULL)
 		return false;
 	m_strSourceFile = e->Attribute("file");
-	string str = e->Attribute("log");
+	std::string str = e->Attribute("log");
 
 	if (m_pLog == NULL)
 		m_pLog = new ofstream(str.c_str());
@@ -1250,7 +1250,7 @@ bool TIEFSAdaBoost::Load(const char* lpFileName)
 void TIEFSAdaBoost::DbgMsg(std::string const& msg)
 {
 	(*m_pLog) << msg;
-	cout << msg;
+	std::cout << msg;
 	flush(*m_pLog);
 }
 

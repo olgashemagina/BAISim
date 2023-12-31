@@ -14,7 +14,7 @@
 class TTiffDecoder : public TImageDecoder
 {
 protected:
-    TIFF* tif;
+	TIFF* tif;
     char* buf;
 	uint32 tiff_buf_size;
     uint16 planar;

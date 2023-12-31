@@ -72,10 +72,10 @@
         <BCC_PCHCache>true</BCC_PCHCache>
         <FinalOutputDir>..\..\..\build\lib\borland\$(Platform)\$(Config)</FinalOutputDir>
         <DCC_UnitSearchPath>.\;$(BDS)\lib;$(BDS)\lib\obj;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
-        <BCC_UserSuppliedOptions> -tWM -Vx -r- -k -Ve</BCC_UserSuppliedOptions>
         <BCC_Defines>JPEG_CJPEG_DJPEG;$(BCC_Defines)</BCC_Defines>
         <BRCC_Defines>JPEG_CJPEG_DJPEG;_DEBUG;$(BRCC_Defines)</BRCC_Defines>
         <TASM_Defines>JPEG_CJPEG_DJPEG _DEBUG;$(TASM_Defines)</TASM_Defines>
@@ -97,6 +97,7 @@
         <TLIB_PageSize>64</TLIB_PageSize>
         <Manifest_File>None</Manifest_File>
         <BCC_Defines>_DEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
+        <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <BCC_InlineFunctionExpansion>true</BCC_InlineFunctionExpansion>
@@ -107,7 +108,6 @@
         <IntermediateOutputDir>Release_Build</IntermediateOutputDir>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <BCC_UserSuppliedOptions> -tWM -Vx -r- -k -Ve -r</BCC_UserSuppliedOptions>
         <BCC_Defines>NDEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
     </PropertyGroup>
     <ItemGroup>

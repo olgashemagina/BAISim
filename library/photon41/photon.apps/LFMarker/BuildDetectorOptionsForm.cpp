@@ -7,6 +7,8 @@
 #include "BuildDetectorOptionsForm.h"
 #include "SelectBuilderConfigForm.h"
 #include "SelDirUnit.h"
+#include "MainForm.h"
+#include "LFFileUtils.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "cspin"
@@ -38,7 +40,7 @@ void __fastcall TCSBuildOptions::negClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TCSBuildOptions::DatabaseClick(TObject *Sender)
 {
-     String str = "";
+	String str = pos->Text;
 	if (GetDirNamePreview(str))
 	{
 		this->pos->Text = str;
@@ -139,15 +141,19 @@ void __fastcall TCSBuildOptions::NextButtonClick(TObject *Sender)
 			doc.LinkEndChild(de);
 			doc.SaveFile(tmpname.c_str());
 
+
 			//CSBuilder.exe start
 			UnicodeString str = ExtractFilePath(Application->ExeName);
-			str += "\\CSBuilder.exe";
-			UnicodeString str1 = str + " -b " + tmpname;
-			STARTUPINFO si; PROCESS_INFORMATION pi;
-			bool result = CreateProcess(str.w_str(),str1.w_str(), NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
-			if (result < 31)
+			str = str + "CSBuilder.exe";
+			AnsiString str1 = str + " -b \"" + tmpname + "\"";
+			UINT result = WinExec(str1.c_str(), SW_SHOWNORMAL);
+			//STARTUPINFO si; PROCESS_INFORMATION pi;
+			//bool result = CreateProcessW(str.w_str(),str1.w_str(), NULL, NULL,
+			//	 FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
+			if (!result)
 				ShowMessage(L"ERROR: cannot execute builder. Error code =  " + IntToStr((int)result));
-        }
+            CSBuildOptions->Close();
+		}
 	}
 	else
 	{
@@ -270,6 +276,15 @@ void __fastcall TCSBuildOptions::FormShow(TObject *Sender)
 		if(value != 0)
 			RadioGroup1->ItemIndex = 8;
 	}
+	else
+	{
+		if(Form1->m_db.DbName!=NULL)
+		{
+			pos->Text = Form1->m_db.DbName + "\\dbexport";
+			neg->Text = Form1->m_db.DbName + "\\dbexport\\negative";
+            bgr->Text = Form1->m_db.DbName + "\\dbexport\\bg";
+		}
+    }
     if(PageControl1->ActivePageIndex == PageControl1->PageCount-1)
 		NextButton->Caption = "Save && start";
 	else
