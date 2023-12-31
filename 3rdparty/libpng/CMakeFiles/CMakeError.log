@@ -1,0 +1,1598 @@
+Checking whether the ASM compiler is GNU using "--version" did not match "(GNU assembler)|(GCC)|(Free Software Foundation)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is Clang using "--version" did not match "(clang version)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is AppleClang using "--version" did not match "(Apple LLVM version)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is ARMClang using "--version" did not match "armclang":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is HP using "-V" did not match "HP C":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Warning: option '-V' is not supported in Clang-based compiler.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is Intel using "--version" did not match "(ICC)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is IntelLLVM using "--version" did not match "(Intel[^
+]+oneAPI)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is SunPro using "-V" did not match "Sun C":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Warning: option '-V' is not supported in Clang-based compiler.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is XL using "-qversion" did not match "XL C":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is MSVC using "-?" did not match "Microsoft":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Available options (* = default setting, xxx = has sub-options: use -h -X):
+(Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+ If two options conflict, the last one specified will be used.)
+--sysroot (Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+
+--sysinc  Set the system include file search path
+	  (if specified, sysroot will be prepended)
+--syslib  Set the system library file search path
+	  (if specified, sysroot will be prepended)
+--savemem Set maximum SAVEMEM memory (in Mb)
+	  (This is the contiguous memory allocated to store global symbols and
+	   similar constructs.  Pre-compiled headers use this memory)
+--version Show compiler version
+--replacehdr Replace header name (e.g. --replaceHeader=a.h=b.h)
+--xrtti   Generate extended rtti information
+  -3      Generate 80386 protected-mode compatible instructions
+  -4      Generate 80386/80486 protected-mode compatible instructions
+  -5      Generate Pentium instructions
+  -6      Generate Pentium Pro instructions
+  -Axxx   Enable ANSI conformance
+  -B      Compile to .ASM (-S), then assemble to .OBJ
+  -Cxxx   Enable nested comments
+  -D      -D<name> defines 'name' as a null string, or use -D<name>=<value>
+  -E      Specify which assembler to use
+  -G      Optimize for size/speed; use -O1 and -O2 instead
+  -Hxxx   Generate and use precompiled headers
+  -I      Set the include file search path
+  -Jxxx   Template generation options
+  -K      Set default character type to unsigned
+  -L      Library file search path
+  -M      Create a linker map file
+  -N      Hodgepodge of miscellanity (see -h -N)
+  -Nd     Macros get a value of "1" by default (-DX => -DX=1)
+  -Nt     GNU __typeof(var) support
+  -Nv     Allow void& as a valid type
+  -O      Optimize jumps
+  -P      Perform C++ compile regardless of source extension
+  -Q      Extended compiler error information
+  -Rxxx   Include browser information in generated .OBJ files
+  -S      Compile to assembly
+  -T      Specify assembler option, e.g. -Tx
+  -U      Undefine any previous definitions of name
+  -Vxxx   Compatibility options
+  -W      Target is a Windows application
+  -X      Disable compiler autodependency output
+  -Y      
+  -Zd     Output global defs as DocBook specs; to specify: -Zd=<file>.c
+  -Zn     Disable and/or don't define CodeGear builtins
+  -Zx     Output global definitions to XML file.
+	      Sub Options:
+		-Zx=<filename> Emit only types/declarations in <filename>
+		-Zxf[=filename] Skip base type members 
+		-Zxm[=filename] Emit macros
+		-Zxp[=filename] Emit file & line position
+  -axxx   Set data alignment boundary.  Default is -a8; -a- means -a1
+  -b      Enable -bi and treat enums as ints from a typechecking point of view
+* -bi     Make sizeof(enum x) == sizeof(int) unless explicitly stated otherwise
+  -c      Compile to object file only, do not link
+  -d      Merge duplicate strings
+  -dc     Put strings into the read-only data segment
+  -dw     Put strings into the (writeable) data segment
+  -e      Specify target executable pathname
+  -ff     Fast floating point
+  -fp     Correct Pentium FDIV flaw
+  -fq     Use quiet floating point compare instruction (FUCOMP)
+  -g      Stop batch compilation after n warnings (Default = 255)
+  -h      Request help ('-h -' shows all help).  Can be specific: -h -V
+  -i      Set maximum significant identifier length (Default = 250)
+  -j      Stop batch compilation after n errors (Default = 50)
+  -k      Generate standard stack frames
+  -l      Pass options to the linker; example: -ls -l-x
+  -m      Generate makefile dependency information
+  -md     Put dependency info in .d files, not in the object file
+  -mm     Ignore system header files while generating dependency info
+  -mo     Specify the output file for dependency info
+  -n      Set output directory for object files
+  -o      Set output filename (-o<filename> or -o <filename> supported)
+  -pxxx   Use Pascal calling convention
+  -q      Suppress compiler identification banner
+  -r      Use register variables
+  -rd     Use register variables only when register keyword is employed
+  -s      Link using the system's non-incremental linker
+  -t      Specify target executable
+  -u      Generate underscores on symbol names
+  -vxxx   Turn on source debugging
+  -w      Display all warnings
+  -w!     Return non-zero from compiler on warnings
+  -xxxx   Enable exception handling
+  -y      Debug line numbers on
+  -z      Options for redefining standard segment names
+Use '-h <OPT>' for help on a specific option, or
+    '-h -' to see all available options.
+Checking whether the ASM compiler is TI using "-h" did not match "Texas Instruments":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Available options (* = default setting, xxx = has sub-options: use -h -X):
+(Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+ If two options conflict, the last one specified will be used.)
+--sysroot (Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+
+--sysinc  Set the system include file search path
+	  (if specified, sysroot will be prepended)
+--syslib  Set the system library file search path
+	  (if specified, sysroot will be prepended)
+--savemem Set maximum SAVEMEM memory (in Mb)
+	  (This is the contiguous memory allocated to store global symbols and
+	   similar constructs.  Pre-compiled headers use this memory)
+--version Show compiler version
+--replacehdr Replace header name (e.g. --replaceHeader=a.h=b.h)
+--xrtti   Generate extended rtti information
+  -3      Generate 80386 protected-mode compatible instructions
+  -4      Generate 80386/80486 protected-mode compatible instructions
+  -5      Generate Pentium instructions
+  -6      Generate Pentium Pro instructions
+  -Axxx   Enable ANSI conformance
+  -B      Compile to .ASM (-S), then assemble to .OBJ
+  -Cxxx   Enable nested comments
+  -D      -D<name> defines 'name' as a null string, or use -D<name>=<value>
+  -E      Specify which assembler to use
+  -G      Optimize for size/speed; use -O1 and -O2 instead
+  -Hxxx   Generate and use precompiled headers
+  -I      Set the include file search path
+  -Jxxx   Template generation options
+  -K      Set default character type to unsigned
+  -L      Library file search path
+  -M      Create a linker map file
+  -N      Hodgepodge of miscellanity (see -h -N)
+  -Nd     Macros get a value of "1" by default (-DX => -DX=1)
+  -Nt     GNU __typeof(var) support
+  -Nv     Allow void& as a valid type
+  -O      Optimize jumps
+  -P      Perform C++ compile regardless of source extension
+  -Q      Extended compiler error information
+  -Rxxx   Include browser information in generated .OBJ files
+  -S      Compile to assembly
+  -T      Specify assembler option, e.g. -Tx
+  -U      Undefine any previous definitions of name
+  -Vxxx   Compatibility options
+  -W      Target is a Windows application
+  -X      Disable compiler autodependency output
+  -Y      
+  -Zd     Output global defs as DocBook specs; to specify: -Zd=<file>.c
+  -Zn     Disable and/or don't define CodeGear builtins
+  -Zx     Output global definitions to XML file.
+	      Sub Options:
+		-Zx=<filename> Emit only types/declarations in <filename>
+		-Zxf[=filename] Skip base type members 
+		-Zxm[=filename] Emit macros
+		-Zxp[=filename] Emit file & line position
+  -axxx   Set data alignment boundary.  Default is -a8; -a- means -a1
+  -b      Enable -bi and treat enums as ints from a typechecking point of view
+* -bi     Make sizeof(enum x) == sizeof(int) unless explicitly stated otherwise
+  -c      Compile to object file only, do not link
+  -d      Merge duplicate strings
+  -dc     Put strings into the read-only data segment
+  -dw     Put strings into the (writeable) data segment
+  -e      Specify target executable pathname
+  -ff     Fast floating point
+  -fp     Correct Pentium FDIV flaw
+  -fq     Use quiet floating point compare instruction (FUCOMP)
+  -g      Stop batch compilation after n warnings (Default = 255)
+  -h      Request help ('-h -' shows all help).  Can be specific: -h -V
+  -i      Set maximum significant identifier length (Default = 250)
+  -j      Stop batch compilation after n errors (Default = 50)
+  -k      Generate standard stack frames
+  -l      Pass options to the linker; example: -ls -l-x
+  -m      Generate makefile dependency information
+  -md     Put dependency info in .d files, not in the object file
+  -mm     Ignore system header files while generating dependency info
+  -mo     Specify the output file for dependency info
+  -n      Set output directory for object files
+  -o      Set output filename (-o<filename> or -o <filename> supported)
+  -pxxx   Use Pascal calling convention
+  -q      Suppress compiler identification banner
+  -r      Use register variables
+  -rd     Use register variables only when register keyword is employed
+  -s      Link using the system's non-incremental linker
+  -t      Specify target executable
+  -u      Generate underscores on symbol names
+  -vxxx   Turn on source debugging
+  -w      Display all warnings
+  -w!     Return non-zero from compiler on warnings
+  -xxxx   Enable exception handling
+  -y      Debug line numbers on
+  -z      Options for redefining standard segment names
+Use '-h <OPT>' for help on a specific option, or
+    '-h -' to see all available options.
+Checking whether the ASM compiler is IAR using "" did not match "IAR Assembler":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is ARMCC using "" did not match "(ARM Compiler)|(ARM Assembler)|(Arm Compiler)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is NASM using "-v" did not match "(NASM version)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Turbo Incremental Link 6.95 Copyright (c) 1997-2021 Embarcadero Technologies, Inc.
+Error: Unresolved external '_main' referenced from C:\PROGRAM FILES (X86)\EMBARCADERO\STUDIO\21.0\LIB\WIN32C\RELEASE\C0X32.OBJ
+Error: Unable to perform link
+bcc32c.exe: error: linker command failed with exit code 2 (use -Xdriver -v to see invocation)
+Checking whether the ASM compiler is YASM using "--version" did not match "(yasm)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is ADSP using "-version" did not match "Analog Devices":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+E2075 Incorrect command line option: -versionChecking whether the ASM compiler is QCC using "-V" did not match "gcc_nto":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Warning: option '-V' is not supported in Clang-based compiler.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is GNU using "--version" did not match "(GNU assembler)|(GCC)|(Free Software Foundation)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is Clang using "--version" did not match "(clang version)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is AppleClang using "--version" did not match "(Apple LLVM version)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is ARMClang using "--version" did not match "armclang":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is HP using "-V" did not match "HP C":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Warning: option '-V' is not supported in Clang-based compiler.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is Intel using "--version" did not match "(ICC)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is IntelLLVM using "--version" did not match "(Intel[^
+]+oneAPI)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is SunPro using "-V" did not match "Sun C":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Warning: option '-V' is not supported in Clang-based compiler.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is XL using "-qversion" did not match "XL C":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is MSVC using "-?" did not match "Microsoft":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Available options (* = default setting, xxx = has sub-options: use -h -X):
+(Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+ If two options conflict, the last one specified will be used.)
+--sysroot (Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+
+--sysinc  Set the system include file search path
+	  (if specified, sysroot will be prepended)
+--syslib  Set the system library file search path
+	  (if specified, sysroot will be prepended)
+--savemem Set maximum SAVEMEM memory (in Mb)
+	  (This is the contiguous memory allocated to store global symbols and
+	   similar constructs.  Pre-compiled headers use this memory)
+--version Show compiler version
+--replacehdr Replace header name (e.g. --replaceHeader=a.h=b.h)
+--xrtti   Generate extended rtti information
+  -3      Generate 80386 protected-mode compatible instructions
+  -4      Generate 80386/80486 protected-mode compatible instructions
+  -5      Generate Pentium instructions
+  -6      Generate Pentium Pro instructions
+  -Axxx   Enable ANSI conformance
+  -B      Compile to .ASM (-S), then assemble to .OBJ
+  -Cxxx   Enable nested comments
+  -D      -D<name> defines 'name' as a null string, or use -D<name>=<value>
+  -E      Specify which assembler to use
+  -G      Optimize for size/speed; use -O1 and -O2 instead
+  -Hxxx   Generate and use precompiled headers
+  -I      Set the include file search path
+  -Jxxx   Template generation options
+  -K      Set default character type to unsigned
+  -L      Library file search path
+  -M      Create a linker map file
+  -N      Hodgepodge of miscellanity (see -h -N)
+  -Nd     Macros get a value of "1" by default (-DX => -DX=1)
+  -Nt     GNU __typeof(var) support
+  -Nv     Allow void& as a valid type
+  -O      Optimize jumps
+  -P      Perform C++ compile regardless of source extension
+  -Q      Extended compiler error information
+  -Rxxx   Include browser information in generated .OBJ files
+  -S      Compile to assembly
+  -T      Specify assembler option, e.g. -Tx
+  -U      Undefine any previous definitions of name
+  -Vxxx   Compatibility options
+  -W      Target is a Windows application
+  -X      Disable compiler autodependency output
+  -Y      
+  -Zd     Output global defs as DocBook specs; to specify: -Zd=<file>.c
+  -Zn     Disable and/or don't define CodeGear builtins
+  -Zx     Output global definitions to XML file.
+	      Sub Options:
+		-Zx=<filename> Emit only types/declarations in <filename>
+		-Zxf[=filename] Skip base type members 
+		-Zxm[=filename] Emit macros
+		-Zxp[=filename] Emit file & line position
+  -axxx   Set data alignment boundary.  Default is -a8; -a- means -a1
+  -b      Enable -bi and treat enums as ints from a typechecking point of view
+* -bi     Make sizeof(enum x) == sizeof(int) unless explicitly stated otherwise
+  -c      Compile to object file only, do not link
+  -d      Merge duplicate strings
+  -dc     Put strings into the read-only data segment
+  -dw     Put strings into the (writeable) data segment
+  -e      Specify target executable pathname
+  -ff     Fast floating point
+  -fp     Correct Pentium FDIV flaw
+  -fq     Use quiet floating point compare instruction (FUCOMP)
+  -g      Stop batch compilation after n warnings (Default = 255)
+  -h      Request help ('-h -' shows all help).  Can be specific: -h -V
+  -i      Set maximum significant identifier length (Default = 250)
+  -j      Stop batch compilation after n errors (Default = 50)
+  -k      Generate standard stack frames
+  -l      Pass options to the linker; example: -ls -l-x
+  -m      Generate makefile dependency information
+  -md     Put dependency info in .d files, not in the object file
+  -mm     Ignore system header files while generating dependency info
+  -mo     Specify the output file for dependency info
+  -n      Set output directory for object files
+  -o      Set output filename (-o<filename> or -o <filename> supported)
+  -pxxx   Use Pascal calling convention
+  -q      Suppress compiler identification banner
+  -r      Use register variables
+  -rd     Use register variables only when register keyword is employed
+  -s      Link using the system's non-incremental linker
+  -t      Specify target executable
+  -u      Generate underscores on symbol names
+  -vxxx   Turn on source debugging
+  -w      Display all warnings
+  -w!     Return non-zero from compiler on warnings
+  -xxxx   Enable exception handling
+  -y      Debug line numbers on
+  -z      Options for redefining standard segment names
+Use '-h <OPT>' for help on a specific option, or
+    '-h -' to see all available options.
+Checking whether the ASM compiler is TI using "-h" did not match "Texas Instruments":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Available options (* = default setting, xxx = has sub-options: use -h -X):
+(Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+ If two options conflict, the last one specified will be used.)
+--sysroot (Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+
+--sysinc  Set the system include file search path
+	  (if specified, sysroot will be prepended)
+--syslib  Set the system library file search path
+	  (if specified, sysroot will be prepended)
+--savemem Set maximum SAVEMEM memory (in Mb)
+	  (This is the contiguous memory allocated to store global symbols and
+	   similar constructs.  Pre-compiled headers use this memory)
+--version Show compiler version
+--replacehdr Replace header name (e.g. --replaceHeader=a.h=b.h)
+--xrtti   Generate extended rtti information
+  -3      Generate 80386 protected-mode compatible instructions
+  -4      Generate 80386/80486 protected-mode compatible instructions
+  -5      Generate Pentium instructions
+  -6      Generate Pentium Pro instructions
+  -Axxx   Enable ANSI conformance
+  -B      Compile to .ASM (-S), then assemble to .OBJ
+  -Cxxx   Enable nested comments
+  -D      -D<name> defines 'name' as a null string, or use -D<name>=<value>
+  -E      Specify which assembler to use
+  -G      Optimize for size/speed; use -O1 and -O2 instead
+  -Hxxx   Generate and use precompiled headers
+  -I      Set the include file search path
+  -Jxxx   Template generation options
+  -K      Set default character type to unsigned
+  -L      Library file search path
+  -M      Create a linker map file
+  -N      Hodgepodge of miscellanity (see -h -N)
+  -Nd     Macros get a value of "1" by default (-DX => -DX=1)
+  -Nt     GNU __typeof(var) support
+  -Nv     Allow void& as a valid type
+  -O      Optimize jumps
+  -P      Perform C++ compile regardless of source extension
+  -Q      Extended compiler error information
+  -Rxxx   Include browser information in generated .OBJ files
+  -S      Compile to assembly
+  -T      Specify assembler option, e.g. -Tx
+  -U      Undefine any previous definitions of name
+  -Vxxx   Compatibility options
+  -W      Target is a Windows application
+  -X      Disable compiler autodependency output
+  -Y      
+  -Zd     Output global defs as DocBook specs; to specify: -Zd=<file>.c
+  -Zn     Disable and/or don't define CodeGear builtins
+  -Zx     Output global definitions to XML file.
+	      Sub Options:
+		-Zx=<filename> Emit only types/declarations in <filename>
+		-Zxf[=filename] Skip base type members 
+		-Zxm[=filename] Emit macros
+		-Zxp[=filename] Emit file & line position
+  -axxx   Set data alignment boundary.  Default is -a8; -a- means -a1
+  -b      Enable -bi and treat enums as ints from a typechecking point of view
+* -bi     Make sizeof(enum x) == sizeof(int) unless explicitly stated otherwise
+  -c      Compile to object file only, do not link
+  -d      Merge duplicate strings
+  -dc     Put strings into the read-only data segment
+  -dw     Put strings into the (writeable) data segment
+  -e      Specify target executable pathname
+  -ff     Fast floating point
+  -fp     Correct Pentium FDIV flaw
+  -fq     Use quiet floating point compare instruction (FUCOMP)
+  -g      Stop batch compilation after n warnings (Default = 255)
+  -h      Request help ('-h -' shows all help).  Can be specific: -h -V
+  -i      Set maximum significant identifier length (Default = 250)
+  -j      Stop batch compilation after n errors (Default = 50)
+  -k      Generate standard stack frames
+  -l      Pass options to the linker; example: -ls -l-x
+  -m      Generate makefile dependency information
+  -md     Put dependency info in .d files, not in the object file
+  -mm     Ignore system header files while generating dependency info
+  -mo     Specify the output file for dependency info
+  -n      Set output directory for object files
+  -o      Set output filename (-o<filename> or -o <filename> supported)
+  -pxxx   Use Pascal calling convention
+  -q      Suppress compiler identification banner
+  -r      Use register variables
+  -rd     Use register variables only when register keyword is employed
+  -s      Link using the system's non-incremental linker
+  -t      Specify target executable
+  -u      Generate underscores on symbol names
+  -vxxx   Turn on source debugging
+  -w      Display all warnings
+  -w!     Return non-zero from compiler on warnings
+  -xxxx   Enable exception handling
+  -y      Debug line numbers on
+  -z      Options for redefining standard segment names
+Use '-h <OPT>' for help on a specific option, or
+    '-h -' to see all available options.
+Checking whether the ASM compiler is IAR using "" did not match "IAR Assembler":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is ARMCC using "" did not match "(ARM Compiler)|(ARM Assembler)|(Arm Compiler)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is NASM using "-v" did not match "(NASM version)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Turbo Incremental Link 6.95 Copyright (c) 1997-2021 Embarcadero Technologies, Inc.
+Error: Unresolved external '_main' referenced from C:\PROGRAM FILES (X86)\EMBARCADERO\STUDIO\21.0\LIB\WIN32C\RELEASE\C0X32.OBJ
+Error: Unable to perform link
+bcc32c.exe: error: linker command failed with exit code 2 (use -Xdriver -v to see invocation)
+Checking whether the ASM compiler is YASM using "--version" did not match "(yasm)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is ADSP using "-version" did not match "Analog Devices":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+E2075 Incorrect command line option: -versionChecking whether the ASM compiler is QCC using "-V" did not match "gcc_nto":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Warning: option '-V' is not supported in Clang-based compiler.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is GNU using "--version" did not match "(GNU assembler)|(GCC)|(Free Software Foundation)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is Clang using "--version" did not match "(clang version)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is AppleClang using "--version" did not match "(Apple LLVM version)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is ARMClang using "--version" did not match "armclang":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is HP using "-V" did not match "HP C":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Warning: option '-V' is not supported in Clang-based compiler.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is Intel using "--version" did not match "(ICC)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is IntelLLVM using "--version" did not match "(Intel[^
+]+oneAPI)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is SunPro using "-V" did not match "Sun C":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Warning: option '-V' is not supported in Clang-based compiler.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is XL using "-qversion" did not match "XL C":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is MSVC using "-?" did not match "Microsoft":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Available options (* = default setting, xxx = has sub-options: use -h -X):
+(Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+ If two options conflict, the last one specified will be used.)
+--sysroot (Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+
+--sysinc  Set the system include file search path
+	  (if specified, sysroot will be prepended)
+--syslib  Set the system library file search path
+	  (if specified, sysroot will be prepended)
+--savemem Set maximum SAVEMEM memory (in Mb)
+	  (This is the contiguous memory allocated to store global symbols and
+	   similar constructs.  Pre-compiled headers use this memory)
+--version Show compiler version
+--replacehdr Replace header name (e.g. --replaceHeader=a.h=b.h)
+--xrtti   Generate extended rtti information
+  -3      Generate 80386 protected-mode compatible instructions
+  -4      Generate 80386/80486 protected-mode compatible instructions
+  -5      Generate Pentium instructions
+  -6      Generate Pentium Pro instructions
+  -Axxx   Enable ANSI conformance
+  -B      Compile to .ASM (-S), then assemble to .OBJ
+  -Cxxx   Enable nested comments
+  -D      -D<name> defines 'name' as a null string, or use -D<name>=<value>
+  -E      Specify which assembler to use
+  -G      Optimize for size/speed; use -O1 and -O2 instead
+  -Hxxx   Generate and use precompiled headers
+  -I      Set the include file search path
+  -Jxxx   Template generation options
+  -K      Set default character type to unsigned
+  -L      Library file search path
+  -M      Create a linker map file
+  -N      Hodgepodge of miscellanity (see -h -N)
+  -Nd     Macros get a value of "1" by default (-DX => -DX=1)
+  -Nt     GNU __typeof(var) support
+  -Nv     Allow void& as a valid type
+  -O      Optimize jumps
+  -P      Perform C++ compile regardless of source extension
+  -Q      Extended compiler error information
+  -Rxxx   Include browser information in generated .OBJ files
+  -S      Compile to assembly
+  -T      Specify assembler option, e.g. -Tx
+  -U      Undefine any previous definitions of name
+  -Vxxx   Compatibility options
+  -W      Target is a Windows application
+  -X      Disable compiler autodependency output
+  -Y      
+  -Zd     Output global defs as DocBook specs; to specify: -Zd=<file>.c
+  -Zn     Disable and/or don't define CodeGear builtins
+  -Zx     Output global definitions to XML file.
+	      Sub Options:
+		-Zx=<filename> Emit only types/declarations in <filename>
+		-Zxf[=filename] Skip base type members 
+		-Zxm[=filename] Emit macros
+		-Zxp[=filename] Emit file & line position
+  -axxx   Set data alignment boundary.  Default is -a8; -a- means -a1
+  -b      Enable -bi and treat enums as ints from a typechecking point of view
+* -bi     Make sizeof(enum x) == sizeof(int) unless explicitly stated otherwise
+  -c      Compile to object file only, do not link
+  -d      Merge duplicate strings
+  -dc     Put strings into the read-only data segment
+  -dw     Put strings into the (writeable) data segment
+  -e      Specify target executable pathname
+  -ff     Fast floating point
+  -fp     Correct Pentium FDIV flaw
+  -fq     Use quiet floating point compare instruction (FUCOMP)
+  -g      Stop batch compilation after n warnings (Default = 255)
+  -h      Request help ('-h -' shows all help).  Can be specific: -h -V
+  -i      Set maximum significant identifier length (Default = 250)
+  -j      Stop batch compilation after n errors (Default = 50)
+  -k      Generate standard stack frames
+  -l      Pass options to the linker; example: -ls -l-x
+  -m      Generate makefile dependency information
+  -md     Put dependency info in .d files, not in the object file
+  -mm     Ignore system header files while generating dependency info
+  -mo     Specify the output file for dependency info
+  -n      Set output directory for object files
+  -o      Set output filename (-o<filename> or -o <filename> supported)
+  -pxxx   Use Pascal calling convention
+  -q      Suppress compiler identification banner
+  -r      Use register variables
+  -rd     Use register variables only when register keyword is employed
+  -s      Link using the system's non-incremental linker
+  -t      Specify target executable
+  -u      Generate underscores on symbol names
+  -vxxx   Turn on source debugging
+  -w      Display all warnings
+  -w!     Return non-zero from compiler on warnings
+  -xxxx   Enable exception handling
+  -y      Debug line numbers on
+  -z      Options for redefining standard segment names
+Use '-h <OPT>' for help on a specific option, or
+    '-h -' to see all available options.
+Checking whether the ASM compiler is TI using "-h" did not match "Texas Instruments":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Available options (* = default setting, xxx = has sub-options: use -h -X):
+(Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+ If two options conflict, the last one specified will be used.)
+--sysroot (Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+
+--sysinc  Set the system include file search path
+	  (if specified, sysroot will be prepended)
+--syslib  Set the system library file search path
+	  (if specified, sysroot will be prepended)
+--savemem Set maximum SAVEMEM memory (in Mb)
+	  (This is the contiguous memory allocated to store global symbols and
+	   similar constructs.  Pre-compiled headers use this memory)
+--version Show compiler version
+--replacehdr Replace header name (e.g. --replaceHeader=a.h=b.h)
+--xrtti   Generate extended rtti information
+  -3      Generate 80386 protected-mode compatible instructions
+  -4      Generate 80386/80486 protected-mode compatible instructions
+  -5      Generate Pentium instructions
+  -6      Generate Pentium Pro instructions
+  -Axxx   Enable ANSI conformance
+  -B      Compile to .ASM (-S), then assemble to .OBJ
+  -Cxxx   Enable nested comments
+  -D      -D<name> defines 'name' as a null string, or use -D<name>=<value>
+  -E      Specify which assembler to use
+  -G      Optimize for size/speed; use -O1 and -O2 instead
+  -Hxxx   Generate and use precompiled headers
+  -I      Set the include file search path
+  -Jxxx   Template generation options
+  -K      Set default character type to unsigned
+  -L      Library file search path
+  -M      Create a linker map file
+  -N      Hodgepodge of miscellanity (see -h -N)
+  -Nd     Macros get a value of "1" by default (-DX => -DX=1)
+  -Nt     GNU __typeof(var) support
+  -Nv     Allow void& as a valid type
+  -O      Optimize jumps
+  -P      Perform C++ compile regardless of source extension
+  -Q      Extended compiler error information
+  -Rxxx   Include browser information in generated .OBJ files
+  -S      Compile to assembly
+  -T      Specify assembler option, e.g. -Tx
+  -U      Undefine any previous definitions of name
+  -Vxxx   Compatibility options
+  -W      Target is a Windows application
+  -X      Disable compiler autodependency output
+  -Y      
+  -Zd     Output global defs as DocBook specs; to specify: -Zd=<file>.c
+  -Zn     Disable and/or don't define CodeGear builtins
+  -Zx     Output global definitions to XML file.
+	      Sub Options:
+		-Zx=<filename> Emit only types/declarations in <filename>
+		-Zxf[=filename] Skip base type members 
+		-Zxm[=filename] Emit macros
+		-Zxp[=filename] Emit file & line position
+  -axxx   Set data alignment boundary.  Default is -a8; -a- means -a1
+  -b      Enable -bi and treat enums as ints from a typechecking point of view
+* -bi     Make sizeof(enum x) == sizeof(int) unless explicitly stated otherwise
+  -c      Compile to object file only, do not link
+  -d      Merge duplicate strings
+  -dc     Put strings into the read-only data segment
+  -dw     Put strings into the (writeable) data segment
+  -e      Specify target executable pathname
+  -ff     Fast floating point
+  -fp     Correct Pentium FDIV flaw
+  -fq     Use quiet floating point compare instruction (FUCOMP)
+  -g      Stop batch compilation after n warnings (Default = 255)
+  -h      Request help ('-h -' shows all help).  Can be specific: -h -V
+  -i      Set maximum significant identifier length (Default = 250)
+  -j      Stop batch compilation after n errors (Default = 50)
+  -k      Generate standard stack frames
+  -l      Pass options to the linker; example: -ls -l-x
+  -m      Generate makefile dependency information
+  -md     Put dependency info in .d files, not in the object file
+  -mm     Ignore system header files while generating dependency info
+  -mo     Specify the output file for dependency info
+  -n      Set output directory for object files
+  -o      Set output filename (-o<filename> or -o <filename> supported)
+  -pxxx   Use Pascal calling convention
+  -q      Suppress compiler identification banner
+  -r      Use register variables
+  -rd     Use register variables only when register keyword is employed
+  -s      Link using the system's non-incremental linker
+  -t      Specify target executable
+  -u      Generate underscores on symbol names
+  -vxxx   Turn on source debugging
+  -w      Display all warnings
+  -w!     Return non-zero from compiler on warnings
+  -xxxx   Enable exception handling
+  -y      Debug line numbers on
+  -z      Options for redefining standard segment names
+Use '-h <OPT>' for help on a specific option, or
+    '-h -' to see all available options.
+Checking whether the ASM compiler is IAR using "" did not match "IAR Assembler":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is ARMCC using "" did not match "(ARM Compiler)|(ARM Assembler)|(Arm Compiler)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is NASM using "-v" did not match "(NASM version)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Turbo Incremental Link 6.95 Copyright (c) 1997-2021 Embarcadero Technologies, Inc.
+Error: Unresolved external '_main' referenced from C:\PROGRAM FILES (X86)\EMBARCADERO\STUDIO\21.0\LIB\WIN32C\RELEASE\C0X32.OBJ
+Error: Unable to perform link
+bcc32c.exe: error: linker command failed with exit code 2 (use -Xdriver -v to see invocation)
+Checking whether the ASM compiler is YASM using "--version" did not match "(yasm)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is ADSP using "-version" did not match "Analog Devices":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+E2075 Incorrect command line option: -versionChecking whether the ASM compiler is QCC using "-V" did not match "gcc_nto":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Warning: option '-V' is not supported in Clang-based compiler.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is GNU using "--version" did not match "(GNU assembler)|(GCC)|(Free Software Foundation)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is Clang using "--version" did not match "(clang version)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is AppleClang using "--version" did not match "(Apple LLVM version)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is ARMClang using "--version" did not match "armclang":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is HP using "-V" did not match "HP C":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Warning: option '-V' is not supported in Clang-based compiler.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is Intel using "--version" did not match "(ICC)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is IntelLLVM using "--version" did not match "(Intel[^
+]+oneAPI)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is SunPro using "-V" did not match "Sun C":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Warning: option '-V' is not supported in Clang-based compiler.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is XL using "-qversion" did not match "XL C":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is MSVC using "-?" did not match "Microsoft":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Available options (* = default setting, xxx = has sub-options: use -h -X):
+(Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+ If two options conflict, the last one specified will be used.)
+--sysroot (Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+
+--sysinc  Set the system include file search path
+	  (if specified, sysroot will be prepended)
+--syslib  Set the system library file search path
+	  (if specified, sysroot will be prepended)
+--savemem Set maximum SAVEMEM memory (in Mb)
+	  (This is the contiguous memory allocated to store global symbols and
+	   similar constructs.  Pre-compiled headers use this memory)
+--version Show compiler version
+--replacehdr Replace header name (e.g. --replaceHeader=a.h=b.h)
+--xrtti   Generate extended rtti information
+  -3      Generate 80386 protected-mode compatible instructions
+  -4      Generate 80386/80486 protected-mode compatible instructions
+  -5      Generate Pentium instructions
+  -6      Generate Pentium Pro instructions
+  -Axxx   Enable ANSI conformance
+  -B      Compile to .ASM (-S), then assemble to .OBJ
+  -Cxxx   Enable nested comments
+  -D      -D<name> defines 'name' as a null string, or use -D<name>=<value>
+  -E      Specify which assembler to use
+  -G      Optimize for size/speed; use -O1 and -O2 instead
+  -Hxxx   Generate and use precompiled headers
+  -I      Set the include file search path
+  -Jxxx   Template generation options
+  -K      Set default character type to unsigned
+  -L      Library file search path
+  -M      Create a linker map file
+  -N      Hodgepodge of miscellanity (see -h -N)
+  -Nd     Macros get a value of "1" by default (-DX => -DX=1)
+  -Nt     GNU __typeof(var) support
+  -Nv     Allow void& as a valid type
+  -O      Optimize jumps
+  -P      Perform C++ compile regardless of source extension
+  -Q      Extended compiler error information
+  -Rxxx   Include browser information in generated .OBJ files
+  -S      Compile to assembly
+  -T      Specify assembler option, e.g. -Tx
+  -U      Undefine any previous definitions of name
+  -Vxxx   Compatibility options
+  -W      Target is a Windows application
+  -X      Disable compiler autodependency output
+  -Y      
+  -Zd     Output global defs as DocBook specs; to specify: -Zd=<file>.c
+  -Zn     Disable and/or don't define CodeGear builtins
+  -Zx     Output global definitions to XML file.
+	      Sub Options:
+		-Zx=<filename> Emit only types/declarations in <filename>
+		-Zxf[=filename] Skip base type members 
+		-Zxm[=filename] Emit macros
+		-Zxp[=filename] Emit file & line position
+  -axxx   Set data alignment boundary.  Default is -a8; -a- means -a1
+  -b      Enable -bi and treat enums as ints from a typechecking point of view
+* -bi     Make sizeof(enum x) == sizeof(int) unless explicitly stated otherwise
+  -c      Compile to object file only, do not link
+  -d      Merge duplicate strings
+  -dc     Put strings into the read-only data segment
+  -dw     Put strings into the (writeable) data segment
+  -e      Specify target executable pathname
+  -ff     Fast floating point
+  -fp     Correct Pentium FDIV flaw
+  -fq     Use quiet floating point compare instruction (FUCOMP)
+  -g      Stop batch compilation after n warnings (Default = 255)
+  -h      Request help ('-h -' shows all help).  Can be specific: -h -V
+  -i      Set maximum significant identifier length (Default = 250)
+  -j      Stop batch compilation after n errors (Default = 50)
+  -k      Generate standard stack frames
+  -l      Pass options to the linker; example: -ls -l-x
+  -m      Generate makefile dependency information
+  -md     Put dependency info in .d files, not in the object file
+  -mm     Ignore system header files while generating dependency info
+  -mo     Specify the output file for dependency info
+  -n      Set output directory for object files
+  -o      Set output filename (-o<filename> or -o <filename> supported)
+  -pxxx   Use Pascal calling convention
+  -q      Suppress compiler identification banner
+  -r      Use register variables
+  -rd     Use register variables only when register keyword is employed
+  -s      Link using the system's non-incremental linker
+  -t      Specify target executable
+  -u      Generate underscores on symbol names
+  -vxxx   Turn on source debugging
+  -w      Display all warnings
+  -w!     Return non-zero from compiler on warnings
+  -xxxx   Enable exception handling
+  -y      Debug line numbers on
+  -z      Options for redefining standard segment names
+Use '-h <OPT>' for help on a specific option, or
+    '-h -' to see all available options.
+Checking whether the ASM compiler is TI using "-h" did not match "Texas Instruments":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Available options (* = default setting, xxx = has sub-options: use -h -X):
+(Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+ If two options conflict, the last one specified will be used.)
+--sysroot (Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+
+--sysinc  Set the system include file search path
+	  (if specified, sysroot will be prepended)
+--syslib  Set the system library file search path
+	  (if specified, sysroot will be prepended)
+--savemem Set maximum SAVEMEM memory (in Mb)
+	  (This is the contiguous memory allocated to store global symbols and
+	   similar constructs.  Pre-compiled headers use this memory)
+--version Show compiler version
+--replacehdr Replace header name (e.g. --replaceHeader=a.h=b.h)
+--xrtti   Generate extended rtti information
+  -3      Generate 80386 protected-mode compatible instructions
+  -4      Generate 80386/80486 protected-mode compatible instructions
+  -5      Generate Pentium instructions
+  -6      Generate Pentium Pro instructions
+  -Axxx   Enable ANSI conformance
+  -B      Compile to .ASM (-S), then assemble to .OBJ
+  -Cxxx   Enable nested comments
+  -D      -D<name> defines 'name' as a null string, or use -D<name>=<value>
+  -E      Specify which assembler to use
+  -G      Optimize for size/speed; use -O1 and -O2 instead
+  -Hxxx   Generate and use precompiled headers
+  -I      Set the include file search path
+  -Jxxx   Template generation options
+  -K      Set default character type to unsigned
+  -L      Library file search path
+  -M      Create a linker map file
+  -N      Hodgepodge of miscellanity (see -h -N)
+  -Nd     Macros get a value of "1" by default (-DX => -DX=1)
+  -Nt     GNU __typeof(var) support
+  -Nv     Allow void& as a valid type
+  -O      Optimize jumps
+  -P      Perform C++ compile regardless of source extension
+  -Q      Extended compiler error information
+  -Rxxx   Include browser information in generated .OBJ files
+  -S      Compile to assembly
+  -T      Specify assembler option, e.g. -Tx
+  -U      Undefine any previous definitions of name
+  -Vxxx   Compatibility options
+  -W      Target is a Windows application
+  -X      Disable compiler autodependency output
+  -Y      
+  -Zd     Output global defs as DocBook specs; to specify: -Zd=<file>.c
+  -Zn     Disable and/or don't define CodeGear builtins
+  -Zx     Output global definitions to XML file.
+	      Sub Options:
+		-Zx=<filename> Emit only types/declarations in <filename>
+		-Zxf[=filename] Skip base type members 
+		-Zxm[=filename] Emit macros
+		-Zxp[=filename] Emit file & line position
+  -axxx   Set data alignment boundary.  Default is -a8; -a- means -a1
+  -b      Enable -bi and treat enums as ints from a typechecking point of view
+* -bi     Make sizeof(enum x) == sizeof(int) unless explicitly stated otherwise
+  -c      Compile to object file only, do not link
+  -d      Merge duplicate strings
+  -dc     Put strings into the read-only data segment
+  -dw     Put strings into the (writeable) data segment
+  -e      Specify target executable pathname
+  -ff     Fast floating point
+  -fp     Correct Pentium FDIV flaw
+  -fq     Use quiet floating point compare instruction (FUCOMP)
+  -g      Stop batch compilation after n warnings (Default = 255)
+  -h      Request help ('-h -' shows all help).  Can be specific: -h -V
+  -i      Set maximum significant identifier length (Default = 250)
+  -j      Stop batch compilation after n errors (Default = 50)
+  -k      Generate standard stack frames
+  -l      Pass options to the linker; example: -ls -l-x
+  -m      Generate makefile dependency information
+  -md     Put dependency info in .d files, not in the object file
+  -mm     Ignore system header files while generating dependency info
+  -mo     Specify the output file for dependency info
+  -n      Set output directory for object files
+  -o      Set output filename (-o<filename> or -o <filename> supported)
+  -pxxx   Use Pascal calling convention
+  -q      Suppress compiler identification banner
+  -r      Use register variables
+  -rd     Use register variables only when register keyword is employed
+  -s      Link using the system's non-incremental linker
+  -t      Specify target executable
+  -u      Generate underscores on symbol names
+  -vxxx   Turn on source debugging
+  -w      Display all warnings
+  -w!     Return non-zero from compiler on warnings
+  -xxxx   Enable exception handling
+  -y      Debug line numbers on
+  -z      Options for redefining standard segment names
+Use '-h <OPT>' for help on a specific option, or
+    '-h -' to see all available options.
+Checking whether the ASM compiler is IAR using "" did not match "IAR Assembler":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is ARMCC using "" did not match "(ARM Compiler)|(ARM Assembler)|(Arm Compiler)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is NASM using "-v" did not match "(NASM version)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Turbo Incremental Link 6.95 Copyright (c) 1997-2021 Embarcadero Technologies, Inc.
+Error: Unresolved external '_main' referenced from C:\PROGRAM FILES (X86)\EMBARCADERO\STUDIO\21.0\LIB\WIN32C\RELEASE\C0X32.OBJ
+Error: Unable to perform link
+bcc32c.exe: error: linker command failed with exit code 2 (use -Xdriver -v to see invocation)
+Checking whether the ASM compiler is YASM using "--version" did not match "(yasm)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is ADSP using "-version" did not match "Analog Devices":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+E2075 Incorrect command line option: -versionChecking whether the ASM compiler is QCC using "-V" did not match "gcc_nto":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Warning: option '-V' is not supported in Clang-based compiler.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is GNU using "--version" did not match "(GNU assembler)|(GCC)|(Free Software Foundation)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is Clang using "--version" did not match "(clang version)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is AppleClang using "--version" did not match "(Apple LLVM version)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is ARMClang using "--version" did not match "armclang":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is HP using "-V" did not match "HP C":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Warning: option '-V' is not supported in Clang-based compiler.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is Intel using "--version" did not match "(ICC)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is IntelLLVM using "--version" did not match "(Intel[^
+]+oneAPI)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is SunPro using "-V" did not match "Sun C":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Warning: option '-V' is not supported in Clang-based compiler.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is XL using "-qversion" did not match "XL C":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is MSVC using "-?" did not match "Microsoft":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Available options (* = default setting, xxx = has sub-options: use -h -X):
+(Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+ If two options conflict, the last one specified will be used.)
+--sysroot (Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+
+--sysinc  Set the system include file search path
+	  (if specified, sysroot will be prepended)
+--syslib  Set the system library file search path
+	  (if specified, sysroot will be prepended)
+--savemem Set maximum SAVEMEM memory (in Mb)
+	  (This is the contiguous memory allocated to store global symbols and
+	   similar constructs.  Pre-compiled headers use this memory)
+--version Show compiler version
+--replacehdr Replace header name (e.g. --replaceHeader=a.h=b.h)
+--xrtti   Generate extended rtti information
+  -3      Generate 80386 protected-mode compatible instructions
+  -4      Generate 80386/80486 protected-mode compatible instructions
+  -5      Generate Pentium instructions
+  -6      Generate Pentium Pro instructions
+  -Axxx   Enable ANSI conformance
+  -B      Compile to .ASM (-S), then assemble to .OBJ
+  -Cxxx   Enable nested comments
+  -D      -D<name> defines 'name' as a null string, or use -D<name>=<value>
+  -E      Specify which assembler to use
+  -G      Optimize for size/speed; use -O1 and -O2 instead
+  -Hxxx   Generate and use precompiled headers
+  -I      Set the include file search path
+  -Jxxx   Template generation options
+  -K      Set default character type to unsigned
+  -L      Library file search path
+  -M      Create a linker map file
+  -N      Hodgepodge of miscellanity (see -h -N)
+  -Nd     Macros get a value of "1" by default (-DX => -DX=1)
+  -Nt     GNU __typeof(var) support
+  -Nv     Allow void& as a valid type
+  -O      Optimize jumps
+  -P      Perform C++ compile regardless of source extension
+  -Q      Extended compiler error information
+  -Rxxx   Include browser information in generated .OBJ files
+  -S      Compile to assembly
+  -T      Specify assembler option, e.g. -Tx
+  -U      Undefine any previous definitions of name
+  -Vxxx   Compatibility options
+  -W      Target is a Windows application
+  -X      Disable compiler autodependency output
+  -Y      
+  -Zd     Output global defs as DocBook specs; to specify: -Zd=<file>.c
+  -Zn     Disable and/or don't define CodeGear builtins
+  -Zx     Output global definitions to XML file.
+	      Sub Options:
+		-Zx=<filename> Emit only types/declarations in <filename>
+		-Zxf[=filename] Skip base type members 
+		-Zxm[=filename] Emit macros
+		-Zxp[=filename] Emit file & line position
+  -axxx   Set data alignment boundary.  Default is -a8; -a- means -a1
+  -b      Enable -bi and treat enums as ints from a typechecking point of view
+* -bi     Make sizeof(enum x) == sizeof(int) unless explicitly stated otherwise
+  -c      Compile to object file only, do not link
+  -d      Merge duplicate strings
+  -dc     Put strings into the read-only data segment
+  -dw     Put strings into the (writeable) data segment
+  -e      Specify target executable pathname
+  -ff     Fast floating point
+  -fp     Correct Pentium FDIV flaw
+  -fq     Use quiet floating point compare instruction (FUCOMP)
+  -g      Stop batch compilation after n warnings (Default = 255)
+  -h      Request help ('-h -' shows all help).  Can be specific: -h -V
+  -i      Set maximum significant identifier length (Default = 250)
+  -j      Stop batch compilation after n errors (Default = 50)
+  -k      Generate standard stack frames
+  -l      Pass options to the linker; example: -ls -l-x
+  -m      Generate makefile dependency information
+  -md     Put dependency info in .d files, not in the object file
+  -mm     Ignore system header files while generating dependency info
+  -mo     Specify the output file for dependency info
+  -n      Set output directory for object files
+  -o      Set output filename (-o<filename> or -o <filename> supported)
+  -pxxx   Use Pascal calling convention
+  -q      Suppress compiler identification banner
+  -r      Use register variables
+  -rd     Use register variables only when register keyword is employed
+  -s      Link using the system's non-incremental linker
+  -t      Specify target executable
+  -u      Generate underscores on symbol names
+  -vxxx   Turn on source debugging
+  -w      Display all warnings
+  -w!     Return non-zero from compiler on warnings
+  -xxxx   Enable exception handling
+  -y      Debug line numbers on
+  -z      Options for redefining standard segment names
+Use '-h <OPT>' for help on a specific option, or
+    '-h -' to see all available options.
+Checking whether the ASM compiler is TI using "-h" did not match "Texas Instruments":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Available options (* = default setting, xxx = has sub-options: use -h -X):
+(Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+ If two options conflict, the last one specified will be used.)
+--sysroot (Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+
+--sysinc  Set the system include file search path
+	  (if specified, sysroot will be prepended)
+--syslib  Set the system library file search path
+	  (if specified, sysroot will be prepended)
+--savemem Set maximum SAVEMEM memory (in Mb)
+	  (This is the contiguous memory allocated to store global symbols and
+	   similar constructs.  Pre-compiled headers use this memory)
+--version Show compiler version
+--replacehdr Replace header name (e.g. --replaceHeader=a.h=b.h)
+--xrtti   Generate extended rtti information
+  -3      Generate 80386 protected-mode compatible instructions
+  -4      Generate 80386/80486 protected-mode compatible instructions
+  -5      Generate Pentium instructions
+  -6      Generate Pentium Pro instructions
+  -Axxx   Enable ANSI conformance
+  -B      Compile to .ASM (-S), then assemble to .OBJ
+  -Cxxx   Enable nested comments
+  -D      -D<name> defines 'name' as a null string, or use -D<name>=<value>
+  -E      Specify which assembler to use
+  -G      Optimize for size/speed; use -O1 and -O2 instead
+  -Hxxx   Generate and use precompiled headers
+  -I      Set the include file search path
+  -Jxxx   Template generation options
+  -K      Set default character type to unsigned
+  -L      Library file search path
+  -M      Create a linker map file
+  -N      Hodgepodge of miscellanity (see -h -N)
+  -Nd     Macros get a value of "1" by default (-DX => -DX=1)
+  -Nt     GNU __typeof(var) support
+  -Nv     Allow void& as a valid type
+  -O      Optimize jumps
+  -P      Perform C++ compile regardless of source extension
+  -Q      Extended compiler error information
+  -Rxxx   Include browser information in generated .OBJ files
+  -S      Compile to assembly
+  -T      Specify assembler option, e.g. -Tx
+  -U      Undefine any previous definitions of name
+  -Vxxx   Compatibility options
+  -W      Target is a Windows application
+  -X      Disable compiler autodependency output
+  -Y      
+  -Zd     Output global defs as DocBook specs; to specify: -Zd=<file>.c
+  -Zn     Disable and/or don't define CodeGear builtins
+  -Zx     Output global definitions to XML file.
+	      Sub Options:
+		-Zx=<filename> Emit only types/declarations in <filename>
+		-Zxf[=filename] Skip base type members 
+		-Zxm[=filename] Emit macros
+		-Zxp[=filename] Emit file & line position
+  -axxx   Set data alignment boundary.  Default is -a8; -a- means -a1
+  -b      Enable -bi and treat enums as ints from a typechecking point of view
+* -bi     Make sizeof(enum x) == sizeof(int) unless explicitly stated otherwise
+  -c      Compile to object file only, do not link
+  -d      Merge duplicate strings
+  -dc     Put strings into the read-only data segment
+  -dw     Put strings into the (writeable) data segment
+  -e      Specify target executable pathname
+  -ff     Fast floating point
+  -fp     Correct Pentium FDIV flaw
+  -fq     Use quiet floating point compare instruction (FUCOMP)
+  -g      Stop batch compilation after n warnings (Default = 255)
+  -h      Request help ('-h -' shows all help).  Can be specific: -h -V
+  -i      Set maximum significant identifier length (Default = 250)
+  -j      Stop batch compilation after n errors (Default = 50)
+  -k      Generate standard stack frames
+  -l      Pass options to the linker; example: -ls -l-x
+  -m      Generate makefile dependency information
+  -md     Put dependency info in .d files, not in the object file
+  -mm     Ignore system header files while generating dependency info
+  -mo     Specify the output file for dependency info
+  -n      Set output directory for object files
+  -o      Set output filename (-o<filename> or -o <filename> supported)
+  -pxxx   Use Pascal calling convention
+  -q      Suppress compiler identification banner
+  -r      Use register variables
+  -rd     Use register variables only when register keyword is employed
+  -s      Link using the system's non-incremental linker
+  -t      Specify target executable
+  -u      Generate underscores on symbol names
+  -vxxx   Turn on source debugging
+  -w      Display all warnings
+  -w!     Return non-zero from compiler on warnings
+  -xxxx   Enable exception handling
+  -y      Debug line numbers on
+  -z      Options for redefining standard segment names
+Use '-h <OPT>' for help on a specific option, or
+    '-h -' to see all available options.
+Checking whether the ASM compiler is IAR using "" did not match "IAR Assembler":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is ARMCC using "" did not match "(ARM Compiler)|(ARM Assembler)|(Arm Compiler)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is NASM using "-v" did not match "(NASM version)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Turbo Incremental Link 6.95 Copyright (c) 1997-2021 Embarcadero Technologies, Inc.
+Error: Unresolved external '_main' referenced from C:\PROGRAM FILES (X86)\EMBARCADERO\STUDIO\21.0\LIB\WIN32C\RELEASE\C0X32.OBJ
+Error: Unable to perform link
+bcc32c.exe: error: linker command failed with exit code 2 (use -Xdriver -v to see invocation)
+Checking whether the ASM compiler is YASM using "--version" did not match "(yasm)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is ADSP using "-version" did not match "Analog Devices":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+E2075 Incorrect command line option: -versionChecking whether the ASM compiler is QCC using "-V" did not match "gcc_nto":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Warning: option '-V' is not supported in Clang-based compiler.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is GNU using "--version" did not match "(GNU assembler)|(GCC)|(Free Software Foundation)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is Clang using "--version" did not match "(clang version)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is AppleClang using "--version" did not match "(Apple LLVM version)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is ARMClang using "--version" did not match "armclang":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is HP using "-V" did not match "HP C":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Warning: option '-V' is not supported in Clang-based compiler.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is Intel using "--version" did not match "(ICC)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is IntelLLVM using "--version" did not match "(Intel[^
+]+oneAPI)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is SunPro using "-V" did not match "Sun C":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Warning: option '-V' is not supported in Clang-based compiler.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is XL using "-qversion" did not match "XL C":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is MSVC using "-?" did not match "Microsoft":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Available options (* = default setting, xxx = has sub-options: use -h -X):
+(Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+ If two options conflict, the last one specified will be used.)
+--sysroot (Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+
+--sysinc  Set the system include file search path
+	  (if specified, sysroot will be prepended)
+--syslib  Set the system library file search path
+	  (if specified, sysroot will be prepended)
+--savemem Set maximum SAVEMEM memory (in Mb)
+	  (This is the contiguous memory allocated to store global symbols and
+	   similar constructs.  Pre-compiled headers use this memory)
+--version Show compiler version
+--replacehdr Replace header name (e.g. --replaceHeader=a.h=b.h)
+--xrtti   Generate extended rtti information
+  -3      Generate 80386 protected-mode compatible instructions
+  -4      Generate 80386/80486 protected-mode compatible instructions
+  -5      Generate Pentium instructions
+  -6      Generate Pentium Pro instructions
+  -Axxx   Enable ANSI conformance
+  -B      Compile to .ASM (-S), then assemble to .OBJ
+  -Cxxx   Enable nested comments
+  -D      -D<name> defines 'name' as a null string, or use -D<name>=<value>
+  -E      Specify which assembler to use
+  -G      Optimize for size/speed; use -O1 and -O2 instead
+  -Hxxx   Generate and use precompiled headers
+  -I      Set the include file search path
+  -Jxxx   Template generation options
+  -K      Set default character type to unsigned
+  -L      Library file search path
+  -M      Create a linker map file
+  -N      Hodgepodge of miscellanity (see -h -N)
+  -Nd     Macros get a value of "1" by default (-DX => -DX=1)
+  -Nt     GNU __typeof(var) support
+  -Nv     Allow void& as a valid type
+  -O      Optimize jumps
+  -P      Perform C++ compile regardless of source extension
+  -Q      Extended compiler error information
+  -Rxxx   Include browser information in generated .OBJ files
+  -S      Compile to assembly
+  -T      Specify assembler option, e.g. -Tx
+  -U      Undefine any previous definitions of name
+  -Vxxx   Compatibility options
+  -W      Target is a Windows application
+  -X      Disable compiler autodependency output
+  -Y      
+  -Zd     Output global defs as DocBook specs; to specify: -Zd=<file>.c
+  -Zn     Disable and/or don't define CodeGear builtins
+  -Zx     Output global definitions to XML file.
+	      Sub Options:
+		-Zx=<filename> Emit only types/declarations in <filename>
+		-Zxf[=filename] Skip base type members 
+		-Zxm[=filename] Emit macros
+		-Zxp[=filename] Emit file & line position
+  -axxx   Set data alignment boundary.  Default is -a8; -a- means -a1
+  -b      Enable -bi and treat enums as ints from a typechecking point of view
+* -bi     Make sizeof(enum x) == sizeof(int) unless explicitly stated otherwise
+  -c      Compile to object file only, do not link
+  -d      Merge duplicate strings
+  -dc     Put strings into the read-only data segment
+  -dw     Put strings into the (writeable) data segment
+  -e      Specify target executable pathname
+  -ff     Fast floating point
+  -fp     Correct Pentium FDIV flaw
+  -fq     Use quiet floating point compare instruction (FUCOMP)
+  -g      Stop batch compilation after n warnings (Default = 255)
+  -h      Request help ('-h -' shows all help).  Can be specific: -h -V
+  -i      Set maximum significant identifier length (Default = 250)
+  -j      Stop batch compilation after n errors (Default = 50)
+  -k      Generate standard stack frames
+  -l      Pass options to the linker; example: -ls -l-x
+  -m      Generate makefile dependency information
+  -md     Put dependency info in .d files, not in the object file
+  -mm     Ignore system header files while generating dependency info
+  -mo     Specify the output file for dependency info
+  -n      Set output directory for object files
+  -o      Set output filename (-o<filename> or -o <filename> supported)
+  -pxxx   Use Pascal calling convention
+  -q      Suppress compiler identification banner
+  -r      Use register variables
+  -rd     Use register variables only when register keyword is employed
+  -s      Link using the system's non-incremental linker
+  -t      Specify target executable
+  -u      Generate underscores on symbol names
+  -vxxx   Turn on source debugging
+  -w      Display all warnings
+  -w!     Return non-zero from compiler on warnings
+  -xxxx   Enable exception handling
+  -y      Debug line numbers on
+  -z      Options for redefining standard segment names
+Use '-h <OPT>' for help on a specific option, or
+    '-h -' to see all available options.
+Checking whether the ASM compiler is TI using "-h" did not match "Texas Instruments":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Available options (* = default setting, xxx = has sub-options: use -h -X):
+(Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+ If two options conflict, the last one specified will be used.)
+--sysroot (Note: -X- or -w-XXX will usually undo whatever was set or unset by -X or -wXXX.
+
+--sysinc  Set the system include file search path
+	  (if specified, sysroot will be prepended)
+--syslib  Set the system library file search path
+	  (if specified, sysroot will be prepended)
+--savemem Set maximum SAVEMEM memory (in Mb)
+	  (This is the contiguous memory allocated to store global symbols and
+	   similar constructs.  Pre-compiled headers use this memory)
+--version Show compiler version
+--replacehdr Replace header name (e.g. --replaceHeader=a.h=b.h)
+--xrtti   Generate extended rtti information
+  -3      Generate 80386 protected-mode compatible instructions
+  -4      Generate 80386/80486 protected-mode compatible instructions
+  -5      Generate Pentium instructions
+  -6      Generate Pentium Pro instructions
+  -Axxx   Enable ANSI conformance
+  -B      Compile to .ASM (-S), then assemble to .OBJ
+  -Cxxx   Enable nested comments
+  -D      -D<name> defines 'name' as a null string, or use -D<name>=<value>
+  -E      Specify which assembler to use
+  -G      Optimize for size/speed; use -O1 and -O2 instead
+  -Hxxx   Generate and use precompiled headers
+  -I      Set the include file search path
+  -Jxxx   Template generation options
+  -K      Set default character type to unsigned
+  -L      Library file search path
+  -M      Create a linker map file
+  -N      Hodgepodge of miscellanity (see -h -N)
+  -Nd     Macros get a value of "1" by default (-DX => -DX=1)
+  -Nt     GNU __typeof(var) support
+  -Nv     Allow void& as a valid type
+  -O      Optimize jumps
+  -P      Perform C++ compile regardless of source extension
+  -Q      Extended compiler error information
+  -Rxxx   Include browser information in generated .OBJ files
+  -S      Compile to assembly
+  -T      Specify assembler option, e.g. -Tx
+  -U      Undefine any previous definitions of name
+  -Vxxx   Compatibility options
+  -W      Target is a Windows application
+  -X      Disable compiler autodependency output
+  -Y      
+  -Zd     Output global defs as DocBook specs; to specify: -Zd=<file>.c
+  -Zn     Disable and/or don't define CodeGear builtins
+  -Zx     Output global definitions to XML file.
+	      Sub Options:
+		-Zx=<filename> Emit only types/declarations in <filename>
+		-Zxf[=filename] Skip base type members 
+		-Zxm[=filename] Emit macros
+		-Zxp[=filename] Emit file & line position
+  -axxx   Set data alignment boundary.  Default is -a8; -a- means -a1
+  -b      Enable -bi and treat enums as ints from a typechecking point of view
+* -bi     Make sizeof(enum x) == sizeof(int) unless explicitly stated otherwise
+  -c      Compile to object file only, do not link
+  -d      Merge duplicate strings
+  -dc     Put strings into the read-only data segment
+  -dw     Put strings into the (writeable) data segment
+  -e      Specify target executable pathname
+  -ff     Fast floating point
+  -fp     Correct Pentium FDIV flaw
+  -fq     Use quiet floating point compare instruction (FUCOMP)
+  -g      Stop batch compilation after n warnings (Default = 255)
+  -h      Request help ('-h -' shows all help).  Can be specific: -h -V
+  -i      Set maximum significant identifier length (Default = 250)
+  -j      Stop batch compilation after n errors (Default = 50)
+  -k      Generate standard stack frames
+  -l      Pass options to the linker; example: -ls -l-x
+  -m      Generate makefile dependency information
+  -md     Put dependency info in .d files, not in the object file
+  -mm     Ignore system header files while generating dependency info
+  -mo     Specify the output file for dependency info
+  -n      Set output directory for object files
+  -o      Set output filename (-o<filename> or -o <filename> supported)
+  -pxxx   Use Pascal calling convention
+  -q      Suppress compiler identification banner
+  -r      Use register variables
+  -rd     Use register variables only when register keyword is employed
+  -s      Link using the system's non-incremental linker
+  -t      Specify target executable
+  -u      Generate underscores on symbol names
+  -vxxx   Turn on source debugging
+  -w      Display all warnings
+  -w!     Return non-zero from compiler on warnings
+  -xxxx   Enable exception handling
+  -y      Debug line numbers on
+  -z      Options for redefining standard segment names
+Use '-h <OPT>' for help on a specific option, or
+    '-h -' to see all available options.
+Checking whether the ASM compiler is IAR using "" did not match "IAR Assembler":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is ARMCC using "" did not match "(ARM Compiler)|(ARM Assembler)|(Arm Compiler)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+bcc32c.exe: error: no input files
+Checking whether the ASM compiler is NASM using "-v" did not match "(NASM version)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Turbo Incremental Link 6.95 Copyright (c) 1997-2021 Embarcadero Technologies, Inc.
+Error: Unresolved external '_main' referenced from C:\PROGRAM FILES (X86)\EMBARCADERO\STUDIO\21.0\LIB\WIN32C\RELEASE\C0X32.OBJ
+Error: Unable to perform link
+bcc32c.exe: error: linker command failed with exit code 2 (use -Xdriver -v to see invocation)
+Checking whether the ASM compiler is YASM using "--version" did not match "(yasm)":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Embarcadero Technologies Inc. bcc32c version 5.0.2 (d939c99b.1e953156.37585) (based on LLVM 5.0.2)
+Target: i686-pc-windows-omf
+Thread model: posix
+InstalledDir: C:\Program Files (x86)\Embarcadero\Studio\21.0\bin
+Checking whether the ASM compiler is ADSP using "-version" did not match "Analog Devices":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+E2075 Incorrect command line option: -versionChecking whether the ASM compiler is QCC using "-V" did not match "gcc_nto":
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+Warning: option '-V' is not supported in Clang-based compiler.
+bcc32c.exe: error: no input files
+Performing C SOURCE FILE Test HAVE_LD_VERSION_SCRIPT failed with the following output:
+Change Dir: C:/work/BAISim/3rdparty/libpng/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_689b3\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_689b3.dir\build.make -l -o  CMakeFiles\cmTC_689b3.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building C object CMakeFiles/cmTC_689b3.dir/src.c.obj
+	C:\PROGRA~2\EMBARC~1\Studio\21.0\bin\bcc32c.exe -tR -DWIN32 -DHAVE_LD_VERSION_SCRIPT  -tM -Wl,--version-script='C:/work/BAISim/3rdparty/libpng/conftest.map' -Od -v -oCMakeFiles\cmTC_689b3.dir\src.c.obj -c C:\work\BAISim\3rdparty\libpng\CMakeFiles\CMakeTmp\src.c
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+E2075 Incorrect command line option: -Wl,--version-script='C:/work/BAISim/3rdparty/libpng/conftest.map'Fatal: Unable to execute command: C:\PROGRA~2\EMBARC~1\Studio\21.0\bin\bcc32c.exe
+
+** error 1 ** deleting cmTC_689b3\fast
+
+
+Source file was:
+void sym(void) {}
+void sym2(void) {}
+int main(void) {return 0;}
+
+Performing C SOURCE FILE Test HAVE_SOLARIS_LD_VERSION_SCRIPT failed with the following output:
+Change Dir: C:/work/BAISim/3rdparty/libpng/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_84a47\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_84a47.dir\build.make -l -o  CMakeFiles\cmTC_84a47.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building C object CMakeFiles/cmTC_84a47.dir/src.c.obj
+	C:\PROGRA~2\EMBARC~1\Studio\21.0\bin\bcc32c.exe -tR -DWIN32 -DHAVE_SOLARIS_LD_VERSION_SCRIPT  -tM -Wl,-M -Wl,C:/work/BAISim/3rdparty/libpng/conftest.map -Od -v -oCMakeFiles\cmTC_84a47.dir\src.c.obj -c C:\work\BAISim\3rdparty\libpng\CMakeFiles\CMakeTmp\src.c
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+E2075 Incorrect command line option: -Wl,-MFatal: Unable to execute command: C:\PROGRA~2\EMBARC~1\Studio\21.0\bin\bcc32c.exe
+
+** error 1 ** deleting cmTC_84a47\fast
+
+
+Source file was:
+void sym(void) {}
+void sym2(void) {}
+int main(void) {return 0;}
+

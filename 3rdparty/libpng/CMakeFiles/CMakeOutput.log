@@ -1,0 +1,37 @@
+The system is: Windows - 10.0.19044 - AMD64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: C:/Program Files (x86)/Embarcadero/Studio/21.0/bin/bcc32c.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+CMakeCCompilerId.c:
+Turbo Incremental Link 6.95 Copyright (c) 1997-2021 Embarcadero Technologies, Inc.
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.exe"
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.tds"
+
+The C compiler identification is Embarcadero, found in "C:/work/BAISim/3rdparty/libpng/CMakeFiles/3.22.2/CompilerIdC/CMakeCCompilerId.exe"
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: C:/work/BAISim/3rdparty/libpng/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_abd9d\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_abd9d.dir\build.make -l -o  CMakeFiles\cmTC_abd9d.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building C object CMakeFiles/cmTC_abd9d.dir/CMakeCCompilerABI.c.obj
+	C:\PROGRA~2\EMBARC~1\Studio\21.0\bin\bcc32c.exe -tR -DWIN32   -tM -Od -v -oCMakeFiles\cmTC_abd9d.dir\CMakeCCompilerABI.c.obj -c "C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCCompilerABI.c"
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCCompilerABI.c:
+Linking C executable cmTC_abd9d.exe
+	C:\PROGRA~2\EMBARC~1\Studio\21.0\bin\bcc32c.exe -tR -ecmTC_abd9d.exe -tM -lS:1048576 -lSc:4098 -lH:1048576 -lHc:8192 -v -tC -tM -Od -v @MAKE0000.@@@
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+bcc32c.exe: warning: argument unused during compilation: '-nobuiltininc' [-Wunused-command-line-argument]
+Turbo Incremental Link 6.95 Copyright (c) 1997-2021 Embarcadero Technologies, Inc.
+
+
+

@@ -1,0 +1,16 @@
+C:/work/BAISim/3rdparty/libpng/CMakeFiles/genfiles.dir
+C:/work/BAISim/3rdparty/libpng/CMakeFiles/png.dir
+C:/work/BAISim/3rdparty/libpng/CMakeFiles/png_static.dir
+C:/work/BAISim/3rdparty/libpng/CMakeFiles/pngtest.dir
+C:/work/BAISim/3rdparty/libpng/CMakeFiles/pngvalid.dir
+C:/work/BAISim/3rdparty/libpng/CMakeFiles/pngstest.dir
+C:/work/BAISim/3rdparty/libpng/CMakeFiles/pngunknown.dir
+C:/work/BAISim/3rdparty/libpng/CMakeFiles/pngimage.dir
+C:/work/BAISim/3rdparty/libpng/CMakeFiles/pngfix.dir
+C:/work/BAISim/3rdparty/libpng/CMakeFiles/png-fix-itxt.dir
+C:/work/BAISim/3rdparty/libpng/CMakeFiles/test.dir
+C:/work/BAISim/3rdparty/libpng/CMakeFiles/edit_cache.dir
+C:/work/BAISim/3rdparty/libpng/CMakeFiles/rebuild_cache.dir
+C:/work/BAISim/3rdparty/libpng/CMakeFiles/list_install_components.dir
+C:/work/BAISim/3rdparty/libpng/CMakeFiles/install.dir
+C:/work/BAISim/3rdparty/libpng/CMakeFiles/install/local.dir
