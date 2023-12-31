@@ -1,0 +1,121 @@
+Determining size of off64_t failed with the following output:
+Change Dir: C:/work/BAISim/3rdparty/zlib/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_fb8f4\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_fb8f4.dir\build.make -l -o  CMakeFiles\cmTC_fb8f4.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building C object CMakeFiles/cmTC_fb8f4.dir/OFF64_T.c.obj
+	C:\PROGRA~2\EMBARC~1\Studio\21.0\bin\bcc32c.exe -tR -DWIN32 -DHAVE_STDDEF_H -DHAVE_STDINT_H -DHAVE_SYS_TYPES_H -D_LARGEFILE64_SOURCE=1  -tM -Od -v -oCMakeFiles\cmTC_fb8f4.dir\OFF64_T.c.obj -c C:\work\BAISim\3rdparty\zlib\CMakeFiles\CheckTypeSize\OFF64_T.c
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+C:\work\BAISim\3rdparty\zlib\CMakeFiles\CheckTypeSize\OFF64_T.c:
+C:\work\BAISim\3rdparty\zlib\CMakeFiles\CheckTypeSize\OFF64_T.c:29:12: error: use of undeclared identifier 'off64_t'
+  ('0' + ((SIZE / 10000)%10)),
+           ^
+C:\work\BAISim\3rdparty\zlib\CMakeFiles\CheckTypeSize\OFF64_T.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(off64_t))
+                     ^
+C:\work\BAISim\3rdparty\zlib\CMakeFiles\CheckTypeSize\OFF64_T.c:30:12: error: use of undeclared identifier 'off64_t'
+  ('0' + ((SIZE / 1000)%10)),
+           ^
+C:\work\BAISim\3rdparty\zlib\CMakeFiles\CheckTypeSize\OFF64_T.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(off64_t))
+                     ^
+C:\work\BAISim\3rdparty\zlib\CMakeFiles\CheckTypeSize\OFF64_T.c:31:12: error: use of undeclared identifier 'off64_t'
+  ('0' + ((SIZE / 100)%10)),
+           ^
+C:\work\BAISim\3rdparty\zlib\CMakeFiles\CheckTypeSize\OFF64_T.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(off64_t))
+                     ^
+C:\work\BAISim\3rdparty\zlib\CMakeFiles\CheckTypeSize\OFF64_T.c:32:12: error: use of undeclared identifier 'off64_t'
+  ('0' + ((SIZE / 10)%10)),
+           ^
+C:\work\BAISim\3rdparty\zlib\CMakeFiles\CheckTypeSize\OFF64_T.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(off64_t))
+                     ^
+C:\work\BAISim\3rdparty\zlib\CMakeFiles\CheckTypeSize\OFF64_T.c:33:12: error: use of undeclared identifier 'off64_t'
+  ('0' +  (SIZE    % 10)),
+           ^
+C:\work\BAISim\3rdparty\zlib\CMakeFiles\CheckTypeSize\OFF64_T.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(off64_t))
+                     ^
+5 errors generated.
+
+** error 1 ** deleting CMakeFiles\cmTC_fb8f4.dir\OFF64_T.c.obj
+
+** error 1 ** deleting cmTC_fb8f4\fast
+
+
+C:/work/BAISim/3rdparty/zlib/CMakeFiles/CheckTypeSize/OFF64_T.c:
+#include <sys/types.h>
+#include <stdint.h>
+#include <stddef.h>
+
+
+#undef KEY
+#if defined(__i386)
+# define KEY '_','_','i','3','8','6'
+#elif defined(__x86_64)
+# define KEY '_','_','x','8','6','_','6','4'
+#elif defined(__PPC64__)
+# define KEY '_','_','P','P','C','6','4','_','_'
+#elif defined(__ppc64__)
+# define KEY '_','_','p','p','c','6','4','_','_'
+#elif defined(__PPC__)
+# define KEY '_','_','P','P','C','_','_'
+#elif defined(__ppc__)
+# define KEY '_','_','p','p','c','_','_'
+#elif defined(__aarch64__)
+# define KEY '_','_','a','a','r','c','h','6','4','_','_'
+#elif defined(__ARM_ARCH_7A__)
+# define KEY '_','_','A','R','M','_','A','R','C','H','_','7','A','_','_'
+#elif defined(__ARM_ARCH_7S__)
+# define KEY '_','_','A','R','M','_','A','R','C','H','_','7','S','_','_'
+#endif
+
+#define SIZE (sizeof(off64_t))
+static char info_size[] =  {'I', 'N', 'F', 'O', ':', 's','i','z','e','[',
+  ('0' + ((SIZE / 10000)%10)),
+  ('0' + ((SIZE / 1000)%10)),
+  ('0' + ((SIZE / 100)%10)),
+  ('0' + ((SIZE / 10)%10)),
+  ('0' +  (SIZE    % 10)),
+  ']',
+#ifdef KEY
+  ' ','k','e','y','[', KEY, ']',
+#endif
+  '\0'};
+
+#ifdef __CLASSIC_C__
+int main(argc, argv) int argc; char *argv[];
+#else
+int main(int argc, char *argv[])
+#endif
+{
+  int require = 0;
+  require += info_size[argc];
+  (void)argv;
+  return require;
+}
+
+
+Determining if the include file unistd.h exists failed with the following output:
+Change Dir: C:/work/BAISim/3rdparty/zlib/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_2314b\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_2314b.dir\build.make -l -o  CMakeFiles\cmTC_2314b.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building C object CMakeFiles/cmTC_2314b.dir/CheckIncludeFile.c.obj
+	C:\PROGRA~2\EMBARC~1\Studio\21.0\bin\bcc32c.exe -tR -DWIN32   -tM -Od -v -oCMakeFiles\cmTC_2314b.dir\CheckIncludeFile.c.obj -c C:\work\BAISim\3rdparty\zlib\CMakeFiles\CMakeTmp\CheckIncludeFile.c
+Embarcadero C++ 7.50 for Win32 Copyright (c) 2012-2021 Embarcadero Technologies, Inc.
+C:\work\BAISim\3rdparty\zlib\CMakeFiles\CMakeTmp\CheckIncludeFile.c:
+C:\work\BAISim\3rdparty\zlib\CMakeFiles\CMakeTmp\CheckIncludeFile.c:1:10: fatal error: 'unistd.h' file not found
+#include <unistd.h>
+         ^~~~~~~~~~
+1 error generated.
+
+** error 1 ** deleting CMakeFiles\cmTC_2314b.dir\CheckIncludeFile.c.obj
+
+** error 1 ** deleting cmTC_2314b\fast
+
+
+
