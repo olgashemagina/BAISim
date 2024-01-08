@@ -9,8 +9,10 @@
 #endif
 
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
+#include <numeric>
 
 #include "tinyxml.h"
 
@@ -19,6 +21,7 @@
 #include "LFFileUtils.h"
 
 #include <memory>
+#include <mutex>
 
 
 void usage()
@@ -33,6 +36,72 @@ void usage()
 	std::cout << "Each detector will be executed on each image file in the " <<
 		"directory and detected objects will be written to XML file " <<
 		"(which is created in the same directory with images)." << std::endl;
+}
+
+void setup_callback(ILFObjectDetector* detector, TLFSemanticImageDescriptor* descriptor, TiXmlNode* node, double overlap = 0.5, double negative_threshold = 0.25) {
+	//Mutex if OMP threading used.
+	auto mtx = std::make_shared<std::mutex>();
+	detector->SetDescCallback([=](size_t index,
+		const auto& bounds,
+		const auto& desc) {
+			double iou = 0;
+			for (int i = 0; i < descriptor->GetCount(); i++)
+			{
+				TLFDetectedItem* item = descriptor->GetDetectedItem(i);
+				TLFRect* rect = item->GetBounds();
+
+				//TODO: detector untyped
+				//if (detector->GetObjectType() == item->GetType()) 
+				{
+
+					iou = rect->RectOverlap(bounds.Rect);
+
+					if (iou >= overlap) {
+						break;
+					}
+				}
+			}
+
+			std::unique_ptr<TiXmlElement> sample(desc.SaveXML());
+
+			sample->SetAttribute("left", bounds.Rect.left);
+			sample->SetAttribute("top", bounds.Rect.top);
+			sample->SetAttribute("right", bounds.Rect.right);
+			sample->SetAttribute("bottom", bounds.Rect.bottom);
+			sample->SetDoubleAttribute("IOU", iou);
+
+			if (desc.result) {
+				if (iou < overlap) {
+					//False Positive
+					sample->SetAttribute("SampleTest", "FP");
+				}
+				else {
+					//True Positive
+					sample->SetAttribute("SampleTest", "TP");
+				}
+			}
+			else {
+				if (iou > overlap) {
+					//False Negative
+					sample->SetAttribute("SampleTest", "FN");
+				}
+				else if (iou > negative_threshold) {
+					//True Negatives
+					sample->SetAttribute("SampleTest", "TN");
+				}
+				else {
+					sample.reset();
+				}
+			}
+
+			
+			if (sample) {
+				std::lock_guard<std::mutex> locker(*mtx);
+				node->LinkEndChild(sample.release());
+			}
+			
+						
+		});
 }
 
 int apply_detectors_to_folder(const TLFString& det_path,
@@ -73,11 +142,30 @@ int apply_detectors_to_folder(const TLFString& det_path,
 			return -102;
 		}
 
-		TiXmlDocument img_res_doc;
-		TiXmlDeclaration* decl = new TiXmlDeclaration("1.0", "", "");
-		img_res_doc.LinkEndChild(decl);
-		
-		
+		std::unique_ptr<TLFSemanticImageDescriptor> image_descriptor = std::make_unique<TLFSemanticImageDescriptor>();
+
+		TiXmlDocument samples_doc;
+		samples_doc.LinkEndChild(new TiXmlDeclaration("1.0", "", ""));
+
+		std::string xml_desc_name = LFChangeFileExt(img_files[i], ".xml");
+		if (LFFileExists(xml_desc_name)) {
+			//We need to load image description
+			if (!image_descriptor->LoadXML(xml_desc_name.c_str())) {
+				std::cerr << "Cant load image description from " << xml_desc_name << std::endl;
+				continue;
+			}
+			//Setup callback of descriptor
+			auto detector = det->GetDetector(0);
+
+			TiXmlElement* samples = new TiXmlElement("LFSamples");
+					
+			//samples->SetAttribute("ImagePath", img_files[i]);
+
+			setup_callback(detector, image_descriptor.get(), samples);
+
+			samples_doc.LinkEndChild(samples);
+		}
+
 		if (!det->SetSourceImage(&img, true)) {
 			std::cerr << "Can't import image " << img_files[i] <<
 				" to detector " << det->GetPredictorName() <<
@@ -92,18 +180,34 @@ int apply_detectors_to_folder(const TLFString& det_path,
 			return -104;
 		}
 
-		auto semantic = det->GetSemantic();
+		//Clear Callback;
+		det->GetDetector(0)->SetDescCallback(nullptr);
 
-		if (semantic) {
-			img_res_doc.LinkEndChild(semantic->SaveXML());
+		//No description of image;
+		if (image_descriptor->GetCount() == 0) {
+			TiXmlDocument img_res_doc;
+			TiXmlDeclaration* decl = new TiXmlDeclaration("1.0", "", "");
+			img_res_doc.LinkEndChild(decl);
+
+			auto semantic = det->GetSemantic();
+
+			if (semantic) {
+				img_res_doc.LinkEndChild(semantic->SaveXML());
+			}
+
+			TLFString results_file = LFChangeFileExt(img_files[i], ".xml");
+
+			if (!img_res_doc.SaveFile(results_file)) {
+				std::cerr << "Can't save results to " << results_file << std::endl;
+				return -105;
+			}
 		}
-						
-		
-		TLFString results_file = LFChangeFileExt(img_files[i], ".xml");
-
-		if (!img_res_doc.SaveFile(results_file)) {
-			std::cerr << "Can't save results to " << results_file << std::endl;
-			return -105;
+		else {
+			std::string xml_sample_name = LFChangeFileExt(img_files[i], "_samples.xml");
+			if (!samples_doc.SaveFile(xml_sample_name)) {
+				std::cerr << "Can't save results to " << xml_sample_name << std::endl;
+				return -106;
+			}
 		}
 	}
 

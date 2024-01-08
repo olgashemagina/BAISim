@@ -211,7 +211,7 @@ void TLFRect::SetRect(int left, int top, int w, int h)
 }
 
 
-bool TLFRect::IsEmpty()
+bool TLFRect::IsEmpty() const
 {
 	return m_Rect.left == m_Rect.right || m_Rect.top == m_Rect.bottom;
 }
@@ -221,13 +221,13 @@ void TLFRect::Clear()
 	memset(&m_Rect, 0, sizeof(m_Rect));
 }
 
-double TLFRect::RectOverlap(TLFRect& rect)
+double TLFRect::RectOverlap(const TLFRect& rect) const
 {
   awpRect r = rect.GetRect();
   return RectOverlap(r);
 }
 
-double TLFRect::RectOverlap(awpRect& rect)
+double TLFRect::RectOverlap(const awpRect& rect) const
 {
 
  if (IsEmpty())
@@ -300,19 +300,19 @@ awpPoint TLFRect::Center() const
 	return p;
 }
 
-bool  TLFRect::IsCover(TLFRect& rect)
+bool  TLFRect::IsCover(const TLFRect& rect) const
 {
     awpRect r = rect.GetRect();
     return IsCover(r);
 }
-bool  TLFRect::IsCover(awpRect& rect)
+bool  TLFRect::IsCover(const awpRect& rect) const
 {
    if (m_Rect.left <= rect.left && m_Rect.right >= rect.right &&
    m_Rect.top <= rect.top && m_Rect.bottom >= rect.bottom)
     return true;
    return false;
 }
-bool  TLFRect::Touch(TLFRect& rect)
+bool  TLFRect::Touch(const TLFRect& rect) const
 {
 	awpRect r = rect.GetRect();
 	if ((fabs((double)m_Rect.left - (double)r.right) <= 1 || fabs((double)m_Rect.left - (double)r.left) <= 1) && (r.bottom <= m_Rect.top && r.bottom >= m_Rect.bottom))
@@ -346,7 +346,7 @@ static double L2Dist(awpPoint p1, awpPoint p2)
 {
 	return sqrt(((double)p1.X - (double)p2.X)*((double)p1.X - (double)p2.X)+((double)p1.Y - (double)p2.Y)*((double)p1.Y - (double)p2.Y));
 }
-double TLFRect::Distance(TLFRect& rect)
+double TLFRect::Distance(const TLFRect& rect) const
 {
 	awpRect r = rect.GetRect();
 	if ((r.left >= m_Rect.left && r.left <= m_Rect.right) || (r.right >= m_Rect.left && r.right <= m_Rect.right))
@@ -399,12 +399,12 @@ double TLFRect::Distance(TLFRect& rect)
 }
 
 
-double TLFRect::CoverSquare(TLFRect& rect)
+double TLFRect::CoverSquare(const TLFRect& rect) const
 {
     awpRect r = rect.GetRect();
     return  CoverSquare(r);
 }
-double TLFRect::CoverSquare(awpRect& rect)
+double TLFRect::CoverSquare(const awpRect& rect) const
 {
 
     int w = rect.right - rect.left;
@@ -417,7 +417,7 @@ double TLFRect::CoverSquare(awpRect& rect)
     return res;
 }
 
-double TLFRect::Square()
+double TLFRect::Square() const
 {
 	return (double)Width()*Height();
 }

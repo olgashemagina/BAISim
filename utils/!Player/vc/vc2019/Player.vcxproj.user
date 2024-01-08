@@ -4,4 +4,12 @@
     <LocalDebuggerCommandArguments>C:\data\Dron\1_2.MP4 C:\data\Dron\mybase.xml</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LocalDebuggerCommandArguments>..\..\..\..\datasets\dron\quad_compressed.mp4 ..\..\..\..\datasets\dron\H30.xml</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LocalDebuggerCommandArguments>..\..\..\..\datasets\dron\quad_compressed.mp4 ..\..\..\..\datasets\dron\H30.xml</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
 </Project>

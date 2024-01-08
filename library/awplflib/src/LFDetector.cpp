@@ -58,6 +58,7 @@
 #endif
 
 #include <mutex>
+#include <numeric>
 
 
 using namespace std;
@@ -77,6 +78,49 @@ static char * guid_to_str(GUID* id, char * out) {
 	return ret;
 }
 #endif
+
+TiXmlElement* ILFObjectDetector::TDescription::SaveXML() const
+{
+	TiXmlElement* sample_desc = new TiXmlElement("LFSampleDescriptor");
+	sample_desc->SetAttribute("Result", result);
+	sample_desc->SetDoubleAttribute("Score", score);
+
+	for (const auto& strong : descs) {
+		TiXmlElement* stage_desc = new TiXmlElement("LFStageDescriptor");
+		stage_desc->SetDoubleAttribute("Score", strong.score);
+		stage_desc->SetAttribute("Result", strong.result);
+
+		for (const auto& weak : strong.features) {
+
+			TiXmlElement* weak_desc = new TiXmlElement("LFWeakDescriptor");
+			weak_desc->SetDoubleAttribute("Value", weak.value);
+
+			TiXmlElement* features_desc = new TiXmlElement("LFFeatureDescriptor");
+			features_desc->SetAttribute("Size", weak.features.size());
+
+			if (!weak.features.empty()) {
+				auto data = std::accumulate(
+					std::next(weak.features.begin()),
+					weak.features.end(),
+					std::to_string(weak.features.front()),
+					[](const auto& a, const  auto& b) {
+						return a + " " + std::to_string(b);
+					}
+				);
+
+				TiXmlText* features_data = new TiXmlText(data);
+				features_desc->LinkEndChild(features_data);
+			}
+
+
+			weak_desc->LinkEndChild(features_desc);
+			stage_desc->LinkEndChild(weak_desc);
+		}
+		sample_desc->LinkEndChild(stage_desc);
+
+	}
+	return sample_desc;
+}
 
 
 #define ANGLE0 15
@@ -300,10 +344,10 @@ int  TSCObjectDetector::ClassifyRect(awpRect fragment)
 	double scale = std::min<double>(scale_x, scale_y);
 	bool has_object = true;
 
-	TDescription		descriptions;
+	TDescription		description;
 
 	if (desc_callback_) {
-		descriptions.reserve(m_Strongs.GetCount());
+		description.descs.reserve(m_Strongs.GetCount());
 	}
 
 	TLFAlignedTransform transform = TLFAlignedTransform(scale, scale, fragment.left, fragment.top);
@@ -318,12 +362,25 @@ int  TSCObjectDetector::ClassifyRect(awpRect fragment)
 			score = std::min<double>(desc.score, score);
 		} else {
 			has_object = false;
+			score = desc.score;
+		}
+
+		if (desc_callback_) {
+			//Gather
+			description.descs.emplace_back(std::move(desc));
+		}
+		else if (!has_object) {
+			//Stop searching object;
+			break;
 		}
 
     }
 
+	description.score = score;
+	description.result = has_object;
+
 	if (desc_callback_) {
-		desc_callback_(0, TLFBounds{0, 0, fragment}, descriptions);
+		desc_callback_(0, TLFBounds{0, 0, fragment}, description);
 	}
 
     return has_object;
@@ -345,10 +402,10 @@ int  TSCObjectDetector::Detect()
 #endif 
 	for (int i = 0; i < m_scanner->GetFragmentsCount(); i++)
 	{		
-		TDescription		descriptions;
+		TDescription		description;
 
 		if (desc_callback_) {
-			descriptions.reserve(m_Strongs.GetCount());
+			description.descs.reserve(m_Strongs.GetCount());
 		}
 
 		bool has_object = true;
@@ -373,11 +430,12 @@ int  TSCObjectDetector::Detect()
 			}
 			else {
 				has_object = false;
+				score = desc.score;
 			}
 
 			if (desc_callback_) {
 				//Gather
-				descriptions.emplace_back(std::move(desc));
+				description.descs.emplace_back(std::move(desc));
 			}
 			else if (!has_object) {
 				//Stop searching object;
@@ -385,8 +443,12 @@ int  TSCObjectDetector::Detect()
 			}
 		}
 
+		description.score = score;
+		description.result = has_object;
+
+
 		if (desc_callback_) {
-			desc_callback_(i, *m_scanner->GetFragment(i), descriptions);
+			desc_callback_(i, *m_scanner->GetFragment(i), description);
 		}
 
 		if (has_object)
@@ -435,10 +497,10 @@ int TSCObjectDetector::DetectInRect(awpRect roi)
 		if (c.X >= roi.left && c.X <= roi.right &&
 		c.Y >= roi.top && c.Y <= roi.bottom)
 		{
-			TDescription		descriptions;
+			TDescription		description;
 
 			if (desc_callback_) {
-				descriptions.reserve(m_Strongs.GetCount());
+				description.descs.reserve(m_Strongs.GetCount());
 			}
 
 			bool has_object = true;
@@ -464,11 +526,12 @@ int TSCObjectDetector::DetectInRect(awpRect roi)
 				}
 				else {
 					has_object = false;
+					score = desc.score;
 				}
 
 				if (desc_callback_) {
 					//Gather
-					descriptions.emplace_back(std::move(desc));
+					description.descs.emplace_back(std::move(desc));
 				}
 				else if (!has_object) {
 					//Stop searching object;
@@ -476,8 +539,11 @@ int TSCObjectDetector::DetectInRect(awpRect roi)
 				}
 			}
 
+			description.score = score;
+			description.result = has_object;
+
 			if (desc_callback_) {
-				desc_callback_(i, *m_scanner->GetFragment(i), descriptions);
+				desc_callback_(i, *m_scanner->GetFragment(i), description);
 			}
 
 			if (has_object)

@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
 	if (argc < 3)return 2;
 	HCVVIDEO video;
 	TLFDetectEngine d;
-	TLFDetectEngine a;
+	//TLFDetectEngine a;
 	HRESULT res = S_OK;
 	bool pause = false;
 	int  num_frames;
@@ -46,8 +46,22 @@ int main(int argc, char* argv[])
 	rect.right = img->sSizeX/6;// /*img->sSizeX/12*/100;
 	awpcvNumFrames(video, &num_frames);//(int)cvGetCaptureProperty(capture, CV_CAP_PROP_FRAME_COUNT);
 	d.Load(argv[2]);//"C:\\Users\\Авас yuri\\Documents\\IPF\\readresearch\\road.xml"
-	a.Load("C:\\data\\Dron\\H90\\dbexport\\H90.xml");
+	//a.Load("C:\\data\\Dron\\H90\\dbexport\\H90.xml");
 	frames = 0;
+
+	d.GetDetector(0)->SetDescCallback([&](size_t index,
+		const auto& bounds,
+		const auto& desc) {
+
+			if (index == 0) {
+				int a = 0;
+			}
+
+			std::cout << index << " Result " << desc.result << " Score " << desc.score << std::endl;
+						
+
+	});
+
 	for (int j = 0; j < num_frames - 1; j++)
 	{
 
@@ -67,7 +81,7 @@ int main(int argc, char* argv[])
 		if (pause == false) {
 			img = NULL;
 			res = awpcvQueryImage(video, &img);
-			awpResizeBilinear(img, 1270, 720);
+			awpResizeBilinear(img, 1280, 720);
 			//d.InitDetectors();
 			bool result = d.SetSourceImage(img, true);
 			int num = d.GetItemsCount();
@@ -104,6 +118,8 @@ int main(int argc, char* argv[])
 						if (result == true) 
 						{
 							awpFillRect(img, &rect1, 1, 255);
+
+							/*
 							awpImage* tmp = NULL;
 							awpCopyRect(img, &tmp, &rect1);
 							if(tmp!=NULL)
@@ -124,7 +140,7 @@ int main(int argc, char* argv[])
 									}
 								}
 								awpReleaseImage(&tmp); 
-							}
+							}*/
 							
 
 						}

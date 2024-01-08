@@ -458,7 +458,17 @@ protected:
 	*/
 	TLFObjectList       m_Strongs;
 public:
-	using TDescription = std::vector<ILFStrong::TResult>;
+	using TStrongDescs = std::vector<ILFStrong::TResult>;
+
+	struct TDescription {
+		int					result;
+		float				score;
+		TStrongDescs		descs;
+
+		TiXmlElement* SaveXML() const;
+	};
+
+	
 	using FDescCallback = std::function<void (	size_t index, 
 												const TLFBounds& bounds, 
 												const TDescription& desc)>;

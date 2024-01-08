@@ -150,22 +150,22 @@ public:
 	
 	void SetRect(int left, int top, int w, int h);
 
-	double RectOverlap(TLFRect& rect);
-	double RectOverlap(awpRect& rect);
-	double Distance(TLFRect& rect);
-	bool  IsCover(TLFRect& rect);
-	bool  IsCover(awpRect& rect);
-	bool  Touch(TLFRect& rect);
-    double CoverSquare(TLFRect& rect);
-    double CoverSquare(awpRect& rect);
-	double Square();
+	double RectOverlap(const TLFRect& rect) const;
+	double RectOverlap(const awpRect& rect) const;
+	double Distance(const TLFRect& rect) const;
+	bool  IsCover(const TLFRect& rect) const;
+	bool  IsCover(const awpRect& rect) const;
+	bool  Touch(const TLFRect& rect) const;
+    double CoverSquare(const TLFRect& rect) const;
+    double CoverSquare(const awpRect& rect) const ;
+	double Square() const;
 
 	void Shift(int dx, int dy);
 	void Scale(double coef);
 	void Unioun(awpRect rect);
 	void Inflate(int x_value, int y_value);
 
-	bool IsEmpty();
+	bool IsEmpty() const;
 	void Clear();
 
 	AWPSHORT Width() const { return m_Rect.right - m_Rect.left; }
