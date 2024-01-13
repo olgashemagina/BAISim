@@ -162,6 +162,8 @@ public:
 
 		std::vector<float>	features;
 		ELayout				layout = kLayout_None;
+
+		const ILFFeature*	parent = nullptr;
 		
 	};
 	
@@ -260,14 +262,14 @@ class ILFStrong : public TLFObjectList
 {
 public:
 	struct TResult {
-		using TFeatures = std::vector<ILFFeature::TResult>;
+		using TFeatures = std::vector<ILFWeak::TResult>;
 
 		//Classification result
 		int					result;
 
 		float				score;
 
-		TFeatures			features;
+		TFeatures			weaks;
 		
 	};
 

@@ -23,7 +23,7 @@ TCSStrong::TResult TCSStrong::Classify(TLFImage* pImage, const TLFAlignedTransfo
         auto weak = pWCL[i]->Classify(pImage, transform);
 		err += pWCL[i]->Weight() * weak.result;
         sumWeight += pWCL[i]->Weight();
-        result.features.emplace_back(std::move(weak.feature));
+        result.weaks.emplace_back(std::move(weak));
 	}
           
 
@@ -112,7 +112,7 @@ ILFStrong::TResult TCSStrongSign::Classify(TLFImage* pImage, const TLFAlignedTra
     {
         auto weak = pWCL[i]->Classify(pImage, transform); 
         err +=  pWCL[i]->Weight() * weak.result;
-        result.features.emplace_back(std::move(weak.feature));
+        result.weaks.emplace_back(std::move(weak));
     }
     //
     int cls = 0;

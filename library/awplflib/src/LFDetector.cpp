@@ -90,19 +90,30 @@ TiXmlElement* ILFObjectDetector::TDescription::SaveXML() const
 		stage_desc->SetDoubleAttribute("Score", strong.score);
 		stage_desc->SetAttribute("Result", strong.result);
 
-		for (const auto& weak : strong.features) {
+		for (const auto& weak : strong.weaks) {
 
 			TiXmlElement* weak_desc = new TiXmlElement("LFWeakDescriptor");
-			weak_desc->SetDoubleAttribute("Value", weak.value);
+			weak_desc->SetAttribute("Result", weak.result);
 
 			TiXmlElement* features_desc = new TiXmlElement("LFFeatureDescriptor");
-			features_desc->SetAttribute("Size", weak.features.size());
+			const auto& feature = weak.feature;
+			features_desc->SetAttribute("Size", feature.features.size());
+			features_desc->SetDoubleAttribute("Value", feature.value);
 
-			if (!weak.features.empty()) {
+			if (feature.parent) {
+				auto rect = feature.parent->GetRect();
+				features_desc->SetAttribute("RectLeft", rect.Left());
+				features_desc->SetAttribute("RectTop", rect.Top());
+				features_desc->SetAttribute("RectRight", rect.Right());
+				features_desc->SetAttribute("RectBottom", rect.Bottom());
+			}
+						
+
+			if (!weak.feature.features.empty()) {
 				auto data = std::accumulate(
-					std::next(weak.features.begin()),
-					weak.features.end(),
-					std::to_string(weak.features.front()),
+					std::next(weak.feature.features.begin()),
+					weak.feature.features.end(),
+					std::to_string(weak.feature.features.front()),
 					[](const auto& a, const  auto& b) {
 						return a + " " + std::to_string(b);
 					}
@@ -111,7 +122,6 @@ TiXmlElement* ILFObjectDetector::TDescription::SaveXML() const
 				TiXmlText* features_data = new TiXmlText(data);
 				features_desc->LinkEndChild(features_data);
 			}
-
 
 			weak_desc->LinkEndChild(features_desc);
 			stage_desc->LinkEndChild(weak_desc);

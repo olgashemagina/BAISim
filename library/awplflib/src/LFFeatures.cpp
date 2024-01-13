@@ -128,6 +128,7 @@ TLFSFeature::TResult TLFSFeature::CalcValue(TLFImage* pImage, const TLFAlignedTr
 	result.value = v >= 0 ? sqrt(v) : 0.0;
 	result.discrete = uint32_t(result.value);
 	result.features.push_back(result.value);
+	result.parent = this;
 
 	return result;
 }
@@ -168,6 +169,7 @@ TLFSAFeature::TResult TLFSAFeature::CalcValue(TLFImage* pImage, const TLFAligned
 	result.discrete = v >= 0 ? (unsigned int)(floor(16 * floor((floor(sqrt(v) / 16. + 0.5))) + v1 / 16. + 0.5)) : 0;
 	result.value = (float)result.discrete;
 	result.features.push_back(result.value);
+	result.parent = this;
 	
 	return result;
 }
@@ -222,6 +224,7 @@ TLFHFeature::TResult TLFHFeature::CalcValue(TLFImage* pImage, const TLFAlignedTr
 	result.discrete = (unsigned int)((result.value + 2) * 32);
 	result.features.emplace_back(v1);
 	result.features.emplace_back(v2);
+	result.parent = this;
 
 	return result;
 }
@@ -277,6 +280,7 @@ TLFVFeature::TResult TLFVFeature::CalcValue(TLFImage* pImage, const TLFAlignedTr
 	result.value = (v1 - v2);
 	result.discrete = (unsigned int)((result.value + 2) * 32);
 	result.features = { float(v1), float(v2)};
+	result.parent = this;
 	
 	return result;
 }
@@ -333,6 +337,7 @@ TLFDFeature::TResult TLFDFeature::CalcValue(TLFImage* pImage, const TLFAlignedTr
 	result.value = (v1 + v4 - v2 - v3);
 	result.discrete = (unsigned int)((result.value + 2) * 32);
 	result.features = {float(v1), float(v2), float(v3), float(v4)};
+	result.parent = this;
 	
 	return result;
 }
@@ -401,6 +406,8 @@ TLFCFeature::TResult TLFCFeature::CalcValue(TLFImage* pImage, const TLFAlignedTr
 	result.discrete = (unsigned int)((result.value + 30) * 2);
 	result.features = { float(v1), float(v2), float(v3), float(v4), 
 		float(v5), float(v6), float(v7), float(v8), float(v9) };
+
+	result.parent = this;
 
 	return result;
 }
@@ -494,6 +501,7 @@ TLFLBPFeature::TResult TLFLBPFeature::CalcValue(TLFImage* pImage, const TLFAlign
 
 	result.discrete = idx;
 	result.value = idx;
+	result.parent = this;
 
 	return result;
 }
@@ -555,6 +563,7 @@ TLFColorSensor9Bit::TResult TLFColorSensor9Bit::CalcValue(TLFImage* pImage, cons
 	result.discrete = value;
 	result.value = value;
 	result.features = { float(rvalue), float(gvalue), float(bvalue) };
+	result.parent = this;
 
 	return result;
 }
@@ -612,7 +621,7 @@ TLFLHFeature::TResult TLFLHFeature::CalcValue(TLFImage* pImage, const TLFAligned
 	result.value = (v1 - 2 * v2 + v3);
 	result.discrete = (unsigned int)((result.value + 4.2426406871192848) * 60.33977866125207);
 	result.features = { float(v1), float(v2), float(v3) };
-
+	result.parent = this;
 
 	return result;
 }
@@ -670,7 +679,7 @@ TLFLVFeature::TResult TLFLVFeature::CalcValue(TLFImage* pImage, const TLFAligned
 	result.value = (v1 - 2 * v2 + v3);
 	result.discrete = (unsigned int)((result.value + 4.2426406871192848) * 60.33977866125207);
 	result.features = { float(v1), float(v2), float(v3) };
-
+	result.parent = this;
 
 	return result;
 }
@@ -763,6 +772,7 @@ ILFFeature::TResult TCSSensor::CalcValue(TLFImage* pImage, const TLFAlignedTrans
 
 	result.discrete = idx;
 	result.value = float(idx);
+	result.parent = this;
 		
 	return result;
 }
