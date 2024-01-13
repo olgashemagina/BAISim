@@ -31,7 +31,7 @@ void usage()
 		"--det=<path_to_detector1> [--det=<path_to_detector2> ...] " <<
 		"--db_folder=<path_to_img_directory>" << std::endl;
 	std::cout << "\t--det\t\tPath to XML with detector (TLFDetectEngine)" <<
-		std::endl << "\t--db_path\t\tPath to directory with images" <<
+		std::endl << "\t--db_folder\t\tPath to directory with images" <<
 		std::endl << std::endl;
 	std::cout << "Each detector will be executed on each image file in the " <<
 		"directory and detected objects will be written to XML file " <<
@@ -51,7 +51,7 @@ void setup_callback(ILFObjectDetector* detector, TLFSemanticImageDescriptor* des
 				TLFRect* rect = item->GetBounds();
 
 				//TODO: detector untyped
-				//if (detector->GetObjectType() == item->GetType()) 
+				if (detector->GetObjectType() == item->GetType()) 
 				{
 
 					iou = rect->RectOverlap(bounds.Rect);
