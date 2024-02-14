@@ -185,7 +185,7 @@ ILFObjectDetector* ILFDetectEngine::GetDetector(int index)
 		return detector;
 	return NULL;
 }
-bool ILFDetectEngine::Save(const char* lpFileName)
+bool ILFDetectEngine::Save(const std::filesystem::path& filePath)
 {
 	TiXmlDocument doc;
 	TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "", "" );
@@ -194,7 +194,7 @@ bool ILFDetectEngine::Save(const char* lpFileName)
 	if (engine == NULL)
 		return false;
 	doc.LinkEndChild(engine);
-	FILE* file = _wfopen(LFUtf8ConvertToUnicode(lpFileName).c_str(), L"w");
+	FILE* file = _wfopen(filePath.wstring().c_str(), L"w");
 	if (!file)
 	{
 		printf("ILFDetectEngine::Save _wfopen failed!!!\n");
@@ -204,9 +204,9 @@ bool ILFDetectEngine::Save(const char* lpFileName)
 	fclose(file);
 	return result;
 }
-bool ILFDetectEngine::Load(const char* lpFileName)
+bool ILFDetectEngine::Load(const std::filesystem::path& filePath)
 {
-	FILE* file = _wfopen(LFUtf8ConvertToUnicode(lpFileName).c_str(), L"rb");
+	FILE* file = _wfopen(filePath.wstring().c_str(), L"rb");
 	if (!file)
 	{
 		printf("ILFDetectEngine::Load _wfopen failed!!!\n");
@@ -220,7 +220,7 @@ bool ILFDetectEngine::Load(const char* lpFileName)
 		printf("ILFDetectEngine::Load failed!!!\n");		
 		return false;
     }
-	this->m_strName = lpFileName;
+	this->m_strName = filePath.u8string();
 	TiXmlHandle hDoc(&doc);
     TiXmlElement* pElem = NULL;
     TiXmlHandle hRoot(0);

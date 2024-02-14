@@ -3,6 +3,7 @@
 
 #include "LFCSBoost.h"
 #include "LFFileUtils.h"
+#include "utils.h"
 
 #ifdef _OMP_
 #include <omp.h>
@@ -316,28 +317,28 @@ void TCSAdaBoost::DbgMsg(std::string const& msg)
 	}
 }
 
-void TCSAdaBoost::SetLogName(const std::wstring& logName)
+void TCSAdaBoost::SetLogName(const std::filesystem::path& filePath)
 {
 	if (!m_Logger.is_open())
-		m_Logger.open(logName.c_str());
+		m_Logger.open(filePath.wstring().c_str());
 }
 
-std::string TCSAdaBoost::GetArtefactsBase()
+std::filesystem::path TCSAdaBoost::GetArtefactsBase()
 {
 	return m_strArtefactsBase;
 }
-void TCSAdaBoost::SetArtefactsBase(std::string str)
+void TCSAdaBoost::SetArtefactsBase(const std::filesystem::path& filePath)
 {
-	m_strArtefactsBase = str;
+	m_strArtefactsBase = filePath;
 }
-std::string TCSAdaBoost::GetObjectsBase()
+std::filesystem::path TCSAdaBoost::GetObjectsBase()
 {
 	return m_strObjectsbase;
 }
 
-void TCSAdaBoost::SetObjectsBase(std::string str)
+void TCSAdaBoost::SetObjectsBase(const std::filesystem::path& filePath)
 {
-	m_strObjectsbase = str;
+	m_strObjectsbase = filePath;
 }
 
 // возвращает ширину и высоту изображений, которые используются
@@ -385,62 +386,43 @@ void TCSAdaBoost::SetFinishFar(double value)
 	this->m_FinishFar = value;
 }
 
-std::string TCSAdaBoost::GetPath()
+std::filesystem::path TCSAdaBoost::GetPath()
 {
 	return this->m_strPath;
 }
 
-void TCSAdaBoost::SetPath(const char* lpPath)
+void TCSAdaBoost::SetPath(const std::filesystem::path& path)
 {
-	this->m_strPath = lpPath;
-}
-
-static bool _IsImageFile(std::string& strFileName)
-{
-	std::string strExt = LFGetFileExt(strFileName);
-	std::transform(strExt.begin(), strExt.end(), strExt.begin(), ::tolower);
-
-	if (strExt == ".awp")
-		return true;
-	if (strExt == ".jpg")
-		return true;
-	if (strExt == ".jpeg")
-		return true;
-	if (strExt == ".png")
-		return true;
-	if (strExt == ".bmp")
-		return true;
-	return false;
+	this->m_strPath = path;
 }
 
 // загружает образцы для обучения из директории path и сохраняет их в списке объектов 
 // SampleList. в зависимости от установленного флага flag образцы считаются образцами 
 // объектов или образцами фонов. flag = 1 соответствует образцам объектов, flag = 0 - 
 // соответствует образцам фонов.
-bool TCSAdaBoost::LoadSample(TLFObjectList& SampleList, int flag, const std::string& path)
+bool TCSAdaBoost::LoadSample(TLFObjectList& SampleList, int flag, const std::filesystem::path& path)
 {
-	DbgMsg("Loading samples from " + path + "... \n");
+	DbgMsg("Loading samples from " + path.u8string() + "... \n");
     int count = 0;
-	TLFStrings names;
-	if (!LFGetDirFiles(path.c_str(), names))
+	std::vector<std::filesystem::path> filePaths;
+	if (!LFGetDirFiles(path, filePaths))
 	{
 		DbgMsg("Reading names failed.");
 		return false;
 	}
-	if (names.size() == 0)
+	if (filePaths.size() == 0)
 	{
 		DbgMsg("Database is empty.");
 		return false;
 	}
-	DbgMsg("Reading " + TypeToStr(names.size()) + " files.\n");
-	for (int i = 0; i < names.size(); i++)
+	DbgMsg("Reading " + TypeToStr(filePaths.size()) + " files.\n");
+	for (int i = 0; i < filePaths.size(); i++)
 	{
-		string name = names[i];
-		if (!_IsImageFile(name))
+		if (!utils::IsImageFile(filePaths[i]))
 			continue;
 		TCSSample* pSample = new TCSSample();
 		//DbgMsg(name + "\n");
-		pSample->LoadFromFile((char*)name.c_str());
+		pSample->LoadFromFile(filePaths[i].u8string().c_str());
 		double e = 0;
 
 		if (pSample->GetImage()->sSizeX < this->m_widthBase || pSample->GetImage()->sSizeY < this->m_heightBase)
@@ -651,17 +633,17 @@ void   TCSAdaBoost::SaveFRRSamples(int stage)
 {
 	if (stage < 0)
 		return;
-	std::string strPath = this->m_strPath;
-	strPath += "\\frr\\";
+	auto strPath = this->m_strPath;
+	strPath/="frr";
 
-	if (!LFDirExist(strPath.c_str()))
-		LFCreateDir(strPath.c_str());
+	if (!std::filesystem::exists(strPath))
+		std::filesystem::create_directories(strPath);
 
 	char buf[32];
 	sprintf(buf, "stage%d", stage);
-	strPath += buf;
-	if (!LFDirExist(strPath.c_str()))
-		LFCreateDir(strPath.c_str());
+	strPath/=buf;
+	if (!std::filesystem::exists(strPath))
+		std::filesystem::create_directories(strPath);
 
 	//forming an array of positive examples for each settable rating received strong classifier
 	TLFObjectList positiveSamples;
@@ -681,8 +663,8 @@ void   TCSAdaBoost::SaveFRRSamples(int stage)
 	// sort the list
 	positiveSamples.Sort(SampleCompare);
 	// Save 1% of the list to disk
-	std::string strFrrFileName = LFMakeFileName(strPath, "frr", ".txt");
-	FILE* F = fopen(strFrrFileName.c_str(), "w+t");
+	auto strFrrFileName = strPath/"frr.txt";
+	FILE* F = _wfopen(strFrrFileName.wstring().c_str(), L"w+t");
 	if (F == NULL)
 		return;
 	fprintf (F, "stage threshold = %f\n", this->m_ResultClass.GetThreshold());
@@ -690,29 +672,28 @@ void   TCSAdaBoost::SaveFRRSamples(int stage)
 	for (int i = 0; i < numToSave; i++)
 	{
 		TCSSample* s = (TCSSample*)positiveSamples.Get(i);
-		std::string strFileName = LFMakeFileName(strPath, TypeToStr(i), ".jpg");
+		auto strFileName = strPath/(TypeToStr(i) + ".jpg");
 		double r = s->GetRating();
-		fprintf (F, "%s\t %f\n", strFileName.c_str(),  r);
-		awpSaveImage(strFileName.c_str(), s->GetImage());
+		fprintf (F, "%s\t %f\n", strFileName.u8string().c_str(),  r);
+		awpSaveImage(strFileName.u8string().c_str(), s->GetImage());
 	}
 	fclose(F);
 }
 
-void   TCSAdaBoost::SaveNegativeSamples(const char* lpPath)
+void TCSAdaBoost::SaveNegativeSamples(const std::filesystem::path& path)
 {
-	string path = lpPath;
+	if (!std::filesystem::exists(path))
+		std::filesystem::create_directories(path);
+
 	int total = 0;
-	LFCreateDir(lpPath);
 	for (int i = 0; i < this->m_TrainingSamples.GetCount(); i++)
 	{
 		TCSSample* s = (TCSSample*)m_TrainingSamples.Get(i);
 		if (s->GetFlag() == 0)
 		{
-			string filename = path;
-			filename += TypeToStr(total);
-			filename += ".awp";
+			auto filename = path/(TypeToStr(total) + ".awp");
 			total++;
-			s->SaveToFile(filename.c_str());
+			s->SaveToFile(filename.u8string().c_str());
 		}
 	}
 }

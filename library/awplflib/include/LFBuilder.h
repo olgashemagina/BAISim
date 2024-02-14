@@ -63,7 +63,7 @@ class TCSBuildDetector
 {
 protected:
 	// detector 
-	bool			CreateDetector(const char* lpDetectorName);
+	bool			CreateDetector(const std::filesystem::path& filePath);
 	bool			UpdateDetector();
 	bool		    CheckDetector();
 	//   background
@@ -72,19 +72,19 @@ protected:
 	bool		    BuildDefaultBkGround();
 	void		    RemoveBkground();
 	int				GetNumObjects();
-	std::string		ConcatIfNeeded(const std::string& path, const std::string& commonPath);
+	std::filesystem::path		ConcatIfNeeded(const std::filesystem::path& path, const std::filesystem::path& commonPath);
 	// ключевые переменные
 	TCSAdaBoost		m_AdaBoost;
 	TLFDetectEngine	m_Engine;
 
 	/*Builder configuration variables*/
-	std::string     m_strDetectorName;   // им¤ файла детектора
-	std::string		m_strBKG;			 //источник объектов фона
-	std::string     m_strOBJ;			 //размеченна¤ база данных объектов
-	std::string     m_strPathToBase;     // путь к базе данных изобжений,
+	std::filesystem::path m_strDetectorName;   // им¤ файла детектора
+	std::filesystem::path m_strBKG;			   //источник объектов фона
+	std::filesystem::path m_strOBJ;			   //размеченна¤ база данных объектов
+	std::filesystem::path m_strPathToBase;     // путь к базе данных изобжений,
 	// служащих источником дл¤ образцов фона
-	std::string	    m_strConfigName;     //им¤ файла конфигурации
-	std::string     m_strLogName;		 // им¤ лог файла. 
+	std::filesystem::path m_strConfigName;     //им¤ файла конфигурации
+	std::filesystem::path m_strLogName;		   // им¤ лог файла. 
 
 	int				m_SPI;			/*samples per image */
 	int				m_NS;			/*num stages*/
@@ -97,8 +97,8 @@ protected:
 
 public:
 	TCSBuildDetector();
-	bool		LoadConfig(std::string const& filename);
-	bool		SaveConfig(std::string const& filename);
+	bool		LoadConfig(const std::filesystem::path& filePath);
+	bool		SaveConfig(const std::filesystem::path& filePath);
 	bool		InitDetector();
 	void		PrintDetectorInfo();
 	void		AddNewClassifier();
@@ -114,7 +114,7 @@ protected:
 	TCSAdaBoost			m_AdaBoost;
 	TSCObjectDetector*  m_detector;
 
-	bool LoadConfig(const char* fileName);
+	bool LoadConfig(const std::filesystem::path& filePath);
 	bool BuildBackground();
 	bool UpdateDetector();
 public:

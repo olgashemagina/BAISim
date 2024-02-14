@@ -45,56 +45,24 @@
 //M*/
 #include "LFDatabase.h"
 #include "LFFileUtils.h"
+#include "utils.h"
 #include <algorithm>
 
-static bool _IsImageFile(std::string& strFileName)
-{
-	std::string strExt = LFGetFileExt(strFileName);
-	std::transform(strExt.begin(), strExt.end(), strExt.begin(), ::tolower);
 
-	if (strExt == ".awp")
-		return true;
-	if (strExt == ".jpg")
-		return true;
-	if (strExt == ".jpeg")
-		return true;
-	if (strExt == ".png")
-		return true;
-	if (strExt == ".bmp")
-		return true;
-	return false;
+TLFDBSemanticDescriptor::TLFDBSemanticDescriptor(const std::filesystem::path& filePath) : TLFSemanticImageDescriptor()
+{
+	m_strImageName = filePath;
+	auto strXmlName = m_strImageName.replace_extension(".xml");
+	if (std::filesystem::exists(strXmlName))
+		this->LoadXML(strXmlName.u8string().c_str());
 }
-
-static bool _HasDescription(std::string& strFileName)
+std::filesystem::path TLFDBSemanticDescriptor::GetImageFile()
 {
-	if (!_IsImageFile(strFileName))
-		return false;
-
-	if (LFFileExists(LFChangeFileExt(strFileName, ".ieye")))
-		return true;
-	if (LFFileExists(LFChangeFileExt(strFileName, ".xml")))
-		return true;
-	if (LFFileExists(LFChangeFileExt(strFileName, ".face")))
-		return true;
-
-	return false;
-}
-
-TLFDBSemanticDescriptor::TLFDBSemanticDescriptor(const char* lpFileName) : TLFSemanticImageDescriptor()
-{
-	m_strImageName = lpFileName;
-	std::string strXmlName = LFChangeFileExt(m_strImageName, ".xml");
-	if (LFFileExists(strXmlName))
-		this->LoadXML(strXmlName.c_str());
-}
-const char* TLFDBSemanticDescriptor::GetImageFile()
-{
-	return this->m_strImageName.c_str();
+	return this->m_strImageName;
 }
 
 TLFDBLabeledImages::TLFDBLabeledImages()
 {
-    m_strPath = "";
 	m_progress = NULL;
 }
 
@@ -118,36 +86,32 @@ void TLFDBLabeledImages::ClearDatabase()
     for(int i = 0; i < c; i++)
     {
          TLFDBSemanticDescriptor* d = (TLFDBSemanticDescriptor*)m_dataFiles.Get(i);
-	 	 std::string strXmlName = d->GetImageFile();
-         strXmlName = LFChangeFileExt(strXmlName, ".xml");
-         if (LFFileExists(strXmlName))
+	 	 auto strXmlName = d->GetImageFile();
+         strXmlName = strXmlName.replace_extension(".xml");
+         if (std::filesystem::exists(strXmlName))
          {
-            LFDeleteFile(strXmlName.c_str());
+            std::filesystem::remove(strXmlName);
 			if (m_progress != NULL)
             {
-                std::string msg = LFGetFileName(strXmlName);
-                msg += ".xml";
+                std::string msg = strXmlName.filename().u8string();
 				m_progress(msg.c_str(), 100*i/c);
             }
          }
     }
-    std::string strDictFile = m_strPath;
-    strDictFile += c_separator;
-    strDictFile += c_lpDictFileName;
-    LFDeleteFile(strDictFile.c_str());
+    auto strDictFile = m_strPath/c_lpDictFileName;
+	if (std::filesystem::exists(strDictFile))
+		std::filesystem::remove(strDictFile);
 
     Clear();
 }
 
 
-bool TLFDBLabeledImages::LoadDatabase(const char* path)
+bool TLFDBLabeledImages::LoadDatabase(const std::filesystem::path path)
 {
 	Clear();
 	printf("open database %s\n", path);
-	std::string strDictinary = path;
-	strDictinary += c_separator;
-	strDictinary += c_lpDictFileName;
-	if (!m_dictinary.LoadXML(strDictinary.c_str()))
+	auto strDictinary = path/c_lpDictFileName;
+	if (!m_dictinary.LoadXML(strDictinary.u8string().c_str()))
 	{
 		printf("error: cannot load dictinary \n");
 		return false;
@@ -161,18 +125,17 @@ bool TLFDBLabeledImages::LoadDatabase(const char* path)
 			repair = true;
 	}
 
-	std::string strPath = path;
-	strPath += c_separator;
-	TLFStrings names;
-	if(!LFGetDirFiles(strPath.c_str(), names))
+	auto strPath = path;
+	std::vector<std::filesystem::path> filePaths;
+	if(!LFGetDirFiles(strPath, filePaths))
 		return false;
-	if (names.size() == 0)
+	if (filePaths.size() == 0)
 		return false;
-	for (unsigned int i = 0; i < names.size(); i++)
+	for (unsigned int i = 0; i < filePaths.size(); i++)
 	{
-			if (_IsImageFile(names[i]))
+			if (utils::IsImageFile(filePaths[i]))
 			{
-				TLFDBSemanticDescriptor* d = new TLFDBSemanticDescriptor(names[i].c_str());
+				TLFDBSemanticDescriptor* d = new TLFDBSemanticDescriptor(filePaths[i]);
 				if (repair)
 				{
 					// repair descriptor
@@ -194,7 +157,7 @@ bool TLFDBLabeledImages::LoadDatabase(const char* path)
 					}
 
 
-					std::string strXmlName = LFChangeFileExt(names[i], ".xml");
+					std::string strXmlName = (filePaths[i].replace_extension(".xml")).u8string();
 					if (!d->SaveXML(strXmlName.c_str()))
 					{
 						return false;
@@ -210,7 +173,7 @@ bool TLFDBLabeledImages::LoadDatabase(const char* path)
 			TLFSemanticDictinaryItem* sdi = (TLFSemanticDictinaryItem*)m_dictinary.Get(i);
 			sdi->SetNeedRepairItem(false);
 		}
-		m_dictinary.SaveXML(strDictinary.c_str());
+		m_dictinary.SaveXML(strDictinary.u8string().c_str());
 	}
 	m_strPath = path;
 	return true;
@@ -273,9 +236,8 @@ void TLFDBLabeledImages::GetFarHST(TLFDetectEngine& engine, TLFHistogramm& hst, 
 	for (int i = 0; i < m_dataFiles.GetCount(); i++)
 	{
 		TLFDBSemanticDescriptor* d = (TLFDBSemanticDescriptor*)m_dataFiles.Get(i);
-		string strImageName = d->GetImageFile();
 		TLFImage img;
-		if (!img.LoadFromFile(strImageName.c_str()))
+		if (!img.LoadFromFile(d->GetImageFile().u8string().c_str()))
 			continue;
 		engine.SetSourceImage(&img, false);
 		TLFImage* img1 = detector->GetImage();
@@ -336,9 +298,8 @@ void TLFDBLabeledImages::GetFrrHST(TLFDetectEngine& engine, TLFHistogramm& hst, 
 	for (int i = 0; i < m_dataFiles.GetCount(); i++)
 	{
 		TLFDBSemanticDescriptor* d = (TLFDBSemanticDescriptor*)m_dataFiles.Get(i);
-		string strImageName = d->GetImageFile();
 		TLFImage img;
-		if (!img.LoadFromFile(strImageName.c_str()))
+		if (!img.LoadFromFile(d->GetImageFile().u8string().c_str()))
 			continue;
 		engine.SetSourceImage(&img, false);
 		TLFImage* img1 = detector->GetImage();
@@ -399,9 +360,8 @@ void TLFDBLabeledImages::GetFarFrrHST(TLFDetectEngine& engine, TLFHistogramm& fa
 	for (int i = 0; i < m_dataFiles.GetCount(); i++)
 	{
 		TLFDBSemanticDescriptor* d = (TLFDBSemanticDescriptor*)m_dataFiles.Get(i);
-		string strImageName = d->GetImageFile();
 		TLFImage img;
-		if (!img.LoadFromFile(strImageName.c_str()))
+		if (!img.LoadFromFile(d->GetImageFile().u8string().c_str()))
 			continue;
 		engine.SetSourceImage(&img, false);
 		TLFImage* img1 = detector->GetImage();
@@ -461,10 +421,10 @@ void TLFDBLabeledImages::GetFarFrr(TLFDetectEngine& engine, double& Far, double&
 	for (int i = 0; i < m_dataFiles.GetCount(); i++)
 	{
 		TLFDBSemanticDescriptor* d = (TLFDBSemanticDescriptor*)m_dataFiles.Get(i);
-		string strImageName = d->GetImageFile();
-		printf("processing: %s\n", strImageName.c_str());
+		auto strImageName = d->GetImageFile();
+		printf("processing: %s\n", strImageName.u8string().c_str());
 		TLFImage img;
-		img.LoadFromFile(strImageName.c_str());
+		img.LoadFromFile(strImageName.u8string().c_str());
 		ctime = LFGetTickCount();
 		engine.SetSourceImage(&img, true);
 		ptime += (LFGetTickCount() - ctime);
@@ -481,9 +441,7 @@ void TLFDBLabeledImages::GetFarFrr(TLFDetectEngine& engine, double& Far, double&
 
 		if (m_progress != NULL)
         {
-        	std::string s = LFGetFileName(strImageName);
-            s += LFGetFileExt(strImageName);
-			m_progress(s.c_str(), 100*i/ m_dataFiles.GetCount());
+			m_progress(strImageName.filename().u8string().c_str(), 100*i/ m_dataFiles.GetCount());
         }
 
 	}
@@ -504,10 +462,10 @@ void TLFDBLabeledImages::CheckEngine(TLFDetectEngine& engine, double overlap)
 		TLFDBSemanticDescriptor* d = (TLFDBSemanticDescriptor*)m_dataFiles.Get(i);
 		if (d == NULL)
 			continue;
-		string strImageName = d->GetImageFile();
-		printf("processing: %s\n", strImageName.c_str());
+		auto strImageName = d->GetImageFile();
+		printf("processing: %s\n", strImageName.u8string().c_str());
 		TLFImage img;
-		img.LoadFromFile(strImageName.c_str());
+		img.LoadFromFile(strImageName.u8string().c_str());
 
 		for (int j = 0; j < d->GetCount(); j++)
 		{
@@ -552,9 +510,8 @@ void TLFDBLabeledImages::SetLabel(const char* label)
 			TLFDetectedItem* item = d->GetDetectedItem(j);
 			item->SetType(label);
 		}
-		string fname = d->GetImageFile();
-		string ext = ".xml";
-		d->SaveXML(LFChangeFileExt(fname, ext).c_str());
+		auto fname = d->GetImageFile();
+		d->SaveXML(fname.replace_extension(".xml").u8string().c_str());
 	}
 
 
@@ -577,15 +534,14 @@ int TLFDBLabeledImages::GetDescrFilesCount()
 	for (int i = 0; i < m_dataFiles.GetCount(); i++)
 	{
 		TLFDBSemanticDescriptor* d = (TLFDBSemanticDescriptor*)m_dataFiles.Get(i);
-        std::string strImgName = d->GetImageFile();
-        std::string strXmlName = LFChangeFileExt(strImgName, ".xml");
-        if (LFFileExists(strXmlName))
-			count ++;
+        auto strImgName = d->GetImageFile();
+        if (std::filesystem::exists(strImgName.replace_extension(".xml")))
+			count++;
 	}
 	return count;
 }
 
-std::string TLFDBLabeledImages::GetPath()
+std::filesystem::path TLFDBLabeledImages::GetPath() const
 {
     return m_strPath;
 }
@@ -614,8 +570,6 @@ void TLFDBLabeledImages::UpdateUUIDsDatabase()
     for(int i = 0; i < c; i++)
     {
          TLFDBSemanticDescriptor* d = (TLFDBSemanticDescriptor*)m_dataFiles.Get(i);
-	 	 std::string strXmlName = d->GetImageFile();
-         strXmlName = LFChangeFileExt(strXmlName, ".xml");
          for (int j = 0; j < d->GetCount(); j++)
          {
             TLFDetectedItem* item = d->GetDetectedItem(j);
@@ -629,13 +583,13 @@ void TLFDBLabeledImages::UpdateUUIDsDatabase()
                     item->SetType(id.c_str());
             }
          }
+		 auto strXmlName = d->GetImageFile();
+		 strXmlName = strXmlName.replace_extension(".xml");
          if (m_progress != NULL)
          {
-            std::string msg = LFGetFileName(strXmlName);
-            msg += ".xml";
-            m_progress(msg.c_str(), 100*i/c);
+            m_progress(strXmlName.filename().u8string().c_str(), 100*i/c);
          }
-         d->SaveXML(strXmlName.c_str());
+         d->SaveXML(strXmlName.u8string().c_str());
     }
 }
 
@@ -645,8 +599,6 @@ void TLFDBLabeledImages::UpdateDatabase()
     for(int i = 0; i < c; i++)
     {
          TLFDBSemanticDescriptor* d = (TLFDBSemanticDescriptor*)m_dataFiles.Get(i);
-	 	 std::string strXmlName = d->GetImageFile();
-         strXmlName = LFChangeFileExt(strXmlName, ".xml");
          for (int j = d->GetCount()-1; j >=0; j--)
          {
             TLFDetectedItem* item = d->GetDetectedItem(j);
@@ -669,13 +621,13 @@ void TLFDBLabeledImages::UpdateDatabase()
             if (!found)
                 d->Delete(j);
          }
+		 auto strXmlName = d->GetImageFile();
+		 strXmlName = strXmlName.replace_extension(".xml");
          if (m_progress != NULL)
          {
-            std::string msg = LFGetFileName(strXmlName);
-            msg += ".xml";
-            m_progress(msg.c_str(), 100*i/c);
+            m_progress(strXmlName.filename().u8string().c_str(), 100*i/c);
          }
-         d->SaveXML(strXmlName.c_str());
+         d->SaveXML(strXmlName.u8string().c_str());
     }
 }
 

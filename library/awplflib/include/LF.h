@@ -813,12 +813,12 @@ public:
 	virtual void Clear() = 0;
 	
 	/*Loading from-to xml files*/
-	virtual bool Load(const char* lpFileName);
+	virtual bool Load(const std::filesystem::path& filePath);
 #ifdef LOAD_FROM_STREAM
 	virtual bool LoadStream(std::istream& in);
 #endif
 	virtual bool LoadXML(TiXmlElement* parent)= 0;
-	virtual bool Save(const char* lpFileName);
+	virtual bool Save(const std::filesystem::path& filePath);
 	virtual TiXmlElement* SaveXML()  = 0;
 
 	/*perform a search operation objects in the image*/

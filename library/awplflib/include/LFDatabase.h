@@ -59,21 +59,22 @@
 class TLFDBSemanticDescriptor : public TLFSemanticImageDescriptor
 {
 protected:
-	std::string m_strImageName;
+	std::filesystem::path m_strImageName;
 public:
-	TLFDBSemanticDescriptor(const char* lpFileName);
-	const char* GetImageFile();
+	TLFDBSemanticDescriptor(const std::filesystem::path& filePath);
+	std::filesystem::path GetImageFile();
 };
 
 class TLFDBLabeledImages : public TLFObject
 {
 protected:
 	TLFProgress   m_progress;
-
-	TLFString				m_strPath;
+	std::filesystem::path m_strPath;
 	TLFObjectList			m_dataFiles;
 	TLFSemanticDictinary	m_dictinary;
-	bool LoadDatabase(const char* path);
+
+protected:
+	bool LoadDatabase(const std::filesystem::path path);
 
 public:
 
@@ -95,7 +96,7 @@ public:
     int GetDescrFilesCount();
     int GetLabelCount(const char* class_label);
 
-    TLFString GetPath();
+	std::filesystem::path GetPath() const;
     TLFDBSemanticDescriptor* GetDescriptor(int index);
 	TLFSemanticDictinary*	 GetDictinary();
 

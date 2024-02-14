@@ -170,13 +170,13 @@ public:
 static bool _GetImageNames(const char* path, TLFStrings& names)
 {
 	names.clear();
-	TLFStrings allFiles;
-	if (!LFGetDirFiles(path, allFiles))
+	std::vector<std::filesystem::path> filePaths;
+	if (!LFGetDirFiles(path, filePaths))
 		return false;
-	for (unsigned int i = 0; i < allFiles.size(); i++)
+	for (unsigned int i = 0; i < filePaths.size(); i++)
 	{
-		if (LFIsImageFile(allFiles[i].c_str()))
-			names.push_back(allFiles[i]);
+		if (LFIsImageFile(filePaths[i].u8string().c_str()))
+			names.push_back(filePaths[i].u8string());
 	}
 	return true;
 }

@@ -71,14 +71,14 @@ class TCSAdaBoost
 {
 protected:
     std::ofstream		m_Logger;
-	std::string 		m_strPath;
+	std::filesystem::path m_strPath;
 
     TLFObjectList       m_Features; 			// features list ILFfeature
     TLFObjectList       m_TrainingSamples;		// trainig samples 
     TErrTrainData       m_trainData; 			// Roc
     TCSStrong           m_ResultClass;			// strong classifier
-  	std::string			m_strArtefactsBase;     // path to negative samples 
-	std::string			m_strObjectsbase;       // path to positive samples 
+	std::filesystem::path m_strArtefactsBase;     // path to negative samples 
+	std::filesystem::path m_strObjectsbase;       // path to positive samples 
 
     int                 m_widthBase;
     int                 m_heightBase;
@@ -92,7 +92,7 @@ protected:
 
 
     void   PrintFeature(ILFFeature* pSensor);
-    bool   LoadSample(TLFObjectList& SampleList, int flag, std::string const& path);
+	bool   LoadSample(TLFObjectList& SampleList, int flag, const std::filesystem::path& path);
     double PrintStatistics(TCSStrong& Class, double& afrr);
 
 	
@@ -105,15 +105,15 @@ public:
 	bool Boost(int stage);
 	void InitFeatures();
 	
-	void SetLogName(const std::wstring& logName);
+	void SetLogName(const std::filesystem::path& filePath);
     // print message on the screen and in the log file
     void DbgMsg(std::string const&);
     // returns path to negative samples 
-	std::string GetArtefactsBase();
-	void SetArtefactsBase(std::string str);
+	std::filesystem::path GetArtefactsBase();
+	void SetArtefactsBase(const std::filesystem::path& filePath);
 	// returns path to positive samples 
-	std::string GetObjectsBase();
-	void SetObjectsBase(std::string str);
+	std::filesystem::path GetObjectsBase();
+	void SetObjectsBase(const std::filesystem::path& filePath);
     // возвращает ширину и высоту изображений, которые используются
     // для обучения
 	AWPWORD WidthBase();
@@ -131,11 +131,11 @@ public:
 	double GetFinishFar();
 	void SetFinishFar(double value);
 
-	std::string GetPath();
+	std::filesystem::path GetPath();
 
-	void SetPath(const char* lpPath);
-	void   SaveFRRSamples(int stage);
-	void   SaveNegativeSamples(const char* lpPath);
+	void SetPath(const std::filesystem::path& path);
+	void SaveFRRSamples(int stage);
+	void SaveNegativeSamples(const std::filesystem::path& path);
 public: 
 	// features 
 	bool m_CSFeature;

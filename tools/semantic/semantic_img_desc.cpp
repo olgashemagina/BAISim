@@ -49,13 +49,13 @@ int apply_detectors_to_folder(const TLFString& det_path,
 	}
 
 
-	TLFStrings folder_files, img_files;
+	std::vector<std::filesystem::path> folder_files, img_files;
 	if (!LFGetDirFiles(db_folder.c_str(), folder_files)) {
 		std::cerr << "Could not read contents from " << db_folder << std::endl;
 		return -101;
 	} else {
 		for (size_t i = 0; i < folder_files.size(); i++) {
-			if (LFIsImageFile(folder_files[i].c_str())) {
+			if (LFIsImageFile(folder_files[i].u8string().c_str())) {
 				img_files.push_back(folder_files[i]);
 			}
 		}
@@ -68,7 +68,7 @@ int apply_detectors_to_folder(const TLFString& det_path,
 			img_files.size() << std::endl;
 
 		TLFImage img;
-		if (!img.LoadFromFile(img_files[i].c_str())) {
+		if (!img.LoadFromFile(img_files[i].u8string().c_str())) {
 			std::cerr << "Can't load image " << img_files[i] << std::endl;
 			return -102;
 		}
@@ -99,7 +99,7 @@ int apply_detectors_to_folder(const TLFString& det_path,
 		}
 						
 		
-		TLFString results_file = LFChangeFileExt(img_files[i], ".xml");
+		TLFString results_file = img_files[i].replace_extension(".xml").u8string();
 
 		if (!img_res_doc.SaveFile(results_file)) {
 			std::cerr << "Can't save results to " << results_file << std::endl;

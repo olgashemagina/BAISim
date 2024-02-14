@@ -1,6 +1,7 @@
 ﻿#include "LFBuilder.h"
 #include "LFFileUtils.h"
 #include "LFScanners.h"
+#include "utils.h"
 
 #include <algorithm>
 
@@ -17,24 +18,6 @@
 #include <dirent.h>
 #endif
 
-
-static bool _IsImageFile(std::string& strFileName)
-{
-	std::string strExt = LFGetFileExt(strFileName);
-	std::transform(strExt.begin(), strExt.end(), strExt.begin(), ::tolower);
-
-	if (strExt == ".awp")
-		return true;
-	if (strExt == ".jpg")
-		return true;
-	if (strExt == ".jpeg")
-		return true;
-	if (strExt == ".png")
-		return true;
-	if (strExt == ".bmp")
-		return true;
-	return false;
-}
 
 /**
 	TCSBuildDetector default constructor 
@@ -60,10 +43,10 @@ TCSBuildDetector::TCSBuildDetector()
 	Load xml configuration file 
 */
 
-bool		TCSBuildDetector::LoadConfig(std::string const& filename)
+bool TCSBuildDetector::LoadConfig(const std::filesystem::path& filePath)
 {
 	m_AdaBoost.DbgMsg("CSBuild Detector loading config ..... ");
-	FILE* file = _wfopen(LFUtf8ConvertToUnicode(filename).c_str(), L"rb");
+	FILE* file = _wfopen(filePath.wstring().c_str(), L"rb");
 	if (!file)
 	{
 		m_AdaBoost.DbgMsg("LoadConfig | Can't open XML file.\n");
@@ -75,7 +58,7 @@ bool		TCSBuildDetector::LoadConfig(std::string const& filename)
 		m_AdaBoost.DbgMsg("LoadFile fail.\n");
 		return false;
 	}
-	m_strConfigName = filename;
+	m_strConfigName = filePath;
 	TiXmlHandle hDoc(&doc);
 
 	/*разделы файла конфигурации*/
@@ -95,16 +78,14 @@ bool		TCSBuildDetector::LoadConfig(std::string const& filename)
 		m_AdaBoost.DbgMsg("Invalid XML file.\n");
 		return false;
 	}
-
-	m_strConfigName = filename;
-	std::string commonPath = LFGetFilePath(filename) + c_separator;
+	auto commonPath = filePath.parent_path();
 	m_strPathToBase = ConcatIfNeeded(pElem->Attribute("bkground_base"), commonPath);
 	m_strBKG = ConcatIfNeeded(pElem->Attribute("negative_examples"), commonPath);
 	m_strOBJ = ConcatIfNeeded(pElem->Attribute("positive_examples"), commonPath);
 	m_strDetectorName = ConcatIfNeeded(pElem->Attribute("detector_name"), commonPath);
 	m_strLogName = ConcatIfNeeded(pElem->Attribute("log_name"), commonPath);
 	//pElem->Attribute("overlap_thr", &m_overlapThr);
-	m_AdaBoost.SetLogName(LFUtf8ConvertToUnicode(m_strLogName));
+	m_AdaBoost.SetLogName(m_strLogName);
 	int num_positive = this->GetNumObjects();
 
 	pElem->Attribute("num_samples_per_image", &m_nMaxSamplesPerImage);
@@ -210,26 +191,25 @@ bool		TCSBuildDetector::BuildBkground()
 	ILFObjectDetector* cs = m_Engine.GetDetector();
 	m_AdaBoost.DbgMsg("Building new bkground...\n");
 	int nCount = 0;
-	TLFString strPath = m_strPathToBase;
-	TLFStrings names;
-	if (!LFGetDirFiles(strPath.c_str(), names))
+	std::vector<std::filesystem::path> filePaths;
+	if (!LFGetDirFiles(m_strPathToBase, filePaths))
 		return false;
-	if (names.size() == 0)
+	if (filePaths.size() == 0)
 		return false;
-	TLFString strPathToArt = m_AdaBoost.GetArtefactsBase();
+	auto strPathToArt = m_AdaBoost.GetArtefactsBase();
 	int count = 0;
 	double rect_ovr;
-	for (int i = 0; i < names.size(); i++)
+	for (int i = 0; i < filePaths.size(); i++)
 	{
-		if (!_IsImageFile(names[i]))
+		if (!utils::IsImageFile(filePaths[i]))
 			continue;
 		count++;
 		//Загрузка
-		std::string strImageName = names[i];
+		auto strImageName = filePaths[i];
 
 		TLFImage Image;
 		TLFImage Image1;
-		if (!Image.LoadFromFile((char*)strImageName.c_str()))
+		if (!Image.LoadFromFile((char*)strImageName.u8string().c_str()))
 		{
 
 			continue;
@@ -237,7 +217,7 @@ bool		TCSBuildDetector::BuildBkground()
 		awpConvert(Image.GetImage(), AWP_CONVERT_3TO1_BYTE);
 		Image1.SetImage(Image.GetImage());
 
-		m_AdaBoost.DbgMsg("Num = " + TypeToStr(count) + " " + names[i] + " ");
+		m_AdaBoost.DbgMsg("Num = " + TypeToStr(count) + " " + filePaths[i].u8string() + " ");
 		m_AdaBoost.DbgMsg(TypeToStr(Image.GetImage()->sSizeX) + "x" + TypeToStr(Image.GetImage()->sSizeY) + " ");
 		AWPDWORD tc = LFGetTickCount();
 		//поиск образцов
@@ -262,11 +242,11 @@ bool		TCSBuildDetector::BuildBkground()
 					/*
 					попытаемся загрузить xml описание изображеия.
 					*/
-					std::string strXmlFileName = LFChangeFileExt(strImageName, ".xml");
-					if (LFFileExists(strXmlFileName))
+					auto strXmlFileName = strImageName.replace_extension(".xml");
+					if (std::filesystem::exists(strXmlFileName))
 					{
 						TLFSemanticImageDescriptor sd;
-						if (sd.LoadXML(strXmlFileName.c_str()))
+						if (sd.LoadXML(strXmlFileName.u8string().c_str()))
 						{
 							for (int ii = 0; ii < sd.GetItemsCount(); ii++)
 							{
@@ -286,8 +266,8 @@ bool		TCSBuildDetector::BuildBkground()
 							if (awpCopyRect(Image1.GetImage(), &Fragment, &r) == AWP_OK)
 							{
 								nCount++;
-								std::string strFragmentName = strPathToArt + TypeToStr(nCount) + ".awp";
-								awpSaveImage(strFragmentName.c_str(), Fragment);
+								auto strFragmentName = strPathToArt/(TypeToStr(nCount) + ".awp");
+								awpSaveImage(strFragmentName.u8string().c_str(), Fragment);
 								//m_AdaBoost.DbgMsg("Overlap = " + TypeToStr(rect_ovr) + "\n");
 								awpReleaseImage(&Fragment);
 								if (nCount >= m_nBgrdCount)
@@ -304,8 +284,8 @@ bool		TCSBuildDetector::BuildBkground()
 						if (awpCopyRect(Image1.GetImage(), &Fragment, &r) == AWP_OK)
 						{
 							nCount++;
-							std::string strFragmentName = strPathToArt + TypeToStr(nCount) + ".awp";
-							awpSaveImage(strFragmentName.c_str(), Fragment);
+							auto strFragmentName = strPathToArt/(TypeToStr(nCount) + ".awp");
+							awpSaveImage(strFragmentName.u8string().c_str(), Fragment);
 							//m_AdaBoost.DbgMsg("Overlap = " + TypeToStr(rect_ovr) + "\n");
 							awpReleaseImage(&Fragment);
 							if (nCount >= m_nBgrdCount)
@@ -338,11 +318,11 @@ bool		TCSBuildDetector::BuildBkground()
 				/*
 				попытаемся загрузить xml описание изображеия.
 				*/
-				std::string strXmlFileName = LFChangeFileExt(strImageName, ".xml");
-				if (LFFileExists(strXmlFileName))
+				auto strXmlFileName = strImageName.replace_extension(".xml");
+				if (std::filesystem::exists(strXmlFileName))
 				{
 					TLFSemanticImageDescriptor sd;
-					if (sd.LoadXML(strXmlFileName.c_str()))
+					if (sd.LoadXML(strXmlFileName.u8string().c_str()))
 					{
 						for (int ii = 0; ii < sd.GetItemsCount(); ii++)
 						{
@@ -361,8 +341,8 @@ bool		TCSBuildDetector::BuildBkground()
 					if (awpCopyRect(Image1.GetImage(), &Fragment, &r) == AWP_OK)
 					{
 						nCount++;
-						std::string strFragmentName = strPathToArt + TypeToStr(nCount) + ".awp";
-						awpSaveImage(strFragmentName.c_str(), Fragment);
+						auto strFragmentName = strPathToArt/(TypeToStr(nCount) + ".awp");
+						awpSaveImage(strFragmentName.u8string().c_str(), Fragment);
 						awpReleaseImage(&Fragment);
 						if (nCount >= m_nBgrdCount)
 						{
@@ -456,13 +436,13 @@ bool		TCSBuildDetector::UpdateDetector()
 	//m_AdaBoost.SaveNegativeSamples(strNegativePath.c_str());
 
 	m_AdaBoost.DbgMsg("Save engine. \n");
-	m_Engine.Save(this->m_strDetectorName.c_str());
+	m_Engine.Save(this->m_strDetectorName);
 
 	return InitDetector();
 	//#endif
 }
 
-bool TCSBuildDetector::SaveConfig(std::string const& filename)
+bool TCSBuildDetector::SaveConfig(const std::filesystem::path& filePath)
 {
 	return false;
 }
@@ -503,23 +483,23 @@ bool	TCSBuildDetector::InitDetector()
 
 
 // проверяет детектор.
-bool		    TCSBuildDetector::CheckDetector()
+bool TCSBuildDetector::CheckDetector()
 {
-	std::string strPath = m_AdaBoost.GetObjectsBase();
-	TLFStrings names;
-	if (!LFGetDirFiles(strPath.c_str(), names))
+	auto filePath = m_AdaBoost.GetObjectsBase();
+	std::vector<std::filesystem::path> filePaths;
+	if (!LFGetDirFiles(filePath, filePaths))
 		return false;
-	if (names.size() == 0)
+	if (filePaths.size() == 0)
 		return false;
 	TSCObjectDetector* d = (TSCObjectDetector*)this->m_Engine.GetDetector();
 	bool res = true;
 
-	for (int i = 0; i < names.size(); i++)
+	for (int i = 0; i < filePaths.size(); i++)
 	{
-		if (!_IsImageFile(names[i]))
+		if (!utils::IsImageFile(filePaths[i]))
 			continue;
 		TLFImage img;
-		img.LoadFromFile(names[i].c_str());
+		img.LoadFromFile(filePaths[i].u8string().c_str());
 		if (img.GetImage() == NULL)
 			continue;
 		d->Init(img.GetImage(), false);
@@ -531,7 +511,7 @@ bool		    TCSBuildDetector::CheckDetector()
 		if (d->ClassifyRect(r, NULL, NULL) == 0)
 		{
 			//NumFailed++;
-			m_AdaBoost.DbgMsg(names[i] + " Failed.\n");
+			m_AdaBoost.DbgMsg(filePaths[i].u8string() + " Failed.\n");
 		}
 
 	}
@@ -547,13 +527,13 @@ bool		    TCSBuildDetector::BuildDefaultBkGround()
 	m_AdaBoost.DbgMsg("Building new default bkground...\n");
 	srand((unsigned)time(NULL));
 
-	std::string strPathToArt = m_AdaBoost.GetArtefactsBase();
+	auto strPathToArt = m_AdaBoost.GetArtefactsBase();
 
 
 	for (int i = 0; i < m_nBgrdCount; i++)
 	{
 		awpImage* img = NULL;
-		std::string strFragmentName = strPathToArt + TypeToStr(i) + ".awp";
+		auto strFragmentName = strPathToArt/(TypeToStr(i) + ".awp");
 		if (awpCreateImage(&img, m_AdaBoost.WidthBase(), m_AdaBoost.HeightBase(), 1, AWP_BYTE) == AWP_OK)
 		{
 
@@ -567,7 +547,7 @@ bool		    TCSBuildDetector::BuildDefaultBkGround()
 			}
 			if (i % 100 == 0)
 				m_AdaBoost.DbgMsg(".");
-			awpSaveImage(strFragmentName.c_str(), img);
+			awpSaveImage(strFragmentName.u8string().c_str(), img);
 			awpReleaseImage(&img);
 		}
 	}
@@ -576,37 +556,25 @@ bool		    TCSBuildDetector::BuildDefaultBkGround()
 	return true;
 }
 // удаляет все изображения из базы образцов фона
-void		    TCSBuildDetector::RemoveBkground()
+void TCSBuildDetector::RemoveBkground()
 {
 	m_AdaBoost.DbgMsg("Removing old bkground...\n");
-	std::string strPathToArt = m_AdaBoost.GetArtefactsBase();
+	auto strPathToArt = m_AdaBoost.GetArtefactsBase();
 
-#ifdef WIN32
+	std::vector<std::filesystem::path> filePaths;
+	LFGetDirFiles(strPathToArt, filePaths);
 
-	std::string strPath = strPathToArt;
-	strPath += "*.awp";
-
-	_finddata_t filesInfo;
-	intptr_t handle = 0;
-
-	if ((handle = _findfirst((char*)strPath.c_str(), &filesInfo)) != -1)
-	{
-		do
-		{
-			std::string strImageName = strPathToArt + filesInfo.name;
-			DeleteFile(strImageName.c_str());
-		} while (!_findnext(handle, &filesInfo));
+	for (auto path : filePaths) {
+		if (path.extension().compare(".awp") == 0)
+			std::filesystem::remove(path);
 	}
-	_findclose(handle);
-#else
-	LFRemoveDir(strPathToArt.c_str());
-#endif
+
 	m_AdaBoost.DbgMsg("Done removing old bkground.\n");
 
 }
 
 // создание нового детектора 
-bool TCSBuildDetector::CreateDetector(const char* lpDetectorName)
+bool TCSBuildDetector::CreateDetector(const std::filesystem::path& filePath)
 {
 	if (m_Engine.GetDetector() == NULL)
 	{
@@ -615,32 +583,31 @@ bool TCSBuildDetector::CreateDetector(const char* lpDetectorName)
 		d->SetBaseWidht(m_AdaBoost.WidthBase());
 		m_Engine.AddDetector(d);
 	}
-	return m_Engine.Save(lpDetectorName);
+	return m_Engine.Save(filePath);
 }
 
 int	TCSBuildDetector::GetNumObjects()
 {
-	std::string strPath = m_strOBJ;
-	TLFStrings names;
+	std::vector<std::filesystem::path> filePaths;
 	int count = 0;
-	if (!LFGetDirFiles(strPath, names))
+	if (!LFGetDirFiles(m_strOBJ, filePaths))
 		return 0;
-	for (int i = 0; i < names.size(); i++)
+	for (int i = 0; i < filePaths.size(); i++)
 	{
-		if (!_IsImageFile(names[i]))
+		if (!utils::IsImageFile(filePaths[i]))
 			continue;
 		count++;
 	}
 	return count;
 }
 
-std::string TCSBuildDetector::ConcatIfNeeded(const std::string& path, const std::string& commonPath)
+std::filesystem::path TCSBuildDetector::ConcatIfNeeded(const std::filesystem::path& path, const std::filesystem::path& commonPath)
 {
-	size_t index = path.find(std::string(":") + c_separator);
+	size_t index = path.u8string().find(std::string(":"));
 	if (index == 1) {
 		return path;
 	}
-	return commonPath + path;
+	return commonPath/path;
 }
 
 void		TCSBuildDetector::PrintDetectorInfo()
@@ -825,11 +792,11 @@ Sanner:		[TLFScanner, TLFAllScanner, TLFTileScanner]
 BaseWidth:  width of detector
 BaseHeight: height of detector
 */
-bool TLFBuilder::LoadConfig(const char* fileName)
+bool TLFBuilder::LoadConfig(const std::filesystem::path& filePath)
 {
 	printf("Loading config.\n");
 	TiXmlDocument doc;
-	if (!doc.LoadFile(fileName))
+	if (!doc.LoadFile(filePath.u8string()))
 		return false;
 
 	TiXmlElement* e = doc.FirstChildElement();
@@ -895,28 +862,28 @@ bool TLFBuilder::LoadConfig(const char* fileName)
 		printf("create AdaBoost\n");
 		str = child->Attribute("path");
 		printf("database: %s \n", str.c_str());
-		if (!LFDirExist(str.c_str()))
+		if (!std::filesystem::exists(str))
 		{
 			printf("error: database %s does not exists.\n", str.c_str());
 			return false;
 		}
-		TLFStrings names;
-		LFGetDirFiles(str.c_str(), names);
+		std::vector<std::filesystem::path> names;
+		LFGetDirFiles(str, names);
 		printf("Source data has %i positive items.\n", names.size());
 		int numsamles = names.size();
 		TLFString strBg = str + "\\bg";
-		if (!LFDirExist(strBg.c_str()))
+		if (!std::filesystem::exists(strBg))
 		{
 			printf("error: database of backgroud %s does not exists.\n", strBg.c_str());
 			return false;
 		}
-		LFGetDirFiles(strBg.c_str(), names);
+		LFGetDirFiles(strBg, names);
 		printf("Source data has %i background images.\n", names.size());
 
 		m_strBackGround = strBg;
 		TLFString strNg = str + "\\negative";
-		if (!LFDirExist(strNg.c_str()))
-			LFCreateDir(strNg.c_str());
+		if (!std::filesystem::exists(strNg))
+			std::filesystem::create_directories(strNg);
 
 		// конфигурирование бустинга
 		m_AdaBoost.SetArtefactsBase(strNg);
@@ -950,20 +917,21 @@ bool TLFBuilder::LoadConfig(const char* fileName)
 
 bool TLFBuilder::BuildBackground()
 {
-	TLFString strNegative = m_AdaBoost.GetArtefactsBase();
-	LFRemoveDir(strNegative.c_str());
-	TLFString strPath = m_AdaBoost.GetObjectsBase();
+	auto strNegative = m_AdaBoost.GetArtefactsBase();
+	if (std::filesystem::exists(strNegative))
+		std::filesystem::remove(strNegative);
+	auto strPath = m_AdaBoost.GetObjectsBase();
 
 	ILFObjectDetector* cs = m_detector;
 	m_AdaBoost.DbgMsg("Building new bkground...\n");
 	int nCount = 0;
-	TLFStrings names;
-	if (!LFGetDirFiles(strPath.c_str(), names))
+	std::vector<std::filesystem::path> names;
+	if (!LFGetDirFiles(strPath, names))
 		return false;
 	if (names.size() == 0)
 		return false;
-	TLFStrings bgNames;
-	if (!LFGetDirFiles(m_strBackGround.c_str(), bgNames))
+	std::vector<std::filesystem::path> bgNames;
+	if (!LFGetDirFiles(m_strBackGround, bgNames))
 		return false;
 	if (bgNames.size() == 0)
 		return false;
@@ -972,11 +940,11 @@ bool TLFBuilder::BuildBackground()
 	double rect_ovr;
 	for (int i = 0; i < bgNames.size(); i++)
 	{
-		if (!_IsImageFile(bgNames[i]))
+		if (!utils::IsImageFile(bgNames[i]))
 			continue;
 		count++;
 		//Загрузка
-		std::string strImageName = bgNames[i];
+		std::string strImageName = bgNames[i].u8string();
 
 		TLFImage Image;
 		TLFImage Image1;
@@ -988,7 +956,7 @@ bool TLFBuilder::BuildBackground()
 		awpConvert(Image.GetImage(), AWP_CONVERT_3TO1_BYTE);
 		Image1.SetImage(Image.GetImage());
 		m_detector->GetScanner()->Scan(Image.GetImage()->sSizeX, Image.GetImage()->sSizeY);
-		m_AdaBoost.DbgMsg("Count = " + TypeToStr(count) + " file " + LFGetFileName(bgNames[i]) + " ");
+		m_AdaBoost.DbgMsg("Count = " + TypeToStr(count) + " file " + bgNames[i].stem().u8string() + " ");
 		m_AdaBoost.DbgMsg(TypeToStr(Image.GetImage()->sSizeX) + "x" + TypeToStr(Image.GetImage()->sSizeY) + " ");
 		m_AdaBoost.DbgMsg("Total items = " + TypeToStr(m_detector->GetScanner()->GetFragmentsCount()) + "\n");
 
@@ -1012,8 +980,8 @@ bool TLFBuilder::BuildBackground()
 					if (awpCopyRect(Image1.GetImage(), &Fragment, &r) == AWP_OK)
 					{
 						nCount++;
-						std::string strFragmentName = strNegative + "\\" + TypeToStr(nCount) + ".awp";
-						awpSaveImage(strFragmentName.c_str(), Fragment);
+						auto strFragmentName = strNegative/(TypeToStr(nCount) + ".awp");
+						awpSaveImage(strFragmentName.u8string().c_str(), Fragment);
 						awpReleaseImage(&Fragment);
 						if (nCount >= names.size())
 						{
@@ -1039,8 +1007,8 @@ bool TLFBuilder::BuildBackground()
 				if (awpCopyRect(Image1.GetImage(), &Fragment, &r) == AWP_OK)
 				{
 					nCount++;
-					std::string strFragmentName = strNegative + "\\" + TypeToStr(nCount) + ".awp";
-					awpSaveImage(strFragmentName.c_str(), Fragment);
+					auto strFragmentName = strNegative/(TypeToStr(nCount) + ".awp");
+					awpSaveImage(strFragmentName.u8string().c_str(), Fragment);
 					awpReleaseImage(&Fragment);
 					if (nCount >= names.size())
 					{

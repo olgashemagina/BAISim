@@ -26,7 +26,7 @@ void Usage()
 
 int wmain(int argc, wchar_t* argv[])
 {
-	std::string name;
+	std::filesystem::path filePath;
 	std::wstring key;
 	std::string outName;
 	if ( argc < 2 )
@@ -38,15 +38,15 @@ int wmain(int argc, wchar_t* argv[])
 	if (argc == 2)
 	{
 		key = argv[1];
-		name = "CSBuild.xml";
+		filePath = "CSBuild.xml";
 	}
 	else
 	{
 		key = argv[1];
-		name = LFUnicodeConvertToUtf8(argv[2]);
+		filePath = argv[2];
 	}
-    TCSBuildDetector  Builder;
-	if (!Builder.LoadConfig(name))
+    TCSBuildDetector Builder;
+	if (!Builder.LoadConfig(filePath))
 	{
 		printf("Failed to load config. \n");
 		return 0;
