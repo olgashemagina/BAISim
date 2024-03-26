@@ -64,14 +64,17 @@ class TCSBuildDetector
 protected:
 	// detector 
 	bool			CreateDetector(const char* lpDetectorName);
-	bool			UpdateDetector();
+	bool			UpdateDetector(int cascade = -1);
 	bool		    CheckDetector();
 	//   background
-	bool			BuildBkground();
+	bool			BuildBkground(int cascade = -1);
 	bool			Boost();
 	bool		    BuildDefaultBkGround();
 	void		    RemoveBkground();
 	int				GetNumObjects();
+
+	std::vector<int>	GetFailedCascades();
+
 	std::string		ConcatIfNeeded(const std::string& path, const std::string& commonPath);
 	// ключевые переменные
 	TCSAdaBoost		m_AdaBoost;
@@ -103,6 +106,7 @@ public:
 	void		PrintDetectorInfo();
 	void		AddNewClassifier();
 	bool		Build();
+	bool		PartialUpdate();
 };
 /**
 */
