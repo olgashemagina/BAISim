@@ -45,7 +45,7 @@ bool __fastcall TdictinaryItemDlg::EditItem(TLFSemanticDictinaryItem* item)
     }
 
     Edit1->Text = item->GetItemLabel();
-	int index = ColorGrid1->ColorToIndex(item->GetColor());
+	int index = ColorGrid1->ColorToIndex(TColor(item->GetColor()));
     ColorGrid1->ForegroundIndex = index;
 	Panel1->Color = ColorGrid1->ForegroundColor;
 	ILFScanner* s = item->GetScanner();

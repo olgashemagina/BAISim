@@ -70,7 +70,7 @@ extern "C"
 {
 #include "awpipl.h"
 #ifdef WIN32
-#include <Rpc.h>
+	typedef GUID UUID;
 #else
 #include <uuid/uuid.h>
 	typedef uuid_t UUID;

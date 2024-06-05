@@ -61,6 +61,7 @@
 #include "LFCore.h"
 #include "LFImage.h"
 #include <float.h>
+#include <algorithm>
 #include <math.h>
 
 /** \defgroup LFGeometry

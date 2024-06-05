@@ -6,7 +6,7 @@
 #define BUFFER_SIZE     1000
 #define DETECTORS_COUNT	5
 #define ANGLE 15
-using namespace std;
+//using namespace std;
 
 //------------------------------------------ ILFDetectEngine -------------------------
 ILFDetectEngine::ILFDetectEngine()

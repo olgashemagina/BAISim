@@ -75,7 +75,7 @@ TLFDetectedItem::TLFDetectedItem(awpRect* pRect,
 									int racurs,
 									int bw,
 									int bh,
-									string strDetector,
+									std::string strDetector,
 									UUID id,
 									ILFPredictor* predictor) : TLFObject()
 {

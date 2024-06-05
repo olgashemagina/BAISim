@@ -1056,12 +1056,12 @@ void __fastcall TDbLabeledImages::SplitDatabase(UnicodeString strPath, UnicodeSt
 {
 	srand ( time(NULL) );
     AnsiString str = strPath.c_str();
-	string path 	     =  str.c_str();
+	std::string path 	     =  str.c_str();
 	path += "\\";
     str  = strPath1.c_str();
-	string g_path1       =  str.c_str();
+	std::string g_path1       =  str.c_str();
     str  = strpath2.c_str();
-	string g_path2       =  str.c_str();;
+	std::string g_path2       =  str.c_str();;
 	int g_proc = propValue;
 
 	if (!LFDirExist(g_path1.c_str()))
@@ -1075,11 +1075,11 @@ void __fastcall TDbLabeledImages::SplitDatabase(UnicodeString strPath, UnicodeSt
 	ClearDir(_ansi);
 
 	// copy dictionary
-	string str_dict_name = path;
+	std::string str_dict_name = path;
 	str_dict_name += "\\dictionary.xml";
 	if (LFFileExists(str_dict_name))
 	{
-		string str_dst_dict_name = g_path1;
+		std::string str_dst_dict_name = g_path1;
 		str_dst_dict_name += "\\dictionary.xml";
 		UnicodeString _unic1 = str_dict_name.c_str();
 		UnicodeString _unic2 = str_dst_dict_name.c_str();
@@ -1098,7 +1098,7 @@ void __fastcall TDbLabeledImages::SplitDatabase(UnicodeString strPath, UnicodeSt
 	{
 		do
 		{
-			string name = path + filesInfo.name;
+			std::string name = path + filesInfo.name;
 			TLFImage image;
 			UnicodeString _unicode = name.c_str();
 			if (!_IsImageFile(_unicode))
@@ -1157,7 +1157,7 @@ int __fastcall TDbLabeledImages::GetNumLabels()
 void __fastcall TDbLabeledImages::ClearDatabase()
 {
     m_db.SetProgress(_progress);
-    m_db.ClearDatabase();
+	m_db.ClearDatabase();
     m_db.SetProgress(NULL);
 }
 

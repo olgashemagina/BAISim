@@ -280,14 +280,38 @@ unsigned long LFGetTickCount()
 }
 
 
-#ifdef WIN32 
+#ifdef WIN32
+#include <filesystem>
+namespace fs = std::filesystem;
 static bool _LFGetDirNamesWindows(const std::string& lpDir, TLFStrings& names)
 {
+
+	//const std::wstring dirPath = LFUtf8ConvertToUnicode(lpDir);
+	//std::wstring strPath = LFConcatPath(dirPath, L"*.*");
+	const fs::path cur_dir{lpDir};
+	if(fs::is_empty(cur_dir))
+		return false;
+	else
+	{
+		for (const auto &f : fs::directory_iterator(cur_dir))
+		{
+			if (is_regular_file(status(f)))
+			{
+				std::string tmp = f.path().string();
+				names.push_back(tmp);
+			}
+		}
+		return true;
+	}
+/*	_wfinddata_t filesInfo;
+
 #ifdef _USE_UNICODE_VS_
 	const std::wstring dirPath = LFUtf8ConvertToUnicode(lpDir);
 	std::wstring strPath = LFConcatPath(dirPath, L"*.*");
 	_wfinddata_t filesInfo;
+
 	intptr_t handle = 0;
+
 	if ((handle = _wfindfirst(const_cast<wchar_t*>(strPath.c_str()), &filesInfo)) != -1)
 	{
 		do
@@ -300,6 +324,10 @@ static bool _LFGetDirNamesWindows(const std::string& lpDir, TLFStrings& names)
 	}
 	else
 		return false;
+
+
+	return true;
+=======
 #else
 	_finddata_t filesInfo;
 	intptr_t handle = 0;
@@ -319,12 +347,13 @@ static bool _LFGetDirNamesWindows(const std::string& lpDir, TLFStrings& names)
 		return false;
 #endif
 	
-	return true;
+	return true;*/
+
 }
 #else
 static bool _LFGetDirNamesLinux(const char* lpDir, TLFStrings& names)
 {
-    //printf("enter _LFGetDirNamesLinux \n");
+	//printf("enter _LFGetDirNamesLinux \n");
     DIR *dir;
     struct dirent *entry;
 	std::string path = lpDir;

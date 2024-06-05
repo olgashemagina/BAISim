@@ -1,0 +1,10 @@
+C:/work/BAISim/3rdparty/zlib/CMakeFiles/zlib.dir
+C:/work/BAISim/3rdparty/zlib/CMakeFiles/zlibstatic.dir
+C:/work/BAISim/3rdparty/zlib/CMakeFiles/example.dir
+C:/work/BAISim/3rdparty/zlib/CMakeFiles/minigzip.dir
+C:/work/BAISim/3rdparty/zlib/CMakeFiles/test.dir
+C:/work/BAISim/3rdparty/zlib/CMakeFiles/edit_cache.dir
+C:/work/BAISim/3rdparty/zlib/CMakeFiles/rebuild_cache.dir
+C:/work/BAISim/3rdparty/zlib/CMakeFiles/list_install_components.dir
+C:/work/BAISim/3rdparty/zlib/CMakeFiles/install.dir
+C:/work/BAISim/3rdparty/zlib/CMakeFiles/install/local.dir

@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.248,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_jpeg.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.357,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_thunder.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.373,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_warning.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.288,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_next.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.399,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_zip.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.189,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_extension.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.386,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_win32.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.141,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_dirinfo.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.100,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_aux.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.237,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_jbig.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.305,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_open.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.351,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_swab.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.282,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_lzw.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.332,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_print.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.083,=C:\work\BAISim\3rdparty\libtiff\libtiff\mkg3states.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.362,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_tile.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.274,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_lzma.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.367,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_version.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.261,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_lerc.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.216,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_flush.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.117,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_color.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.319,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_pixarlog.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.393,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_write.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.092,=C:\work\BAISim\3rdparty\libtiff\libtiff\mkspans.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.346,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_strip.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.340,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_read.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.178,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_dumpmode.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.254,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_jpeg_12.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.299,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_ojpeg.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.106,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_close.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.405,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_zstd.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.379,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_webp.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.325,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_predict.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.531,C:\Users\olgas\Documents\Embarcadero\Studio\Projects\Project1.cbproj=C:\Users\olgas\Documents\Embarcadero\Studio\Projects\libtiff.cbproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.123,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_compress.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.311,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_packbits.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.160,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_dirread.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.210,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_fax3sm.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.132,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_dir.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.172,C:\Users\olgas\Documents\Embarcadero\Studio\Projects\libtiff.cbproj=C:\work\BAISim\3rdparty\libtiff\libtiff.cbproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.268,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_luv.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.173,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_dirwrite.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.198,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_fax3.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.139,C:\work\BAISim\3rdparty\libtiff\libtiff.cbproj=C:\work\BAISim\3rdparty\libtiff\tifflib.cbproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.111,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_codec.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.225,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_getimage.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.231,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_hash_set.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.184,=C:\work\BAISim\3rdparty\libtiff\libtiff\tif_error.c</Transaction>
+  </Transactions>
+</BorlandProject>

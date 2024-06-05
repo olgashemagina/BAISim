@@ -273,7 +273,7 @@ void TLFDBLabeledImages::GetFarHST(TLFDetectEngine& engine, TLFHistogramm& hst, 
 	for (int i = 0; i < m_dataFiles.GetCount(); i++)
 	{
 		TLFDBSemanticDescriptor* d = (TLFDBSemanticDescriptor*)m_dataFiles.Get(i);
-		string strImageName = d->GetImageFile();
+		std::string strImageName = d->GetImageFile();
 		TLFImage img;
 		if (!img.LoadFromFile(strImageName.c_str()))
 			continue;
@@ -336,7 +336,7 @@ void TLFDBLabeledImages::GetFrrHST(TLFDetectEngine& engine, TLFHistogramm& hst, 
 	for (int i = 0; i < m_dataFiles.GetCount(); i++)
 	{
 		TLFDBSemanticDescriptor* d = (TLFDBSemanticDescriptor*)m_dataFiles.Get(i);
-		string strImageName = d->GetImageFile();
+		std::string strImageName = d->GetImageFile();
 		TLFImage img;
 		if (!img.LoadFromFile(strImageName.c_str()))
 			continue;
@@ -399,7 +399,7 @@ void TLFDBLabeledImages::GetFarFrrHST(TLFDetectEngine& engine, TLFHistogramm& fa
 	for (int i = 0; i < m_dataFiles.GetCount(); i++)
 	{
 		TLFDBSemanticDescriptor* d = (TLFDBSemanticDescriptor*)m_dataFiles.Get(i);
-		string strImageName = d->GetImageFile();
+		std::string strImageName = d->GetImageFile();
 		TLFImage img;
 		if (!img.LoadFromFile(strImageName.c_str()))
 			continue;
@@ -461,7 +461,7 @@ void TLFDBLabeledImages::GetFarFrr(TLFDetectEngine& engine, double& Far, double&
 	for (int i = 0; i < m_dataFiles.GetCount(); i++)
 	{
 		TLFDBSemanticDescriptor* d = (TLFDBSemanticDescriptor*)m_dataFiles.Get(i);
-		string strImageName = d->GetImageFile();
+		std::string strImageName = d->GetImageFile();
 		printf("processing: %s\n", strImageName.c_str());
 		TLFImage img;
 		img.LoadFromFile(strImageName.c_str());
@@ -504,7 +504,7 @@ void TLFDBLabeledImages::CheckEngine(TLFDetectEngine& engine, double overlap)
 		TLFDBSemanticDescriptor* d = (TLFDBSemanticDescriptor*)m_dataFiles.Get(i);
 		if (d == NULL)
 			continue;
-		string strImageName = d->GetImageFile();
+		std::string strImageName = d->GetImageFile();
 		printf("processing: %s\n", strImageName.c_str());
 		TLFImage img;
 		img.LoadFromFile(strImageName.c_str());
@@ -552,8 +552,8 @@ void TLFDBLabeledImages::SetLabel(const char* label)
 			TLFDetectedItem* item = d->GetDetectedItem(j);
 			item->SetType(label);
 		}
-		string fname = d->GetImageFile();
-		string ext = ".xml";
+		std::string fname = d->GetImageFile();
+		std::string ext = ".xml";
 		d->SaveXML(LFChangeFileExt(fname, ext).c_str());
 	}
 

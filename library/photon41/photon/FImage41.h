@@ -170,9 +170,9 @@ class TForm1 : public TForm // дальше все без изменений, твоя форма не трогается
 	END_MESSAGE_MAP(TCustomControl)
 
 public:
-	__fastcall                  TPhImage(TComponent* Owner);
-	__fastcall                  TPhImage(HWND Parent);
-	__fastcall virtual          ~TPhImage();
+	__fastcall TPhImage(TComponent* Owner);
+	__fastcall TPhImage(HWND Parent);
+	virtual         __fastcall  ~TPhImage();
 
 	// ====================operations========================================
 	virtual bool __fastcall         Init(TStrings* Names);

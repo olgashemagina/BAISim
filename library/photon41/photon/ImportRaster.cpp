@@ -60,7 +60,7 @@ void __fastcall TImageDecoder::NextScalLine()
     Purpose:  Конструктор класса TImportRaster
     Comments: Инициализирует внутренние переменные
 ---------------------------------------------------------------------------*/
-__fastcall TImportRaster::TImportRaster()
+TImportRaster::TImportRaster()
 {
      FBitmap  = NULL;
      FDecoder = NULL;
@@ -71,7 +71,7 @@ __fastcall TImportRaster::TImportRaster()
     Purpose:  Конструктор класса TImportRaster
     Comments: Инициализирует внутренние переменные
 ---------------------------------------------------------------------------*/
-__fastcall TImportRaster::TImportRaster(const AnsiString& FileName)
+TImportRaster::TImportRaster(const AnsiString& FileName)
 {
     SetFileName(FileName);
 }
@@ -82,7 +82,7 @@ __fastcall TImportRaster::TImportRaster(const AnsiString& FileName)
     Purpose:  Деструктор класса TImportRaster
     Comments: Предназначен для удаления объекта Decoder если тот был создан
 ---------------------------------------------------------------------------*/
-__fastcall TImportRaster::~TImportRaster()
+TImportRaster::~TImportRaster()
 {
    if (FDecoder != NULL)
    {
@@ -192,12 +192,12 @@ void __fastcall TImportRaster::SetFileName(AnsiString FileName)
   {
         AnsiString strExt = ExtractFileExt(FileName);
         strExt = strExt.UpperCase();
-       if (strExt == ".TIFF" || strExt == ".TIF")
-            FDecoder = new TTiffDecoder(FileName);
-        else if (strExt == ".PNG")
+	   if (strExt == ".TIFF" || strExt == ".TIF")
+			FDecoder = new TTiffDecoder(FileName);
+		else if (strExt == ".PNG")
             FDecoder = new TPngDecoder(FileName);
         else  //todo: add another file formats
-            throw   Exception("Invalid file format");
+			throw   Exception("Invalid file format");
   }
   catch(const Exception& e)// <-- catch exeptions
   {

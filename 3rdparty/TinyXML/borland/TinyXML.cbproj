@@ -75,7 +75,6 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
-        <BCC_UserSuppliedOptions> -tWM -Vx -Ve</BCC_UserSuppliedOptions>
         <BRCC_Defines>_RTLDLL;$(BRCC_Defines)</BRCC_Defines>
         <TASM_Defines>_RTLDLL;$(TASM_Defines)</TASM_Defines>
     </PropertyGroup>
@@ -100,9 +99,9 @@
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <TLIB_PageSize>32</TLIB_PageSize>
         <Manifest_File>None</Manifest_File>
-        <BCC_UserSuppliedOptions> -tWM -Vx -Ve -k</BCC_UserSuppliedOptions>
         <BCC_Defines>_DEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
         <FinalOutputDir>..\..\..\build\lib\borland\Win32\Debug\</FinalOutputDir>
+        <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_AdditionalSwitches> -N0..\obj\ -M -$O+</DCC_AdditionalSwitches>
@@ -110,7 +109,6 @@
         <IntermediateOutputDir>Release_Build</IntermediateOutputDir>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <BCC_UserSuppliedOptions> -tWM -Vx -Ve -r</BCC_UserSuppliedOptions>
         <BCC_Defines>NDEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
         <FinalOutputDir>..\..\lib\x86\Release\borland\</FinalOutputDir>
     </PropertyGroup>

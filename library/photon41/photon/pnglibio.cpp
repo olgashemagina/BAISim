@@ -54,7 +54,7 @@ void __fastcall TPngDecoder::Init(){
     * PNG file before the first IDAT (image data chunk).  REQUIRED
     */
     png_read_info(png_ptr, info_ptr);
-    unsigned long width, hight;
+    png_uint_32 width, hight;
     png_get_IHDR(png_ptr, info_ptr, &width, &hight, &iBitDepth, &iColorType,
         NULL, NULL, NULL);
     FWidth = width;
@@ -111,7 +111,7 @@ void __fastcall TPngDecoder::Init(){
         NULL, NULL, NULL);
     FWidth = width; FNumScanLines = hight;
     FBufferSize = png_get_rowbytes(png_ptr, info_ptr);
-    FScanBuffer = new char[FBufferSize];
+    FScanBuffer = new unsigned char[FBufferSize];
     if(width>0x7fff||hight>0x7fff)
         throw Exception( "Format not supported" );
 

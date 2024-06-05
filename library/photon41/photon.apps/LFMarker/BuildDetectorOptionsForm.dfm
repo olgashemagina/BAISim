@@ -53,7 +53,7 @@ object CSBuildOptions: TCSBuildOptions
     Top = 0
     Width = 417
     Height = 257
-    ActivePage = Learning_page
+    ActivePage = DB_page
     TabOrder = 1
     OnChange = PageControl1Change
     object DB_page: TTabSheet
@@ -435,6 +435,7 @@ object CSBuildOptions: TCSBuildOptions
     end
   end
   object SaveDialog1: TSaveDialog
+    DefaultExt = 'xml'
     Filter = 'xml|*.xml'
     Left = 368
     Top = 216
