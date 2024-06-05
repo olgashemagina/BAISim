@@ -380,6 +380,7 @@ AWPRESULT _awpSaveAWPImage(const char* lpFileName, awpImage* pImage)
 #else
     f = fopen(lpFileName, "w+b");
 #endif
+
 //	wstr = (wchar_t*)malloc(wchars_num * sizeof(wchar_t));
 //	wchars_num = MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, NULL, 0);
 //
@@ -392,6 +393,7 @@ AWPRESULT _awpSaveAWPImage(const char* lpFileName, awpImage* pImage)
 		res = AWP_CREATE_FILE_ERROR;
 		_ERR_EXIT_
 	}
+
 
     _CHECK_RESULT_((res = awpGetImageSize(pImage, &isize)))
 
@@ -508,6 +510,7 @@ AWPRESULT _awpLoadJPEGImage(const char* lpFileName, awpImage** ppImage)
  //   res = AWP_OK;/*initialize result */
 	infile=NULL;
 
+
 	if (lpFileName == NULL){
 		res = AWP_BADARG;
 		_ERR_EXIT_
@@ -519,6 +522,7 @@ AWPRESULT _awpLoadJPEGImage(const char* lpFileName, awpImage** ppImage)
 //
 //	infile = _wfopen(wstr, L"rb");
 //	free(wstr);
+
 #ifdef _USE_UNICODE_VS_
     const int wchars_num = MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, NULL, 0);
     wchar_t* wstr = (wchar_t*)malloc(wchars_num * sizeof(wchar_t));
@@ -788,13 +792,16 @@ jpeg_buffer_dest (j_compress_ptr cinfo,char* buffer, AWPINT len )
     AWPINT row_stride;		/* physical row width in output buffer */
 
 
+
 	infile=NULL;
 
 	if (lpFileName == NULL){
 		res = AWP_BADARG;
 		_ERR_EXIT_
 	}
- #ifdef _USE_UNICODE_VS_
+
+#ifdef _USE_UNICODE_VS_
+
     const int wchars_num = MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, NULL, 0);
     wchar_t* wstr = (wchar_t*)malloc(wchars_num * sizeof(wchar_t));
     MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, wstr, wchars_num);
@@ -804,12 +811,14 @@ jpeg_buffer_dest (j_compress_ptr cinfo,char* buffer, AWPINT len )
 #else
     infile = fopen(lpFileName, "rb");
 #endif
+
 //	wchars_num = MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, NULL, 0);
 //	wstr = (wchar_t*)malloc(wchars_num * sizeof(wchar_t));
 //	MultiByteToWideChar(CP_UTF8, 0, lpFileName, -1, wstr, wchars_num);
 //
 //	infile = _wfopen(wstr, L"rb");
 //	free(wstr);
+
     if (infile == NULL){
         res = AWP_OPEN_FILE_ERROR;
         _ERR_EXIT_

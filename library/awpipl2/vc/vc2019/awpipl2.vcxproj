@@ -177,7 +177,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>..\..\include\;..\..\include\_include;%(AdditionalIncludeDirectories);..\..\..\jpeg-6b\src;..\..\..\jpeg-6b\src;..\..\..\jpeg-6b\src</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;NDEBUG;_LIB;WIN32;%(PreprocessorDefinitions);HAVE_JPEG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_USE_UNICODE_VS_;WIN64;NDEBUG;_LIB;WIN32;%(PreprocessorDefinitions);HAVE_JPEG</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -208,7 +208,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN34;_DEBUG;_LIB;WIN32;%(PreprocessorDefinitions);HAVE_JPEG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_USE_UNICODE_VS_;WIN34;_DEBUG;_LIB;WIN32;%(PreprocessorDefinitions);HAVE_JPEG</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>

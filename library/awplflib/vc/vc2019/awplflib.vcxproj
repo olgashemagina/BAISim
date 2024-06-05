@@ -182,7 +182,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>TIXML_USE_STL;_DEBUG;_LIB;WIN32;_WIN64;LOAD_FROM_STREAM;_CRT_SECURE_NO_WARNINGS;_OMP_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_USE_UNICODE_VS_;TIXML_USE_STL;_DEBUG;_LIB;WIN32;_WIN64;LOAD_FROM_STREAM;_CRT_SECURE_NO_WARNINGS;_OMP_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <ExceptionHandling>Sync</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -224,7 +224,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>..\..\..\TinyXML;..\..\..\awpipl2\include;..\..\include;..\..\..\TinyXML\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>TIXML_USE_STL;NDEBUG;_LIB;WIN64;WIN32;TIXML_USE_STL;_OMP_;%(PreprocessorDefinitions);LOAD_FROM_STREAM;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_USE_UNICODE_VS_;TIXML_USE_STL;NDEBUG;_LIB;WIN64;WIN32;TIXML_USE_STL;_OMP_;%(PreprocessorDefinitions);LOAD_FROM_STREAM;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>

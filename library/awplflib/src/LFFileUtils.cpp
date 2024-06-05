@@ -157,13 +157,14 @@ bool LFDirExist(const char* lpPath)
 bool LFRemoveDir(const char* lpPath)
 {
 #ifdef WIN32
+#ifdef _USE_UNICODE_VS_
 	std::wstring dirPath = LFUtf8ConvertToUnicode(lpPath);
 	std::wstring strPath = LFConcatPath(dirPath, L"*.*");
 
 	_wfinddata_t filesInfo;
 	intptr_t handle = 0;
 
-/*	if ((handle = _wfindfirst(strPath.c_str(), &filesInfo)) != -1)
+	if ((handle = _wfindfirst(strPath.c_str(), &filesInfo)) != -1)
 	{
 		do
 		{
@@ -171,7 +172,25 @@ bool LFRemoveDir(const char* lpPath)
 			DeleteFileW(strImageName.c_str());
 		} while (!_wfindnext(handle, &filesInfo));
 	}
-	_findclose(handle);   */
+	_findclose(handle);
+#else
+	TLFString strPath = lpPath;
+	strPath += "\\*.*";
+
+	_finddata_t filesInfo;
+	intptr_t handle = 0;
+
+	if ((handle = _findfirst((char*)strPath.c_str(), &filesInfo)) != -1)
+	{
+		do
+		{
+			TLFString s = lpPath;
+			TLFString strImageName = s + "\\" + filesInfo.name;
+			DeleteFileA(strImageName.c_str());
+		} while (!_findnext(handle, &filesInfo));
+	}
+	_findclose(handle);
+#endif
 	return true;
 #else
 	const char *com = "exec rm -r ";
@@ -266,6 +285,7 @@ unsigned long LFGetTickCount()
 namespace fs = std::filesystem;
 static bool _LFGetDirNamesWindows(const std::string& lpDir, TLFStrings& names)
 {
+
 	//const std::wstring dirPath = LFUtf8ConvertToUnicode(lpDir);
 	//std::wstring strPath = LFConcatPath(dirPath, L"*.*");
 	const fs::path cur_dir{lpDir};
@@ -284,6 +304,12 @@ static bool _LFGetDirNamesWindows(const std::string& lpDir, TLFStrings& names)
 		return true;
 	}
 /*	_wfinddata_t filesInfo;
+
+#ifdef _USE_UNICODE_VS_
+	const std::wstring dirPath = LFUtf8ConvertToUnicode(lpDir);
+	std::wstring strPath = LFConcatPath(dirPath, L"*.*");
+	_wfinddata_t filesInfo;
+
 	intptr_t handle = 0;
 
 	if ((handle = _wfindfirst(const_cast<wchar_t*>(strPath.c_str()), &filesInfo)) != -1)
@@ -299,7 +325,30 @@ static bool _LFGetDirNamesWindows(const std::string& lpDir, TLFStrings& names)
 	else
 		return false;
 
+
+	return true;
+=======
+#else
+	_finddata_t filesInfo;
+	intptr_t handle = 0;
+	std::string path = lpDir;
+	path += c_separator;
+	if ((handle = _findfirst((char*)((path + "*.*").c_str()), &filesInfo)) != -1)
+	{
+		do
+		{
+			std::string name = path + filesInfo.name;
+			names.push_back(name);
+
+		} while (!_findnext(handle, &filesInfo));
+		_findclose(handle);
+	}
+	else
+		return false;
+#endif
+	
 	return true;*/
+
 }
 #else
 static bool _LFGetDirNamesLinux(const char* lpDir, TLFStrings& names)
