@@ -1244,7 +1244,7 @@ bool TIEFSAdaBoost::Load(const char* lpFileName)
 	std::string str = e->Attribute("log");
 
 	if (m_pLog == NULL)
-		m_pLog = new ofstream(str.c_str());
+		m_pLog = new std::ofstream(str.c_str());
 
 	return LoadSamples();
 }
