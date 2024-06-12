@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------
 #include <vcl.h>
-#include <Clipbrd.hpp>
+#include <Vcl.Clipbrd.hpp>
 #include <math.hpp>
 #include "FImage41.h"
 #include "DIBImage41.h"
@@ -706,20 +706,24 @@ void __fastcall TPhImage::MoveBy(int in_dX, int in_dY)
       return;
 
    if ( m_Bitmap->Width * m_Scale > Width )
+   {
       if ( m_StartPoint.x + dX > m_Bitmap->Width - Width/m_Scale )
          m_StartPoint.x = m_Bitmap->Width - Width/m_Scale;
 	  else if (m_StartPoint.x + dX < 0)
          m_StartPoint.x = 0;
       else
          m_StartPoint.x += dX;
+   }
          
    if ( m_Bitmap->Height * m_Scale > Height )
+   {
       if ( m_StartPoint.y - dY > m_Bitmap->Height - Height/m_Scale )
          m_StartPoint.y = m_Bitmap->Height - Height/m_Scale;
       else if (m_StartPoint.y - dY < 0)
          m_StartPoint.y = 0;
       else
          m_StartPoint.y -= dY;
+   }
 
    Paint();
    if (m_PosChange)

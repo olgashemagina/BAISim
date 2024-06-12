@@ -455,7 +455,8 @@ void TLFDBLabeledImages::GetFarFrr(TLFDetectEngine& engine, double& Far, double&
 	Frr = 0;
 	if (GetItemsCount() == 0)
 		return;
-    int num_fragments = 0;
+	int num_fragments = 0;
+	int num_founded = 0;
 	unsigned long  ptime = 0;
 	unsigned long  ctime;// = 0;
 	for (int i = 0; i < m_dataFiles.GetCount(); i++)
@@ -471,6 +472,7 @@ void TLFDBLabeledImages::GetFarFrr(TLFDetectEngine& engine, double& Far, double&
 		ILFScanner* sc = engine.GetScanner();
 		num_fragments += sc->GetFragmentsCount();
 		TLFSemanticImageDescriptor* d1 = engine.GetSemantic();
+		num_founded += d1->GetCount();
 		Far += d1->Compare(d, overlap);
 		double a = d->Compare(d1, overlap);
 		if (a > 0)
@@ -490,7 +492,8 @@ void TLFDBLabeledImages::GetFarFrr(TLFDetectEngine& engine, double& Far, double&
 	printf("\n");
 	t = ptime / this->GetImagesCount();
 	FFar = Far / num_fragments;
-	Far /= GetItemsCount();
+	//Far /= GetItemsCount();
+	Far /= num_founded;
 	Frr /= GetItemsCount();
 }
 

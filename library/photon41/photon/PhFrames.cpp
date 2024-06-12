@@ -65,6 +65,7 @@ bool TPhFrames::Init(TStrings* names)
     }
     else
         return false;
+    return true;
 }
 void TPhFrames::Close()
 {

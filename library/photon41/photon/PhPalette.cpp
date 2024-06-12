@@ -1,6 +1,7 @@
 //---------------------------------------------------------------------------
 
 #include <vcl.h>
+#include <Vcl.Controls.hpp>
 #pragma hdrstop
 #include "PhPalette.h"
 #include "awpipl.h"

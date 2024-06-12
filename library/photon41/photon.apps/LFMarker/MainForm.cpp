@@ -842,6 +842,7 @@ void __fastcall TForm1::DrawScene()
 	DrawFarthestOverlaps(cnv);
 	DrawOverlaps(cnv);
 	DrawRois(cnv);
+
 }
 
 void __fastcall TForm1::FImage1Pane(TObject *Sender)
@@ -862,7 +863,7 @@ void __fastcall TForm1::DrawRois(TCanvas* cnv)
     if (cnv == NULL)
         return;
 
-    TBrushStyle bstyle = cnv->Brush->Style;
+	TBrushStyle bstyle = cnv->Brush->Style;
     cnv->Brush->Style = bsClear;
     TColor penColor = cnv->Pen->Color;
 	cnv->Pen->Color = clLime;
@@ -880,11 +881,12 @@ void __fastcall TForm1::DrawRois(TCanvas* cnv)
 				TRect rect;
 				rect.init(r.left, r.top, r.right, r.bottom);
 				TRect Rect2 = PhImage2->GetScreenRect(rect); //FImage1->GetScreenRect(rect);
-                cnv->Rectangle(Rect2);
+				cnv->Rectangle(Rect2);
 		   //		rect.init(re.X - 2, re.Y - 2, re.X + 2, re.Y + 2);
 		   //     Rect2 = PhImage2->GetScreenRect(rect);
 		   //     cnv->Rectangle(Rect2);
-          }
+
+		  }
 
     }
 
@@ -911,6 +913,14 @@ void __fastcall TForm1::DrawObjects(TCanvas* cnv)
 		TLFDetectedItem* di = m_ObjectEngine.GetItem(i);
 		cnv->Pen->Color = clLime;
 		cnv->Rectangle(Rect2);
+
+		awpRect r;
+		r.left = Rect2.left;
+		r.top = Rect2.top;
+		r.right = r.left + Rect2.Width();
+		r.bottom = r.top + Rect2.Height();
+		if (EngineViewForm->Visible)
+			EngineViewForm->DrawEngine(&r);
 	}
 	cnv->Font->Color = clLime;
     cnv->TextOutW(10,10, "Min size = ");
@@ -1523,7 +1533,7 @@ void __fastcall TForm1::FImage1MouseMove(TObject *Sender, TShiftState Shift, int
 void __fastcall TForm1::ModeSelectRectActionExecute(TObject *Sender)
 {
 	PhImage2->SelectPhTool(PhSelRectTool1);
-    PhImage2->Paint();
+	PhImage2->Paint();
 }
 //---------------------------------------------------------------------------
 //
@@ -1555,7 +1565,7 @@ void __fastcall TForm1::ImageCropActionExecute(TObject *Sender)
     PhImage2->GetAwpImage(&pImage);
     if (pImage != NULL)
     {
-      TRect r = PhImage2->GetSelRect();
+	  TRect r = PhImage2->GetSelRect();
 	  awpRect rect = TRect2awpRect(r);
       awpImage* fragment = NULL;
       if (awpCopyRect(pImage, &fragment, &rect) == AWP_OK)

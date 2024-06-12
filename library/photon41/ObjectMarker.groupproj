@@ -3,20 +3,20 @@
         <ProjectGuid>{63227B8F-0845-499D-96C9-540DC7C145BB}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
+        <Projects Include="photon41.cbproj">
+            <Dependencies>..\awpipl2\borland\awpipl2b.cbproj;..\awplflib\borland\awplflibb.cbproj</Dependencies>
+        </Projects>
         <Projects Include="..\awpipl2\borland\awpipl2b.cbproj">
             <Dependencies/>
         </Projects>
         <Projects Include="..\awplflib\borland\awplflibb.cbproj">
             <Dependencies>..\awpipl2\borland\awpipl2b.cbproj</Dependencies>
         </Projects>
-        <Projects Include="photon41.cbproj">
-            <Dependencies>..\awpipl2\borland\awpipl2b.cbproj;..\awplflib\borland\awplflibb.cbproj</Dependencies>
-        </Projects>
-        <Projects Include="photon.apps\LFMarker\ObjectsMarker.cbproj">
-            <Dependencies>..\awpipl2\borland\awpipl2b.cbproj;..\awplflib\borland\awplflibb.cbproj;photon41.cbproj;..\..\3rdparty\jpeg-6b\borland\JPEGLIB.cbproj;..\..\3rdparty\TinyXML\borland\TinyXML.cbproj;..\..\3rdparty\libtiff\tifflib.cbproj;..\..\3rdparty\zlib\zlib.cbproj;..\..\3rdparty\libpng\libpng.cbproj</Dependencies>
-        </Projects>
         <Projects Include="..\..\3rdparty\jpeg-6b\borland\JPEGLIB.cbproj">
             <Dependencies/>
+        </Projects>
+        <Projects Include="photon.apps\LFMarker\ObjectsMarker.cbproj">
+            <Dependencies>..\awpipl2\borland\awpipl2b.cbproj;..\awplflib\borland\awplflibb.cbproj</Dependencies>
         </Projects>
         <Projects Include="..\..\3rdparty\TinyXML\borland\TinyXML.cbproj">
             <Dependencies/>
@@ -38,6 +38,15 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
+    <Target Name="photon41" DependsOnTargets="awpipl2b;awplflibb">
+        <MSBuild Projects="photon41.cbproj"/>
+    </Target>
+    <Target Name="photon41:Clean" DependsOnTargets="awpipl2b:Clean;awplflibb:Clean">
+        <MSBuild Projects="photon41.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="photon41:Make" DependsOnTargets="awpipl2b:Make;awplflibb:Make">
+        <MSBuild Projects="photon41.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="awpipl2b">
         <MSBuild Projects="..\awpipl2\borland\awpipl2b.cbproj"/>
     </Target>
@@ -56,24 +65,6 @@
     <Target Name="awplflibb:Make" DependsOnTargets="awpipl2b:Make">
         <MSBuild Projects="..\awplflib\borland\awplflibb.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="photon41" DependsOnTargets="awpipl2b;awplflibb">
-        <MSBuild Projects="photon41.cbproj"/>
-    </Target>
-    <Target Name="photon41:Clean" DependsOnTargets="awpipl2b:Clean;awplflibb:Clean">
-        <MSBuild Projects="photon41.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="photon41:Make" DependsOnTargets="awpipl2b:Make;awplflibb:Make">
-        <MSBuild Projects="photon41.cbproj" Targets="Make"/>
-    </Target>
-    <Target Name="ObjectsMarker" DependsOnTargets="awpipl2b;awplflibb;photon41;JPEGLIB;TinyXML;tifflib;zlib;libpng">
-        <MSBuild Projects="photon.apps\LFMarker\ObjectsMarker.cbproj"/>
-    </Target>
-    <Target Name="ObjectsMarker:Clean" DependsOnTargets="awpipl2b:Clean;awplflibb:Clean;photon41:Clean;JPEGLIB:Clean;TinyXML:Clean;tifflib:Clean;zlib:Clean;libpng:Clean">
-        <MSBuild Projects="photon.apps\LFMarker\ObjectsMarker.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="ObjectsMarker:Make" DependsOnTargets="awpipl2b:Make;awplflibb:Make;photon41:Make;JPEGLIB:Make;TinyXML:Make;tifflib:Make;zlib:Make;libpng:Make">
-        <MSBuild Projects="photon.apps\LFMarker\ObjectsMarker.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="JPEGLIB">
         <MSBuild Projects="..\..\3rdparty\jpeg-6b\borland\JPEGLIB.cbproj"/>
     </Target>
@@ -82,6 +73,15 @@
     </Target>
     <Target Name="JPEGLIB:Make">
         <MSBuild Projects="..\..\3rdparty\jpeg-6b\borland\JPEGLIB.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="ObjectsMarker" DependsOnTargets="awpipl2b;awplflibb">
+        <MSBuild Projects="photon.apps\LFMarker\ObjectsMarker.cbproj"/>
+    </Target>
+    <Target Name="ObjectsMarker:Clean" DependsOnTargets="awpipl2b:Clean;awplflibb:Clean">
+        <MSBuild Projects="photon.apps\LFMarker\ObjectsMarker.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ObjectsMarker:Make" DependsOnTargets="awpipl2b:Make;awplflibb:Make">
+        <MSBuild Projects="photon.apps\LFMarker\ObjectsMarker.cbproj" Targets="Make"/>
     </Target>
     <Target Name="TinyXML">
         <MSBuild Projects="..\..\3rdparty\TinyXML\borland\TinyXML.cbproj"/>
@@ -120,13 +120,13 @@
         <MSBuild Projects="..\..\3rdparty\libpng\libpng.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="awpipl2b;awplflibb;photon41;ObjectsMarker;JPEGLIB;TinyXML;tifflib;zlib;libpng"/>
+        <CallTarget Targets="photon41;awpipl2b;awplflibb;JPEGLIB;ObjectsMarker;TinyXML;tifflib;zlib;libpng"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="awpipl2b:Clean;awplflibb:Clean;photon41:Clean;ObjectsMarker:Clean;JPEGLIB:Clean;TinyXML:Clean;tifflib:Clean;zlib:Clean;libpng:Clean"/>
+        <CallTarget Targets="photon41:Clean;awpipl2b:Clean;awplflibb:Clean;JPEGLIB:Clean;ObjectsMarker:Clean;TinyXML:Clean;tifflib:Clean;zlib:Clean;libpng:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="awpipl2b:Make;awplflibb:Make;photon41:Make;ObjectsMarker:Make;JPEGLIB:Make;TinyXML:Make;tifflib:Make;zlib:Make;libpng:Make"/>
+        <CallTarget Targets="photon41:Make;awpipl2b:Make;awplflibb:Make;JPEGLIB:Make;ObjectsMarker:Make;TinyXML:Make;tifflib:Make;zlib:Make;libpng:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

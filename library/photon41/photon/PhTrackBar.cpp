@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
 #include <vcl.h>
-
+#include <Vcl.Controls.hpp>
 #pragma hdrstop
 
 #include "PhTrackBar.h"

@@ -108,6 +108,31 @@ void __fastcall TEngineViewForm::PaintBox1Paint(TObject *Sender)
 	this->DrawEngine();
 }
 //---------------------------------------------------------------------------
+
+static int tn[9][40] = {
+{1, 1,1,1,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{1, 0,1,1,0,1,1,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{1, 0,1,1,1,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0, 0,1,0,0,1,0,1,0,1,0,0,0,1,0,1,1,1,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{1, 1,0,1,1,0,1,1,0,1,0,1,0,1,0,1,1,0,1,1,1,0,1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0},
+{0, 1,0,0,1,1,0,0,0,1,1,0,1,0,1,0,1,1,0,0,0,0,1,1,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0},
+{1, 0,0,1,1,0,1,1,0,0,1,1,1,0,1,1,0,1,0,1,0,1,1,0,0,0,0,1,0,0,1,0,0,1,0,1,1,1,0,0},
+{0, 1,0,1,0,1,0,1,1,0,0,0,1,0,0,0,0,1,0,1,1,0,0,0,0,1,0,0,0,0,1,0,0,1,0,1,0,0,1,0},
+{1, 0,1,0,1,0,1,1,0,1,1,0,1,0,0,1,0,1,0,0,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+};
+
+static int tp[9][40] = {
+{1, 1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{1, 0,1,1,0,1,1,1,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{1, 1,1,1,1,1,1,1,0,0,1,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{1, 1,1,0,1,1,0,1,0,1,0,0,0,1,0,1,1,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{1, 1,0,1,1,1,1,0,0,1,0,0,1,1,1,0,1,0,1,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0},
+{1, 0,1,0,1,1,1,0,0,1,0,1,1,0,1,0,1,0,0,1,1,0,1,1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0},
+{1, 0,0,1,0,0,1,1,1,1,0,0,1,1,0,1,0,1,1,1,0,1,0,0,1,0,1,1,0,1,0,0,0,0,0,0,1,1,0,0},
+{1, 1,0,0,0,0,1,0,1,1,0,0,1,1,0,1,0,1,0,1,1,0,1,0,1,0,0,1,1,0,1,1,0,1,0,1,1,1,1,1},
+{1, 0,0,1,1,1,0,0,0,1,1,1,1,0,0,1,1,1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+};
+
 void __fastcall TEngineViewForm::DrawLayer0(TCanvas* cnv, awpRect* pRect)
 {
 	ILFObjectDetector* detector = m_engine->GetDetector(0);
@@ -136,6 +161,7 @@ void __fastcall TEngineViewForm::DrawLayer0(TCanvas* cnv, awpRect* pRect)
 			for (int j = 0; j < strong->GetCount(); j++)
 			{
 				ILFWeak* weak = strong->GetWeak(j);
+
 				if (weak != NULL)
 				{
 					ILFFeature* feature = weak->Fetaure();
@@ -222,6 +248,8 @@ void __fastcall TEngineViewForm::DrawLayer1(TCanvas* cnv, awpRect* pRect)
 			continue;
 
 		ILFStrong* strong = dynamic_cast<ILFStrong*>(list->Get(i));
+
+
 		if (strong)
 		{
 			awpPoint cc;
@@ -230,6 +258,8 @@ void __fastcall TEngineViewForm::DrawLayer1(TCanvas* cnv, awpRect* pRect)
 			for (int j = 0; j < strong->GetCount(); j++)
 			{
 				ILFWeak* weak = strong->GetWeak(j);
+//				cnv->Pen->Color = tn[i][j+1] ? clGreen : clSilver;
+//				cnv->Brush->Color = tn[i][j+1] ? clGreen : clSilver;
 				if (weak != NULL)
 				{
 					ILFFeature* feature = weak->Fetaure();
@@ -308,6 +338,9 @@ void __fastcall TEngineViewForm::DrawLayer2(TCanvas* cnv, awpRect* pRect)
 			continue;
 
 		ILFStrong* strong = dynamic_cast<ILFStrong*>(list->Get(i));
+
+//		cnv->Pen->Color = tn[i][0] ? clYellow : clSilver;
+//		cnv->Brush->Color = tn[i][0] ? clYellow : clSilver;
 		if (strong)
 		{
 			awpPoint cc;
@@ -397,7 +430,7 @@ void __fastcall TEngineViewForm::DrawLayer2(TCanvas* cnv, awpRect* pRect)
 				//strong->Setup(scale_x, scale_y, pRect->left, pRect->top);
 				TLFImage* img = detector->GetImage();
 				double err = 0;
-				if (strong->Classify(img, transform, err))
+				if (strong->Classify(img, transform, err) || True)    // !!!!
 				{
 					cnv->Brush->Color = clRed;
 				}
@@ -473,10 +506,10 @@ void __fastcall TEngineViewForm::DrawLayer3(TCanvas* cnv, awpRect* pRect)
 
 	if (pRect != NULL)
 	{
-		double err[5];
-		int    vct[5];
+		double err[9];
+		int    vct[9] = {0,0,0,0,0,0,0,0,0};
 		detector->ClassifyRect(*pRect, err, vct) ;
-		if (vct[0] > 0 )
+		if (True || vct[0] && vct[1] && vct[2] && vct[3] && vct[4] && vct[5] && vct[6] && vct[7] && vct[8])
 		{
 			cnv->Brush->Color = clRed;
 			cnv->Pen->Color   = clRed;

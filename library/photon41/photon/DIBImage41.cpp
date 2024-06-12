@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------
 #pragma hdrstop
-#include <Clipbrd.hpp>
+#include <Vcl.Clipbrd.hpp>
 #include "DIBImage41.h"
 #include "ImportRaster.h"
 #include "ExportRaster.h"

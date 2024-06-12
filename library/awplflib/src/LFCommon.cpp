@@ -828,6 +828,7 @@ double TLFSemanticImageDescriptor::Compare(TLFSemanticImageDescriptor* Descripto
 		return this->GetCount();
 	if (Descriptor->GetCount() == 0)
 		return this->GetCount();
+
 	for (int i = 0; i < GetCount(); i++)
 	{
 		TLFDetectedItem* item1 = this->GetDetectedItem(i);

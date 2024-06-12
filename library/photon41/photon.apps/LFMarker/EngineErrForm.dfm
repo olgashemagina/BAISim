@@ -81,7 +81,6 @@ object EngineErrDlg: TEngineErrDlg
     ColorPaletteIndex = 13
     object Series1: TBarSeries
       HoverElement = []
-      Marks.OnTop = True
       SeriesColor = clRed
       XValues.Name = 'X'
       XValues.Order = loAscending
@@ -226,7 +225,7 @@ object EngineErrDlg: TEngineErrDlg
     end
   end
   object Button2: TButton
-    Left = 25
+    Left = 24
     Top = 427
     Width = 407
     Height = 25

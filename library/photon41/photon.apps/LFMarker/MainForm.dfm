@@ -574,6 +574,7 @@ object Form1: TForm1
           OnMouseMove = FImage1MouseMove
           OnPaint = PhImage2Paint
           AfterOpen = PhImage2AfterOpen
+          ExplicitTop = 3
         end
       end
     end
