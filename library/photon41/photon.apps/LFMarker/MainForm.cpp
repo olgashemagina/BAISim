@@ -570,7 +570,7 @@ void __fastcall TForm1::DbExportFragmentsActionExecute(TObject *Sender)
 	TLFSemanticDictinary* d = m_db.Dictionary;
 	if (d->GetCount() == 0)
 	{
-		ShowMessage("Semantig dictionary is empty.");
+		ShowMessage("Semantic dictionary is empty.");
 		return;
 	}
 	else
@@ -589,7 +589,7 @@ void __fastcall TForm1::DbExportFragmentsActionExecute(TObject *Sender)
 
 	   if (m_db.NumXmlFiles < 1 || m_db.NumImages < 1)
 	   {
-			ShowMessage("In the database there is no markup files in the format of xml.");
+			ShowMessage("The database doesn't contain markup files in the *.xml format");
 			return;
 	   }
 	   // setup options
@@ -1181,13 +1181,13 @@ void __fastcall TForm1::DbCopyActionExecute(TObject *Sender)
 
 	   if (m_db.NumImages == 0)
 	   {
-		  ShowMessage("There are not images in the database.");
+		  ShowMessage("The database is empty.");
 		  return;
 	   }
 
 	   if (m_db.DbName == copy_options.strPathToCopy)
 	   {
-		  ShowMessage("Cannot copy database into myself.");
+		  ShowMessage("Cannot copy database into itself.");
 		  return;
 	   }
 

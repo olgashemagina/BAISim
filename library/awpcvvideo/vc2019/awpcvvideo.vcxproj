@@ -69,7 +69,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\..\awpipl2\include;..\..\..\3rdparty\opencv\include\;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\awpipl2\include;..\..\..\3rdparty\opencv\include;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\..\3rdparty\opencv\x86\vc12\lib\;..\..\lib\x86\Debug\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\build\bin\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
@@ -81,7 +81,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\..\awpipl2\include;..\..\opencv\include\;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\awpipl2\include;..\..\..\3rdparty\opencv\include;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\opencv\x86\vc12\lib\;..\..\lib\x86\Release\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\build\bin\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>

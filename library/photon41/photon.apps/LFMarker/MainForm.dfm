@@ -12,13 +12,11 @@ object Form1: TForm1
   Font.Style = []
   KeyPreview = True
   Menu = MainMenu1
-  OldCreateOrder = False
   Position = poScreenCenter
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
   OnResize = FormResize
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object ToolBar1: TToolBar
     Left = 0
@@ -38,6 +36,7 @@ object Form1: TForm1
     ParentFont = False
     ShowCaptions = True
     TabOrder = 0
+    ExplicitWidth = 782
     object ToolButton6: TToolButton
       Left = 0
       Top = 0
@@ -154,6 +153,8 @@ object Form1: TForm1
         Width = 50
       end>
     OnResize = StatusBar1Resize
+    ExplicitTop = 515
+    ExplicitWidth = 782
   end
   object Panel5: TPanel
     Left = 0
@@ -163,6 +164,8 @@ object Form1: TForm1
     Align = alClient
     Caption = 'Panel5'
     TabOrder = 2
+    ExplicitWidth = 782
+    ExplicitHeight = 481
     object Splitter4: TSplitter
       Left = 1
       Top = 428
@@ -191,6 +194,8 @@ object Form1: TForm1
       Align = alBottom
       Caption = 'Panel7'
       TabOrder = 0
+      ExplicitTop = 423
+      ExplicitWidth = 780
       object Memo1: TMemo
         Left = 1
         Top = 1
@@ -198,6 +203,7 @@ object Form1: TForm1
         Height = 55
         Align = alClient
         TabOrder = 0
+        ExplicitWidth = 778
       end
     end
     object Panel1: TPanel
@@ -208,6 +214,7 @@ object Form1: TForm1
       Align = alLeft
       TabOrder = 1
       OnResize = Panel1Resize
+      ExplicitHeight = 419
       object PageControl1: TPageControl
         Left = 1
         Top = 1
@@ -218,6 +225,7 @@ object Form1: TForm1
         TabOrder = 0
         TabPosition = tpBottom
         OnChange = PageControl1Change
+        ExplicitHeight = 417
         object TabSheet1: TTabSheet
           Caption = 'File System'
           object Splitter5: TSplitter
@@ -243,6 +251,7 @@ object Form1: TForm1
             Align = alClient
             ParentColor = False
             Visible = False
+            ExplicitHeight = 127
           end
           object DirectoryListBox1: TDirectoryListBox
             Left = 0
@@ -261,6 +270,7 @@ object Form1: TForm1
             Height = 27
             Align = alBottom
             TabOrder = 1
+            ExplicitTop = 364
             object DriveComboBox1: TDriveComboBox
               Left = 1
               Top = 1
@@ -293,6 +303,7 @@ object Form1: TForm1
             TabOrder = 3
             OnChange = FileListBox1Change
             OnKeyUp = FileListBox1KeyUp
+            ExplicitHeight = 127
           end
         end
         object TabSheet2: TTabSheet
@@ -307,25 +318,26 @@ object Form1: TForm1
             Indent = 19
             TabOrder = 0
             Items.NodeData = {
-              03010000002C0000000000000000000000FFFFFFFFFFFFFFFF00000000000000
-              00020000000107700072006F006A006500630074003200000000000000000000
-              00FFFFFFFFFFFFFFFF000000000000000003000000010A640069006300740069
-              006F006E00610072007900280000000000000000000000FFFFFFFFFFFFFFFF00
-              0000000000000003000000010577006F007200640031002C0000000000000000
-              000000FFFFFFFFFFFFFFFF00000000000000000000000001077300630061006E
-              006E00650072002E0000000000000000000000FFFFFFFFFFFFFFFF0000000000
-              0000000000000001086400650074006500630074006F0072002E000000000000
-              0000000000FFFFFFFFFFFFFFFF00000000000000000000000001087300650074
-              00740069006E0067007300280000000000000000000000FFFFFFFFFFFFFFFF00
-              0000000000000003000000010577006F007200640032002C0000000000000000
-              000000FFFFFFFFFFFFFFFF00000000000000000000000001077300630061006E
-              006E00650072002E0000000000000000000000FFFFFFFFFFFFFFFF0000000000
-              0000000000000001086400650074006500630074006F0072002E000000000000
-              0000000000FFFFFFFFFFFFFFFF00000000000000000000000001087300650074
-              00740069006E0067007300280000000000000000000000FFFFFFFFFFFFFFFF00
-              0000000000000000000000010577006F007200640033002E0000000000000000
-              000000FFFFFFFFFFFFFFFF000000000000000000000000010864006100740061
-              006200610073006500}
+              070100000009540054007200650065004E006F00640065002D00000000000000
+              00000000FFFFFFFFFFFFFFFF000000000000000000020000000107700072006F
+              006A006500630074000000330000000000000000000000FFFFFFFFFFFFFFFF00
+              000000000000000003000000010A640069006300740069006F006E0061007200
+              79000000290000000000000000000000FFFFFFFFFFFFFFFF0000000000000000
+              0003000000010577006F0072006400310000002D0000000000000000000000FF
+              FFFFFFFFFFFFFF0000000000000000000000000001077300630061006E006E00
+              6500720000002F0000000000000000000000FFFFFFFFFFFFFFFF000000000000
+              0000000000000001086400650074006500630074006F00720000002F00000000
+              00000000000000FFFFFFFFFFFFFFFF0000000000000000000000000001087300
+              65007400740069006E00670073000000290000000000000000000000FFFFFFFF
+              FFFFFFFF00000000000000000003000000010577006F0072006400320000002D
+              0000000000000000000000FFFFFFFFFFFFFFFF00000000000000000000000000
+              01077300630061006E006E006500720000002F0000000000000000000000FFFF
+              FFFFFFFFFFFF0000000000000000000000000001086400650074006500630074
+              006F00720000002F0000000000000000000000FFFFFFFFFFFFFFFF0000000000
+              00000000000000000108730065007400740069006E0067007300000029000000
+              0000000000000000FFFFFFFFFFFFFFFF00000000000000000000000000010577
+              006F0072006400330000002F0000000000000000000000FFFFFFFFFFFFFFFF00
+              000000000000000000000000010864006100740061006200610073006500}
           end
         end
         object TabSheet3: TTabSheet
@@ -498,6 +510,8 @@ object Form1: TForm1
       Align = alClient
       Caption = 'Panel2'
       TabOrder = 2
+      ExplicitWidth = 432
+      ExplicitHeight = 419
       object Panel11: TPanel
         Left = 1
         Top = 1
@@ -505,6 +519,8 @@ object Form1: TForm1
         Height = 425
         Align = alClient
         TabOrder = 0
+        ExplicitWidth = 430
+        ExplicitHeight = 417
         object HSplitter: TSplitter
           Left = 1
           Top = 421
@@ -536,6 +552,8 @@ object Form1: TForm1
           OnDockOver = BottomDocPanelDockOver
           OnGetSiteInfo = BottomDocPanelGetSiteInfo
           OnUnDock = BottomDocPanelUnDock
+          ExplicitTop = 405
+          ExplicitWidth = 428
         end
         object Panel13: TPanel
           Left = 426
@@ -547,6 +565,8 @@ object Form1: TForm1
           DockSite = True
           DragKind = dkDock
           TabOrder = 1
+          ExplicitLeft = 424
+          ExplicitHeight = 404
         end
         object ValueListEditor1: TValueListEditor
           Left = 1
@@ -556,6 +576,8 @@ object Form1: TForm1
           Align = alClient
           TabOrder = 2
           Visible = False
+          ExplicitWidth = 420
+          ExplicitHeight = 404
           ColWidths = (
             150
             266)
@@ -574,7 +596,8 @@ object Form1: TForm1
           OnMouseMove = FImage1MouseMove
           OnPaint = PhImage2Paint
           AfterOpen = PhImage2AfterOpen
-          ExplicitTop = 3
+          ExplicitWidth = 420
+          ExplicitHeight = 404
         end
       end
     end

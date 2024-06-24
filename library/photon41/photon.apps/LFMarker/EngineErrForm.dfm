@@ -7,11 +7,9 @@ object EngineErrDlg: TEngineErrDlg
   ClientWidth = 455
   Color = clBtnFace
   ParentFont = True
-  OldCreateOrder = True
   Position = poScreenCenter
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object Bevel1: TBevel
     Left = 7
     Top = 72
@@ -23,28 +21,28 @@ object EngineErrDlg: TEngineErrDlg
     Left = 7
     Top = 21
     Width = 76
-    Height = 13
+    Height = 15
     Caption = 'Test database :'
   end
   object Label2: TLabel
     Left = 7
     Top = 53
-    Width = 95
-    Height = 13
+    Width = 102
+    Height = 15
     Caption = 'Overlaps threshold:'
   end
   object Label3: TLabel
     Left = 192
     Top = 48
-    Width = 194
-    Height = 13
+    Width = 214
+    Height = 15
     Caption = 'the proportion of overlapping rectangles'
   end
   object Label16: TLabel
     Left = 8
     Top = 470
     Width = 3
-    Height = 13
+    Height = 15
     Visible = False
   end
   object OKBtn: TButton
@@ -61,7 +59,7 @@ object EngineErrDlg: TEngineErrDlg
     Left = 87
     Top = 19
     Width = 361
-    Height = 21
+    Height = 23
     Enabled = False
     TabOrder = 1
   end
@@ -92,7 +90,7 @@ object EngineErrDlg: TEngineErrDlg
     Left = 125
     Top = 46
     Width = 60
-    Height = 21
+    Height = 23
     TabOrder = 3
     Text = '0,5'
   end
@@ -106,15 +104,15 @@ object EngineErrDlg: TEngineErrDlg
     object Label4: TLabel
       Left = 11
       Top = 19
-      Width = 164
-      Height = 13
+      Width = 182
+      Height = 15
       Caption = 'Number of images in the database'
     end
     object Label5: TLabel
       Left = 11
       Top = 38
-      Width = 166
-      Height = 13
+      Width = 182
+      Height = 15
       Caption = 'Number of objects in the database'
     end
     object Label6: TLabel
@@ -146,8 +144,8 @@ object EngineErrDlg: TEngineErrDlg
     object Label8: TLabel
       Left = 11
       Top = 57
-      Width = 163
-      Height = 13
+      Width = 173
+      Height = 15
       Caption = 'False acceptance rate per objects'
     end
     object Label9: TLabel
@@ -166,8 +164,8 @@ object EngineErrDlg: TEngineErrDlg
     object Label10: TLabel
       Left = 11
       Top = 76
-      Width = 172
-      Height = 13
+      Width = 184
+      Height = 15
       Caption = 'False acceptance rate per fragment'
     end
     object Label11: TLabel
@@ -186,8 +184,8 @@ object EngineErrDlg: TEngineErrDlg
     object Label12: TLabel
       Left = 11
       Top = 95
-      Width = 96
-      Height = 13
+      Width = 101
+      Height = 15
       Caption = 'False rejection rate '
     end
     object Label13: TLabel
@@ -206,8 +204,8 @@ object EngineErrDlg: TEngineErrDlg
     object Label14: TLabel
       Left = 11
       Top = 114
-      Width = 160
-      Height = 13
+      Width = 179
+      Height = 15
       Caption = 'The processing time of one image'
     end
     object Label15: TLabel
