@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject>
-	<Transactions>
-    <Transaction>1899.12.30 00:00:00.000.929,C:\work\BAISim\photon41\ObjectMarker.groupproj=C:\Users\olgas\Documents\Embarcadero\Studio\Projects\ProjectGroup1.groupproj</Transaction>
-  </Transactions>
-	<Default.Personality>
-		<Projects ActiveProject="C:\work\BAISim\library\photon41\photon.apps\LFMarker\ObjectsMarker.cbproj"/>
-	</Default.Personality>
-</BorlandProject>
