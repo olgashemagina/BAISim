@@ -45,6 +45,7 @@ void setup_callback(ILFObjectDetector* detector, TLFSemanticImageDescriptor* des
 		const auto& bounds,
 		const auto& desc) {
 			double iou = 0;
+			
 			for (int i = 0; i < descriptor->GetCount(); i++)
 			{
 				TLFDetectedItem* item = descriptor->GetDetectedItem(i);
@@ -62,40 +63,42 @@ void setup_callback(ILFObjectDetector* detector, TLFSemanticImageDescriptor* des
 				}
 			}
 
-			std::unique_ptr<TiXmlElement> sample(desc.SaveXML());
-
-			sample->SetAttribute("left", bounds.Rect.left);
-			sample->SetAttribute("top", bounds.Rect.top);
-			sample->SetAttribute("right", bounds.Rect.right);
-			sample->SetAttribute("bottom", bounds.Rect.bottom);
-			sample->SetDoubleAttribute("IOU", iou);
+			std::string sample_test;
 
 			if (desc.result) {
 				if (iou < overlap) {
 					//False Positive
-					sample->SetAttribute("SampleTest", "FP");
+					sample_test = "FP";
+					//sample->SetAttribute("SampleTest", "FP");
 				}
 				else {
 					//True Positive
-					sample->SetAttribute("SampleTest", "TP");
+					sample_test = "TP";
+					//sample->SetAttribute("SampleTest", "TP");
 				}
 			}
 			else {
 				if (iou > overlap) {
 					//False Negative
-					sample->SetAttribute("SampleTest", "FN");
+					sample_test = "FN";
+					//sample->SetAttribute("SampleTest", "FN");
 				}
 				else if (iou > negative_threshold) {
 					//True Negatives
-					sample->SetAttribute("SampleTest", "TN");
-				}
-				else {
-					sample.reset();
+					sample_test = "TN";
+					//sample->SetAttribute("SampleTest", "TN");
 				}
 			}
 
-			
-			if (sample) {
+			if (!sample_test.empty()) {
+				std::unique_ptr<TiXmlElement> sample(desc.SaveXML());
+
+				sample->SetAttribute("left", bounds.Rect.left);
+				sample->SetAttribute("top", bounds.Rect.top);
+				sample->SetAttribute("right", bounds.Rect.right);
+				sample->SetAttribute("bottom", bounds.Rect.bottom);
+				sample->SetDoubleAttribute("IOU", iou);
+				sample->SetAttribute("SampleTest", sample_test);
 				std::lock_guard<std::mutex> locker(*mtx);
 				node->LinkEndChild(sample.release());
 			}
