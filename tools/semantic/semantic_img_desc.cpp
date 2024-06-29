@@ -38,7 +38,7 @@ void usage()
 		"(which is created in the same directory with images)." << std::endl;
 }
 
-void setup_callback(ILFObjectDetector* detector, TLFSemanticImageDescriptor* descriptor, TiXmlNode* node, double overlap = 0.5, double negative_threshold = 0.25) {
+void setup_callback(ILFObjectDetector* detector, TLFSemanticImageDescriptor* descriptor, TiXmlNode* node, double overlap = 0.7, double negative_threshold = 0.3) {
 	//Mutex if OMP threading used.
 	auto mtx = std::make_shared<std::mutex>();
 	detector->SetDescCallback([=](size_t index,
