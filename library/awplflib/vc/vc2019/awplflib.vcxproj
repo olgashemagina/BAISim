@@ -324,6 +324,9 @@
     <ClInclude Include="..\..\include\LFZone.h" />
     <ClInclude Include="..\..\include\_LFParameters.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\src\sc_kernels.cl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
