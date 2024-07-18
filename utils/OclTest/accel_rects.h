@@ -147,7 +147,7 @@ namespace accel_rects {
         Engine(std::shared_ptr<Core> core) : core_(core) {}
 
     public:
-        static Engine       Create(Detector&& detector);
+        static Engine       Create(Detector&& detector, size_t tasks_limits = 8);
 
         bool                is_valid() const { return bool(core_); }
 

@@ -241,15 +241,15 @@ int main()
 
     std::vector<std::thread>        threads;
 
-    for (int t = 0; t < 4; ++t) {
+    for (int t = 0; t < 8; ++t) {
         threads.emplace_back([&]() {
             auto worker = engine.CreateWorker();
             for (int z = 0; z < 25; ++z) {
                 accel_rects::transforms_t trans(trans_size, { float(width), float(height), 0, 0 });
 
                 for (int i = 0; i < trans_size; ++i) {
-                    trans[i][2] = i;
-                    trans[i][3] = i;
+                    trans[i][2] = 0;
+                    trans[i][3] = 0;
                 }
 
                 worker.Enqueue(std::move(trans), cb);
@@ -274,7 +274,7 @@ int main()
 
     std::cout << "FINISHED!" << std::endl;
 
-    ::Sleep(30000);
+    ::Sleep(10000);
 
     return 0;
   

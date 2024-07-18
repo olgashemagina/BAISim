@@ -2,6 +2,8 @@
 
 #include <CL/cl.hpp>
 #include <atomic>
+#include <thread>
+#include <mutex>
 
 
 
@@ -122,10 +124,52 @@ static const char cl_source_code[] =
 
 namespace accel_rects {
 
-    
-    
-    class Core {
+    template<typename T>
+    class Pool {
     public:
+        Pool(size_t limits = 8) : limits_(limits) {}
+
+        template<typename ...A>
+        T* Create(A &&... args) {
+            std::unique_lock<std::mutex>     locker(mtx_);
+
+            if (limits_ > 0 && objects_.size() - pool_.size() > limits_ ) {
+                cv_.wait(locker);
+            }
+
+            if (pool_.empty()) {
+                objects_.emplace_back(std::make_unique<T>(std::forward<A...>(args...)));
+                pool_.push_back(objects_.back().get());
+            }
+
+            T* obj = pool_.back();
+            pool_.pop_back();
+            return obj;
+        }
+
+        void Release(T* obj) {
+            std::lock_guard<std::mutex>     locker(mtx_);
+            pool_.push_back(obj);
+            cv_.notify_one();
+        }
+
+    private:
+        std::vector<std::unique_ptr<T>> objects_;
+
+        size_t                          limits_ = 0;
+
+        std::vector<T*>                 pool_;
+        std::mutex                      mtx_;
+        std::condition_variable         cv_;
+    };
+
+    class Task;
+    
+    
+    class Core : public std::enable_shared_from_this<Core> {
+    public:
+        Core(size_t tasks_limits = 8) : pool_(tasks_limits) {}
+
         ~Core() {
             queue_.finish();
 
@@ -242,6 +286,16 @@ namespace accel_rects {
         const cl::Buffer& resps() const { return resps_; }
 
     public:
+        Task*     CreateTask() {
+            return pool_.Create(shared_from_this());
+        }
+
+        void     ReleaseTask(Task* task) {
+            pool_.Release(task);
+        }
+
+
+
         void     AddTask() {
             tasks_count_.fetch_add(1, std::memory_order_relaxed);
         }
@@ -282,9 +336,20 @@ namespace accel_rects {
         Detector                    detector_;
 
         std::atomic_int32_t         tasks_count_ = 0;
+
+        Pool<Task>                  pool_;
     };
 
     class Kernels {
+    public:
+        struct Data {
+            //Transforms
+            cl::Buffer      trans;
+            //Features result
+            cl::Buffer      feats;
+            //Detections;
+            cl::Buffer      dets;
+        };
     public:
         Kernels(const Core& core) {
             cl_int err = 0;
@@ -306,6 +371,8 @@ namespace accel_rects {
         const cl::CommandQueue& queue() const { return queue_; }
         cl::CommandQueue& queue() { return queue_; }
 
+
+
     private:
         cl::Kernel          feats_kernel_;
         cl::Kernel          dets_kernel_;
@@ -316,90 +383,102 @@ namespace accel_rects {
     class Task {
 
     public:
-        Task(std::shared_ptr<Core> core, callback_t callback)
-            : core_(std::move(core))
-            , cb_(callback)
+        Task(std::shared_ptr<Core> core)
+            : core_(core)
         {   }
 
         void        OnComplete() {
-            core_->ReleaseTask();
-
+            auto core = core_.lock();
+            
             if (cb_)
-                cb_(trans_.size(), core_->stages_size(), core_->feats_size(), std::move(dets_), std::move(feats_));
+                cb_(trans_.size(), core->stages_size(), core->feats_size(), std::move(dets_), std::move(feats_));
+            core->ReleaseTask(this);
         }
 
         
-        bool      Enqueue(const Kernels& kernels, transforms_t&& transforms) {
+        bool      Enqueue(const Kernels& kernels, transforms_t&& transforms, callback_t callback) {
+            cl_int err = 0;
+
+            auto core = core_.lock();
+
+            if (!core) return false;
+
+            cb_ = std::move(callback);
+
+            if (transforms.size() > trans_.size()) {
+                trans_mem_ = cl::Buffer(core->context(), CL_MEM_READ_ONLY, sizeof(cl_float4) * transforms.size(), 0, &err);
+                CL_CHECK_BOOL(err);
+            }
             trans_ = std::move(transforms);
-            feats_.resize(core_->feats_size() * trans_.size(), 0);
-            dets_.resize(core_->stages_size() * trans_.size(), 0);
+
+            if (core->feats_size() * trans_.size() > feats_.size()) {
+                feats_.resize(core->feats_size() * trans_.size(), 0);
+                feats_mem_ = cl::Buffer(core->context(), CL_MEM_READ_WRITE, sizeof(cl_ushort) * feats_.size(), 0, &err);
+                CL_CHECK_BOOL(err);
+            }
+
+            if (core->stages_size() * trans_.size() > dets_.size()) {
+                dets_.resize(core->stages_size() * trans_.size(), 0);
+                dets_mem_ = cl::Buffer(core->context(), CL_MEM_WRITE_ONLY, sizeof(cl_uchar) * dets_.size(), 0, &err);
+                CL_CHECK_BOOL(err);
+            }
+            
 
             std::vector<cl::Event>     waiting_events;
 
             cl::Event feats_evt, dets_evt, read_feats_evt, read_dets_evt, evt_write;
+                        
 
-            cl_int err = 0;
-
-            //trans_mem_ = cl::Buffer(core_->context(), CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float4) * trans_.size(), trans_.data(), &err);
-            trans_mem_ = cl::Buffer(core_->context(), CL_MEM_READ_ONLY, sizeof(cl_float4) * trans_.size(), 0, &err);
-            CL_CHECK_BOOL(err);
-            feats_mem_ = cl::Buffer(core_->context(), CL_MEM_READ_WRITE, sizeof(cl_ushort) * feats_.size(), 0, &err);
-            CL_CHECK_BOOL(err);
-            dets_mem_ = cl::Buffer(core_->context(), CL_MEM_WRITE_ONLY, sizeof(cl_uchar) * dets_.size(), 0, &err);
-            CL_CHECK_BOOL(err);
-
-
-            CL_CHECK_BOOL(core_->queue().enqueueWriteBuffer(trans_mem_, CL_FALSE, 0, sizeof(cl_float4) * trans_.size(), trans_.data(), 0, &evt_write));
+            CL_CHECK_BOOL(core->queue().enqueueWriteBuffer(trans_mem_, CL_FALSE, 0, sizeof(cl_float4) * trans_.size(), trans_.data(), 0, &evt_write));
 
             waiting_events.push_back(evt_write);
 
             cl::Kernel feats_kernel = kernels.feats_kernel();
-            CL_CHECK_BOOL(feats_kernel.setArg(0, core_->integral()));
-            CL_CHECK_BOOL(feats_kernel.setArg<int>(1, int(core_->feats_size())));
-            CL_CHECK_BOOL(feats_kernel.setArg(2, core_->rects()));
+            CL_CHECK_BOOL(feats_kernel.setArg(0, core->integral()));
+            CL_CHECK_BOOL(feats_kernel.setArg<int>(1, int(core->feats_size())));
+            CL_CHECK_BOOL(feats_kernel.setArg(2, core->rects()));
             CL_CHECK_BOOL(feats_kernel.setArg(3, trans_mem_));
             CL_CHECK_BOOL(feats_kernel.setArg(4, feats_mem_));
 
-            CL_CHECK_BOOL(core_->queue().enqueueNDRangeKernel(feats_kernel, cl::NullRange, cl::NDRange(core_->feats_size(), trans_.size()), cl::NullRange, &waiting_events, &feats_evt));
-            //CL_CHECK_BOOL(core_->queue().enqueueNDRangeKernel(feats_kernel, cl::NullRange, cl::NDRange(core_->feats_size(), trans_.size()), cl::NullRange, 0, &feats_evt));
-
+            CL_CHECK_BOOL(core->queue().enqueueNDRangeKernel(feats_kernel, cl::NullRange, cl::NDRange(core->feats_size(), trans_.size()), cl::NullRange, &waiting_events, &feats_evt));
+        
             waiting_events.clear();
             waiting_events.push_back(feats_evt);
 
-            CL_CHECK_BOOL(core_->queue().enqueueReadBuffer(feats_mem_, CL_FALSE, 0, sizeof(cl_ushort) * feats_.size(), feats_.data(), &waiting_events, &read_feats_evt));
+            CL_CHECK_BOOL(core->queue().enqueueReadBuffer(feats_mem_, CL_FALSE, 0, sizeof(cl_ushort) * feats_.size(), feats_.data(), &waiting_events, &read_feats_evt));
 
             cl::Kernel dets_kernel = kernels.dets_kernel();
 
-            CL_CHECK_BOOL(dets_kernel.setArg<int>(0, core_->feats_size()));
-            CL_CHECK_BOOL(dets_kernel.setArg<int>(1, core_->stages_size()));
+            CL_CHECK_BOOL(dets_kernel.setArg<int>(0, core->feats_size()));
+            CL_CHECK_BOOL(dets_kernel.setArg<int>(1, core->stages_size()));
             CL_CHECK_BOOL(dets_kernel.setArg(2, feats_mem_));
-            CL_CHECK_BOOL(dets_kernel.setArg(3, core_->stages()));
-            CL_CHECK_BOOL(dets_kernel.setArg(4, core_->resps()));
-            CL_CHECK_BOOL(dets_kernel.setArg(5, core_->weights()));
-            CL_CHECK_BOOL(dets_kernel.setArg(6, core_->thres()));
+            CL_CHECK_BOOL(dets_kernel.setArg(3, core->stages()));
+            CL_CHECK_BOOL(dets_kernel.setArg(4, core->resps()));
+            CL_CHECK_BOOL(dets_kernel.setArg(5, core->weights()));
+            CL_CHECK_BOOL(dets_kernel.setArg(6, core->thres()));
             CL_CHECK_BOOL(dets_kernel.setArg(7, dets_mem_));
 
-            /*
+            
             waiting_events.clear();
             waiting_events.push_back(feats_evt);
 
-            CL_CHECK_BOOL(core_->queue().enqueueNDRangeKernel(dets_kernel, cl::NullRange, cl::NDRange(core_->stages_size(), trans_.size()), cl::NullRange, &waiting_events, &dets_evt));
+            CL_CHECK_BOOL(core->queue().enqueueNDRangeKernel(dets_kernel, cl::NullRange, cl::NDRange(core->stages_size(), trans_.size()), cl::NullRange, &waiting_events, &dets_evt));
 
             waiting_events.clear();
             waiting_events.push_back(dets_evt);
 
-            CL_CHECK_BOOL(core_->queue().enqueueReadBuffer(dets_mem_, CL_FALSE, 0, sizeof(cl_uchar) * dets_.size(), dets_.data(), &waiting_events, &read_dets_evt));
+            CL_CHECK_BOOL(core->queue().enqueueReadBuffer(dets_mem_, CL_FALSE, 0, sizeof(cl_uchar) * dets_.size(), dets_.data(), &waiting_events, &read_dets_evt));
 
             waiting_events.clear();
             waiting_events.push_back(read_dets_evt);
             waiting_events.push_back(read_feats_evt);
-            CL_CHECK_BOOL(core_->queue().enqueueMarkerWithWaitList(&waiting_events, &this->evt_complete_));
-            */
+            CL_CHECK_BOOL(core->queue().enqueueMarkerWithWaitList(&waiting_events, &this->evt_complete_));
+            
             evt_complete_ = read_feats_evt;
 
             CL_CHECK_BOOL(evt_complete_.setCallback(CL_COMPLETE, &Task::EvtCallback, this));
 
-            core_->AddTask();
+            //core_->AddTask();
 
             return true;
         }
@@ -480,12 +559,12 @@ namespace accel_rects {
     private:
 
         static void __stdcall EvtCallback(cl_event event, cl_int status, void* user_data) {
-            std::unique_ptr<Task> task(static_cast<Task*>(user_data));
+            auto task = static_cast<Task*>(user_data);
             task->OnComplete();
         }
 
     public:
-        std::shared_ptr<Core>           core_;
+        std::weak_ptr<Core>             core_;
 
         transforms_t                    trans_;
 
@@ -502,9 +581,9 @@ namespace accel_rects {
 
     };
 
-    Engine Engine::Create(Detector&& detector)
+    Engine Engine::Create(Detector&& detector, size_t tasks_limits = 8)
     {
-        auto core = std::make_shared<Core>();
+        auto core = std::make_shared<Core>(tasks_limits);
         if (core->Initialize(std::move(detector)))
             return Engine(core);
         return Engine(nullptr);
@@ -526,9 +605,11 @@ namespace accel_rects {
     Worker::~Worker() { }
 
     bool Worker::Enqueue(transforms_t&& trans, callback_t cb) {
-        std::unique_ptr<Task> task = std::make_unique<Task>(core_, cb);
+        auto task = core_->CreateTask();
+        return task->Enqueue(*kernels_, std::move(trans), cb);
+        //std::unique_ptr<Task> task = std::make_unique<Task>(core_);
 
-        return task.release()->Enqueue(*kernels_, std::move(trans));
+        //return task.release()->Enqueue(*kernels_, std::move(trans), cb);
 
     }
 
