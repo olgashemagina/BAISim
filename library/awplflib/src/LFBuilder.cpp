@@ -195,11 +195,42 @@ bool		TCSBuildDetector::Build()
 	};
 	return true;
 }
+
+bool TCSBuildDetector::PartialUpdate()
+{
+	// начальная инициализация детектора 
+	if (!InitDetector())
+	{
+		printf("Cannot init detector.\n");
+		return false;
+	}
+	// Определить каскады, имеющие ошибку на позитивных примерах
+
+	std::vector<int> failed_cascades = GetFailedCascades();
+
+	// Перестройка выбранных каскадов
+	for (auto cascade : failed_cascades) {
+		if (BuildBkground(cascade)) {
+
+		}
+		//загрузка
+		if (!m_AdaBoost.LoadSamples())
+			return false;
+		//обучение
+		if (!Boost())
+			return false;
+		//обновление
+		if (!UpdateDetector(cascade))
+			break;
+		m_AdaBoost.InitFeatures();
+	}
+	return true;
+}
 // формирует образцы фона для "обучения" 
 // из базы данных содержащей изображения, на которых
 // не присутствуют обучаемые объекты
 // см. файл конфигурации m_strPathToBase
-bool		TCSBuildDetector::BuildBkground()
+bool		TCSBuildDetector::BuildBkground(int cascade)
 {
 	if (!CheckDetector())
 	{
@@ -401,9 +432,10 @@ bool		TCSBuildDetector::Boost()
 	stages = od->GetStagesCount();
 	return m_AdaBoost.Boost(stages);
 }
+
 //обновление детектора. Добавление нового каскада
 //к существующему детектору.
-bool		TCSBuildDetector::UpdateDetector()
+bool		TCSBuildDetector::UpdateDetector(int cascade)
 {
 	//#ifdef WIN32
 	m_AdaBoost.DbgMsg("Update detector...\n");
@@ -528,7 +560,7 @@ bool		    TCSBuildDetector::CheckDetector()
 		r.right = img.GetImage()->sSizeX;
 		r.top = 0;
 		r.bottom = img.GetImage()->sSizeY;
-		if (d->ClassifyRect(r, NULL, NULL) == 0)
+		if (d->ClassifyRect(r) == 0)
 		{
 			//NumFailed++;
 			m_AdaBoost.DbgMsg(names[i] + " Failed.\n");
@@ -632,6 +664,12 @@ int	TCSBuildDetector::GetNumObjects()
 		count++;
 	}
 	return count;
+}
+
+std::vector<int> TCSBuildDetector::GetFailedCascades()
+{
+	//TODO: detect cascades that has positive errors
+	return std::vector<int>();
 }
 
 std::string TCSBuildDetector::ConcatIfNeeded(const std::string& path, const std::string& commonPath)

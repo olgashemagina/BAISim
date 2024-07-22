@@ -57,6 +57,9 @@
 #include <omp.h>
 #endif
 
+#include <mutex>
+#include <numeric>
+
 
 //using namespace std;
 #ifndef __CLR_OR_THIS_CALL
@@ -75,6 +78,59 @@ static char * guid_to_str(GUID* id, char * out) {
 	return ret;
 }
 #endif
+
+TiXmlElement* ILFObjectDetector::TDescription::SaveXML() const
+{
+	TiXmlElement* sample_desc = new TiXmlElement("LFSampleDescriptor");
+	sample_desc->SetAttribute("Result", result);
+	sample_desc->SetDoubleAttribute("Score", score);
+
+	for (const auto& strong : descs) {
+		TiXmlElement* stage_desc = new TiXmlElement("LFStageDescriptor");
+		stage_desc->SetDoubleAttribute("Score", strong.score);
+		stage_desc->SetAttribute("Result", strong.result);
+
+		for (const auto& weak : strong.weaks) {
+
+			TiXmlElement* weak_desc = new TiXmlElement("LFWeakDescriptor");
+			weak_desc->SetAttribute("Result", weak.result);
+
+			TiXmlElement* features_desc = new TiXmlElement("LFFeatureDescriptor");
+			const auto& feature = weak.feature;
+			features_desc->SetAttribute("Size", feature.features.size());
+			features_desc->SetDoubleAttribute("Value", feature.value);
+
+			if (feature.parent) {
+				auto rect = feature.parent->GetRect();
+				features_desc->SetAttribute("RectLeft", rect.Left());
+				features_desc->SetAttribute("RectTop", rect.Top());
+				features_desc->SetAttribute("RectRight", rect.Right());
+				features_desc->SetAttribute("RectBottom", rect.Bottom());
+			}
+						
+
+			if (!weak.feature.features.empty()) {
+				auto data = std::accumulate(
+					std::next(weak.feature.features.begin()),
+					weak.feature.features.end(),
+					std::to_string(weak.feature.features.front()),
+					[](const auto& a, const  auto& b) {
+						return a + " " + std::to_string(b);
+					}
+				);
+
+				TiXmlText* features_data = new TiXmlText(data);
+				features_desc->LinkEndChild(features_data);
+			}
+
+			weak_desc->LinkEndChild(features_desc);
+			stage_desc->LinkEndChild(weak_desc);
+		}
+		sample_desc->LinkEndChild(stage_desc);
+
+	}
+	return sample_desc;
+}
 
 
 #define ANGLE0 15
@@ -290,106 +346,139 @@ bool TSCObjectDetector::AddStrong(ILFStrong* strong)
 }
 
 // classification
-int  TSCObjectDetector::ClassifyRect(awpRect fragment, double* err, int* vect)
+int  TSCObjectDetector::ClassifyRect(awpRect fragment)
 {
-	bool   result = 1;
-	double totalScore = 0;
+	double score = FLT_MAX;
 	double scale_x = (fragment.right - fragment.left) / double(m_baseWidth);
 	double scale_y = (fragment.bottom - fragment.top) / double(m_baseHeight);
 	double scale = std::min<double>(scale_x, scale_y);
+	bool has_object = true;
+
+	TDescription		description;
+
+	if (desc_callback_) {
+		description.descs.reserve(m_Strongs.GetCount());
+	}
 
 	TLFAlignedTransform transform = TLFAlignedTransform(scale, scale, fragment.left, fragment.top);
 	for (int j = 0; j < m_Strongs.GetCount(); j++)
     {
-		double score = 0;
-		int    solution = 0;
+				
 		TCSStrong* strong = (TCSStrong*)m_Strongs.Get(j);
 		        
-		solution = strong->Classify(&m_Image, transform, score);
-		totalScore += score;
-		if (vect != NULL)
-			vect[j] = 1;
-		if (solution == 0)
-        {
-			if (vect != NULL)
-				vect[j] = 0;
-			result = 0;
-			return result;
-        }
+		auto desc = strong->Classify(&m_Image, transform);
+		
+		if (desc.result != 0) {
+			score = std::min<double>(desc.score, score);
+		} else {
+			has_object = false;
+			score = desc.score;
+		}
+
+		if (desc_callback_) {
+			//Gather
+			description.descs.emplace_back(std::move(desc));
+		}
+		else if (!has_object) {
+			//Stop searching object;
+			break;
+		}
+
     }
-	if (err != NULL)
-		*err = totalScore / m_Strongs.GetCount();
-    return result;
+
+	description.score = score;
+	description.result = has_object;
+
+	if (desc_callback_) {
+		desc_callback_(0, TLFBounds{0, 0, fragment}, description);
+	}
+
+    return has_object;
 
 }
 // возвращает число найденных объектов. 
 int  TSCObjectDetector::Detect()
 {
-	int res = 0;
+	
 	if (this->m_scanner == NULL)
-		return res;
+		return -1;
 	if (this->m_Image.GetImage() == NULL)
-		return res;
-		
+		return -1;
+
+	m_objects.Clear();
+			
 #ifdef _OMP_
 #pragma omp parallel for num_threads(omp_get_max_threads())
 #endif 
 	for (int i = 0; i < m_scanner->GetFragmentsCount(); i++)
-	{
+	{		
+		TDescription		description;
 
-		if (!m_scanner->GetFragment(i)->HasObject)
-		{
-			bool has_object = true;
-			awpRect rect = m_scanner->GetFragmentRect(i);
-
-			double scale_x = (rect.right - rect.left)/double(this->m_baseWidth);
-			double scale_y = (rect.bottom - rect.top) / double(this->m_baseHeight);
-			double scale = std::min<double>(scale_x, scale_y);
-
-			TLFAlignedTransform transform(scale, scale, rect.left, rect.top);
-
-			for (int j = 0; j < m_Strongs.GetCount(); j++)
-			{
-				TCSStrong* strong = (TCSStrong*)m_Strongs.Get(j);
-				
-				double err = 0;
-				if (strong->Classify(&m_Image, transform, err) == 0)
-				{
-					has_object = false;
-					break;
-				}
-			}
-
-			if (has_object)
-			{
-				//object detected
-				m_scanner->GetFragment(i)->HasObject = true;
-			}
-		}
-		else
-		{
-			m_scanner->GetFragment(i)->HasObject = false;
+		if (desc_callback_) {
+			description.descs.reserve(m_Strongs.GetCount());
 		}
 
-	}
+		bool has_object = true;
+		awpRect rect = m_scanner->GetFragmentRect(i);
 
+		double scale_x = (rect.right - rect.left) / double(this->m_baseWidth);
+		double scale_y = (rect.bottom - rect.top) / double(this->m_baseHeight);
+		double scale = std::min<double>(scale_x, scale_y);
 
-	// записываем результат в лист.
-	m_objects.Clear();
-	for (int i = 0; i < m_scanner->GetFragmentsCount(); i++)
-	{
-		if (m_scanner->GetFragment(i)->HasObject)
+		TLFAlignedTransform transform(scale, scale, rect.left, rect.top);
+		double score = FLT_MAX;
+
+		for (int j = 0; j < m_Strongs.GetCount(); j++)
 		{
-			awpRect rect = m_scanner->GetFragmentRect(i);
+			ILFStrong* strong = static_cast<ILFStrong*>(m_Strongs.Get(j));
+			
+			auto desc = strong->Classify(&m_Image, transform);
+
+			//Check If object detected;
+			if (desc.result != 0) {
+				score = std::min<double>(desc.score, score);
+			}
+			else {
+				has_object = false;
+				score = desc.score;
+			}
+
+			if (desc_callback_) {
+				//Gather
+				description.descs.emplace_back(std::move(desc));
+			}
+			else if (!has_object) {
+				//Stop searching object;
+				break;
+			}
+		}
+
+		description.score = score;
+		description.result = has_object;
+
+
+		if (desc_callback_) {
+			desc_callback_(i, *m_scanner->GetFragment(i), description);
+		}
+
+		if (has_object)
+		{
+			//object detected
 			UUID id;
 			LF_NULL_UUID_CREATE(id);
-			TLFDetectedItem* de = new TLFDetectedItem(&rect, 0, this->m_Type, this->m_Angle,
-			 this->m_racurs, this->m_baseWidth, this->m_baseHeight, this->m_strDetName.c_str(), id);
+			// записываем результат в лист.
+			TLFDetectedItem* de = new TLFDetectedItem(&rect, score, this->m_Type, this->m_Angle,
+				this->m_racurs, this->m_baseWidth, this->m_baseHeight, this->m_strDetName.c_str(), id);
 			de->SetHasObject(true);
-			m_objects.Add(de);
-			res++;
+
+#ifdef _OMP_
+#pragma omp critical 
+#endif
+			{
+				m_objects.Add(de);
+			}
 		}
-		m_scanner->GetFragment(i)->HasObject = false;
+
 	}
 
 	return m_objects.GetCount();
@@ -398,12 +487,14 @@ int  TSCObjectDetector::Detect()
 int TSCObjectDetector::DetectInRect(awpRect roi)
 {
 
-	int res = 0;
+	
 	if (this->m_scanner == NULL)
-		return res;
+		return -1;
 	if (this->m_Image.GetImage() == NULL)
-		return res;
+		return -1;
 
+	m_objects.Clear();
+	
 #ifdef _OMP_
 #pragma omp parallel for num_threads(omp_get_max_threads())
 #endif
@@ -416,65 +507,73 @@ int TSCObjectDetector::DetectInRect(awpRect roi)
 		if (c.X >= roi.left && c.X <= roi.right &&
 		c.Y >= roi.top && c.Y <= roi.bottom)
 		{
-			if (!m_scanner->GetFragment(i)->HasObject)
-			{
+			TDescription		description;
 
-				bool has_object = true;
-				awpRect rect = m_scanner->GetFragmentRect(i);
-
-				double scale_x = (rect.right - rect.left) / double(this->m_baseWidth);
-				double scale_y = (rect.bottom - rect.top) / double(this->m_baseHeight);
-
-				double scale = std::min<double>(scale_x, scale_y);
-
-				TLFAlignedTransform transform(scale, scale, rect.left, rect.top);
-
-				m_scanner->GetFragment(i)->raiting = 0;
-				for (int j = 0; j < m_Strongs.GetCount(); j++)
-				{
-					TCSStrong* strong = (TCSStrong*)m_Strongs.Get(j);
-
-					double err = 0;
-					if (strong->Classify(&m_Image, transform, err) == 0)
-					{
-						has_object = false;
-						break;
-					}
-					m_scanner->GetFragment(i)->raiting += err;
-				}
-
-				if (has_object)
-				{
-					//object detected
-					m_scanner->GetFragment(i)->HasObject = true;
-				}
+			if (desc_callback_) {
+				description.descs.reserve(m_Strongs.GetCount());
 			}
-			else
-			{
-				m_scanner->GetFragment(i)->HasObject = false;
-			}
-		}
-	}
 
-
-
-	// записываем результат в лист.
-	m_objects.Clear();
-	for (int i = 0; i < m_scanner->GetFragmentsCount(); i++)
-	{
-		if (m_scanner->GetFragment(i)->HasObject)
-		{
+			bool has_object = true;
 			awpRect rect = m_scanner->GetFragmentRect(i);
-			UUID id;
-			LF_NULL_UUID_CREATE(id);
-			TLFDetectedItem* de = new TLFDetectedItem(&rect, 0, this->m_Type, this->m_Angle,
-			 this->m_racurs, this->m_baseWidth, this->m_baseHeight, this->m_strDetName.c_str(), id);
-			de->SetHasObject(true);
-			de->SetRaiting(m_scanner->GetFragment(i)->raiting);
-			m_objects.Add(de);
-			res++;
+
+			double scale_x = (rect.right - rect.left) / double(this->m_baseWidth);
+			double scale_y = (rect.bottom - rect.top) / double(this->m_baseHeight);
+
+			double scale = std::min<double>(scale_x, scale_y);
+
+			TLFAlignedTransform transform(scale, scale, rect.left, rect.top);
+
+			double score = FLT_MAX;
+			for (int j = 0; j < m_Strongs.GetCount(); j++)
+			{
+				ILFStrong* strong = static_cast<ILFStrong*>(m_Strongs.Get(j));
+
+				auto desc = strong->Classify(&m_Image, transform);
+
+				//Check If object detected;
+				if (desc.result != 0) {
+					score = std::min<double>(desc.score, score);
+				}
+				else {
+					has_object = false;
+					score = desc.score;
+				}
+
+				if (desc_callback_) {
+					//Gather
+					description.descs.emplace_back(std::move(desc));
+				}
+				else if (!has_object) {
+					//Stop searching object;
+					break;
+				}
+			}
+
+			description.score = score;
+			description.result = has_object;
+
+			if (desc_callback_) {
+				desc_callback_(i, *m_scanner->GetFragment(i), description);
+			}
+
+			if (has_object)
+			{
+				//object detected
+				UUID id;
+				LF_NULL_UUID_CREATE(id);
+				TLFDetectedItem* de = new TLFDetectedItem(&rect, score, this->m_Type, this->m_Angle,
+					this->m_racurs, this->m_baseWidth, this->m_baseHeight, this->m_strDetName.c_str(), id);
+				de->SetHasObject(true);
+
+#ifdef _OMP_
+				#pragma omp critical 
+#endif
+				{
+					m_objects.Add(de);
+				}
+				
+			}
 		}
-		m_scanner->GetFragment(i)->HasObject = false;
 	}
 
 	return m_objects.GetCount();
@@ -717,24 +816,27 @@ bool TLFFGBGDetector::Init(awpImage* pImage, bool scan)
 }
 
 // classification
-int  TLFFGBGDetector::ClassifyRect(awpRect Fragmnet, double* err, int* vect)
+int  TLFFGBGDetector::ClassifyRect(awpRect Fragmnet)
 {
 	if (m_Image.GetImage() == NULL || m_Image.GetIntegralImage() == NULL)
 		return 0;
-
 
 	int w = Fragmnet.right - Fragmnet.left;
 	int h = Fragmnet.bottom - Fragmnet.top;   
 	double s = w*h;
 	double value = m_Image.CalcLnSum(Fragmnet.left, Fragmnet.top, w, h);
 	value /= s;
+	return -1;
+	//TODO: watch this;
+	/*
 	double v1 = err[0] / (double)this->m_counter;
 	*err += value;
 
 	int result = //m_counter > 100 &&
 					fabs(value - v1) > 15 ? 1 : 0;
-	return result;
+	return result;*/
 }
+
 int  TLFFGBGDetector::Detect()
 {
 	for (int i = 0; i < m_objects.GetCount(); i++)
@@ -748,7 +850,7 @@ int  TLFFGBGDetector::Detect()
 			if (rect != NULL)
 			{ 
 				double e = di->GetRaiting();
-				int va,vs,vh,vv,vd;
+				
 			   	ILFWeak* weak_a = (ILFWeak*)this->m_weaks_a.Get(i);
 				ILFWeak* weak_s = (ILFWeak*)this->m_weaks_s.Get(i);
 				ILFWeak* weak_h = (ILFWeak*)this->m_weaks_h.Get(i);
@@ -758,13 +860,13 @@ int  TLFFGBGDetector::Detect()
 				//TODO: check it? May be rect?
 				TLFAlignedTransform transform(1.0);
 
-			 	va = weak_a->Classify(&this->m_Image, transform);
-		   		vs = weak_s->Classify(&this->m_Image, transform);
-		   		vh = weak_h->Classify(&this->m_Image, transform);
-		   		vv = weak_v->Classify(&this->m_Image, transform);
-		   		vd = weak_d->Classify(&this->m_Image, transform);
+			 	auto a = weak_a->Classify(&this->m_Image, transform);
+		   		auto s = weak_s->Classify(&this->m_Image, transform);
+		   		auto h = weak_h->Classify(&this->m_Image, transform);
+		   		auto v = weak_v->Classify(&this->m_Image, transform);
+		   		auto d = weak_d->Classify(&this->m_Image, transform);
 
-				di->SetHasObject(vv + vh  + vd > 0 && va + vs > 0);
+				di->SetHasObject(v.result + h.result + d.result > 0 && a.result + s.result > 0);
                 //di->SetHasObject(false);
 			//	di->SetHasObject(0.2*vv + 0.2*vh + 0.2*vd + 0.2*va + 0.2*vs > 0.5);
 				di->SetRaiting(0);
@@ -999,10 +1101,10 @@ int  TLFSmokeDetector::Detect()
 
 				TLFAlignedTransform transform(1);
 
-				int v1 = weak_s->Classify(&this->m_Image, transform);
-				int v2 = weak_a->Classify(&this->m_Image, transform);
+				auto v1 = weak_s->Classify(&this->m_Image, transform);
+				auto v2 = weak_a->Classify(&this->m_Image, transform);
 
-				di->SetHasObject(v1 > 0 && v2 > 0);
+				di->SetHasObject(v1.result > 0 && v2.result > 0);
 				di->SetRaiting(e);
 			}
 		}
@@ -1084,7 +1186,8 @@ bool TLFFireDetector::Init(awpImage* pImage, bool scan)
 			weak->SetT1(80);
 			weak->SetT2(105);
 			weak->Setmethod(HYST_METHOD_MORE);
-			if (feature->uCalcValue(&m_Image, TLFAlignedTransform(1.0) ) < 80)
+			auto feat = feature->CalcValue(&m_Image, TLFAlignedTransform(1.0));
+			if (feat.value < 80)
 			{
 				m_weaks_a.Add(weak);
 
@@ -1126,9 +1229,9 @@ int  TLFFireDetector::Detect()
 				double e = di->GetRaiting();
 				int v = 0;
 				ILFWeak* weak_a = (ILFWeak*)this->m_weaks_a.Get(i);
-				int v2 = weak_a->Classify(&this->m_Image, TLFAlignedTransform(1));
+				auto v2 = weak_a->Classify(&this->m_Image, TLFAlignedTransform(1));
 #ifdef _DEBUG
-				if(!old_has_object && v2>0)
+				if(!old_has_object && v2.result > 0)
 				{ 
 					//save data to log
 					TLFRingBuffer* rb = ((TLFHysteresisWeak*)weak_a)->GetBuffer();
@@ -1141,7 +1244,7 @@ int  TLFFireDetector::Detect()
 #endif
 				TLFRingBuffer* rb = ((TLFHysteresisWeak*)weak_a)->GetBuffer();
 
-				di->SetHasObject(v2 >0);
+				di->SetHasObject(v2.result > 0);
 			}
 		}
 	}

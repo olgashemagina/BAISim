@@ -206,9 +206,9 @@ bool TCSAdaBoost::Boost(int stage)
             {
                 TCSSample* s = (TCSSample*)m_TrainingSamples.Get(i);
 								
-				int res = wcinfo->Classify( s, TLFAlignedTransform::GetTransform(s, this->m_widthBase, this->m_heightBase));
+				auto res = wcinfo->Classify( s, TLFAlignedTransform::GetTransform(s, this->m_widthBase, this->m_heightBase));
 
-                if ( s->GetFlag() != res )
+                if ( s->GetFlag() != res.result )
                 {
                     wcinfo->SetEpsilon(wcinfo->GetEpsilon() + s->GetWeight());
                 }
@@ -272,15 +272,14 @@ bool TCSAdaBoost::Boost(int stage)
         for ( int i = 0; i < m_TrainingSamples.GetCount(); i++ )
         {
             TCSSample* s = (TCSSample*)m_TrainingSamples.Get(i);
-
-            int res = 0;
+			            
             double err = 0;
 					
 			
-            res = pWc->Classify( s, TLFAlignedTransform::GetTransform(s, m_widthBase, m_heightBase));
+            auto res = pWc->Classify( s, TLFAlignedTransform::GetTransform(s, m_widthBase, m_heightBase));
 
 
-			if (res == s->GetFlag())
+			if (res.result == s->GetFlag())
 				s->SetWeight(s->GetWeight() * beta);
 			else
 				debug_eps += s->GetWeight();
@@ -554,19 +553,16 @@ double TCSAdaBoost::PrintStatistics(TCSStrong& Class, double& afrr)
 
         TCSSample* s = (TCSSample*)m_TrainingSamples.Get(i);
 
-        double err = 0;
-	
-
-		auto res = Class.Classify(s, TLFAlignedTransform::GetTransform(s, m_widthBase, m_heightBase), err);
+		auto res = Class.Classify(s, TLFAlignedTransform::GetTransform(s, m_widthBase, m_heightBase));
 
         if ( s->GetFlag() == 1 )
         {
-			if (res <= 0) dFrr += 1.0;
+			if (res.result <= 0) dFrr += 1.0;
 
         }
         else
         {
-			if (res > 0) dFar += 1.0;
+			if (res.result > 0) dFar += 1.0;
         }
 
 
@@ -598,20 +594,17 @@ double TCSAdaBoost::PrintStatistics(TCSStrong& Class, double& afrr)
     {
 
         TCSSample* s = (TCSSample*)m_TrainingSamples.Get(i);
-
-        double err = 0;
-
-
-        Class.Classify( s, TLFAlignedTransform::GetTransform(s, m_widthBase, m_heightBase), err);
+		
+        auto res = Class.Classify( s, TLFAlignedTransform::GetTransform(s, m_widthBase, m_heightBase));
 
         if ( s->GetFlag() == 1 )
         {
-			if (err < min_err) dFrr1 += 1.0;
+			if (res.score < min_err) dFrr1 += 1.0;
         }
         else
         {
 
-            if ( err >= min_err )
+            if (res.score >= min_err )
             {
                 dFar1 += 1.0;
             }
@@ -670,10 +663,9 @@ void   TCSAdaBoost::SaveFRRSamples(int stage)
 		TCSSample* s = (TCSSample*)m_TrainingSamples.Get(i);
 		if (s->GetFlag() == 1)
 		{
-			double err = 0;
-
-			this->m_ResultClass.Classify(s, TLFAlignedTransform::GetTransform(s, m_widthBase, m_heightBase), err);
-			s->SetRating(err);
+			
+			auto res = this->m_ResultClass.Classify(s, TLFAlignedTransform::GetTransform(s, m_widthBase, m_heightBase));
+			s->SetRating(res.score);
 			
 			positiveSamples.Add (new TCSSample(s));
 		}
@@ -865,9 +857,9 @@ bool TCSAdaBoostSign::Boost()
             {
                 TCSSample* s = (TCSSample*)m_TrainingSamples.Get(i);
 
-                int res = wcinfo->Classify( s, TLFAlignedTransform(1) );
+                auto res = wcinfo->Classify( s, TLFAlignedTransform(1) );
 
-                if ( s->GetFlag() != res )
+                if ( s->GetFlag() != res.result )
                 {
                     wcinfo->SetEpsilon(wcinfo->GetEpsilon() + s->GetWeight());
                 }
@@ -917,11 +909,10 @@ bool TCSAdaBoostSign::Boost()
         {
             TCSSample* s = (TCSSample*)m_TrainingSamples.Get(i);
 
-            int res = 0;
-            double err = 0;
-            res = pWc->Classify( s, TLFAlignedTransform(1) );
+            
+            auto res = pWc->Classify( s, TLFAlignedTransform(1) );
 
-            if ( res == s->GetFlag() )
+            if ( res.result == s->GetFlag() )
                 s->SetWeight(s->GetWeight()*beta);
             wt += s->GetWeight();
         }
@@ -1068,15 +1059,15 @@ void    TCSAdaBoostSign::Statistics()
         double err = 0;
 				
 		
-        int res = m_ResultClass.Classify( s->GetIntegralImage(), TLFAlignedTransform::GetTransform(s, m_widthBase, m_heightBase), err );
-        if (res != s->GetFlag())
+        auto res = m_ResultClass.Classify( s, TLFAlignedTransform::GetTransform(s, m_widthBase, m_heightBase));
+        if (res.result != s->GetFlag())
         {
               errt[0]++;
-              if (res == 0)
+              if (res.result == 0)
                 erru[0]++;
-              if (res == 1)
+              if (res.result == 1)
                 err2[0]++;
-              if (res == -1)
+              if (res.result == -1)
                 err1[0]++;
         }
     }
@@ -1095,18 +1086,16 @@ void    TCSAdaBoostSign::Statistics()
     {
 
         TCSSample* s = (TCSSample*)m_TestingSamples.Get(i);
-
-        double err = 0;
-				
-        int res = m_ResultClass.Classify( s->GetIntegralImage(), TLFAlignedTransform::GetTransform(s, m_widthBase, m_heightBase), err );
-        if (res != s->GetFlag())
+		
+        auto res = m_ResultClass.Classify( s, TLFAlignedTransform::GetTransform(s, m_widthBase, m_heightBase));
+        if (res.result != s->GetFlag())
         {
               errt[1]++;
-              if (res == 0)
+              if (res.result == 0)
                 erru[1]++;
-              if (res == 1)
+              if (res.result == 1)
                 err2[1]++;
-              if (res == -1)
+              if (res.result == -1)
                 err1[1]++;
         }
     }
@@ -1157,16 +1146,16 @@ void TCSAdaBoostSign::SaveROC(char*lpName)
 	{
 		TCSSample* s = (TCSSample*)m_TestingSamples.Get(i);
 						
-		double err = 0;
-		m_ResultClass.Classify( s->GetIntegralImage(), TLFAlignedTransform::GetTransform(s, m_widthBase, m_heightBase), err );
+		
+		auto res = m_ResultClass.Classify( s, TLFAlignedTransform::GetTransform(s, m_widthBase, m_heightBase));
 		if (s->GetFlag() == 1)
 		{
-			fSourceClass1[nc1] = err;
+			fSourceClass1[nc1] = res.score;
 			nc1++;
 		}
 		else
 		{
-			fSourceClass2[nc2] = err;
+			fSourceClass2[nc2] = res.score;
 			nc2++;
 		}
 	}

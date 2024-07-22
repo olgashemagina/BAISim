@@ -63,15 +63,12 @@ TLFAFeature::TLFAFeature(int sxbase, int sybase, int wbase, int hbase) : ILFFeat
 
 }
 
-unsigned int      TLFAFeature::uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
-{
-	return  (unsigned int)this->fCalcValue(pImage, transform)/2;
-}
 
-double            TLFAFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
+TLFAFeature::TResult TLFAFeature::CalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
 {
+	TResult result;
 	if (pImage == NULL)
-		return 0;
+		return {};
 
 	TLFRect rect = transform.Apply(m_base);
 
@@ -81,7 +78,11 @@ double            TLFAFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTran
 	double s = 1. / (double)(w * h);
 	double v = pImage->CalcLnSum(rect.Left(), rect.Top(), w, h);
 
-	return v * s;
+	result.value = v * s;
+	result.discrete = uint32_t(result.value);
+
+	result.features.push_back(result.value);
+	return result;
 }
 
 /*
@@ -100,33 +101,38 @@ TLFSFeature::TLFSFeature(int sxbase, int sybase, int wbase, int hbase) : ILFFeat
 }
 
 
-unsigned int      TLFSFeature::uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
+TLFSFeature::TResult TLFSFeature::CalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
 {
-	return (unsigned int)fCalcValue(pImage, transform);
-}
-double            TLFSFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const {
+	TResult result;
 	if (pImage == NULL)
-		return 0;
+		return {};
+		
 	TLFRect rect = transform.Apply(m_base);
 
 	int w = rect.Width();
 	int h = rect.Height();
 	int x = rect.Left();
 	int y = rect.Top();
-	
+
 	double v1, v2, s, v;
 	s = w * h;
 	if (s == 0)
-		return 0;
-	
+		return {};
+
 
 	v1 = pImage->CalcLnSum(x, y, w, h);
 	v2 = pImage->CalcSqSum(x, y, w, h);
 	v1 /= s;
 	v2 /= s;
 	v = v2 - v1 * v1;
-	return v >= 0 ? sqrt(v) : 0.0;
+	result.value = v >= 0 ? sqrt(v) : 0.0;
+	result.discrete = uint32_t(result.value);
+	result.features.push_back(result.value);
+	result.parent = this;
+
+	return result;
 }
+
 
 TLFSAFeature::TLFSAFeature() : ILFFeature()
 {}
@@ -135,10 +141,13 @@ TLFSAFeature::TLFSAFeature(int sxbase, int sybase, int wbase, int hbase) : ILFFe
 TLFSAFeature::TLFSAFeature(ILFFeature* feature) : ILFFeature(feature)
 {}
 
-unsigned int      TLFSAFeature::uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
+
+TLFSAFeature::TResult TLFSAFeature::CalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
 {
+	TResult result;
 	if (pImage == NULL)
-		return 0;
+		return {};
+
 	TLFRect rect = transform.Apply(m_base);
 
 	int w = rect.Width();
@@ -149,7 +158,7 @@ unsigned int      TLFSAFeature::uCalcValue(TLFImage* pImage, const TLFAlignedTra
 	double v1, v2, s, v;
 	s = w * h;
 	if (s == 0)
-		return 0;
+		return {};
 
 
 	v1 = pImage->CalcLnSum(x, y, w, h);
@@ -157,13 +166,12 @@ unsigned int      TLFSAFeature::uCalcValue(TLFImage* pImage, const TLFAlignedTra
 	v1 /= s;
 	v2 /= s;
 	v = v2 - v1 * v1;
-	return v >= 0 ? (unsigned int)(floor(16 * floor((floor(sqrt(v) / 16. + 0.5))) + v1 / 16. + 0.5)) : 0;
-}
-
-double            TLFSAFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
-{
-	double v = (double)uCalcValue(pImage, transform);
-	return v;
+	result.discrete = v >= 0 ? (unsigned int)(floor(16 * floor((floor(sqrt(v) / 16. + 0.5))) + v1 / 16. + 0.5)) : 0;
+	result.value = (float)result.discrete;
+	result.features.push_back(result.value);
+	result.parent = this;
+	
+	return result;
 }
 
 
@@ -184,16 +192,13 @@ TLFHFeature::TLFHFeature(int sxbase, int sybase, int wbase, int hbase) : ILFFeat
 
 }
 
-unsigned int      TLFHFeature::uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
-{
-	double v = fCalcValue(pImage, transform);
-	return (unsigned int)((v + 2)*32);
-}
 
-double            TLFHFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
+TLFHFeature::TResult TLFHFeature::CalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
 {
+	TResult result;
 	if (pImage == NULL)
-		return 0;
+		return {};
+
 	TLFRect rect = transform.Apply(m_base);
 
 	int w = rect.Width();
@@ -210,12 +215,20 @@ double            TLFHFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTran
 	sigma = sigma - value * value;
 
 	if (sigma == 0)
-		return 0;
+		return {};
 	s /= 2;
+	s *= sqrt(sigma);
 	v1 = pImage->CalcLnSum(x, y, w, h) / s;
 	v2 = pImage->CalcLnSum(x, y + h, w, h) / s;
-	return (v1 - v2) / sqrt(sigma);
+	result.value = (v1 - v2);
+	result.discrete = (unsigned int)((result.value + 2) * 32);
+	result.features.emplace_back(v1);
+	result.features.emplace_back(v2);
+	result.parent = this;
+
+	return result;
 }
+
 
 /*
 	V - feature
@@ -234,15 +247,14 @@ TLFVFeature::TLFVFeature(int sxbase, int sybase, int wbase, int hbase) : ILFFeat
 
 }
 
-unsigned int      TLFVFeature::uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
+
+
+TLFVFeature::TResult TLFVFeature::CalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
 {
-	double v = fCalcValue(pImage, transform);
-	return (unsigned int)((v + 2)*32);
-}
-double            TLFVFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
-{
+	TResult result;
 	if (pImage == NULL)
-		return 0;
+		return {};
+
 	TLFRect rect = transform.Apply(m_base);
 
 	int w = rect.Width();
@@ -259,13 +271,20 @@ double            TLFVFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTran
 	sigma = sigma - value * value;
 
 	if (sigma == 0)
-		return 0;
-	
+		return {};
+
 	s /= 2;
+	s *= sqrt(sigma);
 	v1 = pImage->CalcLnSum(x, y, w, h) / s;
 	v2 = pImage->CalcLnSum(x + w, y, w, h) / s;
-	return (v1 - v2) / sqrt(sigma);
+	result.value = (v1 - v2);
+	result.discrete = (unsigned int)((result.value + 2) * 32);
+	result.features = { float(v1), float(v2)};
+	result.parent = this;
+	
+	return result;
 }
+
 
 /*
 	D - feature
@@ -282,15 +301,12 @@ TLFDFeature::TLFDFeature(int sxbase, int sybase, int wbase, int hbase) : ILFFeat
 
 }
 
-unsigned int      TLFDFeature::uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
+
+TLFDFeature::TResult TLFDFeature::CalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
 {
-	double v = fCalcValue(pImage, transform);
-	return (unsigned int)((v + 2)*32);
-}
-double            TLFDFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
-{
+	TResult result;
 	if (pImage == NULL)
-		return 0;
+		return {};
 
 	TLFRect rect = transform.Apply(m_base);
 
@@ -308,13 +324,22 @@ double            TLFDFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTran
 	sigma = sigma - value * value;
 
 	if (sigma == 0)
-		return 0;
+		return {};
+
+	s *= sqrt(sigma);
 
 	v1 = pImage->CalcLnSum(x, y, w, h) / s;
 	v2 = pImage->CalcLnSum(x + w, y, w, h) / s;
 	v3 = pImage->CalcLnSum(x, y + h, w, h) / s;
 	v4 = pImage->CalcLnSum(x + w, y + h, w, h) / s;
-	return (v1 + v4 - v2 - v3) / sqrt(sigma);
+
+	
+	result.value = (v1 + v4 - v2 - v3);
+	result.discrete = (unsigned int)((result.value + 2) * 32);
+	result.features = {float(v1), float(v2), float(v3), float(v4)};
+	result.parent = this;
+	
+	return result;
 }
 
 
@@ -334,15 +359,12 @@ TLFCFeature::TLFCFeature(int sxbase, int sybase, int wbase, int hbase) : ILFFeat
 
 }
 
-unsigned int      TLFCFeature::uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
+
+TLFCFeature::TResult TLFCFeature::CalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
 {
-	double v = fCalcValue(pImage, transform);
-	return (unsigned int)((v + 30)*2);
-}
-double            TLFCFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
-{
+	TResult result;
 	if (pImage == NULL)
-		return 0;
+		return {};
 
 	TLFRect rect = transform.Apply(m_base);
 
@@ -364,7 +386,7 @@ double            TLFCFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTran
 
 
 	if (sigma == 0)
-		return 0;
+		return {};
 
 	s *= sqrt(sigma);
 	s /= 9;
@@ -379,9 +401,18 @@ double            TLFCFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTran
 	v7 = pImage->CalcLnSum(x, y + 2 * h, w, h) / s;
 	v8 = pImage->CalcLnSum(x + w, y + 2 * h, w, h) / s;
 	v9 = pImage->CalcLnSum(x + 2 * w, y + 2 * h, w, h) / s;
-	return  (8 * v5 - v1 - v2 - v3 - v4 - v6 - v7 - v8 - v9);
 
+	result.value = (8 * v5 - v1 - v2 - v3 - v4 - v6 - v7 - v8 - v9);
+	result.discrete = (unsigned int)((result.value + 30) * 2);
+	result.features = { float(v1), float(v2), float(v3), float(v4), 
+		float(v5), float(v6), float(v7), float(v8), float(v9) };
+
+	result.parent = this;
+
+	return result;
 }
+
+
 
 
 /*
@@ -401,8 +432,13 @@ TLFLBPFeature::TLFLBPFeature(int sxbase, int sybase, int wbase, int hbase) : ILF
 }
 
 
-int  TLFLBPFeature::CalcValue(awpImage* pImage, double avg, const TLFAlignedTransform& transform) const {
+TLFLBPFeature::TResult TLFLBPFeature::CalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
+{
+	TResult result;
+	if (pImage == NULL)
+		return {};
 
+	auto integral = pImage->GetIntegralImage();
 
 	TLFRect transformed = transform.Apply(m_base);
 
@@ -410,8 +446,8 @@ int  TLFLBPFeature::CalcValue(awpImage* pImage, double avg, const TLFAlignedTran
 	int h = transformed.Height();
 	auto trans_area = w * h;
 
-	if (trans_area == 0 || pImage == NULL)
-		return 0;
+	if (trans_area == 0 )
+		return {};
 
 	double tarea = 9.0 * trans_area;
 	double area = 1.0 / (double)(trans_area);
@@ -421,28 +457,30 @@ int  TLFLBPFeature::CalcValue(awpImage* pImage, double avg, const TLFAlignedTran
 	int    iv[9];
 	memset(iv, 0, sizeof(iv));
 
-	double* pix = (double*)pImage->pPixels;
-	
+	double* pix = (double*)integral->pPixels;
+
 	int x = transformed.Left();
 	int y = transformed.Top();
 
-	v[0] = CalcSum(pix, x, y, w, h, pImage->sSizeX) * area;
-	v[1] = CalcSum(pix, x + w, y, w, h, pImage->sSizeX) * area;
-	v[2] = CalcSum(pix, x + 2 * w, y, w, h, pImage->sSizeX) * area;
-	v[3] = CalcSum(pix, x, y + h, w, h, pImage->sSizeX) * area;
-	
-	v[4] = CalcSum(pix, x + 2 * w, y + h, w, h, pImage->sSizeX) * area;
-	v[5] = CalcSum(pix, x, y + 2 * h, w, h, pImage->sSizeX) * area;
-	v[6] = CalcSum(pix, x + w, y + 2 * h, w, h, pImage->sSizeX) * area;
-	v[7] = CalcSum(pix, x + 2 * w, y + 2 * h, w, h, pImage->sSizeX) * area;
+	v[0] = CalcSum(pix, x, y, w, h, integral->sSizeX) * area;
+	v[1] = CalcSum(pix, x + w, y, w, h, integral->sSizeX) * area;
+	v[2] = CalcSum(pix, x + 2 * w, y, w, h, integral->sSizeX) * area;
+	v[3] = CalcSum(pix, x, y + h, w, h, integral->sSizeX) * area;
 
-	v[8] = CalcSum(pix, x + w, y + h, w, h, pImage->sSizeX) * area;
+	v[4] = CalcSum(pix, x + 2 * w, y + h, w, h, integral->sSizeX) * area;
+	v[5] = CalcSum(pix, x, y + 2 * h, w, h, integral->sSizeX) * area;
+	v[6] = CalcSum(pix, x + w, y + 2 * h, w, h, integral->sSizeX) * area;
+	v[7] = CalcSum(pix, x + 2 * w, y + 2 * h, w, h, integral->sSizeX) * area;
 
-	double total = avg > 0 ? avg : v[8];
+	v[8] = CalcSum(pix, x + w, y + h, w, h, integral->sSizeX) * area;
 
-	for ( int i = 0; i < 8; i++)
+	double total = v[8];
+
+	for (int i = 0; i < 8; i++)
 		if (v[i] > total)
 			iv[i] = 1;
+
+	result.features.assign(v, v + 9);
 
 	int idx = 0;
 	idx |= iv[0];
@@ -460,18 +498,15 @@ int  TLFLBPFeature::CalcValue(awpImage* pImage, double avg, const TLFAlignedTran
 	idx |= iv[6];
 	idx = idx << 1;
 	idx |= iv[7];
-	
-	return idx;
+
+	result.discrete = idx;
+	result.value = idx;
+	result.parent = this;
+
+	return result;
 }
 
-unsigned int     TLFLBPFeature::uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
-{
-	return this->CalcValue(pImage->GetIntegralImage(), 0, transform);
-}
-double            TLFLBPFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
-{
-	return (double)this->CalcValue(pImage->GetIntegralImage(), 0, transform);
-}
+
 
 TLFColorSensor9Bit::TLFColorSensor9Bit() : ILFFeature()
 {
@@ -491,11 +526,13 @@ calc features value
 */
 
 
-unsigned int      TLFColorSensor9Bit::uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const {
+TLFColorSensor9Bit::TResult TLFColorSensor9Bit::CalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
+{
+	TResult result;
 	if (pImage == NULL || pImage->GetBlueIntegral() == NULL ||
 		pImage->GetGreenIntegral() == NULL ||
 		pImage->GetRedIntegral() == NULL)
-		return 0;
+		return {};
 
 	TLFRect rect = transform.Apply(m_base);
 
@@ -515,18 +552,20 @@ unsigned int      TLFColorSensor9Bit::uCalcValue(TLFImage* pImage, const TLFAlig
 	unsigned int sr = (unsigned int)(rvalue * coef);
 	unsigned int sg = (unsigned int)(gvalue * coef);
 	unsigned int sb = (unsigned int)(bvalue * coef);
-	unsigned int result = 0;
+	unsigned int value = 0;
 
-	result |= sr;
-	result = result << 3;
-	result |= sg;
-	result = result << 3;
-	result |= sb;
+	value |= sr;
+	value = value << 3;
+	value |= sg;
+	value = value << 3;
+	value |= sb;
+	
+	result.discrete = value;
+	result.value = value;
+	result.features = { float(rvalue), float(gvalue), float(bvalue) };
+	result.parent = this;
+
 	return result;
-}
-
-double            TLFColorSensor9Bit::fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const {
-	return uCalcValue(pImage, transform);
 }
 
 
@@ -547,13 +586,12 @@ TLFLHFeature::TLFLHFeature(int sxbase, int sybase, int wbase, int hbase) : ILFFe
 
 }
 
-unsigned int      TLFLHFeature::uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const {
-	double v = fCalcValue(pImage, transform);
-	return (unsigned int)((v + 4.2426406871192848) * 60.33977866125207);
-}
-double            TLFLHFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const {
+TLFLHFeature::TResult TLFLHFeature::CalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
+{
+	TResult result;
+
 	if (pImage == NULL)
-		return 0;
+		return {};
 
 	TLFRect rect = transform.Apply(m_base);
 
@@ -561,24 +599,31 @@ double            TLFLHFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTra
 	int h = rect.Height();
 	int x = rect.Left();
 	int y = rect.Top();
-	
+
 
 	double s, v1, v2, v3, sigma, value;
 	s = 3 * w * h;
-	value = pImage->CalcLnSum(x, y, w, 3*h);
-	sigma = pImage->CalcSqSum(x, y, w, 3*h);
+	value = pImage->CalcLnSum(x, y, w, 3 * h);
+	sigma = pImage->CalcSqSum(x, y, w, 3 * h);
 	value /= s;
 	sigma /= s;
 	sigma = sigma - value * value;
 
 	if (sigma == 0)
-		return 0;
+		return {};
 
 	s /= 3;//?!
+	s *= sqrt(sigma);
 	v1 = pImage->CalcLnSum(x, y, w, h) / s;
 	v2 = pImage->CalcLnSum(x, y + h, w, h) / s;
 	v3 = pImage->CalcLnSum(x, y + 2 * h, w, h) / s;
-	return (v1 - 2 * v2 + v3) / sqrt(sigma);
+
+	result.value = (v1 - 2 * v2 + v3);
+	result.discrete = (unsigned int)((result.value + 4.2426406871192848) * 60.33977866125207);
+	result.features = { float(v1), float(v2), float(v3) };
+	result.parent = this;
+
+	return result;
 }
 
 
@@ -599,13 +644,13 @@ TLFLVFeature::TLFLVFeature(int sxbase, int sybase, int wbase, int hbase) : ILFFe
 
 }
 
-unsigned int      TLFLVFeature::uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const {
-	double v = fCalcValue(pImage, transform);
-	return (unsigned int)((v + 4.2426406871192848) * 60.33977866125207);
-}
-double            TLFLVFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const {
+
+TLFLVFeature::TResult TLFLVFeature::CalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
+{
+	TResult result;
+
 	if (pImage == NULL)
-		return 0;
+		return {};
 
 	TLFRect rect = transform.Apply(m_base);
 
@@ -613,7 +658,7 @@ double            TLFLVFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTra
 	int h = rect.Height();
 	int x = rect.Left();
 	int y = rect.Top();
-	
+
 	double s, v1, v2, v3, sigma, value;
 	s = 3 * w * h;
 	value = pImage->CalcLnSum(x, y, 3 * w, h);
@@ -623,15 +668,21 @@ double            TLFLVFeature::fCalcValue(TLFImage* pImage, const TLFAlignedTra
 	sigma = sigma - value * value;
 
 	if (sigma == 0)
-		return 0;
-	
+		return {};
+
 	s /= 3;//?!
+	s *= sqrt(sigma);
 	v1 = pImage->CalcLnSum(x, y, w, h) / s;
 	v2 = pImage->CalcLnSum(x + w, y, w, h) / s;
 	v3 = pImage->CalcLnSum(x + 2 * w, y, w, h) / s;
-	return (v1 - 2 * v2 + v3) / sqrt(sigma);
-}
 
+	result.value = (v1 - 2 * v2 + v3);
+	result.discrete = (unsigned int)((result.value + 4.2426406871192848) * 60.33977866125207);
+	result.features = { float(v1), float(v2), float(v3) };
+	result.parent = this;
+
+	return result;
+}
 
 
 //---------------------------------------------------------------------------
@@ -646,80 +697,84 @@ TCSSensor::TCSSensor(TCSSensor* sensor) : ILFFeature(sensor) {}
 // вычисление значения признака.
 // возвращает значение [0..511]
 
-int  TCSSensor::CalcValue(awpImage* pImage, double avg, const TLFAlignedTransform& transform) const {
 
+
+ILFFeature::TResult TCSSensor::CalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
+{
+	auto image = pImage->GetIntegralImage();
 
 	TLFRect transformed = transform.Apply(m_base);
 
 	int w = transformed.Width();
 	int h = transformed.Height();
-	auto trans_area = w*h;
+	auto trans_area = w * h;
 
 	if (trans_area == 0 || pImage == NULL)
-		return 0;
+		return {};
 
-   double tarea = 9.0 * trans_area;
-   double area =  1.0/(double)(trans_area);
+	double tarea = 9.0 * trans_area;
+	double area = 1.0 / (double)(trans_area);
 
-   double v[9];
-   memset(v, 0, sizeof(v));
-   int    iv[9];
-   memset(iv, 0, sizeof(iv));
+	double v[9];
+	memset(v, 0, sizeof(v));
+	int    iv[9];
+	memset(iv, 0, sizeof(iv));
 
-   double* pix = (double*)pImage->pPixels;
-   double total = avg;
+	double* pix = (double*)image->pPixels;
+	
 
-   int x = transformed.Left();
-   int y = transformed.Top();
-   
+	int x = transformed.Left();
+	int y = transformed.Top();
 
-   total = avg > 0 ? avg : CalcSum(pix, x, y, 3 * w, 3 * h, pImage->sSizeX) / tarea;
-   
-   int i = 0;
+	double total = CalcSum(pix, x, y, 3 * w, 3 * h, image->sSizeX) / tarea;
 
-   v[0] = CalcSum(pix, x, y, w, h, pImage->sSizeX) * area;
-   v[1] = CalcSum(pix, x + w, y, w, h, pImage->sSizeX) * area;
-   v[2] = CalcSum(pix, x + 2* w, y, w, h, pImage->sSizeX) * area;
-   v[3] = CalcSum(pix, x, y + h, w, h, pImage->sSizeX) * area;
-   v[4] = CalcSum(pix, x + w, y + h, w, h, pImage->sSizeX) * area;
-   v[5] = CalcSum(pix, x + 2* w, y + h, w, h, pImage->sSizeX) * area;
-   v[6] = CalcSum(pix, x, y + 2* h, w, h, pImage->sSizeX) * area;
-   v[7] = CalcSum(pix, x + w, y + 2* h, w, h, pImage->sSizeX) * area;
-   v[8] = CalcSum(pix, x + 2* w, y + 2* h, w, h, pImage->sSizeX) * area;
+	ILFFeature::TResult result;
 
-   for (i = 0; i < 9; i++)
-	  if (v[i] > total)
-		iv[i] = 1;
+	result.layout = ILFFeature::TResult::kLayout_CS;
+		
+
+	v[0] = CalcSum(pix, x, y, w, h, image->sSizeX) * area;
+	v[1] = CalcSum(pix, x + w, y, w, h, image->sSizeX) * area;
+	v[2] = CalcSum(pix, x + 2 * w, y, w, h, image->sSizeX) * area;
+	v[3] = CalcSum(pix, x, y + h, w, h, image->sSizeX) * area;
+	v[4] = CalcSum(pix, x + w, y + h, w, h, image->sSizeX) * area;
+	v[5] = CalcSum(pix, x + 2 * w, y + h, w, h, image->sSizeX) * area;
+	v[6] = CalcSum(pix, x, y + 2 * h, w, h, image->sSizeX) * area;
+	v[7] = CalcSum(pix, x + w, y + 2 * h, w, h, image->sSizeX) * area;
+	v[8] = CalcSum(pix, x + 2 * w, y + 2 * h, w, h, image->sSizeX) * area;
+
+	result.features.assign(v, v + 9);
+
+	for (int i = 0; i < 9; i++)
+		if (v[i] > total)
+			iv[i] = 1;
+
+	result.features.push_back(total);
 
 	int idx = 0;
 	idx |= iv[0];
-	idx  =idx << 1;
+	idx = idx << 1;
 	idx |= iv[1];
-	idx  =idx << 1;
+	idx = idx << 1;
 	idx |= iv[2];
-	idx  =idx << 1;
+	idx = idx << 1;
 	idx |= iv[3];
-	idx  =idx << 1;
+	idx = idx << 1;
 	idx |= iv[4];
-	idx  =idx << 1;
+	idx = idx << 1;
 	idx |= iv[5];
-	idx  =idx << 1;
+	idx = idx << 1;
 	idx |= iv[6];
-	idx  =idx << 1;
+	idx = idx << 1;
 	idx |= iv[7];
-	idx  =idx << 1;
+	idx = idx << 1;
 	idx |= iv[8];
-	
-   return idx;
-}
 
-unsigned int     TCSSensor::uCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
-{
-	return this->CalcValue(pImage->GetIntegralImage(), 0, transform);
-}
-double            TCSSensor::fCalcValue(TLFImage* pImage, const TLFAlignedTransform& transform) const
-{
-	return (double)this->CalcValue(pImage->GetIntegralImage(), 0, transform);
+	result.discrete = idx;
+	result.value = float(idx);
+	result.parent = this;
+		
+	return result;
 }
 
 /*
