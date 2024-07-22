@@ -581,7 +581,7 @@ namespace accel_rects {
 
     };
 
-    Engine Engine::Create(Detector&& detector, size_t tasks_limits = 8)
+    Engine Engine::Create(Detector&& detector, size_t tasks_limits)
     {
         auto core = std::make_shared<Core>(tasks_limits);
         if (core->Initialize(std::move(detector)))

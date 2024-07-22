@@ -206,7 +206,7 @@ int main()
     }
     det.End();
     
-    auto engine = accel_rects::Engine::Create(std::move(det));
+    auto engine = accel_rects::Engine::Create(std::move(det), 24);
 
 
     if (!engine.is_valid()) {
@@ -274,7 +274,7 @@ int main()
 
     std::cout << "FINISHED!" << std::endl;
 
-    ::Sleep(10000);
+    ::Sleep(20000);
 
     return 0;
   
