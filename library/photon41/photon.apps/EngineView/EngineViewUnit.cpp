@@ -279,7 +279,7 @@ void __fastcall TEngineViewForm::DrawLayer1(TCanvas* cnv, awpRect* pRect)
 					//awpImage* img1 = img->GetIntegralImage();
 						TLFAlignedTransform transform(scale_x, scale_y, pRect->left, pRect->top);
 					   //	weak->Setup(scale_x, scale_y, pRect->left, pRect->top);
-						if (weak->Classify(img, transform))
+						if (weak->Classify(img, transform).result)
 						{
 							cnv->Brush->Color = clGreen;
 						}
@@ -430,7 +430,7 @@ void __fastcall TEngineViewForm::DrawLayer2(TCanvas* cnv, awpRect* pRect)
 				//strong->Setup(scale_x, scale_y, pRect->left, pRect->top);
 				TLFImage* img = detector->GetImage();
 				double err = 0;
-				if (strong->Classify(img, transform, err) || True)    // !!!!
+				if (strong->Classify(img, transform).result || True)    // !!!!
 				{
 					cnv->Brush->Color = clRed;
 				}
@@ -508,7 +508,8 @@ void __fastcall TEngineViewForm::DrawLayer3(TCanvas* cnv, awpRect* pRect)
 	{
 		double err[9];
 		int    vct[9] = {0,0,0,0,0,0,0,0,0};
-		detector->ClassifyRect(*pRect, err, vct) ;
+        detector->ClassifyRect(*pRect) ;
+		//detector->ClassifyRect(*pRect, err, vct) ;
 		if (True || vct[0] && vct[1] && vct[2] && vct[3] && vct[4] && vct[5] && vct[6] && vct[7] && vct[8])
 		{
 			cnv->Brush->Color = clRed;

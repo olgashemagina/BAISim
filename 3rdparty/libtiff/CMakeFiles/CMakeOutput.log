@@ -228,3 +228,234 @@ int main(int argc, char** argv)
   return 0;
 #endif
 }
+The system is: Windows - 10.0.19045 - AMD64
+The system is: Windows - 10.0.19045 - AMD64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: C:/Program Files (x86)/Embarcadero/Studio/23.0/bin/bcc32c.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+CMakeCCompilerId.c:
+Turbo Incremental Link 6.99 Copyright (c) 1997-2024 Embarcadero Technologies, Inc.
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.exe"
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.tds"
+
+The C compiler identification is Embarcadero, found in "C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/3.22.2/CompilerIdC/CMakeCCompilerId.exe"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: C:/Program Files (x86)/Embarcadero/Studio/23.0/bin/bcc32c.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+CMakeCXXCompilerId.cpp:
+Turbo Incremental Link 6.99 Copyright (c) 1997-2024 Embarcadero Technologies, Inc.
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.exe"
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.tds"
+
+The CXX compiler identification is Embarcadero, found in "C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/3.22.2/CompilerIdCXX/CMakeCXXCompilerId.exe"
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_44852\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_44852.dir\build.make -l -o  CMakeFiles\cmTC_44852.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building C object CMakeFiles/cmTC_44852.dir/CMakeCCompilerABI.c.obj
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -DWIN32   -tM -Od -v -oCMakeFiles\cmTC_44852.dir\CMakeCCompilerABI.c.obj -c "C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCCompilerABI.c"
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCCompilerABI.c:
+Linking C executable cmTC_44852.exe
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -ecmTC_44852.exe -tM -lS:1048576 -lSc:4098 -lH:1048576 -lHc:8192 -v -tC -tM -Od -v @MAKE0000.@@@
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+bcc32c.exe: warning: argument unused during compilation: '-nobuiltininc' [-Wunused-command-line-argument]
+Turbo Incremental Link 6.99 Copyright (c) 1997-2024 Embarcadero Technologies, Inc.
+
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_fc25a\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_fc25a.dir\build.make -l -o  CMakeFiles\cmTC_fc25a.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building CXX object CMakeFiles/cmTC_fc25a.dir/CMakeCXXCompilerABI.cpp.obj
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -DWIN32   -tM -Od -v -oCMakeFiles\cmTC_fc25a.dir\CMakeCXXCompilerABI.cpp.obj -P -c "C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCXXCompilerABI.cpp"
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCXXCompilerABI.cpp:
+Linking CXX executable cmTC_fc25a.exe
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -ecmTC_fc25a.exe -tM -lS:1048576 -lSc:4098 -lH:1048576 -lHc:8192 -v -tC -tM -Od -v @MAKE0000.@@@
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+bcc32c.exe: warning: argument unused during compilation: '-nobuiltininc' [-Wunused-command-line-argument]
+Turbo Incremental Link 6.99 Copyright (c) 1997-2024 Embarcadero Technologies, Inc.
+
+
+
+Determining if the include file assert.h exists passed with the following output:
+Change Dir: C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_7a956\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_7a956.dir\build.make -l -o  CMakeFiles\cmTC_7a956.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building C object CMakeFiles/cmTC_7a956.dir/CheckIncludeFile.c.obj
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -DWIN32   -tM -Od -v -oCMakeFiles\cmTC_7a956.dir\CheckIncludeFile.c.obj -c C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckIncludeFile.c
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckIncludeFile.c:
+Linking C executable cmTC_7a956.exe
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -ecmTC_7a956.exe -tM -lS:1048576 -lSc:4098 -lH:1048576 -lHc:8192 -v -tC -tM -Od -v @MAKE0000.@@@
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+bcc32c.exe: warning: argument unused during compilation: '-nobuiltininc' [-Wunused-command-line-argument]
+Turbo Incremental Link 6.99 Copyright (c) 1997-2024 Embarcadero Technologies, Inc.
+
+
+
+Determining if the include file fcntl.h exists passed with the following output:
+Change Dir: C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_82bfa\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_82bfa.dir\build.make -l -o  CMakeFiles\cmTC_82bfa.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building C object CMakeFiles/cmTC_82bfa.dir/CheckIncludeFile.c.obj
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -DWIN32   -tM -Od -v -oCMakeFiles\cmTC_82bfa.dir\CheckIncludeFile.c.obj -c C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckIncludeFile.c
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckIncludeFile.c:
+Linking C executable cmTC_82bfa.exe
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -ecmTC_82bfa.exe -tM -lS:1048576 -lSc:4098 -lH:1048576 -lHc:8192 -v -tC -tM -Od -v @MAKE0000.@@@
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+bcc32c.exe: warning: argument unused during compilation: '-nobuiltininc' [-Wunused-command-line-argument]
+Turbo Incremental Link 6.99 Copyright (c) 1997-2024 Embarcadero Technologies, Inc.
+
+
+
+Determining if the include file io.h exists passed with the following output:
+Change Dir: C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_2f9aa\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_2f9aa.dir\build.make -l -o  CMakeFiles\cmTC_2f9aa.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building C object CMakeFiles/cmTC_2f9aa.dir/CheckIncludeFile.c.obj
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -DWIN32   -tM -Od -v -oCMakeFiles\cmTC_2f9aa.dir\CheckIncludeFile.c.obj -c C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckIncludeFile.c
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckIncludeFile.c:
+Linking C executable cmTC_2f9aa.exe
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -ecmTC_2f9aa.exe -tM -lS:1048576 -lSc:4098 -lH:1048576 -lHc:8192 -v -tC -tM -Od -v @MAKE0000.@@@
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+bcc32c.exe: warning: argument unused during compilation: '-nobuiltininc' [-Wunused-command-line-argument]
+Turbo Incremental Link 6.99 Copyright (c) 1997-2024 Embarcadero Technologies, Inc.
+
+
+
+Determining if the include file sys/types.h exists passed with the following output:
+Change Dir: C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_0a78f\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_0a78f.dir\build.make -l -o  CMakeFiles\cmTC_0a78f.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building C object CMakeFiles/cmTC_0a78f.dir/CheckIncludeFile.c.obj
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -DWIN32   -tM -Od -v -oCMakeFiles\cmTC_0a78f.dir\CheckIncludeFile.c.obj -c C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckIncludeFile.c
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckIncludeFile.c:
+Linking C executable cmTC_0a78f.exe
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -ecmTC_0a78f.exe -tM -lS:1048576 -lSc:4098 -lH:1048576 -lHc:8192 -v -tC -tM -Od -v @MAKE0000.@@@
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+bcc32c.exe: warning: argument unused during compilation: '-nobuiltininc' [-Wunused-command-line-argument]
+Turbo Incremental Link 6.99 Copyright (c) 1997-2024 Embarcadero Technologies, Inc.
+
+
+
+Determining if the include file stdint.h exists passed with the following output:
+Change Dir: C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_018ff\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_018ff.dir\build.make -l -o  CMakeFiles\cmTC_018ff.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building C object CMakeFiles/cmTC_018ff.dir/CheckIncludeFile.c.obj
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -DWIN32   -tM -Od -v -oCMakeFiles\cmTC_018ff.dir\CheckIncludeFile.c.obj -c C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckIncludeFile.c
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckIncludeFile.c:
+Linking C executable cmTC_018ff.exe
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -ecmTC_018ff.exe -tM -lS:1048576 -lSc:4098 -lH:1048576 -lHc:8192 -v -tC -tM -Od -v @MAKE0000.@@@
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+bcc32c.exe: warning: argument unused during compilation: '-nobuiltininc' [-Wunused-command-line-argument]
+Turbo Incremental Link 6.99 Copyright (c) 1997-2024 Embarcadero Technologies, Inc.
+
+
+
+Determining if the include file stddef.h exists passed with the following output:
+Change Dir: C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_eef87\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_eef87.dir\build.make -l -o  CMakeFiles\cmTC_eef87.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building C object CMakeFiles/cmTC_eef87.dir/CheckIncludeFile.c.obj
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -DWIN32   -tM -Od -v -oCMakeFiles\cmTC_eef87.dir\CheckIncludeFile.c.obj -c C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckIncludeFile.c
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckIncludeFile.c:
+Linking C executable cmTC_eef87.exe
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -ecmTC_eef87.exe -tM -lS:1048576 -lSc:4098 -lH:1048576 -lHc:8192 -v -tC -tM -Od -v @MAKE0000.@@@
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+bcc32c.exe: warning: argument unused during compilation: '-nobuiltininc' [-Wunused-command-line-argument]
+Turbo Incremental Link 6.99 Copyright (c) 1997-2024 Embarcadero Technologies, Inc.
+
+
+
+Determining size of size_t passed with the following output:
+Change Dir: C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_2c05d\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_2c05d.dir\build.make -l -o  CMakeFiles\cmTC_2c05d.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building C object CMakeFiles/cmTC_2c05d.dir/SIZEOF_SIZE_T.c.obj
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -DWIN32   -tM -Od -v -oCMakeFiles\cmTC_2c05d.dir\SIZEOF_SIZE_T.c.obj -c C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CheckTypeSize\SIZEOF_SIZE_T.c
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CheckTypeSize\SIZEOF_SIZE_T.c:
+Linking C executable cmTC_2c05d.exe
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -ecmTC_2c05d.exe -tM -lS:1048576 -lSc:4098 -lH:1048576 -lHc:8192 -v -tC -tM -Od -v @MAKE0000.@@@
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+bcc32c.exe: warning: argument unused during compilation: '-nobuiltininc' [-Wunused-command-line-argument]
+Turbo Incremental Link 6.99 Copyright (c) 1997-2024 Embarcadero Technologies, Inc.
+
+
+
+Determining if the pow exist passed with the following output:
+Change Dir: C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_10397\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_10397.dir\build.make -l -o  CMakeFiles\cmTC_10397.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building C object CMakeFiles/cmTC_10397.dir/CheckSymbolExists.c.obj
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -DWIN32   -tM -Od -v -oCMakeFiles\cmTC_10397.dir\CheckSymbolExists.c.obj -c C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckSymbolExists.c
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckSymbolExists.c:
+Linking C executable cmTC_10397.exe
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -ecmTC_10397.exe -tM -lS:1048576 -lSc:4098 -lH:1048576 -lHc:8192 -v -tC -tM -Od -v @MAKE0000.@@@
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+bcc32c.exe: warning: argument unused during compilation: '-nobuiltininc' [-Wunused-command-line-argument]
+Turbo Incremental Link 6.99 Copyright (c) 1997-2024 Embarcadero Technologies, Inc.
+
+
+File C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <math.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pow
+  return ((int*)(&pow))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}

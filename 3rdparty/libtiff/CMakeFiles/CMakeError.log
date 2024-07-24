@@ -214,3 +214,219 @@ int main(int argc, char** argv)
   return 0;
 #endif
 }
+Performing C SOURCE FILE Test HAVE_LD_VERSION_SCRIPT failed with the following output:
+Change Dir: C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_38dfe\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_38dfe.dir\build.make -l -o  CMakeFiles\cmTC_38dfe.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building C object CMakeFiles/cmTC_38dfe.dir/src.c.obj
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -DWIN32 -DHAVE_LD_VERSION_SCRIPT  -tM -Wl,--version-script=C:/work/!!!!!!!/BAISim/3rdparty/libtiff/conftest.map -Od -v -oCMakeFiles\cmTC_38dfe.dir\src.c.obj -c C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\src.c
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+E2075 Incorrect command line option: -Wl,--version-script=C:/work/!!!!!!!/BAISim/3rdparty/libtiff/conftest.mapFatal: Unable to execute command: C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe
+
+** error 1 ** deleting cmTC_38dfe\fast
+
+
+Source file was:
+int main(void){return 0;}
+Determining if the include file strings.h exists failed with the following output:
+Change Dir: C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_df4d5\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_df4d5.dir\build.make -l -o  CMakeFiles\cmTC_df4d5.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building C object CMakeFiles/cmTC_df4d5.dir/CheckIncludeFile.c.obj
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -DWIN32   -tM -Od -v -oCMakeFiles\cmTC_df4d5.dir\CheckIncludeFile.c.obj -c C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckIncludeFile.c
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckIncludeFile.c:
+C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckIncludeFile.c:1:10: fatal error: 'strings.h' file not found
+#include <strings.h>
+         ^~~~~~~~~~~
+1 error generated.
+
+** error 1 ** deleting CMakeFiles\cmTC_df4d5.dir\CheckIncludeFile.c.obj
+
+** error 1 ** deleting cmTC_df4d5\fast
+
+
+
+Determining if the include file sys/time.h exists failed with the following output:
+Change Dir: C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_b0456\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_b0456.dir\build.make -l -o  CMakeFiles\cmTC_b0456.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building C object CMakeFiles/cmTC_b0456.dir/CheckIncludeFile.c.obj
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -DWIN32   -tM -Od -v -oCMakeFiles\cmTC_b0456.dir\CheckIncludeFile.c.obj -c C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckIncludeFile.c
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckIncludeFile.c:
+C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckIncludeFile.c:1:10: fatal error: 'sys/time.h' file not found
+#include <sys/time.h>
+         ^~~~~~~~~~~~
+1 error generated.
+
+** error 1 ** deleting CMakeFiles\cmTC_b0456.dir\CheckIncludeFile.c.obj
+
+** error 1 ** deleting cmTC_b0456\fast
+
+
+
+Determining if the include file unistd.h exists failed with the following output:
+Change Dir: C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_b3fd5\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_b3fd5.dir\build.make -l -o  CMakeFiles\cmTC_b3fd5.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building C object CMakeFiles/cmTC_b3fd5.dir/CheckIncludeFile.c.obj
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -DWIN32   -tM -Od -v -oCMakeFiles\cmTC_b3fd5.dir\CheckIncludeFile.c.obj -c C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckIncludeFile.c
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckIncludeFile.c:
+C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckIncludeFile.c:1:10: fatal error: 'unistd.h' file not found
+#include <unistd.h>
+         ^~~~~~~~~~
+1 error generated.
+
+** error 1 ** deleting CMakeFiles\cmTC_b3fd5.dir\CheckIncludeFile.c.obj
+
+** error 1 ** deleting cmTC_b3fd5\fast
+
+
+
+Determining if the getopt exist failed with the following output:
+Change Dir: C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_afae7\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_afae7.dir\build.make -l -o  CMakeFiles\cmTC_afae7.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building C object CMakeFiles/cmTC_afae7.dir/CheckSymbolExists.c.obj
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -DWIN32   -tM -Od -v -oCMakeFiles\cmTC_afae7.dir\CheckSymbolExists.c.obj -c C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckSymbolExists.c
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckSymbolExists.c:
+C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckSymbolExists.c:2:10: fatal error: 'unistd.h' file not found
+#include <unistd.h>
+         ^~~~~~~~~~
+1 error generated.
+
+** error 1 ** deleting CMakeFiles\cmTC_afae7.dir\CheckSymbolExists.c.obj
+
+** error 1 ** deleting cmTC_afae7\fast
+
+
+File C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <unistd.h>
+#include <stdio.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef getopt
+  return ((int*)(&getopt))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the optarg exist failed with the following output:
+Change Dir: C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_25bfc\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_25bfc.dir\build.make -l -o  CMakeFiles\cmTC_25bfc.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building C object CMakeFiles/cmTC_25bfc.dir/CheckSymbolExists.c.obj
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -DWIN32   -tM -Od -v -oCMakeFiles\cmTC_25bfc.dir\CheckSymbolExists.c.obj -c C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckSymbolExists.c
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckSymbolExists.c:
+C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckSymbolExists.c:2:10: fatal error: 'getopt.h' file not found
+#include <getopt.h>
+         ^~~~~~~~~~
+1 error generated.
+
+** error 1 ** deleting CMakeFiles\cmTC_25bfc.dir\CheckSymbolExists.c.obj
+
+** error 1 ** deleting cmTC_25bfc\fast
+
+
+File C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <getopt.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef optarg
+  return ((int*)(&optarg))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the mmap exist failed with the following output:
+Change Dir: C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_7b6ea\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_7b6ea.dir\build.make -l -o  CMakeFiles\cmTC_7b6ea.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building C object CMakeFiles/cmTC_7b6ea.dir/CheckSymbolExists.c.obj
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -DWIN32   -tM -Od -v -oCMakeFiles\cmTC_7b6ea.dir\CheckSymbolExists.c.obj -c C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckSymbolExists.c
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckSymbolExists.c:
+C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckSymbolExists.c:2:10: fatal error: 'sys/mman.h' file not found
+#include <sys/mman.h>
+         ^~~~~~~~~~~~
+1 error generated.
+
+** error 1 ** deleting CMakeFiles\cmTC_7b6ea.dir\CheckSymbolExists.c.obj
+
+** error 1 ** deleting cmTC_7b6ea\fast
+
+
+File C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <sys/mman.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef mmap
+  return ((int*)(&mmap))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the setmode exist failed with the following output:
+Change Dir: C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_e9009\fast && MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+	make  -f CMakeFiles\cmTC_e9009.dir\build.make -l -o  CMakeFiles\cmTC_e9009.dir\build
+MAKE Version 5.43  Copyright (c) 1987, 2019 Embarcadero Technologies, Inc.
+Building C object CMakeFiles/cmTC_e9009.dir/CheckSymbolExists.c.obj
+	C:\PROGRA~2\EMBARC~1\Studio\23.0\bin\bcc32c.exe -tR -DWIN32   -tM -Od -v -oCMakeFiles\cmTC_e9009.dir\CheckSymbolExists.c.obj -c C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckSymbolExists.c
+Embarcadero C++ 7.70 for Win32 Copyright (c) 2012-2024 Embarcadero Technologies, Inc.
+C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckSymbolExists.c:
+C:\work\!!!!!!!\BAISim\3rdparty\libtiff\CMakeFiles\CMakeTmp\CheckSymbolExists.c:2:10: fatal error: 'unistd.h' file not found
+#include <unistd.h>
+         ^~~~~~~~~~
+1 error generated.
+
+** error 1 ** deleting CMakeFiles\cmTC_e9009.dir\CheckSymbolExists.c.obj
+
+** error 1 ** deleting cmTC_e9009\fast
+
+
+File C:/work/!!!!!!!/BAISim/3rdparty/libtiff/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <unistd.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef setmode
+  return ((int*)(&setmode))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}

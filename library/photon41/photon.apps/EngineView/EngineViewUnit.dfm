@@ -10,11 +10,9 @@ object EngineViewForm: TEngineViewForm
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   Position = poMainFormCenter
   OnClose = FormClose
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object Splitter1: TSplitter
     Left = 185
@@ -112,20 +110,19 @@ object EngineViewForm: TEngineViewForm
       Top = 177
       Width = 183
       Height = 221
-      OnClickCheck = CheckListBox1Click
       Align = alClient
       ItemHeight = 13
       TabOrder = 0
       OnClick = CheckListBox1Click
+      OnClickCheck = CheckListBox1Click
     end
     object CheckListBox2: TCheckListBox
       Left = 1
       Top = 113
       Width = 183
       Height = 64
-      OnClickCheck = CheckListBox2ClickCheck
       Align = alTop
-      ItemHeight = 13
+      ItemHeight = 17
       Items.Strings = (
         'layer 0'
         'layer 1'
@@ -133,6 +130,7 @@ object EngineViewForm: TEngineViewForm
         'layer 3')
       TabOrder = 1
       OnClick = CheckListBox2Click
+      OnClickCheck = CheckListBox2ClickCheck
     end
     object RadioGroup1: TRadioGroup
       Left = 1

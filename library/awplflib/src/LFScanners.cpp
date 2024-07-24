@@ -312,9 +312,11 @@ bool TLFScanner::Scan(int w0, int h0)
 
 				if (x + _width < w0 || y + _height < h0 )
 				{
-					awpRect rect = { (AWPSHORT)x, (AWPSHORT)y, (AWPSHORT)x + (AWPSHORT)_width, (AWPSHORT)y + (AWPSHORT)_height };
-					
-					
+					AWPSHORT xdx =  (AWPSHORT)x + (AWPSHORT)_width;
+					AWPSHORT ydy =  (AWPSHORT)y + (AWPSHORT)_height;
+					awpRect rect = { (AWPSHORT)x, (AWPSHORT)y, xdx, ydy };
+					//awpRect rect = { (AWPSHORT)x, (AWPSHORT)y, (AWPSHORT)x + (AWPSHORT)_width, (AWPSHORT)y + (AWPSHORT)_height };
+
 						/*m_Fragments[c].Rect.left = (AWPSHORT)x;
 					m_Fragments[c].Rect.top = (AWPSHORT)y;
 					m_Fragments[c].Rect.bottom = m_Fragments[c].Rect.top + (AWPSHORT)_height;

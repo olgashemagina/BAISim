@@ -58,7 +58,7 @@
         <Multithreaded>true</Multithreaded>
         <SanitizedProjectName>tifflib</SanitizedProjectName>
         <_TCHARMapping>char</_TCHARMapping>
-        <IncludePath>libtiff\;..\libtiff\port\;$(IncludePath)</IncludePath>
+        <IncludePath>libtiff\;..\libtiff\port\;..\zlib\;$(IncludePath)</IncludePath>
         <VerInfo_Locale>1049</VerInfo_Locale>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
     </PropertyGroup>

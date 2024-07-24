@@ -1,0 +1,1 @@
+cmake -DCMAKE_C_COMPILER=bcc32c.exe -DCMAKE_CXX_COMPILER=bcc32c.exe -DZLIB_INCLUDE_DIR=../zlib/ -DZLIB_LIB_DIR=C:\work\BAISim\build\lib\borland\Win32\Debug -DZLIB_LIBRARY=zlib.lib -G "Borland Makefiles" .

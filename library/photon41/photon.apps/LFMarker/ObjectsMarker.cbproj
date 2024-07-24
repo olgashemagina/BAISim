@@ -94,7 +94,7 @@
         <BCC_DisableOptimizations>true</BCC_DisableOptimizations>
         <BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
         <DynamicRTL>true</DynamicRTL>
-        <AllPackageLibs>vcl.lib;rtl.lib;vclx.lib;bcbsmp.lib;dbrtl.lib;xmlrtl.lib;inet.lib;vcldb.lib;vclimg.lib;VclSmp.lib;photon41.lib;Tee927.lib</AllPackageLibs>
+        <AllPackageLibs>vcl.lib;rtl.lib;vclx.lib;bcbsmp.lib;dbrtl.lib;xmlrtl.lib;inet.lib;vcldb.lib;vclimg.lib;VclSmp.lib;photon41.lib;Tee.lib</AllPackageLibs>
         <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
         <BRCC_IncludePath>..\common;$(BDS)\Bin;$(BDS)\Projects\common;$(BDS)\Projects;$(BDS)\include;$(BDS)\include\vcl;..\..\awpipl2\include;..\..\awplflib\include;..\..\include;..\..\awpipl2\include\_include;$(TINY);$(PHOTON);$(LF);$(BRCC_IncludePath)</BRCC_IncludePath>
         <BCC_DebugLineNumbers>true</BCC_DebugLineNumbers>
@@ -173,7 +173,7 @@
         <VerInfo_Build>0</VerInfo_Build>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <LinkPackageStatics>vclx.lib;bcbsmp.lib;dbrtl.lib;xmlrtl.lib;inet.lib;vcldb.lib;vclimg.lib;VclSmp.lib;photon41.lib;Tee927.lib</LinkPackageStatics>
+        <LinkPackageStatics>vclx.lib;bcbsmp.lib;dbrtl.lib;xmlrtl.lib;inet.lib;vcldb.lib;vclimg.lib;VclSmp.lib;photon41.lib;Tee.lib</LinkPackageStatics>
         <BCC_Defines>_DEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <PackageImports>DclTeePro925.bpl;$(PackageImports)</PackageImports>
@@ -677,15 +677,11 @@
                 <DeployFile LocalName="..\..\..\..\build\bin\Win32\Debug\ObjectsMarker.tds" Configuration="Debug" Class="DebugSymbols"/>
                 <DeployFile LocalName="..\..\bin\ObjectsMarker.exe" Configuration="Debug" Class="ProjectOutput"/>
                 <DeployFile LocalName="..\..\bin\ObjectsMarker.exe" Configuration="Release" Class="ProjectOutput"/>
-                <DeployFile LocalName="..\..\bin\ObjectsMarker.exe" Configuration="Release" Class="ProjectOutput"/>
                 <DeployFile LocalName="..\..\bin\ObjectsMarker.tds" Configuration="Debug" Class="DebugSymbols"/>
-                <DeployFile LocalName="..\..\bin\ObjectsMarker.tds" Configuration="Release" Class="DebugSymbols"/>
                 <DeployFile LocalName="..\..\bin\ObjectsMarker.tds" Configuration="Release" Class="DebugSymbols"/>
                 <DeployFile LocalName="..\bin\ObjectsMarker.exe" Configuration="Release" Class="ProjectOutput"/>
                 <DeployFile LocalName=".\ObjectsMarker.exe" Configuration="Debug" Class="ProjectOutput"/>
                 <DeployFile LocalName="ObjectsMarker.res" Configuration="Debug" Class="ProjectFile"/>
-                <DeployFile LocalName="ObjectsMarker.res" Configuration="Debug" Class="ProjectFile"/>
-                <DeployFile LocalName="ObjectsMarker.res" Configuration="Release" Class="ProjectFile"/>
                 <DeployFile LocalName="ObjectsMarker.res" Configuration="Release" Class="ProjectFile"/>
                 <DeployFile LocalName="todo.txt" Configuration="Debug" Class="ProjectFile"/>
                 <DeployFile LocalName="todo.txt" Configuration="Release" Class="ProjectFile"/>
