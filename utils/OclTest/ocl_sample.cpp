@@ -206,7 +206,7 @@ int main()
     }
     det.End();
     
-    auto engine = accel_rects::Engine::Create(std::move(det), 24);
+    auto engine = accel_rects::Engine::Create(std::move(det), 8);
 
 
     if (!engine.is_valid()) {
@@ -241,7 +241,7 @@ int main()
 
     std::vector<std::thread>        threads;
 
-    for (int t = 0; t < 8; ++t) {
+    for (int t = 0; t < 4; ++t) {
         threads.emplace_back([&]() {
             auto worker = engine.CreateWorker();
             for (int z = 0; z < 25; ++z) {
@@ -274,7 +274,7 @@ int main()
 
     std::cout << "FINISHED!" << std::endl;
 
-    ::Sleep(20000);
+    ::Sleep(60000);
 
     return 0;
   

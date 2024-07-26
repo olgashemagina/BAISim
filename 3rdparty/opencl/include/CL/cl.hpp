@@ -149,7 +149,7 @@
 #include <windows.h>
 #include <malloc.h>
 #include <iterator>
-#include <intrin.h>
+//#include <intrin.h>
 
 #if defined(__CL_ENABLE_EXCEPTIONS)
 #include <exception>
