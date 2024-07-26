@@ -191,39 +191,42 @@ int main()
     for (int i = 0; i < 64; ++i)
         table[i] = 0xff;
 
-    accel_rects::Detector   det; 
-    det.Begin();
+    accel_rects::DetectorBuilder   det_builder; 
+    det_builder.Begin();
 
     for (int s = 0; s < stages_size; s++) {
-        det.BeginStage();
+        det_builder.BeginStage();
 
         for (int f = 0; f < feats_size; ++f) {
-            det.AddSCWeak(1, table, 0, 0, 0.23f, 0.23f);
-            det.AddSCWeak(1, table, 0.1, 0.1, 0.27f, 0.27f);
-            det.AddSCWeak(1, table, 0.05, 0.05, 0.2f, 0.2f);
+            det_builder.AddSCWeak(1, table, 0, 0, 0.23f, 0.23f);
+            det_builder.AddSCWeak(1, table, 0.1, 0.1, 0.27f, 0.27f);
+            det_builder.AddSCWeak(1, table, 0.05, 0.05, 0.2f, 0.2f);
         }
-        det.EndStage(1);
+        det_builder.EndStage(1);
     }
-    det.End();
+    det_builder.End();
     
-    auto engine = accel_rects::Engine::Create(std::move(det), 8);
+    auto engine = accel_rects::Engine::Create(16);
 
 
     if (!engine.is_valid()) {
         return -1;
     }
+    
+    auto det_view = engine.CreateDetector(det_builder.Consume());
 
     std::cout << "Detector created!" << std::endl;
 
-    if (!engine.SetIntegral(integral.data(), width, height, width*sizeof(uint64_t))) {
+    auto integral_view = engine.CreateIntegral(integral.data(), width, height, width * sizeof(uint64_t));
+
+    if (!integral_view.is_valid()) {
         return -2;
     }
 
-    auto worker = engine.CreateWorker();
-
-    accel_rects::callback_t cb = [](size_t trans_size, size_t stages_size, size_t feats_size, accel_rects::detections_t&& dets, accel_rects::features_t&& feats) {
+    
+    accel_rects::callback_t cb = [](const accel_rects::dims_t& dims, const accel_rects::detections_t& dets, const accel_rects::features_t& feats) {
         
-        std::cout << "Callback " << trans_size << " : " << stages_size << " : " << feats_size << ". " << std::this_thread::get_id() << std::endl;
+        std::cout << "Callback " << dims[0] << " : " << dims[1] << " : " << dims[2] << ". " << std::this_thread::get_id() << std::endl;
         /*for (size_t t = 0; t < trans_size; ++t) {
             std::cout << "Features " << feats_size << "." << std::endl;
             for (size_t f = 0; f < std::min<size_t>(feats_size, 10); ++f) {
@@ -241,10 +244,12 @@ int main()
 
     std::vector<std::thread>        threads;
 
-    for (int t = 0; t < 4; ++t) {
+    int threads_count = 8;
+
+    for (int t = 0; t < threads_count; ++t) {
         threads.emplace_back([&]() {
             auto worker = engine.CreateWorker();
-            for (int z = 0; z < 25; ++z) {
+            for (int z = 0; z < 100; ++z) {
                 accel_rects::transforms_t trans(trans_size, { float(width), float(height), 0, 0 });
 
                 for (int i = 0; i < trans_size; ++i) {
@@ -252,29 +257,22 @@ int main()
                     trans[i][3] = 0;
                 }
 
-                worker.Enqueue(std::move(trans), cb);
-                std::cout << "Added " << z << std::endl;
+                auto res = worker.Enqueue(integral_view, det_view.features_view(), std::move(trans), cb);
+                std::cout << "Added " << z << " res=" << res << std::endl;
             }
 
         });
-        threads.back().detach();
+        //threads.back().detach();
     }
-    /*
-    for (int z = 0; z < 100; ++z) {
-        accel_rects::transforms_t trans(trans_size, { float(width), float(height), 0, 0 });
 
-        for (int i = 0; i < trans_size; ++i) {
-            trans[i][2] = i;
-            trans[i][3] = i;
-        }
-
-        worker.Enqueue(std::move(trans), cb);
-        std::cout << "Added " << z << std::endl;
-    }*/
+    for (int t = 0; t < threads_count; ++t) {
+        threads[t].join();
+    }
+    
 
     std::cout << "FINISHED!" << std::endl;
 
-    ::Sleep(60000);
+    //::Sleep(90000);
 
     return 0;
   

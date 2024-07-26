@@ -4,6 +4,7 @@
 #include <atomic>
 #include <thread>
 #include <mutex>
+#include <variant>
 
 
 
@@ -120,6 +121,8 @@ static const char cl_source_code[] =
      }  \
 }
 
+#define CL_CHECK_RET(expr) CL_CHECK(expr, ;)
+
 #define CL_CHECK_BOOL(expr)  CL_CHECK(expr, false)
 
 namespace accel_rects {
@@ -164,6 +167,176 @@ namespace accel_rects {
     };
 
     class Task;
+
+    /// <summary>
+    /// IntegralData
+    /// </summary>
+    class IntegralData {
+    public:
+        IntegralData(const cl::Context& context, const uint64_t* ptr, size_t width, size_t height, size_t stride) {
+            //stride must be equal or more than width * 8 bytes;
+            integral_ = cl::Image2D(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, { CL_RGBA, CL_UNSIGNED_INT16 }, width, height, stride, (void*)ptr, &err_);
+        }
+
+        bool    is_valid() const { return err_ == CL_SUCCESS; }
+
+        size_t  width() const {
+            return integral_.getImageInfo<CL_IMAGE_WIDTH>();
+        }
+
+        size_t  height() const {
+            return integral_.getImageInfo<CL_IMAGE_HEIGHT>();
+        }
+
+        const cl::Image2D& integral() const { return integral_; }
+
+    private:
+        cl_int                      err_ = CL_SUCCESS;
+
+        //Integral image
+        cl::Image2D                 integral_;
+
+    };
+
+    bool IntegralView::is_valid() const
+    {
+        return data_->is_valid();
+    }
+
+    size_t IntegralView::width() const {
+        return data_->width();
+    }
+
+    size_t IntegralView::height() const {
+        return data_->height();
+    }
+
+
+    /// <summary>
+    /// FeaturesData
+    /// </summary>
+    class FeaturesData {
+    public:
+        FeaturesData(const cl::Context& context, Features&& features): features_(std::move(features)) {
+            rects_ = cl::Buffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
+                sizeof(cl_float4) * features_.rects().size(), (void*)features_.rects().data(), &err_);
+        }
+
+        bool    is_valid() const { return err_ == CL_SUCCESS; }
+
+        const Features& features() const { return features_; }
+                
+        const cl::Buffer& rects() const { return rects_; }
+
+
+    private:
+        cl_int                      err_ = CL_SUCCESS;
+                
+        cl::Buffer                  rects_;
+        Features                    features_;
+    };
+
+
+    const Features& FeaturesView::features() const {
+        return data_->features();
+    }
+
+    bool FeaturesView::is_valid() const {
+        return data_->is_valid();
+    }
+
+    /// <summary>
+    /// StagesData
+    /// </summary>
+    class StagesData {
+    public:
+        StagesData(const cl::Context& context, Stages&& stages)
+            : stages_(std::move(stages)) {
+
+            positions_ = cl::Buffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
+                sizeof(cl_int) * stages_.positions().size(), (void*)stages_.positions().data(), &err_);
+            CL_CHECK_RET(err_);
+
+            weights_ = cl::Buffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
+                sizeof(cl_float) * stages_.weights().size(), (void*)stages_.weights().data(), &err_);
+            CL_CHECK_RET(err_);
+
+            thres_ = cl::Buffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
+                sizeof(cl_float) * stages_.thres().size(), (void*)stages_.thres().data(), &err_);
+            CL_CHECK_RET(err_);
+
+            resps_ = cl::Buffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
+                sizeof(cl_uchar) * sizeof(sc_resps_t::value_type) * stages_.resps().size(), (void*)stages_.resps().data(), &err_);
+            CL_CHECK_RET(err_);
+        }
+
+        bool    is_valid() const { return err_ == CL_SUCCESS; }
+
+        const Stages& stages() const { return stages_; }
+      
+        const cl::Buffer& positions() const { return positions_; }
+        const cl::Buffer& thresholds() const { return thres_; }
+        const cl::Buffer& weights() const { return weights_; }
+        const cl::Buffer& responses() const { return resps_; }
+
+
+    private:
+        cl_int                      err_ = CL_SUCCESS;
+
+        //Cascades of features;
+        cl::Buffer                  positions_;
+        //Weights of features
+        cl::Buffer                  weights_;
+        //Threshold for each cascade;
+        cl::Buffer                  thres_;
+        //Responces of weak features;
+        cl::Buffer                  resps_;
+              
+        Stages                      stages_;
+    };
+
+    /// <summary>
+    /// DetectorData
+    /// </summary>
+    class DetectorData {
+    public:
+        DetectorData(const cl::Context& context, std::pair<Stages, Features>&& detector)
+            : stages_data_(context, std::move(detector.first))
+            , features_data_(context, std::move(detector.second)) {
+        }
+
+        bool    is_valid() const { return stages_data_.is_valid() && features_data_.is_valid(); }
+
+        const Stages& stages() const { return stages_data_.stages(); }
+        const Features& features() const { return features_data_.features(); }
+
+        const FeaturesData& features_data() const { return features_data_; }
+        FeaturesData& features_data() { return features_data_; }
+
+        const StagesData& stages_data() const { return stages_data_; }
+        StagesData& stages_data() { return stages_data_; }
+        
+
+    private:
+        
+        FeaturesData                features_data_;
+        StagesData                  stages_data_;
+    };
+
+    const Stages& DetectorView::stages() const {
+        return data_->stages();
+    }
+
+    FeaturesView DetectorView::features_view() {
+        return std::shared_ptr<FeaturesData>(data_, &data_->features_data());
+               
+    }
+
+    bool DetectorView::is_valid() const
+    {
+        return data_->is_valid();
+    }
+
     
     
     class Core : public std::enable_shared_from_this<Core> {
@@ -176,9 +349,8 @@ namespace accel_rects {
             std::cout << "Tasks count " << tasks_count() << std::endl;
         }
 
-        bool            Initialize(Detector&& detector) {
-            detector_ = std::move(detector);
-
+        bool            Initialize() {
+            
             std::vector<cl::Platform> all_platforms;
             cl::Platform::get(&all_platforms);
             if (all_platforms.empty()) {
@@ -223,42 +395,13 @@ namespace accel_rects {
 
             queue_ = cl::CommandQueue(context_, device_, properties, &err);
             CL_CHECK_BOOL(err);
-
-            rects_ = cl::Buffer(context_, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, 
-                            sizeof(cl_float4) * detector_.rects().size(), (void*)detector_.rects().data(), &err);
-            CL_CHECK_BOOL(err);
-
-            stages_ = cl::Buffer(context_, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
-                sizeof(cl_int) * detector_.stages().size(), (void*)detector_.stages().data(), &err);
-            CL_CHECK_BOOL(err);
-
-            weights_ = cl::Buffer(context_, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
-                sizeof(cl_float) * detector_.weights().size(), (void*)detector_.weights().data(), &err);
-            CL_CHECK_BOOL(err);
-
-            thres_ = cl::Buffer(context_, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
-                sizeof(cl_float) * detector_.thres().size(), (void*)detector_.thres().data(), &err);
-            CL_CHECK_BOOL(err);
-                        
-            resps_ = cl::Buffer(context_, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
-                sizeof(cl_uchar) * sizeof(sc_resps_t::value_type) * detector_.resps().size(), (void*)detector_.resps().data(), &err);
-            CL_CHECK_BOOL(err);
+                    
 
             return true;
 
         }
 
-        bool            SetIntegral(const uint64_t* ptr, size_t width, size_t height, size_t stride) {
-            cl_int err = 0;
-
-            integral_ = cl::Image2D(context_, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, { CL_RGBA, CL_UNSIGNED_INT16 }, width, height, stride, (void*)ptr, &err);
-
-            CL_CHECK_BOOL(err);
-
-            return true;
-        }
-
-        
+             
         //cl::Context& context() { return context_; }
         const cl::Context& context() const { return context_; }
 
@@ -270,20 +413,6 @@ namespace accel_rects {
         cl::Program& program() { return program_; }
         const cl::Program& program() const { return program_; }
 
-        //cl::Image2D& integral() { return integral_; }
-        const cl::Image2D& integral() const { return integral_; }
-
-        //cl::Buffer& rects() { return rects_; }
-        const cl::Buffer& rects() const { return rects_; }
-
-        int      feats_size() const { return detector_.feats_size(); }
-        int      stages_size() const { return detector_.stages_size(); }
-
-
-        const cl::Buffer& stages() const { return stages_; }
-        const cl::Buffer& weights() const { return weights_; }
-        const cl::Buffer& thres() const { return thres_; }
-        const cl::Buffer& resps() const { return resps_; }
 
     public:
         Task*     CreateTask() {
@@ -306,8 +435,7 @@ namespace accel_rects {
 
         int     tasks_count() const { return tasks_count_.load(std::memory_order_acquire); }
 
-    public:
-        const Detector& detector() const { return detector_; }
+      
 
 
     private:
@@ -316,40 +444,14 @@ namespace accel_rects {
         //Source code of cl program
         cl::Program                 program_;
         cl::CommandQueue            queue_;
-
-        //Integral image
-        cl::Image2D                 integral_;
-        //Rects list
-        cl::Buffer                  rects_;
-        //Cascades of features;
-        cl::Buffer                  stages_;
-        //Weights of features
-        cl::Buffer                  weights_;
-        //Threshold for each cascade;
-        cl::Buffer                  thres_;
-        //Responces of weak features;
-        cl::Buffer                  resps_;
-
-        int                         feats_size_ = 0;
-        int                         stages_size_ = 0;
-
-        Detector                    detector_;
-
+              
         std::atomic_int32_t         tasks_count_ = 0;
 
         Pool<Task>                  pool_;
     };
 
     class Kernels {
-    public:
-        struct Data {
-            //Transforms
-            cl::Buffer      trans;
-            //Features result
-            cl::Buffer      feats;
-            //Detections;
-            cl::Buffer      dets;
-        };
+           
     public:
         Kernels(const Core& core) {
             cl_int err = 0;
@@ -380,10 +482,18 @@ namespace accel_rects {
         cl::CommandQueue            queue_;
     };
 
+    
+
+
     class Task {
+    public:
+        using integral_ptr = std::shared_ptr<IntegralData>;
+        using detector_ptr = std::shared_ptr<DetectorData>;
+        using features_ptr = std::shared_ptr<FeaturesData>;
+        using data_ptr_var = std::variant<std::shared_ptr<DetectorData>, std::shared_ptr<FeaturesData>>;
 
     public:
-        Task(std::shared_ptr<Core> core)
+        Task(const std::shared_ptr<Core>& core)
             : core_(core)
         {   }
 
@@ -391,12 +501,30 @@ namespace accel_rects {
             auto core = core_.lock();
             
             if (cb_)
-                cb_(trans_.size(), core->stages_size(), core->feats_size(), std::move(dets_), std::move(feats_));
+                cb_(dims_, dets_, feats_);
+
+            integral_data_.reset();
+            features_data_.reset();
+            detector_data_.reset();
+
             core->ReleaseTask(this);
         }
 
+        bool ResizeBufferIfNeeded(cl::Buffer& buffer, cl_mem_flags flags, size_t bytes) {
+            cl_int err = 0;
+            auto size = buffer.getInfo<CL_MEM_SIZE>(&err);
+            if (err != CL_SUCCESS || size < bytes) {
+                auto core = core_.lock();
+                buffer = cl::Buffer(core->context(), flags, bytes, 0, &err);
+                CL_CHECK_BOOL(err);
+                std::cout << "Resizing " << std::endl;
+            }
+            return true;
+
+        }
+
         
-        bool      Enqueue(const Kernels& kernels, transforms_t&& transforms, callback_t callback) {
+        bool      Enqueue(const integral_ptr& integral, const data_ptr_var& data, const Kernels& kernels, transforms_t&& transforms, callback_t callback) {
             cl_int err = 0;
 
             auto core = core_.lock();
@@ -405,80 +533,90 @@ namespace accel_rects {
 
             cb_ = std::move(callback);
 
-            if (transforms.size() > trans_.size()) {
-                trans_mem_ = cl::Buffer(core->context(), CL_MEM_READ_ONLY, sizeof(cl_float4) * transforms.size(), 0, &err);
-                CL_CHECK_BOOL(err);
-            }
-            trans_ = std::move(transforms);
+            integral_data_ = integral;
 
-            if (core->feats_size() * trans_.size() > feats_.size()) {
-                feats_.resize(core->feats_size() * trans_.size(), 0);
-                feats_mem_ = cl::Buffer(core->context(), CL_MEM_READ_WRITE, sizeof(cl_ushort) * feats_.size(), 0, &err);
-                CL_CHECK_BOOL(err);
-            }
-
-            if (core->stages_size() * trans_.size() > dets_.size()) {
-                dets_.resize(core->stages_size() * trans_.size(), 0);
-                dets_mem_ = cl::Buffer(core->context(), CL_MEM_WRITE_ONLY, sizeof(cl_uchar) * dets_.size(), 0, &err);
-                CL_CHECK_BOOL(err);
+            if (std::holds_alternative<features_ptr>(data)) {
+                features_data_ = std::get<features_ptr>(data);
+            } else if (std::holds_alternative<detector_ptr>(data)) {
+                detector_data_ = std::get<detector_ptr>(data);
+                features_data_ = features_ptr(detector_data_, &detector_data_->features_data());
             }
             
 
-            std::vector<cl::Event>     waiting_events;
+            int stages_count = detector_data_ ? detector_data_->stages().count() : 0;
+            int feats_count = features_data_->features().count() ;
+
+            dims_ = { int(transforms.size()), stages_count, feats_count };
+
+            trans_ = std::move(transforms);
+            feats_.resize(feats_count * trans_.size(), 0);
+            dets_.resize(stages_count * trans_.size(), 0);
+
+            if (!ResizeBufferIfNeeded(trans_mem_, CL_MEM_READ_ONLY, sizeof(cl_float4) * trans_.size()))
+                return false;
+                        
+            if (!ResizeBufferIfNeeded(feats_mem_, CL_MEM_READ_WRITE, sizeof(cl_ushort) * feats_.size()))
+                return false;
+                                                        
 
             cl::Event feats_evt, dets_evt, read_feats_evt, read_dets_evt, evt_write;
                         
 
             CL_CHECK_BOOL(core->queue().enqueueWriteBuffer(trans_mem_, CL_FALSE, 0, sizeof(cl_float4) * trans_.size(), trans_.data(), 0, &evt_write));
 
-            waiting_events.push_back(evt_write);
+            waiting_evts_.push_back(evt_write);
 
             cl::Kernel feats_kernel = kernels.feats_kernel();
-            CL_CHECK_BOOL(feats_kernel.setArg(0, core->integral()));
-            CL_CHECK_BOOL(feats_kernel.setArg<int>(1, int(core->feats_size())));
-            CL_CHECK_BOOL(feats_kernel.setArg(2, core->rects()));
+            CL_CHECK_BOOL(feats_kernel.setArg(0, integral_data_->integral()));
+            CL_CHECK_BOOL(feats_kernel.setArg<int>(1, feats_count));
+            CL_CHECK_BOOL(feats_kernel.setArg(2, features_data_->rects()));
             CL_CHECK_BOOL(feats_kernel.setArg(3, trans_mem_));
             CL_CHECK_BOOL(feats_kernel.setArg(4, feats_mem_));
 
-            CL_CHECK_BOOL(core->queue().enqueueNDRangeKernel(feats_kernel, cl::NullRange, cl::NDRange(core->feats_size(), trans_.size()), cl::NullRange, &waiting_events, &feats_evt));
+            CL_CHECK_BOOL(core->queue().enqueueNDRangeKernel(feats_kernel, cl::NullRange, cl::NDRange(feats_count, trans_.size()), cl::NullRange, &waiting_evts_, &feats_evt));
         
-            waiting_events.clear();
-            waiting_events.push_back(feats_evt);
+            waiting_evts_.clear();
+            waiting_evts_.push_back(feats_evt);
 
-            CL_CHECK_BOOL(core->queue().enqueueReadBuffer(feats_mem_, CL_FALSE, 0, sizeof(cl_ushort) * feats_.size(), feats_.data(), &waiting_events, &read_feats_evt));
-
-            cl::Kernel dets_kernel = kernels.dets_kernel();
-
-            CL_CHECK_BOOL(dets_kernel.setArg<int>(0, core->feats_size()));
-            CL_CHECK_BOOL(dets_kernel.setArg<int>(1, core->stages_size()));
-            CL_CHECK_BOOL(dets_kernel.setArg(2, feats_mem_));
-            CL_CHECK_BOOL(dets_kernel.setArg(3, core->stages()));
-            CL_CHECK_BOOL(dets_kernel.setArg(4, core->resps()));
-            CL_CHECK_BOOL(dets_kernel.setArg(5, core->weights()));
-            CL_CHECK_BOOL(dets_kernel.setArg(6, core->thres()));
-            CL_CHECK_BOOL(dets_kernel.setArg(7, dets_mem_));
-
+            CL_CHECK_BOOL(core->queue().enqueueReadBuffer(feats_mem_, CL_FALSE, 0, sizeof(cl_ushort) * feats_.size(), feats_.data(), &waiting_evts_, &evt_complete_));
             
-            waiting_events.clear();
-            waiting_events.push_back(feats_evt);
+            //Also run detector stages
+            if (detector_data_) {
+                if (!ResizeBufferIfNeeded(dets_mem_, CL_MEM_WRITE_ONLY, sizeof(cl_uchar) * dets_.size()))
+                    return false;
 
-            CL_CHECK_BOOL(core->queue().enqueueNDRangeKernel(dets_kernel, cl::NullRange, cl::NDRange(core->stages_size(), trans_.size()), cl::NullRange, &waiting_events, &dets_evt));
+                cl::Kernel dets_kernel = kernels.dets_kernel();
 
-            waiting_events.clear();
-            waiting_events.push_back(dets_evt);
+                CL_CHECK_BOOL(dets_kernel.setArg<int>(0, feats_count));
+                CL_CHECK_BOOL(dets_kernel.setArg<int>(1, stages_count));
+                CL_CHECK_BOOL(dets_kernel.setArg(2, feats_mem_));
+                CL_CHECK_BOOL(dets_kernel.setArg(3, detector_data_->stages_data().positions()));
+                CL_CHECK_BOOL(dets_kernel.setArg(4, detector_data_->stages_data().responses()));
+                CL_CHECK_BOOL(dets_kernel.setArg(5, detector_data_->stages_data().weights()));
+                CL_CHECK_BOOL(dets_kernel.setArg(6, detector_data_->stages_data().thresholds()));
+                CL_CHECK_BOOL(dets_kernel.setArg(7, dets_mem_));
 
-            CL_CHECK_BOOL(core->queue().enqueueReadBuffer(dets_mem_, CL_FALSE, 0, sizeof(cl_uchar) * dets_.size(), dets_.data(), &waiting_events, &read_dets_evt));
 
-            waiting_events.clear();
-            waiting_events.push_back(read_dets_evt);
-            waiting_events.push_back(read_feats_evt);
-            CL_CHECK_BOOL(core->queue().enqueueMarkerWithWaitList(&waiting_events, &this->evt_complete_));
-            
-            evt_complete_ = read_feats_evt;
+                waiting_evts_.clear();
+                waiting_evts_.push_back(feats_evt);
 
+                CL_CHECK_BOOL(core->queue().enqueueNDRangeKernel(dets_kernel, cl::NullRange, cl::NDRange(stages_count, trans_.size()), cl::NullRange, &waiting_evts_, &dets_evt));
+
+                waiting_evts_.clear();
+                waiting_evts_.push_back(dets_evt);
+
+                CL_CHECK_BOOL(core->queue().enqueueReadBuffer(dets_mem_, CL_FALSE, 0, sizeof(cl_uchar) * dets_.size(), dets_.data(), &waiting_evts_, &read_dets_evt));
+
+                //Adding marker of finishing reading
+                waiting_evts_.clear();
+                read_feats_evt = evt_complete_;
+                waiting_evts_.push_back(read_dets_evt);
+                waiting_evts_.push_back(read_feats_evt);
+                CL_CHECK_BOOL(core->queue().enqueueMarkerWithWaitList(&waiting_evts_, &evt_complete_));
+            }
+           
             CL_CHECK_BOOL(evt_complete_.setCallback(CL_COMPLETE, &Task::EvtCallback, this));
-
-            //core_->AddTask();
+                    
 
             return true;
         }
@@ -563,7 +701,7 @@ namespace accel_rects {
             task->OnComplete();
         }
 
-    public:
+    private:
         std::weak_ptr<Core>             core_;
 
         transforms_t                    trans_;
@@ -579,19 +717,40 @@ namespace accel_rects {
 
         cl::Event                       evt_complete_;
 
+        //trans, stages, feats
+        dims_t                          dims_;
+
+        std::vector<cl::Event>          waiting_evts_;
+
+    private:
+        integral_ptr                    integral_data_;
+        features_ptr                    features_data_;
+        detector_ptr                    detector_data_;
+
     };
 
-    Engine Engine::Create(Detector&& detector, size_t tasks_limits)
+    Engine Engine::Create(size_t tasks_limits)
     {
         auto core = std::make_shared<Core>(tasks_limits);
-        if (core->Initialize(std::move(detector)))
+        if (core->Initialize())
             return Engine(core);
         return Engine(nullptr);
     }
 
     Worker Engine::CreateWorker() { return core_; }
 
-       
+    IntegralView Engine::CreateIntegral(const uint64_t* ptr, size_t width, size_t height, size_t stride) {
+        return std::make_shared<IntegralData>(core_->context(), ptr, width, height, stride);
+    }
+
+    DetectorView Engine::CreateDetector(std::pair<Stages, Features>&& detector) {
+        return std::make_shared<DetectorData>(core_->context(), std::forward<std::pair<Stages, Features>>(detector));
+    }
+
+    FeaturesView Engine::CreateFeatures(Features&& features) {
+        return std::make_shared<FeaturesData>(core_->context(), std::forward<Features>(features));
+    }
+           
 
     Worker::Worker(std::shared_ptr<Core> core) : core_(core) {
         kernels_ = std::make_unique<Kernels>(*core_);
@@ -604,19 +763,20 @@ namespace accel_rects {
 
     Worker::~Worker() { }
 
-    bool Worker::Enqueue(transforms_t&& trans, callback_t cb) {
+    bool Worker::Enqueue(IntegralView integral, DetectorView detector, transforms_t&& trans, callback_t cb) {
         auto task = core_->CreateTask();
-        return task->Enqueue(*kernels_, std::move(trans), cb);
-        //std::unique_ptr<Task> task = std::make_unique<Task>(core_);
+        return task->Enqueue(integral.data(), detector.data(), *kernels_, std::move(trans), cb);
+    }
 
-        //return task.release()->Enqueue(*kernels_, std::move(trans), cb);
+    bool Worker::Enqueue(IntegralView integral, FeaturesView features, transforms_t&& trans, callback_t cb) {
+        auto task = core_->CreateTask();
+        return task->Enqueue(integral.data(), features.data(), *kernels_, std::move(trans), cb);
 
     }
 
+     
+   
 
-    bool Engine::SetIntegral(const uint64_t* ptr, size_t width, size_t height, size_t stride)
-    {
-        return core_->SetIntegral(ptr, width, height, stride);
-    }
-      
+    
+
 }
