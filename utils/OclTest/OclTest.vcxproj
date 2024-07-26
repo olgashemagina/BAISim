@@ -71,11 +71,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>..\..\3rdparty\OpenCL\include</IncludePath>
+    <IncludePath>..\..\3rdparty\OpenCL\include;..\..\library\awpipl2\include\;..\..\3rdparty\TinyXML\src\;..\..\library\awplflib\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>..\..\3rdparty\OpenCL\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..\..\3rdparty\OpenCL\include</IncludePath>
+    <IncludePath>..\..\3rdparty\OpenCL\include;..\..\library\awpipl2\include\;..\..\3rdparty\TinyXML\src\;..\..\library\awplflib\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>..\..\3rdparty\OpenCL\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -119,7 +119,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenCL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenCL.lib;Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -137,7 +137,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenCL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenCL.lib;Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -147,6 +147,20 @@
   <ItemGroup>
     <ClInclude Include="accel_rects.h" />
     <ClInclude Include="task_thread_pool.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\3rdparty\jpeg-6b\vc\vc2019\JPEGLIB.vcxproj">
+      <Project>{d22f6666-746d-4436-8ead-481c2c37af55}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\3rdparty\TinyXML\vc\vc2019\tinyxml_lib.vcxproj">
+      <Project>{505806d4-64fc-43a4-ad85-f1c94cbce59a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\library\awpipl2\vc\vc2019\awpipl2.vcxproj">
+      <Project>{eec6d9a5-396e-4388-bd84-193bef1657ba}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\library\awplflib\vc\vc2019\awplflib.vcxproj">
+      <Project>{e762d9a5-efc5-4d8b-9ed6-61831d615883}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -743,8 +743,8 @@ namespace accel_rects {
         return std::make_shared<IntegralData>(core_->context(), ptr, width, height, stride);
     }
 
-    DetectorView Engine::CreateDetector(std::pair<Stages, Features>&& detector) {
-        return std::make_shared<DetectorData>(core_->context(), std::forward<std::pair<Stages, Features>>(detector));
+    DetectorView Engine::CreateDetector(detector_t&& detector) {
+        return std::make_shared<DetectorData>(core_->context(), std::forward<detector_t>(detector));
     }
 
     FeaturesView Engine::CreateFeatures(Features&& features) {

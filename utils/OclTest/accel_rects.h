@@ -49,12 +49,12 @@ namespace accel_rects {
             int byte_index = index >> 3;
             int byte_offset = index % 8;
 
-            uint8_t mask = (1 << byte_index);
+            uint8_t mask = (1 << byte_offset);
 
             if (value)
                 (*this)[byte_index] |= mask;       //Set bit
             else
-                (*this)[byte_index] &= mask;       //Clear bit
+                (*this)[byte_index] &= ~mask;       //Clear bit
         }
 
     };
@@ -91,7 +91,10 @@ namespace accel_rects {
     public:
         int         AddSCWeak(float x, float y, float w, float h) {
             //Add Total rect (MUST be first);
-            rects_.push_back({ x, y, x + 3 * w, y + 3 * h });
+            rects_.push_back({ x, y, x + w, y + h });
+
+            w = w / 3.f;
+            h = h / 3.f;
 
             for (int j = 0; j < 3; ++j)
                 for (int i = 0; i < 3; ++i)
@@ -125,6 +128,7 @@ namespace accel_rects {
         sc_resps_t                      resps_;
     };
 
+    using detector_t = std::pair<Stages, Features>;
 
     class DetectorBuilder : public Stages {
     public:
@@ -160,7 +164,7 @@ namespace accel_rects {
             positions_.push_back(int(weights_.size()));
         }
 
-        std::pair<Stages, Features> Consume() {
+        detector_t Consume() {
             return { std::move(*this), std::move(features_.Consume()) };
         }
 
@@ -267,7 +271,7 @@ namespace accel_rects {
         Worker              CreateWorker();
                 
         IntegralView        CreateIntegral(const uint64_t*, size_t width, size_t height, size_t stride);
-        DetectorView        CreateDetector(std::pair<Stages, Features>&& detector);
+        DetectorView        CreateDetector(detector_t&& detector);
         FeaturesView        CreateFeatures(Features&& features);
      
 
