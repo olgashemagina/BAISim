@@ -7,12 +7,10 @@ object RotateDlg: TRotateDlg
   ClientWidth = 313
   Color = clBtnFace
   ParentFont = True
-  OldCreateOrder = True
   Position = poScreenCenter
   OnClose = FormClose
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object Bevel1: TBevel
     Left = 8
     Top = 8
@@ -23,15 +21,15 @@ object RotateDlg: TRotateDlg
   object Label1: TLabel
     Left = 16
     Top = 16
-    Width = 30
-    Height = 13
+    Width = 34
+    Height = 15
     Caption = 'Angle '
   end
   object Label2: TLabel
     Left = 184
     Top = 16
-    Width = 34
-    Height = 13
+    Width = 36
+    Height = 15
     Caption = 'degree'
   end
   object OKBtn: TButton
@@ -69,6 +67,7 @@ object RotateDlg: TRotateDlg
     Top = 48
     Width = 281
     Height = 201
+    AutoMosaic = True
     ThumbWidht = 128
     ThumbHeight = 128
     SlideShowInterval = 500

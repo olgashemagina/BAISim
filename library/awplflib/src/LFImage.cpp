@@ -549,7 +549,7 @@ bool TLFImage::CopyImage(awpImage** ppImage)
     }
     return res;
 }
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 /*bool TLFImage::LoadResourceImage(char* lpName)
 {
     bool    res = true;         // результат работы функци

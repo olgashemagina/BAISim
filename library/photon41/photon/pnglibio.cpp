@@ -128,4 +128,4 @@ void __fastcall TPngDecoder::Close(){
     fclose(pfFile);
 }
 
-#pragma package(smart_init)
+//#pragma package(smart_init)

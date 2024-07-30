@@ -4,7 +4,7 @@
 
 #include "GaussFilterForm.h"
 //---------------------------------------------------------------------
-#pragma link "cspin"
+//#pragma link "cspin"
 #pragma resource "*.dfm"
 TGaussFilterDlg *GaussFilterDlg;
 //--------------------------------------------------------------------- 

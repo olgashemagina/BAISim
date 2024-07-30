@@ -60,7 +60,7 @@ void TPhTriangleTool::Draw(TCanvas* Canvas)
 	   double dd2 = _mp.y - _ep.y;
 	   double cosa1 = dd1 / dd;
 	   double sina1 = dd2 / dd;
-	   c->TextOutW(_mp.x - delta3*cosa1, _mp.y - delta3*sina1, FormatFloat("000.00", Angle));
+	   c->TextOut(_mp.x - delta3*cosa1, _mp.y - delta3*sina1, FormatFloat("000.00", Angle));
 	   c->Brush->Style = bsClear;
 	   c->Arc(_mp.x-delta2, _mp.y - delta2, _mp.x + delta2, _mp.y + delta2, _mp.x - delta2*cosa, _mp.y - delta2*sina, _mp.x - delta2*cosa1, _mp.y - delta2*sina1);
    }

@@ -36,7 +36,7 @@ object Form1: TForm1
     ParentFont = False
     ShowCaptions = True
     TabOrder = 0
-    ExplicitWidth = 782
+    ExplicitWidth = 772
     object ToolButton6: TToolButton
       Left = 0
       Top = 0
@@ -153,8 +153,8 @@ object Form1: TForm1
         Width = 50
       end>
     OnResize = StatusBar1Resize
-    ExplicitTop = 515
-    ExplicitWidth = 782
+    ExplicitTop = 483
+    ExplicitWidth = 772
   end
   object Panel5: TPanel
     Left = 0
@@ -164,8 +164,8 @@ object Form1: TForm1
     Align = alClient
     Caption = 'Panel5'
     TabOrder = 2
-    ExplicitWidth = 782
-    ExplicitHeight = 481
+    ExplicitWidth = 772
+    ExplicitHeight = 449
     object Splitter4: TSplitter
       Left = 1
       Top = 428
@@ -194,8 +194,8 @@ object Form1: TForm1
       Align = alBottom
       Caption = 'Panel7'
       TabOrder = 0
-      ExplicitTop = 423
-      ExplicitWidth = 780
+      ExplicitTop = 391
+      ExplicitWidth = 770
       object Memo1: TMemo
         Left = 1
         Top = 1
@@ -203,7 +203,7 @@ object Form1: TForm1
         Height = 55
         Align = alClient
         TabOrder = 0
-        ExplicitWidth = 778
+        ExplicitWidth = 768
       end
     end
     object Panel1: TPanel
@@ -214,7 +214,7 @@ object Form1: TForm1
       Align = alLeft
       TabOrder = 1
       OnResize = Panel1Resize
-      ExplicitHeight = 419
+      ExplicitHeight = 387
       object PageControl1: TPageControl
         Left = 1
         Top = 1
@@ -225,13 +225,13 @@ object Form1: TForm1
         TabOrder = 0
         TabPosition = tpBottom
         OnChange = PageControl1Change
-        ExplicitHeight = 417
+        ExplicitHeight = 385
         object TabSheet1: TTabSheet
           Caption = 'File System'
           object Splitter5: TSplitter
             Left = 0
             Top = 227
-            Width = 334
+            Width = 322
             Height = 10
             Cursor = crVSplit
             Align = alTop
@@ -242,8 +242,8 @@ object Form1: TForm1
           object PhImage1: TPhImage
             Left = 0
             Top = 237
-            Width = 334
-            Height = 135
+            Width = 322
+            Height = 116
             AutoMosaic = True
             ThumbWidht = 128
             ThumbHeight = 128
@@ -251,12 +251,12 @@ object Form1: TForm1
             Align = alClient
             ParentColor = False
             Visible = False
-            ExplicitHeight = 127
+            ExplicitHeight = 76
           end
           object DirectoryListBox1: TDirectoryListBox
             Left = 0
             Top = 0
-            Width = 334
+            Width = 322
             Height = 227
             Align = alTop
             FileList = FileListBox1
@@ -265,16 +265,16 @@ object Form1: TForm1
           end
           object Panel9: TPanel
             Left = 0
-            Top = 372
-            Width = 334
+            Top = 353
+            Width = 322
             Height = 27
             Align = alBottom
             TabOrder = 1
-            ExplicitTop = 364
+            ExplicitTop = 313
             object DriveComboBox1: TDriveComboBox
               Left = 1
               Top = 1
-              Width = 332
+              Width = 320
               Height = 19
               Align = alTop
               DirList = DirectoryListBox1
@@ -294,8 +294,8 @@ object Form1: TForm1
           object FileListBox1: TFileListBox
             Left = 0
             Top = 237
-            Width = 334
-            Height = 135
+            Width = 322
+            Height = 116
             Align = alClient
             Mask = '*.jpg;*awp;*.png;*.bmp;*.tif;*.tiff'
             PopupMenu = PopupMenu1
@@ -303,7 +303,7 @@ object Form1: TForm1
             TabOrder = 3
             OnChange = FileListBox1Change
             OnKeyUp = FileListBox1KeyUp
-            ExplicitHeight = 127
+            ExplicitHeight = 76
           end
         end
         object TabSheet2: TTabSheet
@@ -312,8 +312,8 @@ object Form1: TForm1
           object TreeView1: TTreeView
             Left = 0
             Top = 0
-            Width = 334
-            Height = 399
+            Width = 322
+            Height = 380
             Align = alClient
             Indent = 19
             TabOrder = 0
@@ -510,8 +510,8 @@ object Form1: TForm1
       Align = alClient
       Caption = 'Panel2'
       TabOrder = 2
-      ExplicitWidth = 432
-      ExplicitHeight = 419
+      ExplicitWidth = 422
+      ExplicitHeight = 387
       object Panel11: TPanel
         Left = 1
         Top = 1
@@ -519,8 +519,8 @@ object Form1: TForm1
         Height = 425
         Align = alClient
         TabOrder = 0
-        ExplicitWidth = 430
-        ExplicitHeight = 417
+        ExplicitWidth = 420
+        ExplicitHeight = 385
         object HSplitter: TSplitter
           Left = 1
           Top = 421
@@ -552,8 +552,8 @@ object Form1: TForm1
           OnDockOver = BottomDocPanelDockOver
           OnGetSiteInfo = BottomDocPanelGetSiteInfo
           OnUnDock = BottomDocPanelUnDock
-          ExplicitTop = 405
-          ExplicitWidth = 428
+          ExplicitTop = 373
+          ExplicitWidth = 418
         end
         object Panel13: TPanel
           Left = 426
@@ -565,8 +565,8 @@ object Form1: TForm1
           DockSite = True
           DragKind = dkDock
           TabOrder = 1
-          ExplicitLeft = 424
-          ExplicitHeight = 404
+          ExplicitLeft = 414
+          ExplicitHeight = 372
         end
         object ValueListEditor1: TValueListEditor
           Left = 1
@@ -576,8 +576,8 @@ object Form1: TForm1
           Align = alClient
           TabOrder = 2
           Visible = False
-          ExplicitWidth = 420
-          ExplicitHeight = 404
+          ExplicitWidth = 410
+          ExplicitHeight = 372
           ColWidths = (
             150
             266)
@@ -596,8 +596,8 @@ object Form1: TForm1
           OnMouseMove = FImage1MouseMove
           OnPaint = PhImage2Paint
           AfterOpen = PhImage2AfterOpen
-          ExplicitWidth = 420
-          ExplicitHeight = 404
+          ExplicitWidth = 410
+          ExplicitHeight = 372
         end
       end
     end

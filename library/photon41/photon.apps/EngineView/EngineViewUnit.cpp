@@ -5,7 +5,7 @@
 
 #include "EngineViewUnit.h"
 //---------------------------------------------------------------------------
-#pragma package(smart_init)
+//#pragma package(smart_init)
 #pragma resource "*.dfm"
 TEngineViewForm *EngineViewForm;
 //---------------------------------------------------------------------------

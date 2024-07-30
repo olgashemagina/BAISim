@@ -46,14 +46,14 @@
 #ifndef __LF_H__
 #define __LF_H__
 
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 	 #include <windows.h>
 #endif
 
 extern "C"
 {
 #include "awpipl.h"
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 	typedef GUID UUID;
 #else
 	#include <uuid/uuid.h>

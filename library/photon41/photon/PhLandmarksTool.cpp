@@ -51,7 +51,7 @@ void TPhLandmarksTool::Draw(TCanvas* Canvas)
 
 		   cnv->Brush->Color = TColor(ll->Color());
 		   cnv->Pen->Color = TColor(ll->Color());
-		   cnv->TextOutW(pt.x, pt.y, ll->ClassName());
+		   cnv->TextOut(pt.x, pt.y, ll->ClassName());
 		   r.init(xx - 8, yy-8,xx+8, yy+8 );
 		   rr= m_pImage->GetScreenRect(r);
 		   if (m_skin == 0) {

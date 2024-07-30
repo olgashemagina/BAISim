@@ -5,8 +5,8 @@
 #include "RotateForm.h"
 #include "MainForm.h"
 //---------------------------------------------------------------------
-#pragma link "CSPIN"
-#pragma link "FImage41"
+//#pragma link "CSPIN"
+//#pragma link "FImage41"
 #pragma resource "*.dfm"
 TRotateDlg *RotateDlg;
 //---------------------------------------------------------------------

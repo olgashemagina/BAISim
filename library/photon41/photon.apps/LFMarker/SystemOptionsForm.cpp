@@ -5,7 +5,7 @@
 #include "SystemOptionsForm.h"
 #include "MainForm.h"
 //---------------------------------------------------------------------
-#pragma link "CSPIN"
+//#pragma link "CSPIN"
 #pragma resource "*.dfm"
 TPagesDlg *PagesDlg;
 //--------------------------------------------------------------------- 

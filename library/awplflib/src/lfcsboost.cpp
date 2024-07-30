@@ -9,7 +9,7 @@
 #endif
 
 
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 #include <io.h>
 #include <direct.h>
 #else
@@ -973,7 +973,7 @@ bool    TCSAdaBoostSign::LoadSamples(int flag, std::string const& path)
 	int RANGE_MIN = 0;
 	int RANGE_MAX = 3;
 
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
     intptr_t handle = 0;
     _finddata_t filesInfo;
     if ( (handle = _findfirst( (char*)((path+"*.jpg").c_str()), &filesInfo)) != -1 )
@@ -1039,7 +1039,7 @@ bool    TCSAdaBoostSign::LoadSamples(int flag, std::string const& path)
 void    TCSAdaBoostSign::DbgMsg( std::string const& msg)
 {
     std::cout<< msg;  
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 	m_flog << msg;
 	m_flog.flush();
 #endif

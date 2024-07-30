@@ -7,12 +7,10 @@ object FilterDlg: TFilterDlg
   ClientWidth = 426
   Color = clBtnFace
   ParentFont = True
-  OldCreateOrder = True
   Position = poScreenCenter
   OnClose = FormClose
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object Bevel1: TBevel
     Left = 8
     Top = 8
@@ -74,6 +72,7 @@ object FilterDlg: TFilterDlg
     Top = 16
     Width = 265
     Height = 233
+    AutoMosaic = True
     ThumbWidht = 128
     ThumbHeight = 128
     SlideShowInterval = 500

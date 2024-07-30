@@ -381,7 +381,7 @@ void __fastcall TDIBImage::LoadFromStream(Classes::TStream* Stream)
         return;
 
     Stream->Seek( 0, soFromBeginning );
-    if ( Stream->Read( (void *)&m_DIBInfo, sizeof(BITMAPINFO) ) != sizeof(BITMAPINFO) )
+    if ( Stream->Read( (void *)&m_DIBInfo, int(sizeof(BITMAPINFO) ) != sizeof(BITMAPINFO)) )
         return;
 
     unsigned int width    = ((m_DIBInfo.bmiHeader.biWidth * m_DIBInfo.bmiHeader.biBitCount + 31)/32) * 4;
@@ -407,9 +407,9 @@ void __fastcall TDIBImage::SaveToStream(Classes::TStream* Stream)
     unsigned int dib_size = width*m_DIBInfo.bmiHeader.biHeight*sizeof(unsigned char);
 
     Stream->Seek( 0, soFromBeginning );
-    Stream->Write( (const void*)&m_DIBInfo, sizeof(BITMAPINFO) );
+    Stream->Write( (const void*)&m_DIBInfo, int(sizeof(BITMAPINFO)) );
     unsigned char *pDIB = (unsigned char *)::GlobalLock( (HGLOBAL)m_DIBPixels );
-    Stream->Write( (const void*)pDIB, dib_size );
+    Stream->Write( (const void*)pDIB, int(dib_size) );
     ::GlobalUnlock( (HGLOBAL)m_DIBPixels );
 }
 

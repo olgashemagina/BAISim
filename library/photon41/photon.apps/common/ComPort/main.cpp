@@ -4,7 +4,7 @@
 
 #include "main.h"
 //---------------------------------------------------------------------------
-#pragma package(smart_init)
+//#pragma package(smart_init)
 #pragma link "Comm"
 #pragma link "cspin"
 #pragma resource "*.dfm"

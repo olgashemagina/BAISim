@@ -40,7 +40,7 @@ void TPhRulerTool::Draw(TCanvas* Canvas)
    c->Ellipse(_sp.x-delta, _sp.y - delta, _sp.x + delta, _sp.y + delta);
    c->Ellipse(_ep.x-delta, _ep.y - delta, _ep.x + delta, _ep.y + delta);
 
-   c->TextOutW(_ep.x + 10, _ep.y - 10, FormatFloat("####.##", Length));
+   c->TextOut(_ep.x + 10, _ep.y - 10, FormatFloat("####.##", Length));
    c->Pen->Style = style;
    c->Pen->Color = color;
    c->Pen->Mode = mode;

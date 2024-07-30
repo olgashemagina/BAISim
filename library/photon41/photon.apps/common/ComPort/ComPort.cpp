@@ -2,7 +2,7 @@
 
 #include <System.hpp>
 #pragma hdrstop
-#pragma package(smart_init)
+//#pragma package(smart_init)
 //---------------------------------------------------------------------------
 
 //   Package source.

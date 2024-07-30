@@ -7,10 +7,8 @@ object MedianFilterDlg: TMedianFilterDlg
   ClientWidth = 242
   Color = clBtnFace
   ParentFont = True
-  OldCreateOrder = True
   Position = poMainFormCenter
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object Bevel2: TBevel
     Left = 8
     Top = 10
@@ -21,8 +19,8 @@ object MedianFilterDlg: TMedianFilterDlg
   object Label1: TLabel
     Left = 16
     Top = 26
-    Width = 32
-    Height = 13
+    Width = 35
+    Height = 15
     Caption = 'Radius'
   end
   object OKBtn: TButton

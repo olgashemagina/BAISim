@@ -4,7 +4,7 @@
 #include "Histogramm2DUnit.h"
 
 //---------------------------------------------------------------------------
-#pragma package(smart_init)
+//#pragma package(smart_init)
 
 awpImage* Get2DHistogramm(awpImage* source)
 {

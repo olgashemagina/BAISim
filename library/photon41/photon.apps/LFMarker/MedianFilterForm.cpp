@@ -4,7 +4,7 @@
 
 #include "MedianFilterForm.h"
 //---------------------------------------------------------------------
-#pragma link "cspin"
+//#pragma link "cspin"
 #pragma resource "*.dfm"
 TMedianFilterDlg *MedianFilterDlg;
 //--------------------------------------------------------------------- 

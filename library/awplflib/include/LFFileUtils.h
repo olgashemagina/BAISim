@@ -84,8 +84,8 @@ extern "C"
 #endif
 //functions to work with file names
 #if __BCPLUSPLUS__ != 0
-    //using namespace std;
-	std::string LFGetFilePath(const std::string& strPath)
+	//using namespace std;
+	inline std::string LFGetFilePath(const std::string& strPath)
 	{
 		const std::string c = c_separator;
 		int len = strPath.find_last_of(c);
@@ -95,7 +95,7 @@ extern "C"
 		return strPath.substr(0, len);
 	}
 
-	std::string LFGetFileExt(const std::string&  strFileName)
+	inline std::string LFGetFileExt(const std::string&  strFileName)
 	{
 		int len = strFileName.find_last_of('.');
 		if (len > 0)
@@ -103,7 +103,7 @@ extern "C"
 		else
 			return "";
 	}
-	std::string LFGetFileName(const std::string&  strFileName)
+	inline std::string LFGetFileName(const std::string&  strFileName)
 	{
 		int len = strFileName.find_last_of('\\');
 		std::string str = strFileName.substr(len, strFileName.length() - len);
@@ -111,12 +111,12 @@ extern "C"
 		return str.substr(0, len);
 
 	}
-	std::string LFChangeFileExt(std::string& strFileName, std::string strExt)
+	inline std::string LFChangeFileExt(std::string& strFileName, std::string strExt)
 	{
 		int len = strFileName.find_last_of('.');
 		return strFileName.substr(0, len) + strExt;
 	}
-	std::string LFMakeFileName(std::string& strPath, std::string strName, std::string strExt)
+	inline std::string LFMakeFileName(std::string& strPath, std::string strName, std::string strExt)
 	{
 		if (strName.length() == 0)
 			return "";

@@ -62,19 +62,19 @@
 #include "tinyxml.h"
 
 
-#ifdef WIN32
+//#ifdef WIN32
 #include <windows.h>
-#endif
+//#endif
 
 extern "C"
 {
 #include "awpipl.h"
-#ifdef WIN32
+//#ifdef WIN32
 	typedef GUID UUID;
-#else
-#include <uuid/uuid.h>
-	typedef uuid_t UUID;
-#endif
+//#else
+//#include <uuid/uuid.h>
+//	typedef uuid_t UUID;
+//#endif
 }
 
 

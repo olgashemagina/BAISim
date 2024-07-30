@@ -52,7 +52,7 @@ extern "C" {
 #include <stdlib.h>
 #include "awperror.h"
 
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
     #include <windows.h>
 #endif
 
@@ -659,7 +659,7 @@ typedef void*			  AWPHANDLE;
 #endif
 
 
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 	/**
 	*	\brief Convert awpImage to Windows DIB format
 	*	\param pImage source image

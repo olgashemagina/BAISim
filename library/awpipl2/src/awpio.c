@@ -48,7 +48,7 @@ AWPRESULT awpLoadImage(const char* lpFileName, awpImage** ppImage)
     if (strcmp(lpExt, "awp") == 0 || strcmp(lpExt,"AWP") == 0)
         res = _awpLoadAWPImage(lpFileName, ppImage);
 #ifdef HAVE_JPEG
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 //#if 0
     else if (strcmp(lpExt, "bmp") == 0 || strcmp(lpExt,"BMP") == 0)
         res = _awpLoadBMPImage(lpFileName, ppImage);

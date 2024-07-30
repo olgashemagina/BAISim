@@ -3,7 +3,7 @@
 #include "Dialogs.hpp"
 #include "PhVideoMarkTool.h"
 //---------------------------------------------------------------------------
-#pragma package(smart_init)
+//#pragma package(smart_init)
 #pragma link "tinyxml.lib"
 //---------------------------------------------------------------------------
 TMarkItem::TMarkItem()

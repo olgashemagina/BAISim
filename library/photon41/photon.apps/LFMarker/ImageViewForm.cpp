@@ -9,7 +9,7 @@
 #include "LF.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "FImage41"
+//#pragma link "FImage41"
 #pragma resource "*.dfm"
 TFragmentForm *FragmentForm;
 //---------------------------------------------------------------------------

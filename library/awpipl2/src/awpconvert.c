@@ -607,7 +607,7 @@ CLEANUP:
     return res;
 }
 
-#ifdef WIN32
+#if defined(_WIN64) ||  defined(WIN32)
 /*
 
 */

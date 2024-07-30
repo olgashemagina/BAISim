@@ -4,7 +4,7 @@
         <ProjectType>CppStaticLibrary</ProjectType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <TargetedPlatforms>1</TargetedPlatforms>
+        <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>StaticLibrary</AppType>
         <FrameworkType>None</FrameworkType>
         <ProjectVersion>20.1</ProjectVersion>
@@ -77,7 +77,7 @@
         <BCC_PCHCache>true</BCC_PCHCache>
         <DCC_UnitSearchPath>.\;$(BDS)\lib;$(BDS)\lib\obj;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <Defines>TIXML_USE_STL;$(Defines)</Defines>
-        <FinalOutputDir>..\..\build\lib\borland\$(Platform)\$(Config)</FinalOutputDir>
+        <FinalOutputDir>..\..\..\build\lib\borland\$(Platform)\$(Config)</FinalOutputDir>
         <ILINK_GenerateDRC>True</ILINK_GenerateDRC>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
@@ -270,7 +270,7 @@
             </CPlusPlusBuilder.Personality>
             <Platforms>
                 <Platform value="Win32">True</Platform>
-                <Platform value="Win64">False</Platform>
+                <Platform value="Win64">True</Platform>
                 <Platform value="Win64x">False</Platform>
             </Platforms>
         </BorlandProject>

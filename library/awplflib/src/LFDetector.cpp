@@ -65,7 +65,7 @@
 #ifndef __CLR_OR_THIS_CALL
 	#define __CLR_OR_THIS_CALL __cdecl
 #endif
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 /* 128 bit GUID to human-readable string */
 static char * guid_to_str(GUID* id, char * out) {
 	int i;
@@ -245,7 +245,7 @@ void ILFObjectDetector::SaveImages(std::string path)
 	UUID id;
 
     LF_UUID_CREATE(id)
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 	guid_to_str(&id, uuid_buf);
 #else
     uuid_unparse(id, uuid_buf);

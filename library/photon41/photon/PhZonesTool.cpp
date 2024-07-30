@@ -5,13 +5,20 @@
 #include "PhZonesTool.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
- extern "C"
-{
-    #pragma link "awpipl2b.lib"
-	#pragma link "JPEGLIB.lib"
-}
-#pragma link "awplflibb.lib"
-#pragma link "TinyXML.lib"
+
+     extern "C"
+    {
+//        #if defined(WIN32)
+//        #pragma link "awpipl2b.a"
+//        #pragma link "JPEGLIB.a"
+//        #elif defined(_WIN64)
+//        #pragma link "awpipl2b.a"
+//        #pragma link "JPEGLIB.a"
+//        #endif
+    }
+	#pragma comment(lib, "awplflibb")
+	#pragma comment(lib, "TinyXML")
+
 
 static awpRect TRect2awpRect(TRect& rect)
 {

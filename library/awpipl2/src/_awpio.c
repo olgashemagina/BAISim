@@ -17,9 +17,9 @@
 #   include <stdio.h>
 #   include <setjmp.h>
 #	include <jpeglib.h>
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 #	include "cdjpeg.h"
-#endif 
+#endif
 #	endif
 
 #pragma warning(disable: 4996)

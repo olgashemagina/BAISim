@@ -11,10 +11,8 @@ object DictionaryDialog: TDictionaryDialog
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   Position = poOwnerFormCenter
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
@@ -139,7 +137,7 @@ object DictionaryDialog: TDictionaryDialog
           Width = 44
           Height = 21
           EditLabel.Width = 74
-          EditLabel.Height = 13
+          EditLabel.Height = 21
           EditLabel.Caption = 'Aperture Width'
           LabelPosition = lpLeft
           TabOrder = 0
@@ -153,7 +151,7 @@ object DictionaryDialog: TDictionaryDialog
           Width = 44
           Height = 21
           EditLabel.Width = 77
-          EditLabel.Height = 13
+          EditLabel.Height = 21
           EditLabel.Caption = 'Aperture Height'
           LabelPosition = lpLeft
           TabOrder = 1
@@ -227,7 +225,7 @@ object DictionaryDialog: TDictionaryDialog
           Width = 56
           Height = 21
           EditLabel.Width = 64
-          EditLabel.Height = 13
+          EditLabel.Height = 21
           EditLabel.Caption = 'Image Height'
           LabelPosition = lpLeft
           TabOrder = 0
@@ -241,7 +239,7 @@ object DictionaryDialog: TDictionaryDialog
           Width = 58
           Height = 21
           EditLabel.Width = 61
-          EditLabel.Height = 13
+          EditLabel.Height = 21
           EditLabel.Caption = 'Image Width'
           LabelPosition = lpLeft
           TabOrder = 1

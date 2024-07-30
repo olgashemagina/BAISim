@@ -6,7 +6,7 @@
 #include "MainForm.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "tinyxml.lib"
+//#pragma link "tinyxml.lib"
 #define _IM_MIN_WIDTH_ 12
 #define _IM_MIN_HEIGHT_ 12
 //---------------------------------------------------------------------------

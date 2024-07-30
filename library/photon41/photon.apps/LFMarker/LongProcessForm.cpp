@@ -7,7 +7,7 @@
 #include "MainForm.h"
 #include "DbSplitForm.h"
 //---------------------------------------------------------------------------
-#pragma package(smart_init)
+//#pragma package(smart_init)
 #pragma resource "*.dfm"
 TLongProcDlg *LongProcDlg;
 //---------------------------------------------------------------------------

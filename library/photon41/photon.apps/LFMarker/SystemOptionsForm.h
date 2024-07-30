@@ -21,6 +21,7 @@
 #include <VclTee.TeeGDIPlus.hpp>
 #include <VCLTee.TeEngine.hpp>
 #include <VCLTee.TeeProcs.hpp>
+#include <Vcl.Mask.hpp>
 //----------------------------------------------------------------------------
 class TPagesDlg : public TForm
 {

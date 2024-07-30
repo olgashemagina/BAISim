@@ -16,11 +16,11 @@
 
 extern "C"
 {
-    #pragma link "awpipl2b.lib"
-    #pragma link "JPEGLIB.lib"
-    #pragma link "libpng.lib"
-    #pragma link "tifflib.lib"
-    #pragma link "zlib.lib"
+	#pragma comment(lib, "awpipl2b")
+	#pragma comment(lib, "JPEGLIB")
+	#pragma comment(lib, "libpng")
+	#pragma comment(lib, "tifflib")
+	#pragma comment(lib, "zlib")
 }
 
 //---------------------------------------------------------------------------
@@ -1679,7 +1679,7 @@ void __fastcall     TPhImage::Move(const LPWSTR lpwFolderName)
 			UnicodeString strSrcFile = FileName;
 			UnicodeString strDstFile = lpwFolderName;
             strDstFile += ExtractFileName(strSrcFile);
-			if (CopyFile(strSrcFile.c_str(), strDstFile.c_str(), false) != S_OK)
+			if (CopyFileW(strSrcFile.c_str(), strDstFile.c_str(), false) != S_OK)
             {
 				ShowMessage(L"Cannot copy files to target folder: " + FolderName);
             }

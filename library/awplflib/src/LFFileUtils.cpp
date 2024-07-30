@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 #include <io.h>
 #include <direct.h>
 #include <string>
@@ -12,8 +12,8 @@
 
 #include "stdio.h"
 #ifndef __BCPLUSPLUS__
-#include <sys/stat.h> 
-#ifndef WIN32
+#include <sys/stat.h>
+#if defined(WIN32) || defined(_WIN64)
 	#include <unistd.h>
 #endif 
 
@@ -109,7 +109,7 @@ std::string LFIntToStr(int value)
 //functions to work with file system 
 bool LFCreateDir(const char* lpPath)
 {
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 	if (_mkdir(lpPath) == 0)
 		return true;
 	return false;
@@ -122,7 +122,7 @@ bool LFCreateDir(const char* lpPath)
 }
 bool LFDirExist(const char* lpPath)
 {
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 	if (_mkdir(lpPath) == 0)
 	{
 		_rmdir(lpPath);
@@ -156,7 +156,7 @@ bool LFDirExist(const char* lpPath)
 */
 bool LFRemoveDir(const char* lpPath)
 {
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 #ifdef _USE_UNICODE_VS_
 	std::wstring dirPath = LFUtf8ConvertToUnicode(lpPath);
 	std::wstring strPath = LFConcatPath(dirPath, L"*.*");
@@ -210,7 +210,7 @@ bool LFRemoveDir(const char* lpPath)
 #endif
 }
 
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 /* 128 bit GUID to human-readable string */
 static char * guid_to_str(UUID* id, char * out) {
 	unsigned int i;
@@ -256,7 +256,7 @@ std::string LFGUIDToString(UUID* id)
 	std::string result;
 	char uuid_buf[130];
 
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 	guid_to_str(id, uuid_buf);
 #else
 	uuid_unparse(*id, uuid_buf);
@@ -267,7 +267,7 @@ std::string LFGUIDToString(UUID* id)
 
 unsigned long LFGetTickCount()
 {
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 	return GetTickCount();
 #else
     struct timespec ts;
@@ -280,7 +280,7 @@ unsigned long LFGetTickCount()
 }
 
 
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 #include <filesystem>
 namespace fs = std::filesystem;
 static bool _LFGetDirNamesWindows(const std::string& lpDir, TLFStrings& names)
@@ -379,7 +379,7 @@ static bool _LFGetDirNamesLinux(const char* lpDir, TLFStrings& names)
 bool LFGetDirFiles(const std::string& lpDir, TLFStrings& names)
 {
 	names.clear();
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 	return _LFGetDirNamesWindows(lpDir, names);
 #else
 	return _LFGetDirNamesLinux(lpDir, names);

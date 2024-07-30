@@ -11,7 +11,7 @@
 #include "LFFileUtils.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "cspin"
+//#pragma link "cspin"
 #pragma resource "*.dfm"
 TCSBuildOptions *CSBuildOptions;
 //---------------------------------------------------------------------------

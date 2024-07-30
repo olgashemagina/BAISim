@@ -14,7 +14,7 @@ extern "C" {
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 	#include <float.h>
 #else
 	#include <float.h>
@@ -36,7 +36,7 @@ extern "C" {
 #define AWP_FLOAT_MAX FLT_MAX
 #define AWP_FLOAT_MIN -FLT_MAX
 
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 	#define AWP_CDECL __cdecl
 #else
 	#define AWP_CDECL

@@ -3,7 +3,7 @@
 #include "photondll.h"
 #include "..\photon\FImage41.h"
 //---------------------------------------------------------------------------
-#pragma package(smart_init)
+//#pragma package(smart_init)
 #pragma link "FImage41"
 
 PHOTON_API HANDLE   photonCreate(HWND hWnd)

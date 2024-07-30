@@ -395,7 +395,7 @@ void __fastcall TPhPalette::DrawVTicks(TCanvas* c)
 		if (i %10 == 0)
 		{
 			w = 10;
-			c->TextOutW(PaletteRight() + 2 + w, Height-20 - i*(Height-20)/50, FormatFloat("0.00", m_min + i*(m_max-m_min) / 50));
+			c->TextOut(PaletteRight() + 2 + w, Height-20 - i*(Height-20)/50, FormatFloat("0.00", m_min + i*(m_max-m_min) / 50));
 		}
 		else
 			w = 4;
@@ -426,7 +426,7 @@ void __fastcall TPhPalette::DrawHTicks(TCanvas* c)
 			if (x  +  c->TextWidth(str) > Width) {
 				x = Width - 2 - c->TextWidth(str);
 			}
-			c->TextOutW(x, PaletteBottom(c)+h+2, str);
+			c->TextOut(x, PaletteBottom(c)+h+2, str);
 		}
 		else
 			h = 4;

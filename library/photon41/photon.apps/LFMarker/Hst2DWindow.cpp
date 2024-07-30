@@ -9,7 +9,7 @@
 #include "errorUnit.h"
 
 //---------------------------------------------------------------------------
-#pragma package(smart_init)
+//#pragma package(smart_init)
 #pragma link "FImage"
 #pragma resource "*.dfm"
 THsv2DForm *Hsv2DForm;

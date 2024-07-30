@@ -39,20 +39,20 @@
 #pragma package(smart_init)
  extern "C"
 {
-    #pragma link "awpipl2b.lib"
-	#pragma link "JPEGLIB.lib"
+	#pragma comment(lib, "awpipl2b")
+	#pragma comment(lib, "JPEGLIB")
 }
-#pragma link "TinyXML.lib"
+#pragma comment(lib, "TinyXML")
 
-#pragma link "awplflibb.lib"
-#pragma link "FImage41"
-#pragma link "PhImageTool"
-#pragma link "PhLenzTool"
-#pragma link "PhPaneTool"
-#pragma link "PhSelectRectTool"
-#pragma link "PhZoomToRectTool"
-#pragma link "PhRulerTool"
-#pragma link "PhTriangleTool"
+#pragma comment(lib, "awplflibb")
+//#pragma link "FImage41"
+//#pragma link "PhImageTool"
+//#pragma link "PhLenzTool"
+//#pragma link "PhPaneTool"
+//#pragma link "PhSelectRectTool"
+//#pragma link "PhZoomToRectTool"
+//#pragma link "PhRulerTool"
+//#pragma link "PhTriangleTool"
 #pragma resource "*.dfm"
 //using namespace std;
 TForm1 *Form1;

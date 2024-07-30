@@ -7,11 +7,9 @@ object PagesDlg: TPagesDlg
   ClientWidth = 417
   Color = clBtnFace
   ParentFont = True
-  OldCreateOrder = True
   Position = poScreenCenter
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object Panel1: TPanel
     Left = 0
     Top = 0
@@ -30,21 +28,22 @@ object PagesDlg: TPagesDlg
       ActivePage = Scanner
       Align = alClient
       TabOrder = 0
+      ExplicitWidth = 419
       object Scanner: TTabSheet
         Caption = 'Internal Scanner'
         OnShow = ScannerShow
         object Label5: TLabel
           Left = 16
           Top = 20
-          Width = 54
-          Height = 13
+          Width = 59
+          Height = 15
           Caption = 'Base Width'
         end
         object Label6: TLabel
           Left = 16
           Top = 48
-          Width = 57
-          Height = 13
+          Width = 63
+          Height = 15
           Caption = 'Base Height'
         end
         object GroupBox2: TGroupBox
@@ -57,15 +56,15 @@ object PagesDlg: TPagesDlg
           object Label1: TLabel
             Left = 8
             Top = 28
-            Width = 28
-            Height = 13
+            Width = 32
+            Height = 15
             Caption = 'Width'
           end
           object Label2: TLabel
             Left = 8
             Top = 58
-            Width = 31
-            Height = 13
+            Width = 36
+            Height = 15
             Caption = 'Height'
           end
           object CSpinEdit1: TCSpinEdit
@@ -184,22 +183,22 @@ object PagesDlg: TPagesDlg
           object Label11: TLabel
             Left = 9
             Top = 64
-            Width = 61
-            Height = 13
+            Width = 68
+            Height = 15
             Caption = 'Image Width'
           end
           object Label7: TLabel
             Left = 9
             Top = 84
-            Width = 91
-            Height = 13
+            Width = 98
+            Height = 15
             Caption = 'Image Height (4:3)'
           end
           object Label10: TLabel
             Left = 104
             Top = 84
             Width = 30
-            Height = 13
+            Height = 15
             Caption = 'xxxxx'
           end
           object CheckBox2: TCheckBox
@@ -239,15 +238,15 @@ object PagesDlg: TPagesDlg
           object Label8: TLabel
             Left = 8
             Top = 24
-            Width = 83
-            Height = 13
+            Width = 88
+            Height = 15
             Caption = 'Base Width = 24 '
           end
           object Label9: TLabel
             Left = 8
             Top = 43
-            Width = 86
-            Height = 13
+            Width = 92
+            Height = 15
             Caption = 'Base Height =  24'
           end
         end
@@ -299,15 +298,15 @@ object PagesDlg: TPagesDlg
           object Label12: TLabel
             Left = 8
             Top = 24
-            Width = 132
-            Height = 13
+            Width = 143
+            Height = 15
             Caption = 'Nearlest overlaps threshold'
           end
           object Label13: TLabel
             Left = 8
             Top = 98
-            Width = 133
-            Height = 13
+            Width = 142
+            Height = 15
             Caption = 'Farthest overlaps threholds'
           end
           object Edit1: TEdit
@@ -331,8 +330,8 @@ object PagesDlg: TPagesDlg
             Top = 133
             Width = 121
             Height = 21
-            EditLabel.Width = 45
-            EditLabel.Height = 13
+            EditLabel.Width = 52
+            EditLabel.Height = 15
             EditLabel.Caption = 'min value'
             TabOrder = 2
             Text = '0,4'
@@ -342,8 +341,8 @@ object PagesDlg: TPagesDlg
             Top = 176
             Width = 121
             Height = 21
-            EditLabel.Width = 49
-            EditLabel.Height = 13
+            EditLabel.Width = 54
+            EditLabel.Height = 15
             EditLabel.Caption = 'max value'
             TabOrder = 3
             Text = '0,6'

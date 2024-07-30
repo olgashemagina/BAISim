@@ -231,7 +231,7 @@ int TLFDetectedItem::GetRacurs()
 
 void TLFDetectedItem::GetId(UUID& id)
 {
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 	memcpy(&id, &this->m_id, sizeof(UUID));
 #else
 	memcpy(&id, this->m_id, sizeof(UUID));
