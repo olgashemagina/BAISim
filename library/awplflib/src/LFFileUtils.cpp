@@ -14,7 +14,7 @@
 #ifndef __BCPLUSPLUS__
 #include <sys/stat.h>
 #if defined(WIN32) || defined(_WIN64)
-	#include <unistd.h>
+	//#include <unistd.h>
 #endif 
 
 std::string LFGetFilePath(const std::string& strPath)

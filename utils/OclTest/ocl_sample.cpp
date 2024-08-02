@@ -482,11 +482,30 @@ int test_gpu_engine(const std::string& detector_path, const std::string& image_p
 
 }
 
+int test_ñpu_engine(const std::string& detector_path, const std::string& image_path) {
+    auto det = load_detector(detector_path);
+    auto img = load_image(image_path);
+        
+    auto begin = std::chrono::high_resolution_clock::now();
+
+    apply_detector(det.get(), img.get());
+    
+
+    auto end = std::chrono::high_resolution_clock::now();
+    auto dur = end - begin;
+    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
+    std::cout << "Execution duration " << ms  << " ms." << std::endl;
+
+    return 0;
+
+}
+
 
 int main()
 {
     //return test_detector("test/detector.xml", "test/test.awp");
-    return test_gpu_engine("test/detector.xml", "test/test.awp");
+    //return test_gpu_engine("test/detector.xml", "test/test.awp");
+    return test_ñpu_engine("test/detector.xml", "test/test.awp");
    
   
 }
