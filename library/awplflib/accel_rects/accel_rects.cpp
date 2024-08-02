@@ -313,15 +313,16 @@ namespace accel_rects {
 
     bool IntegralView::is_valid() const
     {
-        return data_->is_valid();
+        return data_ ? data_->is_valid() : false;
     }
 
     size_t IntegralView::width() const {
-        return data_->width();
+        return data_ ? data_->width() : 0;
+        
     }
 
     size_t IntegralView::height() const {
-        return data_->height();
+        return data_ ? data_->height() : 0;
     }
 
 
@@ -447,7 +448,7 @@ namespace accel_rects {
 
     bool DetectorView::is_valid() const
     {
-        return data_->is_valid();
+        return data_ ? data_->is_valid() : false;
     }
 
     

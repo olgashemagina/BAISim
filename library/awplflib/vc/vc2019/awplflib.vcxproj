@@ -92,7 +92,8 @@
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..\..\..\awpipl2\include;..\..\include;..\..\..\..\3rdparty\TinyXML\src;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>..\..\..\awpipl2\include;..\..\accel_rects;..\..\include;..\..\..\..\3rdparty\OpenCL\include;..\..\..\..\3rdparty\TinyXML\src;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>..\..\..\..\3rdparty\OpenCL\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>..\..\..\awpipl2\include;..\..\include;..\..\..\..\3rdparty\TinyXML\src;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
@@ -101,7 +102,8 @@
     <IncludePath>..\..\..\awpipl2\include;..\..\include;..\..\..\..\3rdparty\TinyXML\src;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>..\..\..\awpipl2\include;..\..\include;..\..\..\..\3rdparty\TinyXML\src;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>..\..\..\awpipl2\include;..\..\accel_rects;..\..\include;..\..\..\..\3rdparty\OpenCL\include;..\..\..\..\3rdparty\TinyXML\src;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>..\..\..\..\3rdparty\OpenCL\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -211,6 +213,7 @@
     </ResourceCompile>
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalDependencies>OpenCL.lib</AdditionalDependencies>
     </Lib>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -249,6 +252,7 @@
     </ResourceCompile>
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalDependencies>OpenCL.lib</AdditionalDependencies>
     </Lib>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -256,6 +260,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\accel_rects\accel_rects.cpp" />
     <ClCompile Include="..\..\src\LFAttrFilter.cpp" />
     <ClCompile Include="..\..\src\LFBuffer.cpp" />
     <ClCompile Include="..\..\src\LFBuilder.cpp" />
@@ -272,6 +277,7 @@
     <ClCompile Include="..\..\src\LFFeatures.cpp" />
     <ClCompile Include="..\..\src\LFFileUtils.cpp" />
     <ClCompile Include="..\..\src\LFGeometry.cpp" />
+    <ClCompile Include="..\..\src\LFGpuEngine.cpp" />
     <ClCompile Include="..\..\src\LFHistogramm.cpp" />
     <ClCompile Include="..\..\src\LFImage.cpp" />
     <ClCompile Include="..\..\src\LFImageProcessor.cpp" />
@@ -293,7 +299,9 @@
     <ClCompile Include="..\..\src\_LFParameters.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\accel_rects\accel_rects.h" />
     <ClInclude Include="..\..\include\LF.h" />
+    <ClInclude Include="..\..\include\LFGpuEngine.h" />
     <ClInclude Include="..\..\include\LFAttrFilter.h" />
     <ClInclude Include="..\..\include\LFBuffer.h" />
     <ClInclude Include="..\..\include\LFBuilder.h" />

@@ -24,9 +24,17 @@
 #include "LFFeatures.h"
 #include "LFWeak.h"
 
+#include "LFGpuEngine.h"
+
 #include "accel_rects.h"
 
+#include <mutex>
 #include <optional>
+#include <chrono>
+
+#ifdef _OMP_
+#include <omp.h>
+#endif
 
 std::unique_ptr<TLFDetectEngine> load_detector(const TLFString& det_path)
 {
@@ -65,7 +73,7 @@ std::optional<accel_rects::detector_t>   convert_detector(ILFObjectDetector* det
     builder.Begin();
 
     for (size_t s = 0; s < strongs->GetCount(); ++s) {
-        ILFStrong* classifier = (ILFStrong*)strongs->Get(0);
+        ILFStrong* classifier = (ILFStrong*)strongs->Get(s);
         if (classifier == NULL)
             return std::nullopt;
 
@@ -120,11 +128,59 @@ accel_rects::transforms_t   convert_transforms(ILFScanner* scanner, int width, i
     return transforms;
 }
 
+
+int apply_detector(TLFDetectEngine* engine,
+    TLFImage* image)
+{
+
+    //Mutex if OMP threading used.
+    auto mtx = std::make_shared<std::mutex>();
+    engine->GetDetector(0)->SetDescCallback([=](size_t index,
+        const auto& bounds,
+        const auto& desc) {
+            if (desc.result) {
+                std::cout << "Detected! Bound: " << bounds.Rect.left << " " << bounds.Rect.top << " " << bounds.Rect.right << " " << bounds.Rect.bottom << std::endl;
+            }
+            /*std::cout << "Start Detector " << std::endl;
+            for (size_t s = 0; s < desc.descs.size(); ++s) {
+                const auto& strong = desc.descs[s];
+                std::cout << "Start Strong " << s << std::endl;
+                for (const auto& weak : strong.weaks) {
+
+                    const auto& feature = weak.feature;
+
+                    std::cout << feature.value << " : [";
+
+                    for (auto v : feature.features) {
+                        std::cout << int(v) << ", ";
+
+                    }
+                    std::cout << "]" << std::endl;
+
+                }
+
+                std::cout << std::endl;
+
+            }
+            std::cout << "End Detector " << std::endl;*/
+
+        });
+
+    if (!engine->SetSourceImage(image, true)) {
+        return -103;
+    }
+   
+    return 0;
+}
+
+
+
 int test_detector(const std::string& detector_path, const std::string& image_path) {
     auto det = load_detector(detector_path);
     auto img = load_image(image_path);
     auto acc_det = convert_detector(det->GetDetector(0));
 
+    //apply_detector(det.get(), img.get());
     
     auto integral_image = img->GetIntegralImage();
 
@@ -142,36 +198,115 @@ int test_detector(const std::string& detector_path, const std::string& image_pat
         return -1;
     }
 
-    auto transforms = convert_transforms(det->GetScanner(), integral_image->sSizeX, integral_image->sSizeY);
-
+    
+   // transforms.resize(1);
     auto det_view = engine.CreateDetector(std::move(*acc_det));
 
     auto worker = engine.CreateWorker();
-    accel_rects::callback_t cb = [](const accel_rects::dims_t& dims, const accel_rects::detections_t& dets, const accel_rects::features_t& feats) {
+   
 
-        std::cout << "Callback " << dims[0] << " : " << dims[1] << " : " << dims[2] << ". " << std::this_thread::get_id() << std::endl;
+    int num_transforms_per_task = 4096; //1024;
+    int num_threads_proc = 0;
+#ifdef _OMP_
+    num_threads_proc = std::min<int>(4, omp_get_max_threads());
+#endif 
+    auto scanner = det->GetDetector(0)->GetScanner();
 
-        /*for (size_t t = 0; t < trans_size; ++t) {
-            std::cout << "Features " << feats_size << "." << std::endl;
-            for (size_t f = 0; f < std::min<size_t>(feats_size, 10); ++f) {
-                std::cout << feats[t * feats_size + f] << "\t";
-            }
-            std::cout << std::endl << "Detections " << stages_size << "." << std::endl;
-            for (size_t s = 0; s < std::min<size_t>(stages_size, 10); ++s) {
-                std::cout << int(dets[t * stages_size + s]) << "\t";
-            }
-            std::cout << std::endl;
-        }*/
+    //Transforms per thread
+    std::vector<accel_rects::transforms_t>  multi_transforms(num_threads_proc);
+    std::vector<std::vector<awpRect>>       multi_fragments(num_threads_proc);
+    std::vector<accel_rects::Worker>        workers;
+
+    for (int i = 0; i < num_threads_proc; ++i) {
+        multi_transforms[i].reserve(num_transforms_per_task);
+        multi_fragments[i].reserve(num_transforms_per_task);
+        workers.push_back(engine.CreateWorker());
+    }
+        
+    awpRect rect = { 0, 0, (short)integral_image->sSizeX, (short)integral_image->sSizeY };
+    scanner->ScanRect(rect);
+       
+    auto processing = [](const accel_rects::dims_t& dims, const accel_rects::detections_t& dets, const accel_rects::features_t& feats, const std::vector<awpRect>& frags) {
+        //dims: transforms, stages, features
+        // std::cout << "Callback " << dims[0] << " : " << dims[1] << " : " << dims[2] << ". " << std::this_thread::get_id() << std::endl;
+
+        for (size_t t = 0; t < dims[0]; ++t) {
+            /*       std::cout << "Features " << dims[2] << "." << std::endl;
+                   for (size_t f = 0; f < dims[2]; ++f) {
+                       std::cout << feats[t * dims[2] + f] << "\t";
+                   }
+
+                   std::cout << std::endl << "Detections " << dims[1] << "." << std::endl;
+                   */bool detected = true;
+                   for (size_t s = 0; s < dims[1]; ++s) {
+                       //std::cout << int(dets[t * dims[1] + s]) << " ";
+                       if (dets[t * dims[1] + s] == 0) {
+                           detected = false;
+                           break;
+                       }
+                       //std::cout << int(dets[t * dims[1] + s]) << "\t";
+                   }
+
+                   if (detected) {
+                       auto rect = frags[t];
+                       std::cout << "Detected! Bounds: " << rect.left << " " << rect.top << " " << rect.right << " " << rect.bottom << std::endl;
+                   }
+                   // std::cout << std::endl;
+        }
+    };
+
+        
+
+#ifdef _OMP_
+#pragma omp parallel for num_threads(num_threads_proc)
+#endif 
+    for (int i = 0; i < scanner->GetFragmentsCount(); i++) {
+
+        int current_thread = 0;
+
+#ifdef _OMP_
+        current_thread = omp_get_thread_num();
+#endif 
+        //std::cout << "Thread: " << current_thread << std::endl;
 
 
-        };
+        auto& trans = multi_transforms[current_thread];
+        auto& frags = multi_fragments[current_thread];
 
-    for (int i = 0; i < 100; ++i) {
-        auto t = transforms;
-        auto res = worker.Enqueue(integral_view, det_view, std::move(t), cb);
+        awpRect rect = scanner->GetFragmentRect(i);
+
+        float scale_x = (rect.right - rect.left) / float(scanner->GetBaseWidth());
+        float scale_y = (rect.bottom - rect.top) / float(scanner->GetBaseHeight());
+        float scale = std::min<float>(scale_x, scale_y);
+
+
+        trans.push_back({scale, scale, float(rect.left), float(rect.top)});
+        frags.push_back(rect);
+
+
+        if (trans.size() >= num_transforms_per_task) {
+                        
+            auto res = workers[current_thread].Enqueue(integral_view, det_view, trans,
+                std::bind(processing, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::move(frags)));
+
+            frags.reserve(num_threads_proc);
+
+            trans.resize(0);
+            frags.resize(0);
+
+        }
+
+        
     }
 
-    Sleep(3000);
+    for (int i = 0; i < num_threads_proc; ++i) {
+        
+        auto res = workers[i].Enqueue(integral_view, det_view, multi_transforms[i],
+            std::bind(processing, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::move(multi_fragments[i])));
+
+    }
+    
+    return 0;
 
 }
 
@@ -317,9 +452,41 @@ int test1() {
 }
 
 
+int test_gpu_engine(const std::string& detector_path, const std::string& image_path) {
+    auto det = load_detector(detector_path);
+    auto img = load_image(image_path);
+
+    TGpuEngine engine;
+
+    auto detector = engine.CreateDetector((TSCObjectDetector* /*HACK*/)det->GetDetector(0));
+
+    auto integral = engine.CreateIntegral(img.get());
+
+    auto begin = std::chrono::high_resolution_clock::now();
+
+    int count = 100;
+
+    for (int i = 0; i < count; ++i) {
+
+        auto result = engine.Run(detector, integral, { 0, 0, (AWPSHORT)integral.width(), (AWPSHORT)integral.height() });
+
+        std::cout << "Detected " << result.size() << " items." << std::endl;
+    }
+
+    auto end = std::chrono::high_resolution_clock::now();
+    auto dur = end - begin;
+    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
+    std::cout << "Execution duration " << ms / count << " ms." << std::endl;
+
+    return 0;
+
+}
+
+
 int main()
 {
-    return test_detector("test/detector.xml", "test/test.awp");
+    //return test_detector("test/detector.xml", "test/test.awp");
+    return test_gpu_engine("test/detector.xml", "test/test.awp");
    
   
 }
