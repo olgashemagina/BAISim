@@ -497,11 +497,11 @@ public:
    /**
    \brief Initialize detector with awpImage structure and calls scanner if nessesary
    \param pImage - pointer to awpImage structure 
-   \param scan   - initializes scanner  
+   \param rect   - rect in which scanner running
    \retrurn  true if detector has valid image and scanner creates all nessesary 
    \structures
    */
-   virtual bool Init(awpImage* pImage, bool scan = true)					   		=0;
+   virtual bool Init(TLFImage* pImage, awpRect* rect = nullptr)					   		= 0;
    /**
    \brief performs classification withing rectangle
    \param Fragmnet -  rect withing image. Image was initialized by ILFObjectDetector::Init
@@ -683,6 +683,10 @@ public:
 *	rating, confidence, and unique identifier.
 *
 */
+
+class TLFDetectedItem;
+using detected_item_ptr = std::shared_ptr<TLFDetectedItem>;
+
 class TLFDetectedItem: public TLFObject
 {
 protected:
@@ -701,6 +705,9 @@ protected:
 	int				m_cluster_idx;
 	int				m_color;
 	TLFZone*        m_zone;
+
+private:
+	detected_item_ptr		parent_;
 
 public:
 
@@ -762,6 +769,10 @@ public:
 	/*работа с  xml файлом*/
 	TiXmlElement* SaveXML();
 	bool LoadXML(TiXmlElement* parent);
+
+	detected_item_ptr	parent() const { return parent_; }
+
+	void	set_parent(detected_item_ptr parent) { parent_ = parent; }
 
 	int				m_bh;			   /*базовая высота объекта*/
 	int				m_bw;			   /*базовая ширина объекта*/

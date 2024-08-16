@@ -28,6 +28,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Player", "..\utils\!Player\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OclTest", "..\utils\OclTest\OclTest.vcxproj", "{6C4254C3-98A0-400C-9A33-8370D95D101F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tree_builder", "..\tools\tree_builder\vc\vc2019\tree_builder.vcxproj", "{8ED6E748-1C42-429C-9103-DD6274A8346F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -124,6 +126,14 @@ Global
 		{6C4254C3-98A0-400C-9A33-8370D95D101F}.Release|Win32.Build.0 = Release|Win32
 		{6C4254C3-98A0-400C-9A33-8370D95D101F}.Release|x64.ActiveCfg = Release|x64
 		{6C4254C3-98A0-400C-9A33-8370D95D101F}.Release|x64.Build.0 = Release|x64
+		{8ED6E748-1C42-429C-9103-DD6274A8346F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8ED6E748-1C42-429C-9103-DD6274A8346F}.Debug|Win32.Build.0 = Debug|Win32
+		{8ED6E748-1C42-429C-9103-DD6274A8346F}.Debug|x64.ActiveCfg = Debug|x64
+		{8ED6E748-1C42-429C-9103-DD6274A8346F}.Debug|x64.Build.0 = Debug|x64
+		{8ED6E748-1C42-429C-9103-DD6274A8346F}.Release|Win32.ActiveCfg = Release|Win32
+		{8ED6E748-1C42-429C-9103-DD6274A8346F}.Release|Win32.Build.0 = Release|Win32
+		{8ED6E748-1C42-429C-9103-DD6274A8346F}.Release|x64.ActiveCfg = Release|x64
+		{8ED6E748-1C42-429C-9103-DD6274A8346F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

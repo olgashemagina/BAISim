@@ -63,7 +63,7 @@ public:
 	virtual ~TSCObjectDetector();
 
    // init detector with image
-	virtual bool Init(awpImage* pImage, bool scan = false);
+	virtual bool Init(TLFImage* pImage, awpRect* rect = nullptr) override;
    // classification
    virtual int  ClassifyRect(awpRect Fragmnet) override;
    virtual int  Detect() override;
@@ -106,7 +106,7 @@ public:
 	TLFFGBGDetector();
 	virtual ~TLFFGBGDetector();
 
-	virtual bool Init(awpImage* pImage, bool scan = false) override;
+	virtual bool Init(TLFImage* pImage, awpRect* rect = nullptr) override;
 	// classification
 	virtual int  ClassifyRect(awpRect Fragmnet) override;
 	virtual int  Detect() override;
@@ -135,76 +135,5 @@ public:
 	}
 };
 
-// smoke detector 
-class TLFSmokeDetector :public ILFObjectDetector
-{
-protected:
-	double m_threshold;
-	TLFObjectList m_weaks_s;
-	TLFObjectList m_weaks_a;
-public:
-	TLFSmokeDetector();
-	virtual ~TLFSmokeDetector();
-
-	// init detector with image
-	virtual bool Init(awpImage* pImage, bool scan = true);
-	// classification
-	virtual int  ClassifyRect(awpRect Fragmnet, double* err, int* vect);
-	virtual int  Detect();
-	// properties
-	int GetStagesCount();
-	int		GetSensorsCount(int Stage);
-	double  GetStageWeight(int Stage);
-	double	GetStageThreshold(int Stage);
-	TLFObjectList* GetStrongs();
-	virtual bool	AddStrong(ILFStrong* strong);
-	virtual  double GetThreshold();
-	virtual  void SetThreshold(double Value);
-
-	// xml support
-	virtual TiXmlElement* SaveXML();
-	virtual bool          LoadXML(TiXmlElement* parent);
-
-	virtual const char* GetName()
-	{
-		return "TLFSmokeDetector";
-	}
-};
-
-// fire detector 
-class TLFFireDetector : public ILFObjectDetector
-{
-protected:
-	double m_threshold;
-	TLFObjectList m_weaks_a;
-#ifdef _DEBUG
-	FILE* m_log;
-#endif
-public:
-	TLFFireDetector();
-	virtual ~TLFFireDetector();
-
-	// init detector with image
-	virtual bool Init(awpImage* pImage, bool scan = true);
-	// classification
-	virtual int  ClassifyRect(awpRect Fragmnet, double* err, int* vect);
-	virtual int  Detect();
-	// properties
-	int GetStagesCount();
-	int		GetSensorsCount(int Stage);
-	double  GetStageWeight(int Stage);
-	double	GetStageThreshold(int Stage);
-	TLFObjectList* GetStrongs();
-	virtual bool	AddStrong(ILFStrong* strong);
-	virtual  double GetThreshold();
-	virtual  void SetThreshold(double Value);
-	virtual TiXmlElement* SaveXML();
-	virtual bool          LoadXML(TiXmlElement* parent);
-
-	virtual const char* GetName()
-	{
-		return "TLFFireDetector";
-	}
-};
 /** @} */ /*  end of LFDetectors group */
 #endif

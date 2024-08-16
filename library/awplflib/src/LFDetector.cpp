@@ -310,15 +310,18 @@ TSCObjectDetector::~TSCObjectDetector()
 };
 
 // init detector with image
-bool TSCObjectDetector::Init(awpImage* pImage, bool scan)
+bool TSCObjectDetector::Init(TLFImage* pImage, awpRect* rect)
 {
-	if (pImage == NULL || pImage->dwType != AWP_BYTE || m_scanner == NULL)
+	if (pImage == NULL || pImage->GetImage()->dwType != AWP_BYTE || m_scanner == NULL)
 		return false;
-	bool changed = m_Image.GetImage() == NULL || m_Image.GetImage()->sSizeX != pImage->sSizeX || m_Image.GetImage()->sSizeY != pImage->sSizeY || m_scanner->GetFragmentsCount() == 0;
+	bool changed = m_Image.GetImage() == NULL || m_Image.width() != pImage->width() || m_Image.height() != pImage->height() || m_scanner->GetFragmentsCount() == 0;
     m_Image.FreeImages();
-	m_Image.SetImage(pImage);
-	if (scan && changed)
-		m_scanner->ScanImage(&m_Image);
+	m_Image = *pImage;
+	if (changed)
+		if (rect)
+			m_scanner->ScanRect(*rect);
+		else
+			m_scanner->ScanImage(&m_Image);
 	return m_Image.GetImage() != NULL;
 }
 bool TSCObjectDetector::AddStrong(ILFStrong* strong)
@@ -740,12 +743,12 @@ bool          TLFFGBGDetector::LoadXML(TiXmlElement* parent)
 	return false;
 }
 
-bool TLFFGBGDetector::Init(awpImage* pImage, bool scan)
+bool TLFFGBGDetector::Init(TLFImage* pImage, awpRect* pRect)
 {
-	if (pImage == NULL || pImage->dwType != AWP_BYTE || m_scanner == NULL)
+	if (pImage == NULL || pImage->GetImage()->dwType != AWP_BYTE || m_scanner == NULL)
 		return false;
-	bool changed = m_Image.GetImage() == NULL || m_Image.GetImage()->sSizeX != pImage->sSizeX || m_Image.GetImage()->sSizeY != pImage->sSizeY || m_scanner->GetFragmentsCount() == 0;
-	m_Image.SetImage(pImage);
+	bool changed = m_Image.GetImage() == NULL || m_Image.width() != pImage->width() || m_Image.height() != pImage->height() || m_scanner->GetFragmentsCount() == 0;
+	m_Image = *pImage;
 	if (changed)
 	{
 		m_counter = 0;
@@ -1016,259 +1019,4 @@ void TLFFGBGDetector::SetDelay(int value)
 		if (weak != NULL)
 			weak->SetDelay(value);
 	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////
-TLFSmokeDetector::TLFSmokeDetector()
-{
-	m_baseWidth = 24;
-	m_baseHeight = 24;
-	m_Type = "Smoke";
-	m_Angle = 0;
-	m_racurs = 0;
-	m_scanner = new TLFTileScanner();
-	m_strDetName = "TLFSmokeDetector";
-	m_threshold = 10;
-}
-TLFSmokeDetector::~TLFSmokeDetector()
-{
-
-}
-
-// init detector with image
-bool TLFSmokeDetector::Init(awpImage* pImage, bool scan)
-{
-	if (pImage == NULL || pImage->dwType != AWP_BYTE || m_scanner == NULL)
-		return false;
-	bool changed = m_Image.GetImage() == NULL || m_Image.GetImage()->sSizeX != pImage->sSizeX || m_Image.GetImage()->sSizeY != pImage->sSizeY || m_scanner->GetFragmentsCount() == 0;
-	m_Image.SetImage(pImage);
-
-	if (changed)
-	{
-		this->m_weaks_s.Clear();
-		this->m_weaks_a.Clear();
-		this->m_objects.Clear();
-		this->m_scanner->Scan(pImage->sSizeX, pImage->sSizeY);
-		for (int i = 0; i < m_scanner->GetFragmentsCount(); i++)
-		{
-			awpRect rect = m_scanner->GetFragmentRect(i);
-			ILFFeature* feature = new TLFSFeature(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
-			TLFDynamicWeak* weak = new TLFDynamicWeak(feature, 10, 1);
-			weak->SetT1(15);
-			weak->SetT2(25);
-			weak->Setmethod(HYST_METHOD_LESS);
-			m_weaks_s.Add(weak);
-
-			feature = new TLFAFeature(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
-			weak = new TLFDynamicWeak(feature, 10, 1);
-			weak->SetT1(32);
-			weak->SetT2(10);
-			weak->Setmethod(HYST_METHOD_MORE);
-			m_weaks_a.Add(weak);
-
-            UUID id;
-
-			LF_NULL_UUID_CREATE(id);
-            TLFDetectedItem* de = new TLFDetectedItem(&rect, 0, "smoke", 0, 0,
-            this->m_baseWidth, this->m_baseHeight, this->m_strDetName.c_str(), id);
-			de->SetHasObject(false);
-			m_objects.Add(de);
-		}
-	}
-	return m_Image.GetImage() != NULL;
-}
-// classification
-int  TLFSmokeDetector::ClassifyRect(awpRect Fragmnet, double* err, int* vect)
-{
-	return 0;
-}
-int  TLFSmokeDetector::Detect()
-{
-	for (int i = 0; i < m_objects.GetCount(); i++)
-	{
-		TLFDetectedItem* di = (TLFDetectedItem*)m_objects.Get(i);
-
-		if (di != NULL)
-		{
-			di->SetHasObject(false);
-			TLFRect* rect = di->GetBounds();
-			if (rect != NULL)
-			{
-				double e = di->GetRaiting();
-				int v = 0;
-				ILFWeak* weak_s = (ILFWeak*)this->m_weaks_s.Get(i);
-				ILFWeak* weak_a = (ILFWeak*)this->m_weaks_a.Get(i);
-
-				TLFAlignedTransform transform(1);
-
-				auto v1 = weak_s->Classify(&this->m_Image, transform);
-				auto v2 = weak_a->Classify(&this->m_Image, transform);
-
-				di->SetHasObject(v1.result > 0 && v2.result > 0);
-				di->SetRaiting(e);
-			}
-		}
-	}
-	return 0;
-}
-int	  TLFSmokeDetector::GetStagesCount()
-{
-	return 1;
-}
-bool	TLFSmokeDetector::AddStrong(ILFStrong* strong)
-{
-	return true;
-}
-double TLFSmokeDetector::GetThreshold()
-{
-	return this->m_threshold;
-}
-void TLFSmokeDetector::SetThreshold(double Value)
-{
-	this->m_threshold = Value;
-}
-
-TiXmlElement* TLFSmokeDetector::SaveXML()
-{
-	return NULL;
-}
-bool          TLFSmokeDetector::LoadXML(TiXmlElement* parent)
-{
-	return false;
-}
-
-TLFFireDetector::TLFFireDetector()
-{
-	m_baseWidth = 4;
-	m_baseHeight = 4;
-	m_Type = "Fire";
-	m_Angle = 0;
-	m_racurs = 0;
-	m_scanner = new TLFTileScanner();
-	m_scanner->SetBaseWidth(m_baseWidth);
-	m_scanner->SetBaseHeight(m_baseHeight);
-	m_strDetName = "TLFFireDetector";
-	m_threshold = 10;
-#ifdef _DEBUG
-	m_log = fopen("fire.log", "a+t");
-#endif 
-}
-TLFFireDetector::~TLFFireDetector()
-{
-#ifdef _DEBUG
-	fclose(m_log);
-#endif 
-
-}
-
-// init detector with image
-bool TLFFireDetector::Init(awpImage* pImage, bool scan)
-{
-	if (pImage == NULL || pImage->dwType != AWP_BYTE || m_scanner == NULL)
-		return false;
-	bool changed = m_Image.GetImage() == NULL || m_Image.GetImage()->sSizeX != pImage->sSizeX || m_Image.GetImage()->sSizeY != pImage->sSizeY || m_scanner->GetFragmentsCount() == 0;
-
-	awpImage* tmp = NULL;
-	awpGetChannel(pImage, &tmp, 2);
-	m_Image.SetImage(tmp);
-	awpReleaseImage(&tmp);
-
-	if (changed)
-	{
-		this->m_weaks_a.Clear();
-		this->m_objects.Clear();
-		this->m_scanner->Scan(pImage->sSizeX, pImage->sSizeY);
-		for (int i = 0; i < m_scanner->GetFragmentsCount(); i++)
-		{
-			awpRect rect = m_scanner->GetFragmentRect(i);
-			ILFFeature* feature = new TLFAFeature(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
-			TLFHysteresisWeak* weak = new TLFHysteresisWeak(feature);
-			weak->SetT1(80);
-			weak->SetT2(105);
-			weak->Setmethod(HYST_METHOD_MORE);
-			auto feat = feature->CalcValue(&m_Image, TLFAlignedTransform(1.0));
-			if (feat.value < 80)
-			{
-				m_weaks_a.Add(weak);
-
-				UUID id;
-
-				LF_NULL_UUID_CREATE(id);
-				TLFDetectedItem* de = new TLFDetectedItem(&rect, 0, "Fire", 0, 0,
-					this->m_baseWidth, this->m_baseHeight, this->m_strDetName.c_str(), id);
-				de->SetHasObject(false);
-				m_objects.Add(de);
-			}
-		}
-	}
-	else
-	{
-
-	}
-	return m_Image.GetImage() != NULL;
-
-}
-// classification
-int  TLFFireDetector::ClassifyRect(awpRect Fragmnet, double* err, int* vect)
-{
-	return 0;
-}
-int  TLFFireDetector::Detect()
-{
-	for (int i = 0; i < m_objects.GetCount(); i++)
-	{
-		TLFDetectedItem* di = (TLFDetectedItem*)m_objects.Get(i);
-
-		if (di != NULL)
-		{
-			bool old_has_object = di->HasObject();
-			di->SetHasObject(false);
-			TLFRect* rect = di->GetBounds();
-			if (rect != NULL)
-			{
-				double e = di->GetRaiting();
-				int v = 0;
-				ILFWeak* weak_a = (ILFWeak*)this->m_weaks_a.Get(i);
-				auto v2 = weak_a->Classify(&this->m_Image, TLFAlignedTransform(1));
-#ifdef _DEBUG
-				if(!old_has_object && v2.result > 0)
-				{ 
-					//save data to log
-					TLFRingBuffer* rb = ((TLFHysteresisWeak*)weak_a)->GetBuffer();
-					for (int k = 0; k < rb->GetSize(); k++)
-					{
-						fprintf(m_log, "%f\t", rb->GetValue(k)); 
-					}
-					fprintf(m_log, "\n");
-				}
-#endif
-				TLFRingBuffer* rb = ((TLFHysteresisWeak*)weak_a)->GetBuffer();
-
-				di->SetHasObject(v2.result > 0);
-			}
-		}
-	}
-	return 0;
-}
-// properties
-bool	TLFFireDetector::AddStrong(ILFStrong* strong)
-{
-	return false;
-}
-double TLFFireDetector::GetThreshold()
-{
-	return m_threshold;
-}
-void TLFFireDetector::SetThreshold(double Value)
-{
-	this->m_threshold = Value;
-}
-// xml support
-TiXmlElement* TLFFireDetector::SaveXML()
-{
-	return NULL;
-}
-bool          TLFFireDetector::LoadXML(TiXmlElement* parent)
-{
-	return false;
 }

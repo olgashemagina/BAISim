@@ -526,22 +526,10 @@ void TLFDBLabeledImages::CheckEngine(TLFDetectEngine& engine, double overlap)
 			TLFDetectedItem* item = d->GetDetectedItem(j);
 			TLFRect* lf_rect = item->GetBounds();
 			awpRect rect = lf_rect->GetRect();
-			detector->Init(img.GetImage());
+			detector->Init(&img);
 		    int result = detector->ClassifyRect(rect);
-			awpImage* fragment = NULL;
-			awpCopyRect(img.GetImage(), &fragment, &rect);
-			if (fragment == NULL)
-			{
-				printf("failed fragment.\n");
-				continue;
-			}
-			rect.left = 0;
-			rect.top  = 0;
-			rect.right  = fragment->sSizeX;
-			rect.bottom = fragment->sSizeY;
-			detector->Init(fragment);
-			int result1 = detector->ClassifyRect( rect);
-			if (result1 != result || result == 0)
+			
+			if (result == 0)
 				printf("failed with result %i.\n", result);
 			else
 				printf("success.\n");

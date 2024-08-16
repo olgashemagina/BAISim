@@ -458,8 +458,7 @@ void TLFDetectEngine::InitDetectors()
 	for (int i = 0; i < this->m_detectors.GetCount(); i++)
 	{
 		ILFObjectDetector* d = (ILFObjectDetector*)m_detectors.Get(i);
-		awpImage* img = m_SourceImage.GetImage();
-		d->Init(img);
+		d->Init(&m_SourceImage);
 	}
 }
 
@@ -924,8 +923,201 @@ void TLFFGEngine::InitDetectors()
    ILFObjectDetector* d = (ILFObjectDetector*)m_detectors.Get(0);
    if (d != NULL)
    {
-	   awpImage* img = m_SourceImage.GetImage();
-	   d->Init(img);
+	   d->Init(&m_SourceImage);
    }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+inline std::shared_ptr<ILFObjectDetector> TLFTreeEngine::LoadDetector(TiXmlElement* node)
+{
+	if (node == NULL)
+		return NULL;
+
+	auto node_name = node->ValueStr();
+
+
+	if (node_name == "TSCObjectDetector") {
+
+		auto detector = std::make_shared<TSCObjectDetector>();
+		//TiXmlElement* e = elem->FirstChildElement();
+		if (!detector->LoadXML(node))
+			return NULL;
+
+		return detector;
+	}
+	return NULL;
+}
+
+bool TLFTreeEngine::Load(const std::string& filename) {
+	FILE* file = _wfopen(LFUtf8ConvertToUnicode(filename).c_str(), L"rb");
+	if (!file)
+	{
+		printf("TLFTreeEngine::Load _wfopen failed!!!\n");
+		return false;
+	}
+	TiXmlDocument doc;
+	bool result = doc.LoadFile(file, TIXML_ENCODING_UTF8);
+	fclose(file);
+	if (!result)
+	{
+		printf("ILFDetectEngine::Load failed!!!\n");
+		return false;
+	}
+	TiXmlHandle hDoc(&doc);
+	TiXmlElement* pElem = NULL;
+	TiXmlHandle hRoot(0);
+	pElem = hDoc.FirstChildElement().Element();
+
+	return this->LoadXML(pElem);
+}
+
+bool TLFTreeEngine::Save(const std::string& filename) {
+	TiXmlDocument doc;
+	TiXmlDeclaration* decl = new TiXmlDeclaration("1.0", "", "");
+	doc.LinkEndChild(decl);
+	TiXmlElement* engine = SaveXML();
+	if (engine == NULL)
+		return false;
+	doc.LinkEndChild(engine);
+	FILE* file = _wfopen(LFUtf8ConvertToUnicode(filename).c_str(), L"w");
+	if (!file)
+	{
+		printf("TLFTreeEngine::Save _wfopen failed!!!\n");
+		return false;
+	}
+	bool result = doc.SaveFile(file);
+	fclose(file);
+	return result;
+}
+
+TiXmlElement* TLFTreeEngine::SaveXML(const tree_t& tree, detectors_t& detectors) {
+	TiXmlElement* xml_tree = new TiXmlElement("TLFTree");
+
+	for (const auto& [name, node] : tree) {
+		TiXmlElement* xml_node = new TiXmlElement("TLFTreeNode");
+		xml_node->SetAttribute("name", name);
+
+
+		auto det_it = std::find(detectors.begin(), detectors.end(), node.first);
+
+		if (det_it != detectors.end()) {
+			xml_node->SetAttribute("detector_id", std::distance(detectors.begin(), det_it));
+		}
+		else {
+			xml_node->SetAttribute("detector_id", detectors.size());
+			detectors.push_back(node.first);
+		}
+
+
+		auto tree_elem = SaveXML(node.second, detectors);
+
+		xml_node->LinkEndChild(tree_elem);
+		xml_tree->LinkEndChild(xml_node);
+	}
+
+	return xml_tree;
+
+}
+
+TLFTreeEngine::tree_t TLFTreeEngine::LoadXML(TiXmlElement* node, const detectors_t& detectors) {
+
+	tree_t tree;
+	for (TiXmlNode* child = node->FirstChild("TLFTreeNode"); child; child = child->NextSibling()) {
+
+		auto elem = child->ToElement();
+
+		if (elem) {
+			int id = 0;
+			elem->QueryIntAttribute("detector_id", &id);
+
+			std::string name;
+
+			elem->QueryValueAttribute("name", &name);
+
+			if (detectors.size() < id)
+				return {};
+
+			auto xml_tree = elem->FirstChild("TLFTree");
+
+			tree_t child_tree;
+
+			if (xml_tree) {
+				child_tree = LoadXML(xml_tree->ToElement(), detectors);
+			}
+
+			tree.emplace(name, std::pair{ detectors[id], std::move(child_tree) });
+
+		}
+	}
+	return tree;
+}
+
+bool TLFTreeEngine::LoadXML(TiXmlElement* parent) {
+	printf("TLFTreeEngine: LoadXML.\n");
+
+	try
+	{
+		if (parent == NULL)
+			return false;
+
+		if (parent->ValueStr() != GetName())
+			return false;
+
+		auto xml_detectors = parent->FirstChild("TLFDetectors");
+
+		detectors_t	detectors;
+
+		if (xml_detectors) {
+
+			for (TiXmlNode* child = xml_detectors->FirstChild(); child; child = child->NextSibling()) {
+
+				auto detector = LoadDetector(child->ToElement());
+				if (!detector)
+					return false;
+
+				detectors.push_back(detector);
+			}
+		}
+
+		auto xml_tree = parent->FirstChild("TLFTree");
+
+		if (xml_tree) {
+			tree_ = LoadXML(xml_tree->ToElement(), detectors);
+		}
+
+		if (tree_.empty() && !detectors.empty())
+			return false;
+
+	}
+	catch (...)
+	{
+		printf("TLFDetectEngine: exeption while loading.");
+		return false;
+	}
+	return true;
+}
+
+
+
+
+TiXmlElement* TLFTreeEngine::SaveXML() {
+	detectors_t		detectors;
+	TiXmlElement* parent = new TiXmlElement(GetName());
+
+	auto xml_tree = SaveXML(tree_, detectors);
+
+	parent->LinkEndChild(xml_tree);
+
+	TiXmlElement* xml_detectors = new TiXmlElement("TLFDetectors");
+
+	for (const auto& det : detectors) {
+		TiXmlElement* xml_det = det->SaveXML();
+		xml_detectors->LinkEndChild(xml_det);
+	}
+
+	parent->LinkEndChild(xml_detectors);
+
+	return parent;
 }
 

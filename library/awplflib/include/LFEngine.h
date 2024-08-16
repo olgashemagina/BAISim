@@ -50,6 +50,154 @@
 
 #include "LF.h"
 #include "LFThresholdProc.h"
+#include <vector>
+#include <map>
+#include <string>
+#include <optional>
+#include <memory>
+
+
+class TLFTreeEngine : public TLFObject {
+	struct tree_t : public std::map<std::string, std::pair<std::shared_ptr<ILFObjectDetector>, tree_t>> {};
+
+	using detectors_t = std::vector<std::shared_ptr<ILFObjectDetector>>;
+
+public:
+	/*Loading from-to xml files*/
+	virtual bool Load(const std::string& filename);
+
+	virtual bool Save(const std::string& filename);
+
+	virtual bool LoadXML(TiXmlElement* parent);
+
+	virtual TiXmlElement* SaveXML();
+
+private:
+	static TiXmlElement* SaveXML(const tree_t& tree, detectors_t& detectors);
+
+	static tree_t LoadXML(TiXmlElement* node, const detectors_t& detectors);
+
+	static std::shared_ptr<ILFObjectDetector> LoadDetector(TiXmlElement* node);
+
+
+public:
+	std::optional<std::vector<detected_item_ptr>> Detect(TLFImage* pImage) {
+		return DetectInRect(tree_, pImage, nullptr);
+	}
+
+
+	bool		SetDetector(const std::string& path, std::shared_ptr<ILFObjectDetector> detector) {
+		tree_t& tree = tree_;
+		auto splitted = SplitPath(path);
+
+		auto detector_name = splitted.back();
+		splitted.pop_back();
+
+		for (const auto& name : splitted) {
+			auto it = tree.find(name);
+			if (it != tree.end()) {
+				tree = it->second.second;
+			}
+			else {
+				//Cant find node in tree;
+				return false;
+			}
+
+		}
+		tree[detector_name] = { std::move(detector), tree_t{} };
+		return true;
+	}
+
+	std::shared_ptr<ILFObjectDetector>		GetDetector(const std::string& path) const {
+		tree_t const* tree = &tree_;
+		std::shared_ptr<ILFObjectDetector> detector;
+
+		auto splitted = SplitPath(path);
+		for (const auto& name : splitted) {
+			auto it = tree->find(name);
+			if (it != tree->end()) {
+				tree = &it->second.second;
+				detector = it->second.first;
+			}
+			else {
+				//Cant find node in tree;
+				return nullptr;
+			}
+
+		}
+		
+		return detector;
+	}
+
+	virtual const char* GetName()
+	{
+		return "TLFTreeEngine";
+	}
+
+public:
+	static std::vector<std::string> SplitPath(const std::string& s) {
+		std::vector<std::string> result;
+		std::stringstream ss(s);
+		std::string item;
+
+		while (std::getline(ss, item, '.')) {
+			result.push_back(item);
+		}
+
+		return result;
+	}
+
+
+private:
+	std::optional<std::vector<detected_item_ptr>>		
+		DetectInRect( const tree_t& tree, TLFImage* image, awpRect* rect) {
+		std::vector<detected_item_ptr>		detections;
+
+		for (const auto& [name, node] : tree) {
+
+			if (!node.first->Init(image, rect))
+				//Cant initialize scanner or image;
+				return std::nullopt;
+
+			//TODO: add NMS
+			//TODO: move Non Maximum Suppression to detector;
+			if (node.first->Detect() > 0) {
+				//Objects detected, run tree
+				for (int i = 0; i < node.first->GetNumItems(); i++) {
+					TLFDetectedItem* item = node.first->GetItem(i);
+					auto leaf_rect = item->GetBounds()->GetRect();
+
+					auto parent = std::make_shared<TLFDetectedItem>(*item);
+
+					detections.push_back(parent);
+
+					auto detected = DetectInRect(node.second, image, &leaf_rect);
+
+					if (!detected)
+						return std::nullopt;
+
+					for (auto child : *detected) {
+						//TODO: move to TLFSemanticImageDescriptor
+						if (!child->parent())
+							child->set_parent(parent);
+
+						detections.push_back(child);
+					}
+
+				}
+
+			}
+		}
+
+		return detections;
+	}
+
+private:
+		
+	tree_t				tree_;
+
+};
+
 
 /** \defgroup LFEngines
 *	Implementation general semantic engines of the Locate Framework

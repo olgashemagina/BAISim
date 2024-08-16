@@ -554,7 +554,7 @@ bool		    TCSBuildDetector::CheckDetector()
 		img.LoadFromFile(names[i].c_str());
 		if (img.GetImage() == NULL)
 			continue;
-		d->Init(img.GetImage(), false);
+		d->Init(&img);
 		awpRect r;
 		r.left = 0;
 		r.right = img.GetImage()->sSizeX;
@@ -1035,7 +1035,7 @@ bool TLFBuilder::BuildBackground()
 		if (cs->GetStagesCount() != 0)
 		{
 			m_detector->Clear();
-			m_detector->Init(Image.GetImage(), true);
+			m_detector->Init(&Image);
 			itemsFound = m_detector->Detect();
 			m_AdaBoost.DbgMsg("Items found = " + TypeToStr(itemsFound) + "\n");
 			printf("Items = %d\n", itemsFound);
