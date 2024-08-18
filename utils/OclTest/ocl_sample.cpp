@@ -26,7 +26,6 @@
 
 #include "LFGpuEngine.h"
 
-#include "accel_rects.h"
 
 #include <mutex>
 #include <optional>
@@ -482,7 +481,7 @@ int test_gpu_engine(const std::string& detector_path, const std::string& image_p
 
 }
 
-int test_ñpu_engine(const std::string& detector_path, const std::string& image_path) {
+int test_cpu_engine(const std::string& detector_path, const std::string& image_path) {
     auto det = load_detector(detector_path);
     auto img = load_image(image_path);
         
@@ -503,9 +502,13 @@ int test_ñpu_engine(const std::string& detector_path, const std::string& image_p
 
 int main()
 {
+    auto res = accel_rects::TestOpenCL();
+    if (!res) {
+        return -1;
+    }
     //return test_detector("test/detector.xml", "test/test.awp");
     //return test_gpu_engine("test/detector.xml", "test/test.awp");
-    return test_ñpu_engine("test/detector.xml", "test/test.awp");
+    return test_cpu_engine("test/detector.xml", "test/test.awp");
    
   
 }

@@ -289,6 +289,6 @@ namespace accel_rects {
         
     };
 
-
+    bool TestOpenCL();
 
 }

@@ -4,7 +4,7 @@
 #include "LFCore.h"
 #include "LF.h"
 #include "LFDetector.h"
-#include "accel_rects.h"
+#include "../accel_rects/accel_rects.h"
 #include <omp.h>
 
 class TGpuDetector {

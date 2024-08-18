@@ -18,16 +18,5 @@
     <ClCompile Include="ocl_sample.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="accel_rects.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="accel_rects.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="task_thread_pool.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

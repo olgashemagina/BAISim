@@ -5,13 +5,15 @@
 #include <thread>
 #include <mutex>
 #include <variant>
+#include <random>
+#include <chrono>
 
 
 
 static const char cl_source_code[] =
 " const sampler_t sampler = CLK_NORMALIZED_COORDS_FALSE | CLK_ADDRESS_CLAMP_TO_EDGE | CLK_FILTER_NEAREST;\n"
 
-"float calc_rect_norm(const size_t id, const image2d_t integral, const float4 rect, const float4 transform) {\n"
+"float calc_rect_norm(const image2d_t integral, const float4 rect, const float4 transform) {\n"
 "    int4 transformed;\n"
 "    ulong abcd[4];\n"
 //Transform rect
@@ -31,7 +33,7 @@ static const char cl_source_code[] =
 "    float2 rect_size = convert_float2(transformed.hi - transformed.lo);\n"
 //"    float area = rect_size.x * rect_size.y;\n"
 //"    printf(\"Rect Size: %f %f %f\\n\", rect_size[0], rect_size[1], area);\n"
-"    float result = convert_float(sum);"// / (rect_size.x * rect_size.y);\n"
+"    float result = convert_float(sum) / (rect_size.x * rect_size.y);\n"
 //"    printf(\"RESULT: %f %llu\\n\", result, sum);\n"
 "    return result; \n"
 "}\n"
@@ -141,19 +143,19 @@ static const char cl_source_code[] =
 "    const float4 * feat_rects = rects + feat_id * 10;\n"
 "float f[10];"
 
-"    float base = calc_rect_norm(feat_id, integral, feat_rects[0], transforms[trans_id]);\n"
+"    float base = calc_rect_norm(integral, feat_rects[0], transforms[trans_id]);\n"
 "    ushort feat_value = 0;\n f[0] = base;"
 
 "    size_t rect = 1;\n"
 "    for (; rect < 9; ++rect) {\n"
-"       float sum = calc_rect_norm(feat_id, integral, feat_rects[rect], transforms[trans_id]);\n f[rect] = sum;"
+"       float sum = calc_rect_norm(integral, feat_rects[rect], transforms[trans_id]);\n f[rect] = sum;"
 "       if (sum > base)\n"
 "           feat_value |= 1;\n"
 
 "       feat_value = feat_value << 1;\n"
 "    }\n"
 
-"    float sum = calc_rect_norm(feat_id, integral, feat_rects[rect], transforms[trans_id]);\n f[rect] = sum;"
+"    float sum = calc_rect_norm(integral, feat_rects[rect], transforms[trans_id]);\n f[rect] = sum;"
 "    if (sum > base)\n"
 "       feat_value |= 1;\n"
 //"    printf(\"Feature: id: %d v: %d R: %f %f %f %f %f %f %f %f %f %f\\n \",  feat_id, feat_value, f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7], f[8], f[9]);\n"
@@ -199,6 +201,11 @@ static const char cl_source_code[] =
 "       activation += *w * value;\n"
 "   }\n"
 "   d[stage_id] = activation >= thres[stage_id] ? 1 : 0;\n"
+"}\n"
+
+"kernel void test_calc_rect_norm(read_only const image2d_t integral, global const float4 * rects, float4 transforms, global float * result) {\n"
+"    int feat_id = get_global_id(0);\n"
+"    result[feat_id] = calc_rect_norm(integral, rects[feat_id], transforms);\n"
 "}\n"
 ;
 
@@ -819,10 +826,163 @@ namespace accel_rects {
         return task->Enqueue(core_, integral.data(), features.data(), *kernels_, trans, cb);
 
     }
+}
 
-     
-   
 
+
+float cpu_calc_rect_norm(int ind, uint8_t* A, std::vector<std::array<float, 4>> rects, int w) {
+    long long sum = 0;
+    auto B = rects[ind];
+    for (int j = B[1] + 1; j <= B[3]; j++) {
+        for (int i = B[0] + 1; i <= B[2]; i++) {
+            int a = A[i + j * w];
+            sum += A[i + j * w];
+        }
+    }
+    int x_rect = B[3] - B[1];
+    int y_rect = B[2] - B[0];
+    float ret = (float)sum / (x_rect * y_rect);
+    return ret;
+}
+
+
+bool accel_rects::TestOpenCL() {
+    std::vector<cl::Platform> all_platforms;
+    cl::Platform::get(&all_platforms);
+    if (all_platforms.empty()) {
+        std::cout << "No platform found" << std::endl;
+        return false;
+    }
+
+    for (auto platform : all_platforms) {
+        std::cout << "Platform: " << platform.getInfo<CL_PLATFORM_NAME>() << std::endl;
+    }
+
+    cl::Platform default_platform = all_platforms[0];
+    std::cout << "Using platform: " << default_platform.getInfo<CL_PLATFORM_NAME>() << std::endl;
+
+    std::vector<cl::Device> all_devices;
+    default_platform.getDevices(CL_DEVICE_TYPE_ALL, &all_devices);
+    if (all_devices.empty()) {
+        std::cout << "No device found" << std::endl;
+        return false;
+    }
+
+    cl::Device default_device = all_devices[0];
+    std::cout << "Using device: " << default_device.getInfo<CL_DEVICE_NAME>() << std::endl;
+
+    auto context = cl::Context({ default_device });
+
+    const int h = 720;
+    const int w = 1024;
+    uint8_t* A = (uint8_t*)malloc(sizeof(uint8_t) * h * w);
+    long long* II = (long long*)malloc(sizeof(long long) * h * w);
+
+    for (int i = 0; i < h * w; i++)
+    {
+        A[i] = (uint8_t)(i + 1);
+        int y = (int)(i / w);
+        int x = i % w;
+
+        long long res = A[y * w + x];
+        if (x == 0 && y != 0) {
+            res += II[(y - 1) * w + x];
+        }
+        else if (x != 0 && y == 0) {
+            res += II[y * w + x - 1];
+        }
+        else if (x != 0 && y != 0) {
+            res += II[(y - 1) * w + x] + II[y * w + x - 1] - II[(y - 1) * w + x - 1];
+        }
+        II[y * w + x] = res;
+    }
+    std::vector<uint8_t> img(w * h);
+    for (int i = 0; i < h * w; i++) {
+        img[i] = A[i];
+    }
+
+    cl_int err = 0;
+    auto img_integral = cl::Image2D(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, { CL_RGBA, CL_UNSIGNED_INT16 }, w, h, /*stride*/w * sizeof(uint64_t), (void*)II, &err);
+    CL_CHECK_BOOL(err);
+
+    cl::Program::Sources sources;
+
+    sources.push_back({ cl_source_code, sizeof(cl_source_code) });
+
+    auto program = cl::Program(context, sources);
+
+    if (program.build({ default_device }) != CL_SUCCESS) {
+        std::cout << "Error building: " << program.getBuildInfo<CL_PROGRAM_BUILD_LOG>(default_device) << std::endl;
+        return false;
+    }
+
+    const cl_queue_properties properties[] = { CL_QUEUE_PROPERTIES, CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE /*| CL_QUEUE_PROFILING_ENABLE */ , 0 };
+
+    //const int number_sum = 10;
+    const int number_sum = 1000000;
+    std::vector<std::array<float, 4>> rects;
+    for (int i = 0; i < number_sum; i++)
+    {
+        if (i == 0 ) {
+            std::array<float, 4> rect;
+            rect[0] = 1; // x1 
+            rect[1] = 1; // y1
+            rect[2] = 3; // x2
+            rect[3] = 3; // y2
+            rects.push_back(rect);
+        }
+        else {
+            std::random_device rd; // obtain a random number from hardware
+            std::mt19937 ygen(rd()); // seed the generator
+            std::uniform_int_distribution<> ydistr(5, h - 1); // define the range
+            int y = ydistr(ygen);
+            std::mt19937 xgen(rd()); // seed the generator
+            std::uniform_int_distribution<> xdistr(5, w - 1); // define the range
+            int x = xdistr(xgen);
+            std::array<float, 4> rect;
+            rect[0] = 2; // x1 
+            rect[1] = 2; // y1
+            rect[2] = x; // x2
+            rect[3] = y; // y2
+            rects.push_back(rect);
+        }
+    }
     
+    auto rects_buf = cl::Buffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(cl_float4) * rects.size(), (void*)rects.data(), &err);
+    CL_CHECK_BOOL(err);
 
+    std::array<float, 4> trans;
+    trans[0] = 1;
+    trans[1] = 1;
+    trans[2] = 0;
+    trans[3] = 0;
+
+    std::vector<float> result(number_sum, 0);
+    auto res_buf = cl::Buffer(context, CL_MEM_WRITE_ONLY, sizeof(cl_float) * result.size(), 0, &err);
+    CL_CHECK_BOOL(err);
+
+    // Create the OpenCL kernel
+    auto kernel = cl::Kernel(program, "test_calc_rect_norm", &err);
+    CL_CHECK_BOOL(err);
+    CL_CHECK_BOOL(kernel.setArg(0, img_integral));
+    CL_CHECK_BOOL(kernel.setArg(1, rects_buf));
+    CL_CHECK_BOOL(kernel.setArg(2, trans));
+    CL_CHECK_BOOL(kernel.setArg(3, res_buf));
+
+    auto queue = cl::CommandQueue(context, default_device, properties, &err);
+    CL_CHECK_BOOL(err);
+
+    CL_CHECK_BOOL(queue.enqueueNDRangeKernel(kernel, cl::NullRange, cl::NDRange(rects.size()), cl::NullRange, 0, 0));
+
+    CL_CHECK_BOOL(queue.enqueueReadBuffer(res_buf, CL_TRUE, 0, sizeof(cl_float) * result.size(), result.data(), 0, 0));
+
+    for (int i = 0; i < number_sum; i++) {
+        auto res1 = cpu_calc_rect_norm(i, A, rects, w);
+        auto res2 = result[i];
+        if (abs(res1 - res2) > 0.0001 ) {
+            printf("index=%i, ERROR!!!\n", i);
+            return false;
+        }
+    }
+    return true;
 }

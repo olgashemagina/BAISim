@@ -143,12 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="accel_rects.cpp" />
     <ClCompile Include="ocl_sample.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="accel_rects.h" />
-    <ClInclude Include="task_thread_pool.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\3rdparty\jpeg-6b\vc\vc2019\JPEGLIB.vcxproj">
