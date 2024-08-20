@@ -106,7 +106,7 @@ private:
 	int              m_Capacity;
 protected:
 	virtual void Grow();
-	void Put(int index, TLFObject* pObject);
+	
 public:
 	TLFObjectList();
 	~TLFObjectList();
@@ -114,6 +114,8 @@ public:
 	int Add(TLFObject* pObject);
 	virtual void Clear();
 	void Delete(int index);
+
+	void Put(int index, TLFObject* pObject);
 
 	void Exchange(int index1, int index2);
 	TLFObjectList* Expand();

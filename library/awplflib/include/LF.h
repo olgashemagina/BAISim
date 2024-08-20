@@ -808,9 +808,9 @@ public:
 	virtual bool LoadXML(const char* lpFileName);
 	virtual TiXmlElement* SaveXML();
 	virtual bool LoadXML(TiXmlElement* e);
-#ifdef LOAD_FROM_STREAM
+
 	virtual bool LoadStream(std::istream& in);
-#endif
+
 	/*work with a list of found objects*/
 	/*editing*/
 	bool AddDetectedItem(TLFDetectedItem* item);
@@ -881,9 +881,9 @@ public:
 	
 	/*Loading from-to xml files*/
 	virtual bool Load(const char* lpFileName);
-#ifdef LOAD_FROM_STREAM
+
 	virtual bool LoadStream(std::istream& in);
-#endif
+
 	virtual bool LoadXML(TiXmlElement* parent)= 0;
 	virtual bool Save(const char* lpFileName);
 	virtual TiXmlElement* SaveXML()  = 0;
@@ -903,6 +903,7 @@ public:
 	/*detector*/
 	void AddDetector(ILFObjectDetector* pDetector);
 	ILFObjectDetector* GetDetector(int index = 0);
+	void RemoveDetector(int index = 0);
 
 
 	bool GetNeedCluster();

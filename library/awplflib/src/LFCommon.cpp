@@ -331,7 +331,8 @@ void TLFObjectList::Clear()
 	for (int i = 0; i < this->m_Count; i++)
 	{
 		TLFObject* tmp = Get(i);
-		delete tmp;
+		if (tmp)
+			delete tmp;
 	}
 	m_Count = 0;
     SetCapacity(0);
@@ -713,7 +714,7 @@ bool TLFSemanticImageDescriptor::LoadXML(TiXmlElement* e)
 
 }
 
-#ifdef LOAD_FROM_STREAM
+
 bool TLFSemanticImageDescriptor::LoadStream(std::istream& in)
 {
 	TiXmlDocument doc;
@@ -726,7 +727,7 @@ bool TLFSemanticImageDescriptor::LoadStream(std::istream& in)
 	pElem = hDoc.FirstChildElement().Element();
 	return this->_LoadXml(pElem);
 }
-#endif
+
 /*работа со списком найденных объектов*/
 /*редактирование*/
 bool TLFSemanticImageDescriptor::AddDetectedItem(TLFDetectedItem* item)

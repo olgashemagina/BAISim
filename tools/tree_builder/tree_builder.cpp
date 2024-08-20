@@ -23,6 +23,22 @@
 #include <memory>
 #include <mutex>
 
+//merge --tree="../../../../models/railway/rw_tree.xml" --det="../../../../models/railway/rtank_1224.xml" --tree_path="RailwayTank" --tree_path="RailwayTank2"
+
+//export --tree="../../../../models/railway/rw_tree.xml" --det="../../../../models/railway/rtank_exported.xml" --tree_path="RailwayTank"
+
+  //merge --tree="../../../../models/railway/rw_tree.xml" --det="../../../../models/railway/rtank_1224.xml" --tree_path="RailwayTank"
+  //merge --tree="../../../../models/railway/rw_tree.xml" --det="../../../../models/railway/Rtank_Num_Digits/rnum_cs.xml" --tree_path="RailwayTank.Numbers"
+  //merge --tree="../../../../models/railway/rw_tree.xml" --det="../../../../models/railway/Rtank_Num_Digits/0_075_v3.xml" --tree_path="RailwayTank.Numbers.Digit0"
+  //merge --tree="../../../../models/railway/rw_tree.xml" --det="../../../../models/railway/Rtank_Num_Digits/1_075_v3.xml" --tree_path="RailwayTank.Numbers.Digit1"
+  //merge --tree="../../../../models/railway/rw_tree.xml" --det="../../../../models/railway/Rtank_Num_Digits/2_075_v3.xml" --tree_path="RailwayTank.Numbers.Digit2"
+  //merge --tree="../../../../models/railway/rw_tree.xml" --det="../../../../models/railway/Rtank_Num_Digits/3_075_v3.xml" --tree_path="RailwayTank.Numbers.Digit3"
+  //merge --tree="../../../../models/railway/rw_tree.xml" --det="../../../../models/railway/Rtank_Num_Digits/4_075_v3.xml" --tree_path="RailwayTank.Numbers.Digit4"
+  //merge --tree="../../../../models/railway/rw_tree.xml" --det="../../../../models/railway/Rtank_Num_Digits/5_075_v3.xml" --tree_path="RailwayTank.Numbers.Digit5"
+  //merge --tree="../../../../models/railway/rw_tree.xml" --det="../../../../models/railway/Rtank_Num_Digits/6_075_v3.xml" --tree_path="RailwayTank.Numbers.Digit6"
+  //merge --tree="../../../../models/railway/rw_tree.xml" --det="../../../../models/railway/Rtank_Num_Digits/7_075_v3.xml" --tree_path="RailwayTank.Numbers.Digit7"
+  //merge --tree="../../../../models/railway/rw_tree.xml" --det="../../../../models/railway/Rtank_Num_Digits/8_075_v3.xml" --tree_path="RailwayTank.Numbers.Digit8"
+  //merge --tree="../../../../models/railway/rw_tree.xml" --det="../../../../models/railway/Rtank_Num_Digits/9_075_v3.xml" --tree_path="RailwayTank.Numbers.Digit9"
 
 void usage()
 {
@@ -46,7 +62,9 @@ int merge_detector(const TLFString& tree_path, const TLFString& det_path,
 
 	TLFTreeEngine			tree_engine;
 
-	tree_engine.Load(tree_path);
+	if (!tree_engine.Load(tree_path)){
+		std::cerr << "Cant load Tree Engine. Creating empty one." << std::endl;
+	}
 
 	std::shared_ptr<TLFDetectEngine> det = std::make_shared<TLFDetectEngine>();
 	if (!det->Load(det_path.c_str())) {
@@ -69,29 +87,35 @@ int merge_detector(const TLFString& tree_path, const TLFString& det_path,
 int export_detector(const TLFString& tree_path, const TLFString& det_path,
 	const TLFString& tree_path_det) {
 
-	TLFTreeEngine			tree_engine;
+	auto tree_engine = std::make_unique<TLFTreeEngine>();
 
-	if (!tree_engine.Load(tree_path))
+	if (!tree_engine->Load(tree_path))
 		return -100;
 
 
-	auto det = tree_engine.GetDetector(tree_path_det);
+	auto det = tree_engine->GetDetector(tree_path_det);
 
-	if (det) {
+	if (!det) {
 		std::cerr << "TLFTreeEngine cant find path in tree " <<
 			tree_path_det << std::endl;
 		return -101;
 	}
 
-	std::shared_ptr<TLFDetectEngine> det_engine = std::make_shared<TLFDetectEngine>();
+	//Delete engine to hold pointer to detector det;
+	tree_engine.reset();
+
+	auto det_engine = std::make_unique<TLFDetectEngine>();
+
 
 	det_engine->AddDetector(det.get());
-
+		
 	if (!det_engine->Save(det_path.c_str())) {
 		std::cerr << "TLFDetectEngine couldn't write file" <<
 			det_path << std::endl;
 		return -102;
 	}
+
+	det_engine->RemoveDetector(0);
 
 	return 0;
 }
@@ -116,7 +140,7 @@ int main(int argc, char* argv[])
 			usage();
 			return 0;
 		}
-		if (key.substr(0, 5) == "--det") {
+		if (key.substr(0, 6) == "--det=") {
 			if (key.length() < 7 || key[5] != '=') {
 				std::cerr << "Parsing error: use \"det=<path>\", "
 					"no extra spaces" << std::endl;
@@ -130,7 +154,7 @@ int main(int argc, char* argv[])
 				return -4;
 			}
 			det_path = key.substr(6);
-		} else if (key.substr(0, 6) == "--tree") {
+		} else if (key.substr(0, 7) == "--tree=") {
 			if (key.length() < 8 || key[6] != '=') {
 				std::cerr << "Parsing error: use \"tree=<path>\", "
 					"no extra spaces" << std::endl;
@@ -145,7 +169,7 @@ int main(int argc, char* argv[])
 			}
 			tree_path = key.substr(7);
 		}
-		else if (key.substr(0, 11) == "--tree_path") {
+		else if (key.substr(0, 12) == "--tree_path=") {
 			if (key.length() < 13 || key[11] != '=') {
 				std::cerr << "Parsing error: use \"tree_path=<path>\", "
 					"no extra spaces" << std::endl;
