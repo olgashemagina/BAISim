@@ -52,6 +52,10 @@ __published:
 	TProgressBar *ProgressBar1;
     TOpenDialog *OpenDialog1;
 	TLabel *Label16;
+	TLabel *Label17;
+	TLabel *Label18;
+	TLabel *Label19;
+	TLabel *Label20;
 	void __fastcall Button2Click(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
 private:

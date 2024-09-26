@@ -1,49 +1,57 @@
 ﻿#include "LFFileUtils.h"
 
 #include <algorithm>
-
-#if defined(WIN32) || defined(_WIN64)
+#include <filesystem>
+#include <sys/stat.h>
+//#if defined(WIN32) || defined(_WIN64)
 #include <io.h>
-#include <direct.h>
+//#include <direct.h>
 #include <string>
-#else
-#include <dirent.h>
-#endif
+//#else
+//#include <dirent.h>
+//#endif
 
 #include "stdio.h"
-#ifndef __BCPLUSPLUS__
-#include <sys/stat.h>
-#if defined(WIN32) || defined(_WIN64)
-	//#include <unistd.h>
-#endif 
+//#ifndef __BCPLUSPLUS__
+//#include <sys/stat.h>
+//#endif
+namespace fs = std::filesystem;
 
 std::string LFGetFilePath(const std::string& strPath)
 {
-    const std::string c = c_separator;
-	int len = strPath.find_last_of(c);
-	return strPath.substr(0, len);
+    //const std::string c = c_separator;
+	//int len = strPath.find_last_of(c);
+	//return strPath.substr(0, len);
+    fs::path p(strPath);
+    return p.parent_path().generic_string();
 }
 
 std::string LFGetFileExt(const std::string&  strFileName)
 {
-	int len = strFileName.find_last_of('.');
-	if (len > 0)
-		return strFileName.substr(len, strFileName.length() - len);
-	else
-		return "";
+    fs::path p(strFileName);
+    return p.extension().generic_string();
+//	int len = strFileName.find_last_of('.');
+//	if (len > 0)
+//		return strFileName.substr(len, strFileName.length() - len);
+//	else
+//		return "";
 }
 std::string LFGetFileName(const std::string&  strFileName)
 {
-	int len = strFileName.find_last_of('\\');
-	std::string str = strFileName.substr(len, strFileName.length() - len);
-	len = str.find_last_of('.');
-	return str.substr(0, len);
+    fs::path p(strFileName);
+   	return p.stem().generic_string();
+//	int len = strFileName.find_last_of('\\');
+//	std::string str = strFileName.substr(len, strFileName.length() - len);
+//	len = str.find_last_of('.');
+//	return str.substr(0, len);
 
 }
 std::string LFChangeFileExt(std::string& strFileName, std::string strExt)
 {
-	int len = strFileName.find_last_of('.');
-	return strFileName.substr(0, len) + strExt;
+    fs::path p(strFileName);
+    return p.replace_extension(strExt).generic_string();
+//	int len = strFileName.find_last_of('.');
+//	return strFileName.substr(0, len) + strExt;
 }
 std::string LFMakeFileName(std::string& strPath, std::string strName, std::string strExt)
 {
@@ -59,44 +67,49 @@ std::string LFMakeFileName(std::string& strPath, std::string strName, std::strin
 	}
 	return strPath + strName + strExt;
 }
-#endif
+//#endif
 
-std::string LFUnicodeConvertToUtf8(const std::wstring& wstr)
-{
-	if (wstr.empty()) return std::string();
-	int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), NULL, 0, NULL, NULL);
-	std::string strTo(size_needed, 0);
-	WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &strTo[0], size_needed, NULL, NULL);
-	return strTo;
-}
+//std::string LFUnicodeConvertToUtf8(const std::wstring& wstr)
+//{
+//	if (wstr.empty()) return std::string();
+//	int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), NULL, 0, NULL, NULL);
+//	std::string strTo(size_needed, 0);
+//	WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &strTo[0], size_needed, NULL, NULL);
+//	return strTo;
+//}
+//
+//std::wstring LFUtf8ConvertToUnicode(const std::string& str)
+//{
+//	const int wchars_num = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, NULL, 0);
+//	std::wstring ret;
+//	ret.resize(wchars_num - 1);
+//	//wchar_t* wstr = new wchar_t[wchars_num];
+//	MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, const_cast<wchar_t*>(ret.data()), wchars_num);
+//	//delete[] wstr;
+//	return ret;
+//}
+//
+//std::wstring LFConcatPath(const std::wstring& parentPath, const std::wstring& path)
+//{
+//	if (parentPath.find_last_of(w_separator) == parentPath.size() - 1)
+//		return parentPath + path;
+//	return parentPath + w_separator + path;
+//}
 
-std::wstring LFUtf8ConvertToUnicode(const std::string& str)
-{
-	const int wchars_num = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, NULL, 0);
-	std::wstring ret;
-	ret.resize(wchars_num - 1);
-	//wchar_t* wstr = new wchar_t[wchars_num];
-	MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, const_cast<wchar_t*>(ret.data()), wchars_num);
-	//delete[] wstr;
-	return ret;
-}
-
-std::wstring LFConcatPath(const std::wstring& parentPath, const std::wstring& path)
-{
-	if (parentPath.find_last_of(w_separator) == parentPath.size() - 1)
-		return parentPath + path;
-	return parentPath + w_separator + path;
-}
 
 bool LFFileExists(const std::string& strFileName)
-{	
-	FILE *file;
-	if ((file = _wfopen(LFUtf8ConvertToUnicode(strFileName).c_str(), L"r")) != NULL)
-	{
-		fclose(file);
-		return 1;
-	}
-	return 0;
+{
+    fs::file_status s = fs::status(strFileName);
+    if (fs::is_regular_file(s))
+        return 1;
+    return 0;
+//	FILE *file;
+//	if ((file = _wfopen(LFUtf8ConvertToUnicode(strFileName).c_str(), L"r")) != NULL)
+//	{
+//		fclose(file);
+//		return 1;
+//	}
+//	return 0;
 }
 
 std::string LFIntToStr(int value)
@@ -109,105 +122,120 @@ std::string LFIntToStr(int value)
 //functions to work with file system 
 bool LFCreateDir(const char* lpPath)
 {
-#if defined(WIN32) || defined(_WIN64)
-	if (_mkdir(lpPath) == 0)
-		return true;
-	return false;
-#else
-    mode_t mode = 0755;
-    if (mkdir(lpPath, mode) == 0)
-		return true;
-	return false;
-#endif
+    return fs::create_directory(lpPath);
+//#if defined(WIN32) || defined(_WIN64)
+//	if (_mkdir(lpPath) == 0)
+//		return true;
+//	return false;
+//#else
+//    mode_t mode = 0755;
+//    if (mkdir(lpPath, mode) == 0)
+//		return true;
+//	return false;
+//#endif
 }
 bool LFDirExist(const char* lpPath)
 {
-#if defined(WIN32) || defined(_WIN64)
-	if (_mkdir(lpPath) == 0)
-	{
-		_rmdir(lpPath);
-		return false;
-	}
-	else
-	{
-		if (errno == EEXIST)
-			return true;
-		else
-			return false;
-	}
-#else
-    mode_t mode = 0755;
-	if (mkdir(lpPath, mode) == 0)
-	{
-		rmdir(lpPath);
-		return false;
-	}
-	else
-	{
-		if (errno == EEXIST)
-			return true;
-		else
-			return false;
-	}
-#endif
+    fs::file_status s = fs::status(lpPath);
+    if (fs::is_directory(s))
+        return 1;
+    return 0;
+//#if defined(WIN32) || defined(_WIN64)
+//	if (_mkdir(lpPath) == 0)
+//	{
+//		_rmdir(lpPath);
+//		return false;
+//	}
+//	else
+//	{
+//		if (errno == EEXIST)
+//			return true;
+//		else
+//			return false;
+//	}
+//#else
+//    mode_t mode = 0755;
+//	if (mkdir(lpPath, mode) == 0)
+//	{
+//		rmdir(lpPath);
+//		return false;
+//	}
+//	else
+//	{
+//		if (errno == EEXIST)
+//			return true;
+//		else
+//			return false;
+//	}
+//#endif
 }
 /**
 * @brief clear all files in the direcrory 
 */
 bool LFRemoveDir(const char* lpPath)
 {
-#if defined(WIN32) || defined(_WIN64)
-#ifdef _USE_UNICODE_VS_
-	std::wstring dirPath = LFUtf8ConvertToUnicode(lpPath);
-	std::wstring strPath = LFConcatPath(dirPath, L"*.*");
+//#if defined(WIN32) || defined(_WIN64)
+	const fs::path cur_dir{lpPath};
 
-	_wfinddata_t filesInfo;
-	intptr_t handle = 0;
-
-	if ((handle = _wfindfirst(strPath.c_str(), &filesInfo)) != -1)
-	{
-		do
-		{
-			std::wstring strImageName = LFConcatPath(dirPath, filesInfo.name);
-			DeleteFileW(strImageName.c_str());
-		} while (!_wfindnext(handle, &filesInfo));
-	}
-	_findclose(handle);
-#else
-	TLFString strPath = lpPath;
-	strPath += "\\*.*";
-
-	_finddata_t filesInfo;
-	intptr_t handle = 0;
-
-	if ((handle = _findfirst((char*)strPath.c_str(), &filesInfo)) != -1)
-	{
-		do
-		{
-			TLFString s = lpPath;
-			TLFString strImageName = s + "\\" + filesInfo.name;
-			DeleteFileA(strImageName.c_str());
-		} while (!_findnext(handle, &filesInfo));
-	}
-	_findclose(handle);
-#endif
-	return true;
-#else
-	const char *com = "exec rm -r ";
-	const char *end = "/*";
-
-	int bufferSize = strlen(com) + strlen(lpPath) + strlen(end) + 1;
-	char* resCom = new char[bufferSize];
-	strcpy(resCom, com);
-	strcat(resCom, lpPath);
-	strcat(resCom, end);
-
-	int status = system(resCom);
-	delete[] resCom;
-	if (status < 0)
+	if(fs::is_empty(cur_dir))
 		return false;
-	else return true;
-#endif
+	else
+	{
+        fs::remove_all(cur_dir);
+		return true;
+	}
+
+//#ifdef _USE_UNICODE_VS_
+//	std::wstring dirPath = LFUtf8ConvertToUnicode(lpPath);
+//	std::wstring strPath = LFConcatPath(dirPath, L"*.*");
+//
+//	_wfinddata_t filesInfo;
+//	intptr_t handle = 0;
+//
+//	if ((handle = _wfindfirst(strPath.c_str(), &filesInfo)) != -1)
+//	{
+//		do
+//		{
+//			std::wstring strImageName = LFConcatPath(dirPath, filesInfo.name);
+//			DeleteFileW(strImageName.c_str());
+//		} while (!_wfindnext(handle, &filesInfo));
+//	}
+//	_findclose(handle);
+//#else
+//	TLFString strPath = lpPath;
+//	strPath += "\\*.*";
+//
+//	_finddata_t filesInfo;
+//	intptr_t handle = 0;
+//
+//	if ((handle = _findfirst((char*)strPath.c_str(), &filesInfo)) != -1)
+//	{
+//		do
+//		{
+//			TLFString s = lpPath;
+//			TLFString strImageName = s + "\\" + filesInfo.name;
+//			DeleteFileA(strImageName.c_str());
+//		} while (!_findnext(handle, &filesInfo));
+//	}
+//	_findclose(handle);
+//#endif
+//	return true;
+//#else
+//	const char *com = "exec rm -r ";
+//	const char *end = "/*";
+//
+//	int bufferSize = strlen(com) + strlen(lpPath) + strlen(end) + 1;
+//	char* resCom = new char[bufferSize];
+//	strcpy(resCom, com);
+//	strcat(resCom, lpPath);
+//	strcat(resCom, end);
+//
+//	int status = system(resCom);
+//	delete[] resCom;
+//	if (status < 0)
+//		return false;
+//	else return true;
+//#endif
 }
 
 #if defined(WIN32) || defined(_WIN64)
@@ -280,22 +308,22 @@ unsigned long LFGetTickCount()
 }
 
 
-#if defined(WIN32) || defined(_WIN64)
-#include <filesystem>
-namespace fs = std::filesystem;
+//#if defined(WIN32) || defined(_WIN64)
+
 static bool _LFGetDirNamesWindows(const std::string& lpDir, TLFStrings& names)
 {
 
 	//const std::wstring dirPath = LFUtf8ConvertToUnicode(lpDir);
 	//std::wstring strPath = LFConcatPath(dirPath, L"*.*");
 	const fs::path cur_dir{lpDir};
+	
 	if(fs::is_empty(cur_dir))
 		return false;
 	else
 	{
 		for (const auto &f : fs::directory_iterator(cur_dir))
 		{
-			if (is_regular_file(status(f)))
+			if (fs::is_regular_file(fs::status(f)))
 			{
 				std::string tmp = f.path().string();
 				names.push_back(tmp);
@@ -350,46 +378,47 @@ static bool _LFGetDirNamesWindows(const std::string& lpDir, TLFStrings& names)
 	return true;*/
 
 }
-#else
-static bool _LFGetDirNamesLinux(const char* lpDir, TLFStrings& names)
-{
-	//printf("enter _LFGetDirNamesLinux \n");
-    DIR *dir;
-    struct dirent *entry;
-	std::string path = lpDir;
-	path += c_separator;
-    dir = opendir(lpDir);
-    if (!dir) {
-        printf("cannot open dir %s \n", path.c_str());
-        return false;
-    };
-
-    while ( (entry = readdir(dir)) != NULL) {
- 			string name = path + entry->d_name;
-			names.push_back(name);
-			//printf("%s\n", name.c_str());
-    };
-
-    closedir(dir);
-	
-	return true;
-}
-#endif
+//#else
+//static bool _LFGetDirNamesLinux(const char* lpDir, TLFStrings& names)
+//{
+//	//printf("enter _LFGetDirNamesLinux \n");
+//    DIR *dir;
+//    struct dirent *entry;
+//	std::string path = lpDir;
+//	path += c_separator;
+//    dir = opendir(lpDir);
+//    if (!dir) {
+//        printf("cannot open dir %s \n", path.c_str());
+//        return false;
+//    };
+//
+//    while ( (entry = readdir(dir)) != NULL) {
+// 			string name = path + entry->d_name;
+//			names.push_back(name);
+//			//printf("%s\n", name.c_str());
+//    };
+//
+//    closedir(dir);
+//
+//	return true;
+//}
+//#endif
 
 bool LFGetDirFiles(const std::string& lpDir, TLFStrings& names)
 {
 	names.clear();
-#if defined(WIN32) || defined(_WIN64)
+//#if defined(WIN32) || defined(_WIN64)
 	return _LFGetDirNamesWindows(lpDir, names);
-#else
-	return _LFGetDirNamesLinux(lpDir, names);
-#endif
+//#else
+//	return _LFGetDirNamesLinux(lpDir, names);
+//#endif
 }
 
 bool LFDeleteFile(const char* lpName)
 {
-  int res = _wremove(LFUtf8ConvertToUnicode(lpName).c_str());
-  return res == 0;
+    return fs::remove(lpName) == 0;
+//  int res = _wremove(LFUtf8ConvertToUnicode(lpName).c_str());
+//	return res == 0;
 }
 
 bool LFIsImageFile(const char* fileName)

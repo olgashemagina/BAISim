@@ -158,6 +158,10 @@ bool		TCSBuildDetector::LoadConfig(std::string const& filename)
 	m_AdaBoost.SetFeaturesCount(m_NS);
 	m_AdaBoost.SetFinishFar(ff);
 
+	pElem = pElem->NextSiblingElement("ILFScanner");
+
+	m_AdaBoost.SetScanner(CreateScanner(pElem));
+	
 	m_AdaBoost.DbgMsg(" done.\n");
 
 
@@ -248,6 +252,8 @@ bool		TCSBuildDetector::BuildBkground(int cascade)
 	if (names.size() == 0)
 		return false;
 	TLFString strPathToArt = m_AdaBoost.GetArtefactsBase();
+	if (!LFDirExist(strPathToArt.c_str()))
+		LFCreateDir(strPathToArt.c_str());
 	int count = 0;
 	double rect_ovr;
 	for (int i = 0; i < names.size(); i++)
@@ -317,7 +323,7 @@ bool		TCSBuildDetector::BuildBkground(int cascade)
 							if (awpCopyRect(Image1.GetImage(), &Fragment, &r) == AWP_OK)
 							{
 								nCount++;
-								std::string strFragmentName = strPathToArt + TypeToStr(nCount) + ".awp";
+								std::string strFragmentName = strPathToArt + "\\" + TypeToStr(nCount) + ".awp";
 								awpSaveImage(strFragmentName.c_str(), Fragment);
 								//m_AdaBoost.DbgMsg("Overlap = " + TypeToStr(rect_ovr) + "\n");
 								awpReleaseImage(&Fragment);
@@ -335,7 +341,7 @@ bool		TCSBuildDetector::BuildBkground(int cascade)
 						if (awpCopyRect(Image1.GetImage(), &Fragment, &r) == AWP_OK)
 						{
 							nCount++;
-							std::string strFragmentName = strPathToArt + TypeToStr(nCount) + ".awp";
+							std::string strFragmentName = strPathToArt + "\\" + TypeToStr(nCount) + ".awp";
 							awpSaveImage(strFragmentName.c_str(), Fragment);
 							//m_AdaBoost.DbgMsg("Overlap = " + TypeToStr(rect_ovr) + "\n");
 							awpReleaseImage(&Fragment);
@@ -392,7 +398,7 @@ bool		TCSBuildDetector::BuildBkground(int cascade)
 					if (awpCopyRect(Image1.GetImage(), &Fragment, &r) == AWP_OK)
 					{
 						nCount++;
-						std::string strFragmentName = strPathToArt + TypeToStr(nCount) + ".awp";
+						std::string strFragmentName = strPathToArt + "\\" + TypeToStr(nCount) + ".awp";
 						awpSaveImage(strFragmentName.c_str(), Fragment);
 						awpReleaseImage(&Fragment);
 						if (nCount >= m_nBgrdCount)
@@ -525,6 +531,7 @@ bool	TCSBuildDetector::InitDetector()
 		m_AdaBoost.DbgMsg("Detector was not created.\n");
 		return false;
 	}
+	
 	/*if CSEngine is empty return*/
 	if (cs->GetStagesCount() == 0)
 		return true;
@@ -585,7 +592,7 @@ bool		    TCSBuildDetector::BuildDefaultBkGround()
 	for (int i = 0; i < m_nBgrdCount; i++)
 	{
 		awpImage* img = NULL;
-		std::string strFragmentName = strPathToArt + TypeToStr(i) + ".awp";
+		std::string strFragmentName = strPathToArt + "\\" + TypeToStr(i) + ".awp";
 		if (awpCreateImage(&img, m_AdaBoost.WidthBase(), m_AdaBoost.HeightBase(), 1, AWP_BYTE) == AWP_OK)
 		{
 
@@ -625,7 +632,7 @@ void		    TCSBuildDetector::RemoveBkground()
 	{
 		do
 		{
-			std::string strImageName = strPathToArt + filesInfo.name;
+			std::string strImageName = strPathToArt + "\\" + filesInfo.name;
 			DeleteFile(strImageName.c_str());
 		} while (!_findnext(handle, &filesInfo));
 	}
@@ -645,6 +652,7 @@ bool TCSBuildDetector::CreateDetector(const char* lpDetectorName)
 		TSCObjectDetector* d = new TSCObjectDetector();
 		d->SetBaseHeight(m_AdaBoost.HeightBase());
 		d->SetBaseWidht(m_AdaBoost.WidthBase());
+		d->SetScanner(m_AdaBoost.GetScanner());
 		m_Engine.AddDetector(d);
 	}
 	return m_Engine.Save(lpDetectorName);

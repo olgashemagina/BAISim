@@ -19,7 +19,7 @@ void __fastcall TEngineErrDlg::Button2Click(TObject *Sender)
 
   double thr = 0.5;
   thr = StrToFloat(Edit2->Text);
-  double far1, ffar, frr, t;
+  double far1, ffar, frr, t, precision, recall;
 
   Label16->Visible = true;
   ProgressBar1->Visible = true;
@@ -27,11 +27,13 @@ void __fastcall TEngineErrDlg::Button2Click(TObject *Sender)
   OKBtn->Enabled = false;
   Button2->Enabled = false;
 
-  m_database.GetFarFrr(*m_engine, far1, frr, ffar, t, thr);
+  m_database.GetFarFrr(*m_engine, far1, frr, ffar, t, precision, recall, thr);
 
   Label9->Caption = FormatFloat("###.###", far1*100)+" %";
   Label11->Caption = FormatFloat("#.###E-00", ffar) + " %";
   Label13->Caption = FormatFloat("###.###", frr*100)+" %";
+  Label19->Caption = FormatFloat("###.###", precision*100)+" %";
+  Label20->Caption = FormatFloat("###.###", recall*100)+" %";
   Label15->Caption = FloatToStr(t) + " ms";
 
 
@@ -70,6 +72,8 @@ void __fastcall TEngineErrDlg::FormShow(TObject *Sender)
   Label11->Caption= "*****";
   Label13->Caption = "*****";
   Label15->Caption = "*****";
+  Label19->Caption = "*****";
+  Label20->Caption = "*****";
 
 }
 //---------------------------------------------------------------------------

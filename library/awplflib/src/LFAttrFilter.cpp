@@ -52,7 +52,7 @@ static ILFAttrClassifier* LoadFromNode(TiXmlElement* parent)
 */
 ILFAttrDetector::ILFAttrDetector()
 {
-	m_Name = "interfase of attribute detector. abstract.";
+	m_Name = "interfaсe of attribute detector. abstract.";
 
 	m_className1 = NULL;
 	m_className2= NULL;

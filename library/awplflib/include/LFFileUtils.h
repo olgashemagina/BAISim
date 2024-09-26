@@ -58,10 +58,10 @@
 
 extern "C"
 {
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 	typedef GUID UUID;
 	#define c_separator  "\\"
-	#define w_separator  L"\\"
+//	#define w_separator  L"\\"
 #else
 	#include <uuid/uuid.h>
 	typedef uuid_t UUID;
@@ -69,13 +69,13 @@ extern "C"
 #endif
 }
 
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 	const UUID c_uuidZero = { 0, 0, 0, { 0, 0, 0, 0, 0, 0, 0, 0 } };
 #else
 	const UUID c_uuidZero = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 #endif
 
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN64)
 #define LF_UUID_CREATE(v)  UuidCreate(&v);
 #define LF_NULL_UUID_CREATE(v) memset(&v, 0, sizeof(UUID));
 #else
@@ -83,60 +83,60 @@ extern "C"
 #define LF_NULL_UUID_CREATE(v) memset(v, 0, sizeof(UUID));
 #endif
 //functions to work with file names
-#if __BCPLUSPLUS__ != 0
-	//using namespace std;
-	inline std::string LFGetFilePath(const std::string& strPath)
-	{
-		const std::string c = c_separator;
-		int len = strPath.find_last_of(c);
-		if (len == -1)
-			return "";
-
-		return strPath.substr(0, len);
-	}
-
-	inline std::string LFGetFileExt(const std::string&  strFileName)
-	{
-		int len = strFileName.find_last_of('.');
-		if (len > 0)
-			return strFileName.substr(len, strFileName.length() - len);
-		else
-			return "";
-	}
-	inline std::string LFGetFileName(const std::string&  strFileName)
-	{
-		int len = strFileName.find_last_of('\\');
-		std::string str = strFileName.substr(len, strFileName.length() - len);
-		len = str.find_last_of('.');
-		return str.substr(0, len);
-
-	}
-	inline std::string LFChangeFileExt(std::string& strFileName, std::string strExt)
-	{
-		int len = strFileName.find_last_of('.');
-		return strFileName.substr(0, len) + strExt;
-	}
-	inline std::string LFMakeFileName(std::string& strPath, std::string strName, std::string strExt)
-	{
-		if (strName.length() == 0)
-			return "";
-		if (strPath.find_last_of('\\') != strPath.length() - 1)
-			strPath += "\\";
-		if (strExt.find_first_of('.') != 0)
-		{
-			//string tmp = ".";
-			//tmp += strExt;
-			strExt = "." + strExt;
-		}
-		return strPath + strName + strExt;
-	}
-#else
+//#if __BCPLUSPLUS__ != 0
+//	//using namespace std;
+//	inline std::string LFGetFilePath(const std::string& strPath)
+//	{
+//		const std::string c = c_separator;
+//		int len = strPath.find_last_of(c);
+//		if (len == -1)
+//			return "";
+//
+//		return strPath.substr(0, len);
+//	}
+//
+//	inline std::string LFGetFileExt(const std::string&  strFileName)
+//	{
+//		int len = strFileName.find_last_of('.');
+//		if (len > 0)
+//			return strFileName.substr(len, strFileName.length() - len);
+//		else
+//			return "";
+//	}
+//	inline std::string LFGetFileName(const std::string&  strFileName)
+//	{
+//		int len = strFileName.find_last_of('\\');
+//		std::string str = strFileName.substr(len, strFileName.length() - len);
+//		len = str.find_last_of('.');
+//		return str.substr(0, len);
+//
+//	}
+//	inline std::string LFChangeFileExt(std::string& strFileName, std::string strExt)
+//	{
+//		int len = strFileName.find_last_of('.');
+//		return strFileName.substr(0, len) + strExt;
+//	}
+//	inline std::string LFMakeFileName(std::string& strPath, std::string strName, std::string strExt)
+//	{
+//		if (strName.length() == 0)
+//			return "";
+//		if (strPath.find_last_of('\\') != strPath.length() - 1)
+//			strPath += "\\";
+//		if (strExt.find_first_of('.') != 0)
+//		{
+//			//string tmp = ".";
+//			//tmp += strExt;
+//			strExt = "." + strExt;
+//		}
+//		return strPath + strName + strExt;
+//	}
+//#else
 	std::string LFGetFilePath(const std::string& strPath);
 	std::string LFGetFileExt(const std::string&  strFileName);
 	std::string LFGetFileName(const std::string&  strFileName);
 	std::string LFChangeFileExt(std::string& strFileName, std::string strExt);
 	std::string LFMakeFileName(std::string& strPath, std::string strName, std::string strExt);
-#endif
+//#endif
 std::string LFUnicodeConvertToUtf8(const std::wstring& wstr);
 std::wstring LFUtf8ConvertToUnicode(const std::string& str);
 std::wstring LFConcatPath(const std::wstring& parentPath, const std::wstring& path);

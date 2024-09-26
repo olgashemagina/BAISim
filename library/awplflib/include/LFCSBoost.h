@@ -89,6 +89,7 @@ protected:
     int                 m_nFaces;
     int                 m_nNonFaces;
 	double				m_FinishFar;
+	ILFScanner*			m_Scanner;
 
 
     void   PrintFeature(ILFFeature* pSensor);
@@ -136,6 +137,9 @@ public:
 	void SetPath(const char* lpPath);
 	void   SaveFRRSamples(int stage);
 	void   SaveNegativeSamples(const char* lpPath);
+
+	void SetScanner(ILFScanner* scanner) { m_Scanner = scanner; };
+	ILFScanner* GetScanner() { return m_Scanner; };
 public: 
 	// features 
 	bool m_CSFeature;

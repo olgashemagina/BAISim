@@ -104,7 +104,7 @@ public:
 	void GetFarHST(TLFDetectEngine& engine, TLFHistogramm& hst , int stage, bool all, double overlap);
 	void GetFrrHST(TLFDetectEngine& engine, TLFHistogramm& hst, int stage, bool all, double overlap);
 	void GetFarFrrHST(TLFDetectEngine& engine, TLFHistogramm& far_hst, TLFHistogramm& frr_hst, int stage, bool all, double overlap);
-	void GetFarFrr(TLFDetectEngine& engine, double& Far, double& Frr, double& FFar, double& t,  double overlap);
+	void GetFarFrr(TLFDetectEngine& engine, double& Far, double& Frr, double& FFar, double& t,  double& precision, double& recall, double overlap);
 
 	void CheckEngine(TLFDetectEngine& engine, double overlap);
 	void SetLabel(const char* label);

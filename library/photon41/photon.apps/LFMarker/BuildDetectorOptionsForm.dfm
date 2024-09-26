@@ -51,7 +51,7 @@ object CSBuildOptions: TCSBuildOptions
     Top = 0
     Width = 417
     Height = 257
-    ActivePage = DB_page
+    ActivePage = Scanner_page
     TabOrder = 1
     OnChange = PageControl1Change
     object DB_page: TTabSheet
@@ -229,7 +229,7 @@ object CSBuildOptions: TCSBuildOptions
         Top = 150
         Width = 54
         Height = 22
-        MaxValue = 4
+        MaxValue = 100
         MinValue = 1
         TabOrder = 3
         Value = 1

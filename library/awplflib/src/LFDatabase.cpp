@@ -212,7 +212,7 @@ bool TLFDBLabeledImages::LoadDatabase(const char* path)
 		}
 		m_dictinary.SaveXML(strDictinary.c_str());
 	}
-	m_strPath = path;
+	m_strPath = strPath;
 	return true;
 }
 
@@ -458,14 +458,20 @@ void TLFDBLabeledImages::GetFarFrrHST(TLFDetectEngine& engine, TLFHistogramm& fa
 
 }
 
-void TLFDBLabeledImages::GetFarFrr(TLFDetectEngine& engine, double& Far, double& Frr, double& FFar, double& t, double overlap)
+void TLFDBLabeledImages::GetFarFrr(TLFDetectEngine& engine, double& Far, double& Frr, double& FFar, double& t, double& precision, double& recall, double overlap)
 {
 	Far = 0;
 	Frr = 0;
+    precision = 0;
+    recall = 0;
 	if (GetItemsCount() == 0)
 		return;
 	int num_fragments = 0;
 	int num_founded = 0;
+    int TP = 0;
+    int FP = 0;
+    int FN = 0;
+
 	unsigned long  ptime = 0;
 	unsigned long  ctime;// = 0;
 	for (int i = 0; i < m_dataFiles.GetCount(); i++)
@@ -482,11 +488,21 @@ void TLFDBLabeledImages::GetFarFrr(TLFDetectEngine& engine, double& Far, double&
 		num_fragments += sc->GetFragmentsCount();
 		TLFSemanticImageDescriptor* d1 = engine.GetSemantic();
 		num_founded += d1->GetCount();
-		Far += d1->Compare(d, overlap);
+        double b = d1->Compare(d, overlap);
+        if (b > 0)
+        {
+			Far += b;
+            FP += b;
+        }
 		double a = d->Compare(d1, overlap);
 		if (a > 0)
-			printf("failed.\n");
-		Frr += a;// d->Compare(d1, overlap);
+        {
+        	Frr += a;// d->Compare(d1, overlap);
+            FN += a;
+        }
+
+        TP += (d->GetCount() + d1->GetCount() -a -b)/2;
+	//		printf("failed.\n");
 //		if (i % 100 == 0)
 //			printf(">");
 
@@ -504,6 +520,8 @@ void TLFDBLabeledImages::GetFarFrr(TLFDetectEngine& engine, double& Far, double&
 	//Far /= GetItemsCount();
 	Far /= num_founded;
 	Frr /= GetItemsCount();
+    precision = double(TP)/(TP + FP);
+    recall = double(TP)/(FN + TP);
 }
 
 void TLFDBLabeledImages::CheckEngine(TLFDetectEngine& engine, double overlap)

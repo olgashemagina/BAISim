@@ -5,6 +5,7 @@
 
 #pragma hdrstop
 #include <math.h>
+#include <filesystem>
 #include "DbLabeledImages.h"
 #include "LF.h"
 #include "MainForm.h"
@@ -12,6 +13,8 @@
 #include "LongProcessForm.h"
 #include "LFFileUtils.h"
 #include <io.h>
+
+namespace fs = std::filesystem;
 //---------------------------------------------------------------------------
 
 #pragma package(smart_init)
@@ -161,6 +164,7 @@ bool __fastcall TDbLabeledImages::Init(AnsiString& strDbPath, ILFDetectEngine* e
     m_NumXmlItems = m_db.GetItemsCount();
     m_strDbName = strDbPath;
     m_engine = engine;
+    return true;
 }
 
 void __fastcall TDbLabeledImages::SaveFragment(awpImage* img, SDbExportOptions& options, int count, TLFRect& scanBox, /*TLFRoiImageDescriptor* roid,*/ const char* lpClassLabel)
@@ -1090,27 +1094,23 @@ void __fastcall TDbLabeledImages::SplitDatabase(UnicodeString strPath, UnicodeSt
 		CopyFile(_unic1.c_str(), _unic2.c_str(), true);
 	}
 
-	_finddata_t filesInfo;
-	int num_images = 0;
-	long handle = 0;
-
-	if ( (handle = _findfirst( (char*)((path+"*.*").c_str()), &filesInfo)) != -1 )
-	{
-		do
-		{
-			std::string name = path + filesInfo.name;
-			TLFImage image;
-			UnicodeString _unicode = name.c_str();
-			if (!_IsImageFile(_unicode))
-				continue;
-
-			if (!image.LoadFromFile(name.c_str()))
+    const fs::path cur_dir{path};
+    int num_images = 0;
+    for (const auto &f : fs::directory_iterator(cur_dir))
+    {
+    	if (fs::is_regular_file(fs::status(f)))
+        {
+        	std::string tmp = f.path().string();
+            if (!LFIsImageFile(tmp.c_str()))
+                continue;
+            TLFImage image;
+            if (!image.LoadFromFile(tmp.c_str()))
 			{
-				printf("cannot load image %s \n", name.c_str());
+				printf("cannot load image %s \n", tmp.c_str());
 				continue;
 			}
 			num_images++;
-			std::string FileName;
+            std::string FileName;
 
 			int value = rand() % 100;
 			if (value < g_proc)
@@ -1118,12 +1118,12 @@ void __fastcall TDbLabeledImages::SplitDatabase(UnicodeString strPath, UnicodeSt
 			else
 				FileName = g_path2;
 
-			FileName += LFGetFileName(name);
+			FileName += LFGetFileName(tmp);
 			FileName += ".awp";
-			printf("%s\n", FileName.c_str());
+            printf("%s\n", FileName.c_str());
 			image.SaveToFile(FileName.c_str());
 
-			name = LFChangeFileExt(name, ".xml");
+			std::string name = LFChangeFileExt(tmp, ".xml");
 			if (LFFileExists(name))
 			{
 				TLFSemanticImageDescriptor d;
@@ -1138,11 +1138,62 @@ void __fastcall TDbLabeledImages::SplitDatabase(UnicodeString strPath, UnicodeSt
 				m_ProgressEvent(int(100 *num_images / this->m_NumImages),_ansi );
 			  }
 			   Application->ProcessMessages();
-
-		}while(!_findnext( handle, &filesInfo ));
-	}
-	_findclose( handle );
+        }
+    }
+    //	_finddata_t filesInfo;
+//	int num_images = 0;
+//	long handle = 0;
+//
+//	if ( (handle = _findfirst( (char*)((path+"*.*").c_str()), &filesInfo)) != -1 )
+//	{
+//		do
+//		{
+//			std::string name = path + filesInfo.name;
+//			TLFImage image;
+//			UnicodeString _unicode = name.c_str();
+//			if (!_IsImageFile(_unicode))
+//				continue;
+//
+//			if (!image.LoadFromFile(name.c_str()))
+//			{
+//				printf("cannot load image %s \n", name.c_str());
+//				continue;
+//			}
+//			num_images++;
+//			std::string FileName;
+//
+//			int value = rand() % 100;
+//			if (value < g_proc)
+//				FileName = g_path1;
+//			else
+//				FileName = g_path2;
+//
+//			FileName += LFGetFileName(name);
+//			FileName += ".awp";
+//			printf("%s\n", FileName.c_str());
+//			image.SaveToFile(FileName.c_str());
+//
+//			name = LFChangeFileExt(name, ".xml");
+//			if (LFFileExists(name))
+//			{
+//				TLFSemanticImageDescriptor d;
+//				d.LoadXML(name.c_str());
+//				FileName = LFChangeFileExt(FileName, ".xml");
+//				d.SaveXML(FileName.c_str());
+//			}
+//
+//			  if (m_ProgressEvent != NULL)
+//			  {
+//				AnsiString _ansi = FileName.c_str();
+//				m_ProgressEvent(int(100 *num_images / this->m_NumImages),_ansi );
+//			  }
+//			   Application->ProcessMessages();
+//
+//		}while(!_findnext( handle, &filesInfo ));
+//	}
+//	_findclose( handle );
 }
+
 
 TLFDBLabeledImages*   __fastcall TDbLabeledImages::GetDatabase()
 {

@@ -6,7 +6,8 @@
 #include <vector>
 #include <array>
 #include <functional>
-#include <assert.h>
+#include <cassert>
+#include <memory>
 
 
 

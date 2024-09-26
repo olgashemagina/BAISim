@@ -3,7 +3,7 @@ object EngineErrDlg: TEngineErrDlg
   Top = 126
   BorderStyle = bsDialog
   Caption = 'Dialog'
-  ClientHeight = 507
+  ClientHeight = 552
   ClientWidth = 455
   Color = clBtnFace
   ParentFont = True
@@ -14,7 +14,7 @@ object EngineErrDlg: TEngineErrDlg
     Left = 7
     Top = 72
     Width = 442
-    Height = 385
+    Height = 392
     Shape = bsFrame
   end
   object Label1: TLabel
@@ -46,8 +46,8 @@ object EngineErrDlg: TEngineErrDlg
     Visible = False
   end
   object OKBtn: TButton
-    Left = 374
-    Top = 479
+    Left = 372
+    Top = 519
     Width = 75
     Height = 25
     Caption = 'Close'
@@ -98,7 +98,7 @@ object EngineErrDlg: TEngineErrDlg
     Left = 24
     Top = 287
     Width = 408
-    Height = 134
+    Height = 170
     Caption = 'Performance Report'
     TabOrder = 4
     object Label4: TLabel
@@ -203,14 +203,54 @@ object EngineErrDlg: TEngineErrDlg
     end
     object Label14: TLabel
       Left = 11
-      Top = 114
+      Top = 149
       Width = 179
       Height = 15
       Caption = 'The processing time of one image'
     end
     object Label15: TLabel
       Left = 223
-      Top = 114
+      Top = 153
+      Width = 40
+      Height = 14
+      Caption = '*****'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label17: TLabel
+      Left = 11
+      Top = 113
+      Width = 48
+      Height = 15
+      Caption = 'Precision'
+    end
+    object Label18: TLabel
+      Left = 11
+      Top = 132
+      Width = 31
+      Height = 15
+      Caption = 'Recall'
+    end
+    object Label19: TLabel
+      Left = 223
+      Top = 113
+      Width = 40
+      Height = 14
+      Caption = '*****'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label20: TLabel
+      Left = 223
+      Top = 133
       Width = 40
       Height = 14
       Caption = '*****'
@@ -223,8 +263,8 @@ object EngineErrDlg: TEngineErrDlg
     end
   end
   object Button2: TButton
-    Left = 24
-    Top = 427
+    Left = 8
+    Top = 491
     Width = 407
     Height = 25
     Caption = 'calculate performance'
@@ -232,8 +272,8 @@ object EngineErrDlg: TEngineErrDlg
     OnClick = Button2Click
   end
   object ProgressBar1: TProgressBar
-    Left = 8
-    Top = 493
+    Left = 6
+    Top = 533
     Width = 360
     Height = 11
     TabOrder = 6

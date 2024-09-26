@@ -138,6 +138,55 @@ void __fastcall TCSBuildOptions::NextButtonClick(TObject *Sender)
 				fe->SetAttribute("TLFLBPFeature", "1");
 
 			de->LinkEndChild(fe);
+            //Scanner
+            TiXmlElement* sc = new TiXmlElement("ILFScanner");
+            sc->SetAttribute("type", "TLFScanner");
+            tmp_value = IntToStr(int(CSpinEdit2->Value));
+            sc->SetAttribute("ApertureWidth", tmp_value.c_str());
+            tmp_value = IntToStr(int(H_CSpinEdit->Value));
+            sc->SetAttribute("ApertureHeight", tmp_value.c_str());
+            //Scanner parameters
+            TiXmlElement* prm1 = new TiXmlElement("TLFParameter");
+            prm1->SetAttribute("type", "TLFParameter");
+            tmp_value = IntToStr(int(CSpinEdit1->Value));
+            prm1->SetAttribute("m_Value", tmp_value.c_str());
+            prm1->SetAttribute("m_MaxValue", "100");
+            prm1->SetAttribute("m_MinValue", "1");
+            prm1->SetAttribute("m_Name", "step");
+            prm1->SetAttribute("m_Descr", "step space as a percentage of baseline resolution");
+            sc->LinkEndChild(prm1);
+
+            TiXmlElement* prm2 = new TiXmlElement("TLFParameter");
+            prm2->SetAttribute("type", "TLFParameter");
+            tmp_value = ComboBox1->Text;
+            prm2->SetAttribute("m_Value", tmp_value.c_str());
+            prm2->SetAttribute("m_MaxValue", "2");
+            prm2->SetAttribute("m_MinValue", "1.1");
+            prm2->SetAttribute("m_Name", "grow");
+            prm2->SetAttribute("m_Descr", "step on the scale");
+            sc->LinkEndChild(prm2);
+
+            TiXmlElement* prm3 = new TiXmlElement("TLFParameter");
+            prm3->SetAttribute("type", "TLFParameter");
+            tmp_value = IntToStr(int(CSpinEdit4->Value));
+            prm3->SetAttribute("m_Value", tmp_value.c_str());
+            prm3->SetAttribute("m_MaxValue", "4");
+            prm3->SetAttribute("m_MinValue", "1");
+            prm3->SetAttribute("m_Name", "MinSize");
+            prm3->SetAttribute("m_Descr", "min size of scanned object in the BaseWidth");
+            sc->LinkEndChild(prm3);
+
+            TiXmlElement* prm4 = new TiXmlElement("TLFParameter");
+            prm4->SetAttribute("type", "TLFParameter");
+            tmp_value = IntToStr(int(CSpinEdit5->Value));
+            prm4->SetAttribute("m_Value", tmp_value.c_str());
+            prm4->SetAttribute("m_MaxValue", "100");
+            prm4->SetAttribute("m_MinValue", "1");
+            prm4->SetAttribute("m_Name", "MaxSize");
+            prm4->SetAttribute("m_Descr", "max size of scanned object in the BaseWidth");
+            sc->LinkEndChild(prm4);
+
+           	de->LinkEndChild(sc);
 			doc.LinkEndChild(de);
 			doc.SaveFile(tmpname.c_str());
 
@@ -275,6 +324,45 @@ void __fastcall TCSBuildOptions::FormShow(TObject *Sender)
 		pElem->QueryIntAttribute("TLFLBPFeature", &value);
 		if(value != 0)
 			RadioGroup1->ItemIndex = 8;
+
+        //Scanner
+        pElem = pElem->NextSiblingElement("ILFScanner");
+        if (!pElem)
+		{
+			ShowMessage("Invalid XML file");
+			return;
+		}
+        pElem->Attribute("ApertureWidth", &value);
+		if(value != 0)
+			CSpinEdit2->Value = value;
+        pElem->Attribute("ApertureHeight", &value);
+		if(value != 0)
+			H_CSpinEdit->Value = value;
+        for(pElem = pElem->FirstChildElement(); pElem; pElem = pElem->NextSiblingElement() )
+    	{
+
+            if(strcmp(pElem->Attribute("m_Name"), "step") == 0)
+            {
+                pElem->Attribute("m_Value", &value);
+                CSpinEdit1->Value = value;
+            }
+            if(strcmp(pElem->Attribute("m_Name"), "grow") == 0)
+            {
+                //pElem->Attribute("m_Value", &value);
+                ComboBox1->Text = pElem->Attribute("m_Value");
+            }
+            if(strcmp(pElem->Attribute("m_Name"), "MinSize") == 0)
+            {
+                pElem->Attribute("m_Value", &value);
+                CSpinEdit4->Value = value;
+            }
+            if(strcmp(pElem->Attribute("m_Name"), "MaxSize") == 0)
+            {
+                pElem->Attribute("m_Value", &value);
+                CSpinEdit5->Value = value;
+            }
+
+        }
 	}
 	else
 	{

@@ -199,10 +199,11 @@ bool ILFDetectEngine::Save(const char* lpFileName)
 	if (engine == NULL)
 		return false;
 	doc.LinkEndChild(engine);
-	FILE* file = _wfopen(LFUtf8ConvertToUnicode(lpFileName).c_str(), L"w");
+	//FILE* file = _wfopen(LFUtf8ConvertToUnicode(lpFileName).c_str(), L"w");
+    FILE* file = std::fopen(lpFileName, "w");
 	if (!file)
 	{
-		printf("ILFDetectEngine::Save _wfopen failed!!!\n");
+		printf("Save engine failed!!!\n");
 		return false;
 	}
 	bool result = doc.SaveFile(file);
@@ -212,10 +213,11 @@ bool ILFDetectEngine::Save(const char* lpFileName)
 
 bool ILFDetectEngine::Load(const char* lpFileName)
 {
-	FILE* file = _wfopen(LFUtf8ConvertToUnicode(lpFileName).c_str(), L"rb");
+	//FILE* file = _wfopen(LFUtf8ConvertToUnicode(lpFileName).c_str(), L"rb");
+    FILE* file = std::fopen(lpFileName, "rb");
 	if (!file)
 	{
-		printf("ILFDetectEngine::Load _wfopen failed!!!\n");
+		printf("Load engine failed!!!\n");
 		return false;
 	}
     TiXmlDocument doc;
