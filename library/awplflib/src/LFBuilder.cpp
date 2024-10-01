@@ -63,7 +63,7 @@ TCSBuildDetector::TCSBuildDetector()
 bool		TCSBuildDetector::LoadConfig(std::string const& filename)
 {
 	m_AdaBoost.DbgMsg("CSBuild Detector loading config ..... ");
-	FILE* file = _wfopen(LFUtf8ConvertToUnicode(filename).c_str(), L"rb");
+	FILE* file = fopen(filename.c_str(), "rb");
 	if (!file)
 	{
 		m_AdaBoost.DbgMsg("LoadConfig | Can't open XML file.\n");
@@ -104,7 +104,7 @@ bool		TCSBuildDetector::LoadConfig(std::string const& filename)
 	m_strDetectorName = ConcatIfNeeded(pElem->Attribute("detector_name"), commonPath);
 	m_strLogName = ConcatIfNeeded(pElem->Attribute("log_name"), commonPath);
 	//pElem->Attribute("overlap_thr", &m_overlapThr);
-	m_AdaBoost.SetLogName(LFUtf8ConvertToUnicode(m_strLogName));
+	m_AdaBoost.SetLogName(m_strLogName.c_str());
 	int num_positive = this->GetNumObjects();
 
 	pElem->Attribute("num_samples_per_image", &m_nMaxSamplesPerImage);

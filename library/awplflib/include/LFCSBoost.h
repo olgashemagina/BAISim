@@ -106,7 +106,7 @@ public:
 	bool Boost(int stage);
 	void InitFeatures();
 	
-	void SetLogName(const std::wstring& logName);
+	void SetLogName(const std::string& logName);
     // print message on the screen and in the log file
     void DbgMsg(std::string const&);
     // returns path to negative samples 

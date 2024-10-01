@@ -67,6 +67,7 @@ extern "C"
 #include <math.h>
 
 #include <functional>
+#include <memory>
 
 #include "tinyxml.h"
 
@@ -498,7 +499,7 @@ public:
    \brief Initialize detector with awpImage structure and calls scanner if nessesary
    \param pImage - pointer to awpImage structure 
    \param rect   - rect in which scanner running
-   \retrurn  true if detector has valid image and scanner creates all nessesary 
+   \return  true if detector has valid image and scanner creates all nessesary
    \structures
    */
    virtual bool Init(TLFImage* pImage, awpRect* rect = nullptr)					   		= 0;
@@ -509,12 +510,12 @@ public:
    \contains responce of each stage  and their sum
    \param vect  pointer to int array with GetStagesCount() + 1 size, contains disision of 
    \each stage 
-   \retrurn 1 - detection success, 0 - detection fail
+   \return 1 - detection success, 0 - detection fail
    */
    virtual int  ClassifyRect(awpRect Fragmnet)				= 0;
    /**
    \brief performs classification withing image with all rectangles generates by IScanner 
-   \retrurn positive - num positive responce, 0 - nothing found, negative - function fail
+   \return positive - num positive responce, 0 - nothing found, negative - function fail
    */
    virtual int  Detect()								   							= 0;
    /**
@@ -565,7 +566,7 @@ public:
    virtual  void Clear();
    /**
    \brief access to aperture minimum horizontal size
-   \retrun aperture width
+   \return aperture width
    */
    int  GetBaseWidth();
    /**
@@ -575,7 +576,7 @@ public:
    void SetBaseWidht(int w);
    /**
    \brief access to aperture minimum vertical  size
-   \retrun aperture width
+   \return aperture width
    */
    int  GetBaseHeight();
    /**
@@ -594,7 +595,7 @@ public:
    void SetAngle(int value);
    /**
    \brief access to the view of the object to which the detector was trained
-   \retrun object view
+   \return object view
    */
    int  GetRacurs();
    /**
@@ -605,17 +606,17 @@ public:
    /**
    \brief deprecated
    \brief access to object type
-   \retrun aperture width
+   \return aperture width
    */
    std::string GetObjectType();
    /**
    \brief access to the internal image for analysis
-   \retrun pointer to TLFImage object
+   \return pointer to TLFImage object
    */
    TLFImage*	 GetImage();
    /**
    \brief access to the internal scanner
-   \retrun pointer to ILFScanner object
+   \return pointer to ILFScanner object
    */
    ILFScanner*   GetScanner();
    /**
@@ -626,17 +627,17 @@ public:
    void SetScanner(ILFScanner* scanner);
    /**
    \brief number of items
-   \retrun number of detected items,Different detectors can return a different
+   \return number of detected items,Different detectors can return a different
    \number of items. Only such items for which a successful classification
    \was performed, others are all items considered by the detector.
    \See TLFDetectedItem for more info
-   \retrun number of items
+   \return number of items
    */
    int  GetNumItems();
    /**
    \brief Pointer to the specific item, defined by its index
    \ the index should be >=0 and < value, returned by GetNumItems()
-   \retrun Pointer to the detected item.
+   \return Pointer to the detected item.
    */
    TLFDetectedItem* GetItem(int index);
 
@@ -656,7 +657,7 @@ public:
 	*/
 	virtual bool          LoadXML(TiXmlElement* parent) = 0;
 	/**
-	\brief retrurns internal calss name
+	\brief returns internal calss name
 	*/
 	virtual const char* GetName()
 	{

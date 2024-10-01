@@ -148,8 +148,8 @@ int main(int argc, char* argv[])
 		case 1:
 			{
 
-				double Far, Frr , t, e;
-				db.GetFarFrr(engine, Far, Frr, e, t, overlap);
+				double Far, Frr , t, e, precision, recall;
+				db.GetFarFrr(engine, Far, Frr, e, t, precision, recall, overlap);
 				printf("++++++++ Far/Frr calculation. +++++++++++++\n");
 				//printf("Database: name =%s\n", db.GetPath());
 				printf("Database: images count = %i\n", db.GetImagesCount());

@@ -1056,7 +1056,7 @@ std::optional<std::vector<detected_item_ptr>> TLFTreeEngine::DetectInRect(const 
 }
 
 bool TLFTreeEngine::Load(const std::string& filename) {
-	FILE* file = _wfopen(LFUtf8ConvertToUnicode(filename).c_str(), L"rb");
+	FILE* file = fopen(filename.c_str(), "rb");
 	if (!file)
 	{
 		printf("TLFTreeEngine::Load _wfopen failed!!!\n");
@@ -1086,7 +1086,7 @@ bool TLFTreeEngine::Save(const std::string& filename) {
 	if (engine == NULL)
 		return false;
 	doc.LinkEndChild(engine);
-	FILE* file = _wfopen(LFUtf8ConvertToUnicode(filename).c_str(), L"w");
+	FILE* file = fopen(filename.c_str(), "w");
 	if (!file)
 	{
 		printf("TLFTreeEngine::Save _wfopen failed!!!\n");

@@ -315,7 +315,7 @@ void TCSAdaBoost::DbgMsg(std::string const& msg)
 	}
 }
 
-void TCSAdaBoost::SetLogName(const std::wstring& logName)
+void TCSAdaBoost::SetLogName(const std::string& logName)
 {
 	if (!m_Logger.is_open())
 		m_Logger.open(logName.c_str());

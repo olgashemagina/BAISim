@@ -93,12 +93,12 @@
         <BCC_DisableOptimizations>true</BCC_DisableOptimizations>
         <BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
         <DynamicRTL>true</DynamicRTL>
-        <AllPackageLibs>vcl.lib;rtl.lib;vclx.lib;bcbsmp.lib;dbrtl.lib;xmlrtl.lib;inet.lib;vcldb.lib;vclimg.lib;VclSmp.lib;photon41.lib;Tee.lib</AllPackageLibs>
+        <AllPackageLibs>vcl.lib;rtl.lib;vclx.lib;bcbsmp.lib;dbrtl.lib;xmlrtl.lib;inet.lib;vcldb.lib;vclimg.lib;VclSmp.lib;Tee.lib</AllPackageLibs>
         <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
         <BRCC_IncludePath>..\common;$(BDS)\Bin;$(BDS)\Projects\common;$(BDS)\Projects;$(BDS)\include;$(BDS)\include\vcl;..\..\awpipl2\include;..\..\awplflib\include;..\..\include;..\..\awpipl2\include\_include;$(TINY);$(PHOTON);$(LF);$(BRCC_IncludePath)</BRCC_IncludePath>
         <BCC_DebugLineNumbers>true</BCC_DebugLineNumbers>
         <TASM_Debugging>Full</TASM_Debugging>
-        <ILINK_LibraryPath>..\common\;..\EngineView\;$(BDS)\Bin;..\..\..\..\build\lib\borland\$(Platform)\$(Config);..\..\..\..\3rdparty\bin;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\common\;..\EngineView\;$(BDS)\Bin;..\..\..\..\build\lib\borland\$(Platform)\$(Config);$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <TASM_IncludePath>..\common;$(BDS)\Bin;$(BDS)\Projects\common;$(BDS)\Projects;$(BDS)\include;$(BDS)\include\vcl;..\..\awpipl2\include;..\..\awplflib\include;..\..\include;..\..\awpipl2\include\_include;$(TINY);$(PHOTON);$(LF);$(TASM_IncludePath)</TASM_IncludePath>
         <DCC_UnitSearchPath>.\;$(BDS)\lib;$(BDS)\lib\obj;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_AdditionalSwitches> -M</DCC_AdditionalSwitches>
@@ -222,10 +222,12 @@
         <LinkPackageImports>vcl.bpi;rtl.bpi;photon41.bpi</LinkPackageImports>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
         <LinkPackageImports>vcl.bpi;rtl.bpi;vclx.bpi;bcbsmp.bpi;dbrtl.bpi;xmlrtl.bpi;inet.bpi;vcldb.bpi;vclimg.bpi;VclSmp.bpi;Tee.bpi</LinkPackageImports>
-        <LinkPackageStatics>photon41.lib</LinkPackageStatics>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Build>0</VerInfo_Build>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64x)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
@@ -594,7 +596,7 @@
                 <ProjectProperties>
                     <ProjectProperties Name="AutoShowDeps">False</ProjectProperties>
                     <ProjectProperties Name="ManagePaths">True</ProjectProperties>
-                    <ProjectProperties Name="VerifyPackages">True</ProjectProperties>
+                    <ProjectProperties Name="VerifyPackages">False</ProjectProperties>
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
                 <Source>

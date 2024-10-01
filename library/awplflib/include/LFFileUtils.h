@@ -137,8 +137,8 @@ extern "C"
 	std::string LFChangeFileExt(std::string& strFileName, std::string strExt);
 	std::string LFMakeFileName(std::string& strPath, std::string strName, std::string strExt);
 //#endif
-std::string LFUnicodeConvertToUtf8(const std::wstring& wstr);
-std::wstring LFUtf8ConvertToUnicode(const std::string& str);
+//std::string LFUnicodeConvertToUtf8(const std::wstring& wstr);
+//std::wstring LFUtf8ConvertToUnicode(const std::string& str);
 std::wstring LFConcatPath(const std::wstring& parentPath, const std::wstring& path);
 //functions to work with file system
 bool LFCreateDir(const char* lpPath);
