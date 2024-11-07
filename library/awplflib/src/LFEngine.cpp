@@ -71,7 +71,9 @@ bool ILFDetectEngine::SetSourceImage(awpImage* pImage, bool detect)
 			m_resizeCoef = (double)img->sSizeX / (double)m_baseWidth;
 			int height = (int)floor((double)img->sSizeY/m_resizeCoef  +0.5);
 
-			awpResizeBilinear(img, this->m_baseWidth, height);
+			AWPRESULT resize_res = awpResizeBilinear(img, this->m_baseWidth, height);
+			if (resize_res != AWP_OK)
+				return false;
 		}
 	}
 	// apply zones and mask
@@ -1059,7 +1061,7 @@ bool TLFTreeEngine::Load(const std::string& filename) {
 	FILE* file = fopen(filename.c_str(), "rb");
 	if (!file)
 	{
-		printf("TLFTreeEngine::Load _wfopen failed!!!\n");
+		printf("TLFTreeEngine::Load fopen failed!!!\n");
 		return false;
 	}
 	TiXmlDocument doc;
@@ -1089,7 +1091,7 @@ bool TLFTreeEngine::Save(const std::string& filename) {
 	FILE* file = fopen(filename.c_str(), "w");
 	if (!file)
 	{
-		printf("TLFTreeEngine::Save _wfopen failed!!!\n");
+		printf("TLFTreeEngine::Save fopen failed!!!\n");
 		return false;
 	}
 	bool result = doc.SaveFile(file);

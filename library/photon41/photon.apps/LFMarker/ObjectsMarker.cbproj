@@ -93,7 +93,7 @@
         <BCC_DisableOptimizations>true</BCC_DisableOptimizations>
         <BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
         <DynamicRTL>true</DynamicRTL>
-        <AllPackageLibs>vcl.lib;rtl.lib;vclx.lib;bcbsmp.lib;dbrtl.lib;xmlrtl.lib;inet.lib;vcldb.lib;vclimg.lib;VclSmp.lib;Tee.lib</AllPackageLibs>
+        <AllPackageLibs>vcl.lib;rtl.lib;vclx.lib;bcbsmp.lib;dbrtl.lib;xmlrtl.lib;inet.lib;vcldb.lib;vclimg.lib;VclSmp.lib;Tee.lib;photon41.lib</AllPackageLibs>
         <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
         <BRCC_IncludePath>..\common;$(BDS)\Bin;$(BDS)\Projects\common;$(BDS)\Projects;$(BDS)\include;$(BDS)\include\vcl;..\..\awpipl2\include;..\..\awplflib\include;..\..\include;..\..\awpipl2\include\_include;$(TINY);$(PHOTON);$(LF);$(BRCC_IncludePath)</BRCC_IncludePath>
         <BCC_DebugLineNumbers>true</BCC_DebugLineNumbers>
@@ -228,6 +228,7 @@
         <VerInfo_Build>0</VerInfo_Build>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <LinkPackageStatics>photon41.lib</LinkPackageStatics>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64x)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>

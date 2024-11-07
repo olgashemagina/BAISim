@@ -41,6 +41,7 @@ protected:
 public:
 	TLFImage();
 	TLFImage(TLFImage& pImage) = default;
+	TLFImage& operator=(TLFImage& other);
 	virtual  ~TLFImage();
 
 	virtual bool LoadFromFile(const char* szFileName);

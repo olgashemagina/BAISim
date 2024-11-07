@@ -1,5 +1,5 @@
 #pragma hdrstop
-#pragma argsused
+//#pragma argsused
 
 #ifdef _WIN32
 #include <tchar.h>
@@ -27,8 +27,8 @@
 void usage()
 {
 	std::cout << "Semantic Image Descriptor v1.0" << std::endl <<
-		"Usage:" << std::endl << "<semantic_img_descriptor.exe> " <<
-		"--det=<path_to_detector1> [--det=<path_to_detector2> ...] " <<
+		"Usage:" << std::endl << "<semantic_desc.exe>  markup|test" <<
+		"--det1=<path_to_detector1> [--det2=<path_to_detector2> ...] " <<
 		"--db_folder=<path_to_img_directory>" << std::endl;
 	std::cout << "\t--det\t\tPath to XML with detector (TLFDetectEngine)" <<
 		std::endl << "\t--db_folder\t\tPath to directory with images" <<
@@ -217,74 +217,244 @@ int apply_detectors_to_folder(const TLFString& det_path,
 	return 0;
 }
 
+int apply_detectors_to_folder(const TLFString& det_path1, const TLFString& det_path2,
+	const TLFString& db_folder)
+{
+	std::unique_ptr<TLFDetectEngine> det1 = std::make_unique<TLFDetectEngine>();
+	if (!det1->Load(det_path1.c_str())) {
+		std::cerr << "TLFDetectEngine couldn't parse file" <<
+			det_path1 << std::endl;
+		return -100;
+	}
+	std::unique_ptr<TLFDetectEngine> det2 = std::make_unique<TLFDetectEngine>();
+	if (!det2->Load(det_path2.c_str())) {
+		std::cerr << "TLFDetectEngine couldn't parse file" <<
+			det_path2 << std::endl;
+		return -100;
+	}
+
+
+	TLFStrings folder_files, img_files;
+	if (!LFGetDirFiles(db_folder.c_str(), folder_files)) {
+		std::cerr << "Could not read contents from " << db_folder << std::endl;
+		return -101;
+	}
+	else {
+		for (size_t i = 0; i < folder_files.size(); i++) {
+			if (LFIsImageFile(folder_files[i].c_str())) {
+				img_files.push_back(folder_files[i]);
+			}
+		}
+	}
+	folder_files.clear();
+	std::cout << "Found " << img_files.size() << " images" << std::endl;
+	double folder_average = 0;
+	TLFImage img;
+	for (int i = 0; i < img_files.size(); i++) 
+	{
+		std::cout << "Processing " << i + 1 << " out of " <<
+			img_files.size() << std::endl;
+
+		if (!img.LoadFromFile(img_files[i].c_str())) {
+			std::cerr << "Can't load image " << img_files[i] << std::endl;
+			return -102;
+		}
+
+
+		if (!det1->SetSourceImage(&img, true)) {
+			std::cerr << "Can't import image " << img_files[i] <<
+				" to detector " << det1->GetPredictorName() <<
+				std::endl;
+			return -103;
+		}
+
+		if (!det2->SetSourceImage(&img, true)) {
+			std::cerr << "Can't import image " << img_files[i] <<
+				" to detector " << det2->GetPredictorName() <<
+				std::endl;
+			return -103;
+		}
+
+		auto semantic1 = det1->GetSemantic();
+		auto semantic2 = det2->GetSemantic();
+		if (semantic1->GetCount() == 0 && semantic2->GetCount() == 0)
+		{
+			folder_average += 1;
+			std::cout << "Distance between 2 sets of detected items for image " << img_files[i].c_str() << std::endl;
+			std::cout << "D = 1" << std::endl;
+			std::cout << "Used detectors:  " << det_path1.c_str() << " and " << det_path2.c_str() << std::endl;
+			continue;
+		}
+		double average = 0;
+		for (int i = 0; i < semantic1->GetCount(); i++)
+		{
+			TLFDetectedItem* item1 = semantic1->GetDetectedItem(i);
+			TLFRect* rect1 = item1->GetBounds();
+			double max_iou = 0;
+			for (int j = 0; j < semantic2->GetCount(); j++)
+			{
+				TLFDetectedItem* item2 = semantic2->GetDetectedItem(i);
+				TLFRect* rect2 = item2->GetBounds();
+				TLFRect r(rect2->Left(), rect2->Top(), rect2->Width(), rect2->Height());
+				double ovrlp = rect1->RectOverlap(r);
+				if (ovrlp > max_iou)
+					max_iou = ovrlp;
+			}
+			average += max_iou;
+		}
+		average /= max(semantic1->GetCount(), semantic2->GetCount());
+		folder_average += average;
+		std::cout << "Distance between 2 sets of detected items for image " << img_files[i].c_str() << std::endl;
+		std::cout << "D = " << average << std::endl;
+		std::cout << "Used detectors:  " << det_path1.c_str() << " and " << det_path2.c_str() << std::endl;
+	}
+	folder_average /= img_files.size();
+	std::cout << "Average value for folder: " << folder_average;
+	return 0;
+}
+
+
 int main(int argc, char* argv[])
 {
 	TLFString det_path;
+	TLFString det1_path("");
+	TLFString det2_path("");
 	TLFString db_folder_path("");
-
+	int res = 0;
 	// argv[0] is the launcher command, not parameter
-	for (int i = 1; i < argc; i++) {
-		TLFString key(argv[i]);
-		if (key.substr(0, 6) == "--help" || key.substr(0, 2) == "-h") {
-			usage();
-			return 0;
+	TLFString mode = argv[1];
+	if (mode == "markup")
+	{
+		for (int i = 2; i < argc; i++) {
+			TLFString key(argv[i]);
+			if (key.substr(0, 6) == "--help" || key.substr(0, 2) == "-h") {
+				usage();
+				return 0;
+			}
+			if (key.substr(0, 5) == "--det") {
+				if (key.length() < 7 || key[5] != '=') {
+					std::cerr << "Parsing error: use \"det=<path>\", "
+						"no extra spaces" << std::endl;
+					usage();
+					return -3;
+				}
+				if (!det_path.empty()) {
+					std::cerr << "Engine file was already specified "
+						"in parameters" << std::endl;
+					usage();
+					return -4;
+				}
+				det_path = key.substr(6);
+			}
+			else if (key.substr(0, 11) == "--db_folder") {
+				if (key.length() < 13 || key[11] != '=') {
+					std::cerr << "Parsing error: use \"db_folder=<path>\", "
+						"no extra spaces" << std::endl;
+					usage();
+					return -4;
+				}
+				if (db_folder_path.length() > 0) {
+					std::cerr << "Database folder was already specified "
+						"in parameters" << std::endl;
+					usage();
+					return -4;
+				}
+				db_folder_path = key.substr(12);
+				std::cout << "Using database folder: " << db_folder_path <<
+					std::endl;
+			}
+			else {
+				std::cerr << "Unknown key: " << key << std::endl;
+				usage();
+				return -2;
+			}
 		}
-		if (key.substr(0, 5) == "--det") {
-			if (key.length() < 7 || key[5] != '=') {
-				std::cerr << "Parsing error: use \"det=<path>\", "
-					"no extra spaces" << std::endl;
-				usage();
-				return -3;
-			}
-			if (!det_path.empty()) {
-				std::cerr << "Engine file was already specified "
-					"in parameters" << std::endl;
-				usage();
-				return -4;
-			}
-			det_path = key.substr(6);
-		} else if (key.substr(0, 11) == "--db_folder") {
-			if (key.length() < 13 || key[11] != '=') {
-				std::cerr << "Parsing error: use \"db_folder=<path>\", "
-					"no extra spaces" << std::endl;
-				usage();
-				return -4;
-			}
-			if (db_folder_path.length() > 0) {
-				std::cerr << "Database folder was already specified "
-					"in parameters" << std::endl;
-				usage();
-				return -4;
-			}
-			db_folder_path = key.substr(12);
-			std::cout << "Using database folder: " << db_folder_path <<
-				std::endl;
-		} else {
-			std::cerr << "Unknown key: " << key << std::endl;
+		if (det_path.size() == 0) {
+			std::cerr << "No detector provided" << std::endl;
 			usage();
-			return -2;
+			return -3;
+		}
+		else {
+			std::cout << "Using detector: " << det_path << std::endl;
+		}
+		if (db_folder_path.length() == 0) {
+			std::cerr << "Database folder was not provided" << std::endl;
+			usage();
+			return -4;
+		}
+
+		res = apply_detectors_to_folder(det_path, db_folder_path);
+
+		if (res == 0) {
+			std::cout << "Done" << std::endl;
+		}
+		else {
+			std::cerr << "Stopped due to error" << std::endl;
 		}
 	}
-	if (det_path.size() == 0) {
-		std::cerr << "No detector provided" << std::endl;
-		usage();
-		return -3;
-	} else {
-		std::cout << "Using detector: " << det_path << std::endl;
-	}
-	if (db_folder_path.length() == 0) {
-		std::cerr << "Database folder was not provided" << std::endl;
-        usage();
-		return -4;
-	}
-
-	int res = apply_detectors_to_folder(det_path, db_folder_path);
-
-	if (res == 0) {
-		std::cout << "Done" << std::endl;
-	} else {
-		std::cerr << "Stopped due to error" << std::endl;
-    }
-
+	else if (mode == "test")
+	{
+		for (int i = 2; i < argc; i++) {
+			TLFString key(argv[i]);
+			if (key.substr(0, 6) == "--help" || key.substr(0, 2) == "-h") {
+				usage();
+				return 0;
+			}
+			if (key.substr(0, 6) == "--det1") {
+				if (key.length() < 8 || key[6] != '=') {
+					std::cerr << "Parsing error: use \"det=<path>\", "
+						"no extra spaces" << std::endl;
+					usage();
+					return -3;
+				}
+				if (!det1_path.empty()) {
+					std::cerr << "Engine file was already specified "
+						"in parameters" << std::endl;
+					usage();
+					return -4;
+				}
+				det1_path = key.substr(7);
+			}
+			else if (key.substr(0, 6) == "--det2") {
+				if (key.length() < 8 || key[6] != '=') {
+					std::cerr << "Parsing error: use \"det=<path>\", "
+						"no extra spaces" << std::endl;
+					usage();
+					return -3;
+				}
+				if (!det2_path.empty()) {
+					std::cerr << "Engine file was already specified "
+						"in parameters" << std::endl;
+					usage();
+					return -4;
+				}
+				det2_path = key.substr(7);
+			}
+			else if (key.substr(0, 11) == "--db_folder") {
+				if (key.length() < 13 || key[11] != '=') {
+					std::cerr << "Parsing error: use \"db_folder=<path>\", "
+						"no extra spaces" << std::endl;
+					usage();
+					return -4;
+				}
+				if (db_folder_path.length() > 0) {
+					std::cerr << "Database folder was already specified "
+						"in parameters" << std::endl;
+					usage();
+					return -4;
+				}
+				db_folder_path = key.substr(12);
+				std::cout << "Using database folder: " << db_folder_path <<
+					std::endl;
+			}
+			else {
+				std::cerr << "Unknown key: " << key << std::endl;
+				usage();
+				return -2;
+			}
+		}
+		
+		res = apply_detectors_to_folder(det1_path, det2_path, db_folder_path);
+	}	
 	return res;
 }

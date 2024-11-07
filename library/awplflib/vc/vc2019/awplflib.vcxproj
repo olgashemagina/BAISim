@@ -186,7 +186,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_USE_UNICODE_VS_;TIXML_USE_STL;_DEBUG;_LIB;WIN32;_WIN64;_CRT_SECURE_NO_WARNINGS;_OMP_</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_USE_UNICODE_VS_;TIXML_USE_STL;_DEBUG;_LIB;WIN32;_WIN64;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ExceptionHandling>Sync</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>

@@ -93,6 +93,15 @@ TLFImage::TLFImage()
 	m_bsqlnpix = NULL;
 }
 
+TLFImage& TLFImage::operator=(TLFImage& pImage)
+{
+	FreeImages();
+	awpCopyImage(pImage.GetImage(), &m_pImage);
+	awpCopyImage(pImage.GetIntegralImage(), &m_pIntegralImage);
+	awpCopyImage(pImage.GetSqIntegralImage(), &m_pIntegralSquareImage);
+	return *this;
+}
+
 TLFImage::~TLFImage()
 {
 	FreeImages();
