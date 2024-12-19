@@ -390,6 +390,7 @@ public:
 	int				GetFragmentsCount();
 	awpRect			GetFragmentRect(int index);
 	TLFBounds*		GetFragment(int index);
+	const std::vector<TLFBounds>& GetFragments();
 	int				GetParamsCount();
 	TLFParameter* GetParameter(int index);
 

@@ -264,6 +264,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\accel_rects\accel_rects.cpp" />
+    <ClCompile Include="..\..\src\LFAgent.cpp" />
     <ClCompile Include="..\..\src\LFAttrFilter.cpp" />
     <ClCompile Include="..\..\src\LFBuffer.cpp" />
     <ClCompile Include="..\..\src\LFBuilder.cpp" />
@@ -304,6 +305,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\accel_rects\accel_rects.h" />
     <ClInclude Include="..\..\include\LF.h" />
+    <ClInclude Include="..\..\include\LFAgent.h" />
     <ClInclude Include="..\..\include\LFGpuEngine.h" />
     <ClInclude Include="..\..\include\LFAttrFilter.h" />
     <ClInclude Include="..\..\include\LFBuffer.h" />
