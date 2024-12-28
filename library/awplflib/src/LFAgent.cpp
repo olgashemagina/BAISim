@@ -1,6 +1,8 @@
 #include "LFAgent.h"
 #include "LFScanners.h"
 
+#include <random>
+
 TLFFragments::TLFFragments(std::vector<awpRect>& rects, ILFScanner* scanner) {
 	rects_ = std::move(rects);
 	scanner_ = scanner;
@@ -39,22 +41,64 @@ std::shared_ptr<TLFFragments> TLFFragmentBuilder::Build(TLFImage* img) {
 	}
 }
 
-TLFAgent::TLFAgent() {
-    fragment_builder_ = std::make_unique <TLFFragmentBuilder>(scanner_);
+TLFAgent::TLFAgent() {    
+}
+
+void DetectorCallback(const std::vector<TLFResult>& results, const std::vector<std::shared_ptr<TLFFeature>>& features) {
+	//TODO
 }
 
 std::unique_ptr<TLFSemanticImageDescriptor> TLFAgent::Detect(TLFImage* img) {
-	fragment_builder_->Build(img);
+	std::shared_ptr<TLFFragments> fragments = fragment_builder_->Build(img);
+	TLFDetector detector;
+	detector.SetCallback(DetectorCallback);
+	detector.Detect(img, fragments);
 	//todo nms algoritm return ILFDescriptor
 	std::unique_ptr<TLFSemanticImageDescriptor> ret = std::make_unique<TLFSemanticImageDescriptor>();
 	return ret;
 }
 
-void TLFAgent::LoadXML() {
-	//TODO
+void TLFAgent::SetSupervisor(TLFSupervisor* supervisor) {
+	supervisor_ = supervisor;
 }
-void TLFAgent::SaveXML() {
+
+bool TLFAgent::LoadXML(const char* lpFileName) {
 	//TODO
+	scanner_ = new TLFScanner();
+	fragment_builder_ = std::make_unique <TLFFragmentBuilder>(scanner_);
+	return true;
+}
+
+bool TLFAgent::LoadXML(TiXmlElement* parent)
+{
+	if (parent == NULL)
+		return false;
+}
+
+bool TLFAgent::SaveXML(const char* lpFileName) {
+	//TODO
+	return true;
+}
+
+TiXmlElement* TLFAgent::SaveXML()
+{	
+	TiXmlElement* node1 = NULL;//new TiXmlElement(this->GetName());
+	if (node1 == NULL)
+		return NULL;
+
+	//node1->SetAttribute("detector", this->m_strDetName.c_str());
+	if (scanner_ != NULL)
+	{
+		TiXmlElement* e = scanner_->SaveXML();
+		//node1->LinkEndChild(e);
+	}
+	else
+	{
+		//delete node1;
+		return NULL;
+	}
+
+	return node1;
 }
 
 TLFDetections::TLFDetections(std::vector<awpRect>& rects) {
@@ -74,43 +118,96 @@ std::shared_ptr<TLFDetections> TLFSupervisor::Detect(TLFImage* img) {
 	return detections;
 }
 
-TLFFeature::TLFFeature(float* data, std::vector<size_t>& kascade_size) {
-	data_ = data;
-	kascade_size_ = std::move(kascade_size);
+TLFFeature::TLFFeature(float* data, std::shared_ptr<TLFDiscriptionFeatures> batch_discription_features, size_t triggered_cascade) :
+	batch_discription_features_(batch_discription_features),
+	data_(data),
+	triggered_cascade_(triggered_cascade)
+{}
+
+float* TLFFeature::GetData(size_t fragment_index, size_t feature_index) {
+	return (data_ + feature_index * triggered_cascade_ + fragment_index);
 }
 
-float* TLFFeature::GetData(size_t index) {
-	size_t count = 0;
-	for (size_t i = 0; i < index; i++)
-		count += kascade_size_[i];
-	return (data_ + count);
+
+TLFDiscriptionFeatures::TLFDiscriptionFeatures(std::vector<size_t>& feature_count_list) :
+	feature_count_list_(std::move(feature_count_list))
+{}
+
+size_t TLFDiscriptionFeatures::GetCountFeature(size_t cascade_index) const {
+	if (feature_count_list_.size() <= cascade_index)
+		return 0;
+	return feature_count_list_[cascade_index];
 }
 
-size_t TLFFeature::GetSizeData(size_t index) {
-	return kascade_size_[index];
+size_t TLFDiscriptionFeatures::GetCascadeCount() const {
+	return feature_count_list_.size();
 }
 
-TLFFeatures::TLFFeatures(const std::vector<TLFFeature>& features, size_t start_pos) {
-	features_ = std::move(features);
-	start_pos_ = start_pos;
+TLFDetector::TLFDetector() {
+	Init();
 }
 
-size_t TLFFeatures::GetLength() {
-	return features_.size();
+void TLFDetector::Init() {
+	// karta detectora odin raz
+	std::vector<size_t> feature_count_list;
+	size_t cascade_count = 3;  // rand ot 3 do 10
+	//const size_t sizeof_one_feature = 100;
+	for (auto i = 0; i < cascade_count; i++) {
+		size_t feature_count = 10; // rand ot 10 do 100
+		feature_count_list.push_back(feature_count);
+	}
+	// cascade_count = 3: 10 + 19 + 21 = 50 features 
+	// cascade_count = 4: 10 + 19 + 21 + 10 = 60 features
+	discription_features_ = std::make_shared<TLFDiscriptionFeatures>(feature_count_list);
 }
 
-size_t TLFFeatures::GetStartPosition() {
-	return start_pos_;
-}
-
-void TLFDetector::Detect(TLFImage* img, TLFFragments, void(*callback)(TLFResult result, TLFFeature feature, TLFFeatures features)) {
+void TLFDetector::Detect(TLFImage* img, std::shared_ptr<TLFFragments> fragments) {
 	TLFResult result;
-	std::vector<size_t> kascade_size;
-	TLFFeature feature(nullptr, kascade_size);
-	std::vector<TLFFeature> features;
-	size_t start_pos;
-	TLFFeatures tlffeatures(features, start_pos);
-	callback(result, feature, tlffeatures);
+	const auto& frags = fragments->GetFragments();
+	int count = 0;
+	size_t count_all_feature = 0;
+	for (auto i = 0; i < discription_features_->GetCascadeCount(); i++) {
+		count_all_feature += discription_features_->GetCountFeature(i);
+	}	
+	size_t batch_fragments = 1000;
+	float* p = new float[count_all_feature * batch_fragments];
+	
+	if (frags.size() > batch_fragments)
+		count = frags.size() / batch_fragments;
+	size_t remainder_fragments = frags.size() - count * batch_fragments;
+
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> distr(0, 1);
+	auto call_callback = [&](size_t batch_fragments_for_callback) {
+		std::vector<TLFResult> results;
+		results.reserve(batch_fragments_for_callback);
+		std::vector<std::shared_ptr<TLFFeature>> features;
+		features.reserve(batch_fragments_for_callback);
+		size_t triggered_cascade = 0;
+		for (auto a = 0; a < batch_fragments_for_callback; a++) {
+			TLFResult result;
+			result.result = distr(gen) == 1;
+			results.push_back(result);
+			for (size_t b = 0; b < count_all_feature; b++) {
+				p[a * count_all_feature + b] = distr(gen);
+			}
+			std::shared_ptr<TLFFeature> feature = std::make_shared<TLFFeature>((p + a * count_all_feature), discription_features_, triggered_cascade);
+			features.emplace_back(feature);
+		}
+		callback_(results, features);
+	};
+	for (auto i = 0; i < count; i++) {
+		call_callback(batch_fragments);
+	}
+	if (remainder_fragments > 0) {
+		call_callback(remainder_fragments);
+	}
+	
+}
+
+void TLFDetector::SetCallback(std::function<void(const std::vector<TLFResult>& results, const std::vector<std::shared_ptr<TLFFeature>>& features)> callback) {
+	callback_ = callback;
 }
 
 TLFCorrectors::TLFCorrectors() {
@@ -134,7 +231,7 @@ TLFTrainerCorrectors::TLFTrainerCorrectors() {
 
 }
 
-void TLFTrainerCorrectors::addSamples(TLFResult result, std::shared_ptr<TLFDetections> detections, TLFFeatures features) {
+void TLFTrainerCorrectors::addSamples(TLFResult result, std::shared_ptr<TLFDetections> detections, TLFDiscriptionFeatures features) {
 
 }
 
