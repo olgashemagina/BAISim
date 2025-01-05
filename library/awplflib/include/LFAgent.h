@@ -4,15 +4,18 @@
 #include "LFImage.h"
 #include "LF.h"
 
+#include <numeric>
+#include <memory>
+
 class TLFFragments
 {
 public:
 	TLFFragments(std::vector<awpRect>& rects, ILFScanner* scanner);
 	const std::vector<awpRect>& GetFragments() const;
-	size_t GetNearestIndex(awpRect);
+	size_t GetNearestIndex(const awpRect& rect);
 private:
-	std::vector<awpRect> rects_;
-	ILFScanner* scanner_ = nullptr;
+	std::vector<awpRect>			rects_;
+	ILFScanner*						scanner_ = nullptr;
 };
 
 
@@ -47,12 +50,20 @@ class TLFAgent
 {
 public:
 	TLFAgent();
-	void SetSupervisor(TLFSupervisor* supervisor);
-	std::unique_ptr<TLFSemanticImageDescriptor> Detect(TLFImage* img);
-	bool LoadXML(const char* lpFileName);
-	bool LoadXML(TiXmlElement* parent);
-	bool SaveXML(const char* lpFileName);
-	TiXmlElement* SaveXML();
+
+public:
+	void				SetSupervisor(TLFSupervisor* supervisor);
+	std::unique_ptr<TLFSemanticImageDescriptor> 
+						Detect(TLFImage* img);
+
+public:
+	bool				Load(const char* lpFileName);
+	bool				Save(const char* lpFileName);
+
+public:
+	bool				LoadXML(TiXmlElement* parent);
+	
+	TiXmlElement*		SaveXML();
 private:
 	std::unique_ptr<TLFFragmentBuilder> fragment_builder_;
 	ILFScanner* scanner_;
@@ -67,24 +78,128 @@ public:
 };
 
 
-class TLFDiscriptionFeatures {
-public:
-	TLFDiscriptionFeatures(std::vector<size_t>& feature_count_list);
-	size_t GetCountFeature(size_t cascade_index) const;
-	size_t GetCascadeCount() const;
-private:
-	const std::vector<size_t> feature_count_list_;
-}; 
 
-class TLFFeature {
+class TFeatures {
 public:
-	TLFFeature(float* data, std::shared_ptr<TLFDiscriptionFeatures>, size_t triggered_cascade);
-	float* GetData(size_t fragment_index, size_t feature_index);
-private:
-	float* data_;
-	std::shared_ptr<TLFDiscriptionFeatures> batch_discription_features_;
-	size_t triggered_cascade_;
+	using TMap = std::vector<size_t>;
+	using TMapPtr = std::shared_ptr<TMap>;
+
+public:
+	TFeatures(TMapPtr map, size_t batch_size) : map_(map), batch_size_(batch_size) {
+		stride_ = std::accumulate(map_->begin(), map_->end(), 0);
+		data_ = std::make_unique<float[]>(stride_*batch_size_);
+		triggered_.resize(batch_size_, -1);
+	}
+
+	virtual ~TFeatures() {}
+
+public:
+	float			GetValue(size_t fragment_index, size_t feature_index) const {
+		assert(fragment_index < frags_end_ && fragment_index >= frags_begin_);
+		assert(feature_index < stride_);
+
+		size_t index = (fragment_index - frags_begin_) * stride_ + feature_index;
+		return data_[index];
+	}
+
+	bool			GetResult(size_t fragment_index) const { return (triggered_[fragment_index] < -1); }
+
+
+protected:
+	//Block of data
+	std::unique_ptr<float[]>			data_;
+	TMapPtr								map_;
+	//Size of row of features of one fragment;
+	size_t								stride_ = 0;
+	// Size of fragments;
+	size_t								batch_size_ = 0;
+	size_t								frags_begin_ = 0;
+	size_t								frags_end_ = 0;
+	//Number triggered stage or -1 if noone triggered;
+
+	std::vector<size_t>					triggered_;
 };
+
+
+class TFeaturesBuilder : public TFeatures {
+public:
+	// Set fragments and 
+	void		Reset(size_t frags_begin, size_t frags_end) {
+		
+		frags_begin_ = frags_begin;
+		frags_end_ = frags_end;
+		triggered_.assign(triggered_.size(), -1);
+	}
+
+	std::vector<size_t>& GetTriggered() { return triggered_; }
+
+	//Get memory to fill it;
+	float*		GetMutation() { return data_.get(); }
+
+
+};
+
+
+class TFeaturesPool {
+public:
+	TFeaturesPool(TFeatures::TMapPtr map, size_t batch_size) : map_(map), batch_size_(batch_size) {}
+
+	std::shared_ptr<TFeaturesBuilder>		Alloc() {
+		//TODO: add mutex
+
+		for (const auto& fb : all_) {
+			if (fb.unique()) {
+				return fb;
+			}
+		}
+		auto fb = std::make_shared<TFeaturesBuilder>(map_, batch_size_);
+		all_.emplace_back(fb);
+		return fb;
+	}
+
+
+private:
+	std::vector<std::shared_ptr<TFeaturesBuilder>>			all_;
+	TFeatures::TMapPtr						map_;
+	size_t			batch_size_;
+};
+
+/*
+class TFeaturesPool : public std::enable_shared_from_this<TFeaturesPool> {
+public:
+	TFeaturesPool(TFeatures::TMapPtr map, size_t batch_size) : map_(map), batch_size_(batch_size) {}
+
+	std::shared_ptr<TFeaturesBuilder>		Alloc() {
+		//TODO: add mutex
+
+		if (free_.empty()) {
+					
+			free_.emplace_back(std::make_unique<TFeaturesBuilder>(map_, batch_size_));
+		}
+		
+		//Move Object to shared_ptr;
+		auto fb = std::shared_ptr<TFeaturesBuilder>(free_.back().release(), 
+			// Hold Pool and 
+			[=, pool = this->shared_from_this()](TFeaturesBuilder* ptr) {
+			free_.emplace_back(ptr);
+		});
+
+		free_.pop_back();
+
+		return fb;
+	}
+
+
+private:
+	
+	std::vector<std::unique_ptr<TFeaturesBuilder>>			free_;
+	TFeatures::TMapPtr						map_;
+	size_t			batch_size_;
+};
+*/
+
+
+
 /*
 class TLFFeature {
 public:
@@ -111,11 +226,11 @@ private:
 	std::shared_ptr<TLFDiscriptionFeatures> discription_features_;
 };
 
-class TLFCorrectors
+class TLFCorrector
 {
 public:
-	TLFCorrectors();
-	TLFResult correct(std::vector<TLFFeature> list);
+	TCorrector();
+	TLFResult	Correct(std::vector<TLFFeature> list);
 	void LoadXML();
 	void SaveXML();
 private:
