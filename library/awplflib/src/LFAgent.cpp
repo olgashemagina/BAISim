@@ -2,6 +2,11 @@
 #include "LFScanners.h"
 
 #include <random>
+#include <syncstream>
+
+#ifdef _OMP_
+#include <omp.h>
+#endif
 
 TLFFragments::TLFFragments(std::vector<awpRect>& rects, ILFScanner* scanner) {
 	rects_ = std::move(rects);
@@ -10,7 +15,8 @@ TLFFragments::TLFFragments(std::vector<awpRect>& rects, ILFScanner* scanner) {
 const std::vector<awpRect>& TLFFragments::GetFragments() const {
 	return rects_;
 }
-size_t/*index*/ TLFFragments::GetNearestIndex(awpRect) { //todo kakoito est
+
+size_t TLFFragments::GetNearestIndex(const awpRect & rect) {
 	// naidi mne blizhaishii awpRect
 	// TODO from scanner
 	return 0;
@@ -20,13 +26,13 @@ TLFFragmentBuilder::TLFFragmentBuilder(ILFScanner* scanner) {
 	scanner_ = scanner;
 }
 
-std::shared_ptr<TLFFragments> TLFFragmentBuilder::Build(TLFImage* img) {
+std::shared_ptr<TLFFragments> TLFFragmentBuilder::Build(std::shared_ptr<TLFImage> img) {
 	// ??? std::shared_ptr<vector<awprect>>
 	if (height_ == img->height() && width_ == img->width()) { // razmer img ne pomenyalsya to
 		return fragments_;
 	}
 	else { // skaniruem		
-		scanner_->ScanImage(img);
+		scanner_->ScanImage(img.get());
 
 		height_ = img->height();
 		width_ = img->width();
@@ -44,11 +50,13 @@ std::shared_ptr<TLFFragments> TLFFragmentBuilder::Build(TLFImage* img) {
 TLFAgent::TLFAgent() {    
 }
 
-void DetectorCallback(const std::vector<TLFResult>& results, const std::vector<std::shared_ptr<TLFFeature>>& features) {
+void DetectorCallback(const std::vector<TLFResult>& results, std::shared_ptr<TFeatures> features, size_t frags_begin, size_t frags_end) {
+	std::thread::id this_id = std::this_thread::get_id();
+	std::cout << "thread " << this_id << "\nfrags_begin=" << frags_begin << "\nfrags_end=" << frags_end << "\nfeatures=" << features->GetValue(frags_begin, 0) << std::endl;
 	//TODO
 }
 
-std::unique_ptr<TLFSemanticImageDescriptor> TLFAgent::Detect(TLFImage* img) {
+std::unique_ptr<TLFSemanticImageDescriptor> TLFAgent::Detect(std::shared_ptr<TLFImage> img) {
 	std::shared_ptr<TLFFragments> fragments = fragment_builder_->Build(img);
 	TLFDetector detector;
 	detector.SetCallback(DetectorCallback);
@@ -111,13 +119,13 @@ const std::vector<awpRect>& TLFDetections::GetDetections() const {
 
 TLFSupervisor::TLFSupervisor(){}
 
-std::shared_ptr<TLFDetections> TLFSupervisor::Detect(TLFImage* img) {
+std::shared_ptr<TLFDetections> TLFSupervisor::Detect(std::shared_ptr<TLFImage> img) {
 	//TODO implement python call
 	std::vector<awpRect> rects;
 	std::shared_ptr<TLFDetections> detections = std::make_shared<TLFDetections>(rects);
 	return detections;
 }
-
+/*
 TLFFeature::TLFFeature(float* data, std::shared_ptr<TLFDiscriptionFeatures> batch_discription_features, size_t triggered_cascade) :
 	batch_discription_features_(batch_discription_features),
 	data_(data),
@@ -142,35 +150,30 @@ size_t TLFDiscriptionFeatures::GetCountFeature(size_t cascade_index) const {
 size_t TLFDiscriptionFeatures::GetCascadeCount() const {
 	return feature_count_list_.size();
 }
-
+*/
 TLFDetector::TLFDetector() {
 	Init();
 }
 
 void TLFDetector::Init() {
 	// karta detectora odin raz
-	std::vector<size_t> feature_count_list;
 	size_t cascade_count = 3;  // rand ot 3 do 10
 	//const size_t sizeof_one_feature = 100;
 	for (auto i = 0; i < cascade_count; i++) {
 		size_t feature_count = 10; // rand ot 10 do 100
-		feature_count_list.push_back(feature_count);
+		feature_count_list_.push_back(feature_count);
 	}
 	// cascade_count = 3: 10 + 19 + 21 = 50 features 
 	// cascade_count = 4: 10 + 19 + 21 + 10 = 60 features
-	discription_features_ = std::make_shared<TLFDiscriptionFeatures>(feature_count_list);
+	//discription_features_ = std::make_shared<TLFDiscriptionFeatures>(feature_count_list);
 }
 
-void TLFDetector::Detect(TLFImage* img, std::shared_ptr<TLFFragments> fragments) {
+void TLFDetector::Detect(std::shared_ptr<TLFImage> img, std::shared_ptr<TLFFragments> fragments) {
 	TLFResult result;
 	const auto& frags = fragments->GetFragments();
 	int count = 0;
-	size_t count_all_feature = 0;
-	for (auto i = 0; i < discription_features_->GetCascadeCount(); i++) {
-		count_all_feature += discription_features_->GetCountFeature(i);
-	}	
-	size_t batch_fragments = 1000;
-	float* p = new float[count_all_feature * batch_fragments];
+	//size_t count_all_feature = 0;
+	const size_t batch_fragments = 1000;
 	
 	if (frags.size() > batch_fragments)
 		count = frags.size() / batch_fragments;
@@ -179,59 +182,61 @@ void TLFDetector::Detect(TLFImage* img, std::shared_ptr<TLFFragments> fragments)
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution<> distr(0, 1);
-	auto call_callback = [&](size_t batch_fragments_for_callback) {
-		std::vector<TLFResult> results;
-		results.reserve(batch_fragments_for_callback);
-		std::vector<std::shared_ptr<TLFFeature>> features;
-		features.reserve(batch_fragments_for_callback);
-		size_t triggered_cascade = 0;
-		for (auto a = 0; a < batch_fragments_for_callback; a++) {
-			TLFResult result;
-			result.result = distr(gen) == 1;
-			results.push_back(result);
-			for (size_t b = 0; b < count_all_feature; b++) {
-				p[a * count_all_feature + b] = distr(gen);
-			}
-			std::shared_ptr<TLFFeature> feature = std::make_shared<TLFFeature>((p + a * count_all_feature), discription_features_, triggered_cascade);
-			features.emplace_back(feature);
+	TFeatures::TMapPtr tmap_ptr = std::make_shared<TFeatures::TMap>(feature_count_list_);
+	TFeaturesPool features_pool(tmap_ptr);
+
+#ifdef _OMP_
+#pragma omp parallel for num_threads(omp_get_max_threads())
+#endif
+	for (auto i = 0; i <= count; i++) {
+		size_t batch_fragments_for_callback = batch_fragments;
+		const size_t frags_begin = i * batch_fragments;
+		if (i == count) {
+			if (remainder_fragments == 0) break;
+			batch_fragments_for_callback = remainder_fragments;
+			
 		}
-		callback_(results, features);
-	};
-	for (auto i = 0; i < count; i++) {
-		call_callback(batch_fragments);
-	}
-	if (remainder_fragments > 0) {
-		call_callback(remainder_fragments);
-	}
-	
+		const size_t frags_end = frags_begin + batch_fragments_for_callback;
+		
+		std::vector<TLFResult> results;
+		results.reserve(batch_fragments);
+		auto features_builder = features_pool.Alloc(batch_fragments);
+		features_builder->Reset(frags_begin, frags_end);
+#ifdef _OMP_
+#pragma omp critical 
+#endif  
+		{
+			callback_(results, features_builder, frags_begin, frags_end);
+		}
+	}	
 }
 
-void TLFDetector::SetCallback(std::function<void(const std::vector<TLFResult>& results, const std::vector<std::shared_ptr<TLFFeature>>& features)> callback) {
+void TLFDetector::SetCallback(std::function<void(const std::vector<TLFResult>& results, std::shared_ptr<TFeatures> features, size_t frags_begin, size_t frags_end)> callback) {
 	callback_ = callback;
 }
 
-TLFCorrectors::TLFCorrectors() {
+TCorrector::TCorrector() {
 
 }
 
-TLFResult TLFCorrectors::correct(std::vector<TLFFeature> list) {
+TLFResult TCorrector::Correct(const TFeatures& list) {
 	TLFResult result;
 	return result;
 }
 
-void TLFCorrectors::LoadXML() {
+void TCorrector::LoadXML(TiXmlElement* parent) {
 
 }
 
-void TLFCorrectors::SaveXML() {
-
+TiXmlElement* TCorrector::SaveXML() {
+	return nullptr;
 }
 
 TLFTrainerCorrectors::TLFTrainerCorrectors() {
 
 }
-
+/*
 void TLFTrainerCorrectors::addSamples(TLFResult result, std::shared_ptr<TLFDetections> detections, TLFDiscriptionFeatures features) {
 
 }
-
+*/

@@ -6,6 +6,7 @@
 
 #include <numeric>
 #include <memory>
+#include <mutex>
 
 class TLFFragments
 {
@@ -23,7 +24,7 @@ class TLFFragmentBuilder
 {
 public:
 	TLFFragmentBuilder(ILFScanner* scanner);
-	std::shared_ptr<TLFFragments> Build(TLFImage* img);
+	std::shared_ptr<TLFFragments> Build(std::shared_ptr<TLFImage> img);
 private:
 	ILFScanner* scanner_ = nullptr;
 	std::shared_ptr<TLFFragments> fragments_ = nullptr;
@@ -43,7 +44,7 @@ class TLFSupervisor
 {
 public:
 	TLFSupervisor();
-	std::shared_ptr<TLFDetections> Detect(TLFImage* img);
+	std::shared_ptr<TLFDetections> Detect(std::shared_ptr<TLFImage> img);
 };
 
 class TLFAgent
@@ -53,12 +54,11 @@ public:
 
 public:
 	void				SetSupervisor(TLFSupervisor* supervisor);
-	std::unique_ptr<TLFSemanticImageDescriptor> 
-						Detect(TLFImage* img);
+	std::unique_ptr<TLFSemanticImageDescriptor> Detect(std::shared_ptr<TLFImage> img);
 
 public:
-	bool				Load(const char* lpFileName);
-	bool				Save(const char* lpFileName);
+	bool				LoadXML(const char* lpFileName);
+	bool				SaveXML(const char* lpFileName);
 
 public:
 	bool				LoadXML(TiXmlElement* parent);
@@ -94,7 +94,7 @@ public:
 	virtual ~TFeatures() {}
 
 public:
-	float			GetValue(size_t fragment_index, size_t feature_index) const {
+	float GetValue(size_t fragment_index, size_t feature_index) const {
 		assert(fragment_index < frags_end_ && fragment_index >= frags_begin_);
 		assert(feature_index < stride_);
 
@@ -102,7 +102,7 @@ public:
 		return data_[index];
 	}
 
-	bool			GetResult(size_t fragment_index) const { return (triggered_[fragment_index] < -1); }
+	bool GetResult(size_t fragment_index) const { return (triggered_[fragment_index] < -1); }
 
 
 protected:
@@ -123,11 +123,13 @@ protected:
 
 class TFeaturesBuilder : public TFeatures {
 public:
+	TFeaturesBuilder(TMapPtr map, size_t batch_size) : TFeatures(map, batch_size) {}
+
+public:
 	// Set fragments and 
-	void		Reset(size_t frags_begin, size_t frags_end) {
-		
-		frags_begin_ = frags_begin;
-		frags_end_ = frags_end;
+	void Reset(size_t frags_begin, size_t frags_end) {		
+		frags_begin_ = frags_begin; // 1000   1001 GetValue(1000, 0);
+		frags_end_ = frags_end; // 2000
 		triggered_.assign(triggered_.size(), -1);
 	}
 
@@ -135,33 +137,28 @@ public:
 
 	//Get memory to fill it;
 	float*		GetMutation() { return data_.get(); }
-
-
 };
-
 
 class TFeaturesPool {
 public:
-	TFeaturesPool(TFeatures::TMapPtr map, size_t batch_size) : map_(map), batch_size_(batch_size) {}
+	TFeaturesPool(TFeatures::TMapPtr map) : map_(map) {}
 
-	std::shared_ptr<TFeaturesBuilder>		Alloc() {
-		//TODO: add mutex
-
+	std::shared_ptr<TFeaturesBuilder> Alloc(size_t batch_size) {
+		std::lock_guard lg(mutex_);
 		for (const auto& fb : all_) {
 			if (fb.unique()) {
 				return fb;
 			}
 		}
-		auto fb = std::make_shared<TFeaturesBuilder>(map_, batch_size_);
+		auto fb = std::make_shared<TFeaturesBuilder>(map_, batch_size);
 		all_.emplace_back(fb);
 		return fb;
 	}
 
-
 private:
 	std::vector<std::shared_ptr<TFeaturesBuilder>>			all_;
 	TFeatures::TMapPtr						map_;
-	size_t			batch_size_;
+	std::mutex mutex_;
 };
 
 /*
@@ -218,21 +215,22 @@ class TLFDetector
 public:
 	TLFDetector();
 	void Init();
-	void Detect(TLFImage* img, std::shared_ptr<TLFFragments> fragments);
-	void SetCallback(std::function<void(const std::vector<TLFResult>&, const std::vector<std::shared_ptr<TLFFeature>>&)> callback);
+	void Detect(std::shared_ptr<TLFImage> img, std::shared_ptr<TLFFragments> fragments);
+	void SetCallback(std::function<void(const std::vector<TLFResult>&, std::shared_ptr<TFeatures>, size_t, size_t)> callback);
 
 private:
-	std::function<void(const std::vector<TLFResult>&, const std::vector<std::shared_ptr<TLFFeature>>&)> callback_;
-	std::shared_ptr<TLFDiscriptionFeatures> discription_features_;
+	std::function<void(const std::vector<TLFResult>&, std::shared_ptr<TFeatures>, size_t, size_t)> callback_;
+	//std::shared_ptr<TLFDiscriptionFeatures> discription_features_;
+	std::vector<size_t> feature_count_list_;
 };
 
-class TLFCorrector
+class TCorrector
 {
 public:
 	TCorrector();
-	TLFResult	Correct(std::vector<TLFFeature> list);
-	void LoadXML();
-	void SaveXML();
+	TLFResult Correct(const TFeatures& list);
+	void LoadXML(TiXmlElement* parent);
+	TiXmlElement* SaveXML();
 private:
 
 };
@@ -242,7 +240,7 @@ class TLFTrainerCorrectors
 public:
 	TLFTrainerCorrectors();
 	//void addSamples(TLFResult/*ot detectora*/, return supervisor->detect(TLFImage * img), vector<TLFFeature>(size = nskolko), size_t(ot kuda), size_t nskolko)
-	void addSamples(TLFResult result, std::shared_ptr<TLFDetections> detections, TLFDiscriptionFeatures features);
+	//void addSamples(TLFResult result, std::shared_ptr<TLFDetections> detections, TLFDiscriptionFeatures features);
 };
 
 #endif //__lf_builder_h__
