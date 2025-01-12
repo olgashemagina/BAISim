@@ -29,7 +29,7 @@ public:
 
 class IAgent {
 public:
-	virtual void SetSupervisor(ILFSupervisor* supervisor) = 0;
+	virtual void SetSupervisor(std::shared_ptr<ILFSupervisor> supervisor) = 0;
 	virtual std::unique_ptr<TLFSemanticImageDescriptor> Detect(std::shared_ptr<TLFImage> img) = 0;
 	virtual bool LoadXML(const char* lpFileName) = 0;
 	virtual bool SaveXML(const char* lpFileName) = 0;
