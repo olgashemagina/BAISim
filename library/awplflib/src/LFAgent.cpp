@@ -76,7 +76,13 @@ namespace Agent
 		void Reset(size_t frags_begin, size_t frags_end) {
 			frags_begin_ = frags_begin;
 			frags_end_ = frags_end;
-			triggered_.assign(triggered_.size(), -1);
+			triggered_.assign(triggered_.size(), -1);			
+		}
+
+		std::vector<size_t>& GetTriggered() { return triggered_; }
+
+		//Get memory to fill it;
+		float* GetMutation() { 
 			std::random_device rd;
 			std::mt19937 gen(rd());
 			std::uniform_int_distribution<> distr(0, 1);
@@ -105,12 +111,9 @@ namespace Agent
 				}
 			}
 			assert(CheckData());
+
+			return data_.get(); 
 		}
-
-		std::vector<size_t>& GetTriggered() { return triggered_; }
-
-		//Get memory to fill it;
-		float* GetMutation() { return data_.get(); }
 
 	private:
 		bool CheckData() {
@@ -229,7 +232,7 @@ namespace Agent
 				const size_t frags_end = frags_begin + batch_fragments_for_callback;
 				auto features_builder = features_pool.Alloc(batch_fragments);
 				features_builder->Reset(frags_begin, frags_end);
-
+				features_builder->GetMutation();
 				callback_(features_builder);
 			}
 		}
