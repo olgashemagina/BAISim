@@ -76,14 +76,71 @@ namespace Agent
 		void Reset(size_t frags_begin, size_t frags_end) {
 			frags_begin_ = frags_begin;
 			frags_end_ = frags_end;
-			//data_[0] = frags_begin_;
 			triggered_.assign(triggered_.size(), -1);
+			std::random_device rd;
+			std::mt19937 gen(rd());
+			std::uniform_int_distribution<> distr(0, 1);
+			std::mt19937 gen2(rd());
+			std::uniform_int_distribution<> distr2(0, map_->size() - 1);
+			std::mt19937 gen3(rd());
+			std::uniform_real_distribution<float> distr_float(1, 2);
+			for (auto i = 0; i < triggered_.size(); i++) {
+				if (distr(gen)) {
+					size_t cascade_number = distr2(gen2);
+					triggered_[i] = cascade_number;
+					size_t count = 0;
+					for (auto j = 0; j < map_->size(); j++) {
+						for (auto k = 0; k < map_.get()->at(j); k++) {
+							float rand_value = 0;
+							if (j <= cascade_number) rand_value = distr_float(gen3);
+							data_[i * stride_ + count] = rand_value;
+							count++;
+						}
+					}
+				}
+				else { // fill all cascade
+					for (auto j = 0; j < stride_; j++) {
+						data_[i * stride_ + j] = distr_float(gen3);
+					}
+				}
+			}
+			assert(CheckData());
 		}
 
 		std::vector<size_t>& GetTriggered() { return triggered_; }
 
 		//Get memory to fill it;
 		float* GetMutation() { return data_.get(); }
+
+	private:
+		bool CheckData() {
+			for (auto i = 0; i < triggered_.size(); i++) {
+				if (triggered_[i] != -1 && triggered_[i] >= map_->size())
+					return false;
+				size_t cascade_number = triggered_[i];
+				if (cascade_number == -1) {
+					cascade_number = map_->size();
+				}
+				size_t count = 0;
+				for (auto j = 0; j < map_->size(); j++) {
+					if (j <= cascade_number) {
+						for (auto k = 0; k < map_.get()->at(j); k++) {
+							if (data_[i * stride_ + count] == 0)
+								return false;
+							count++;
+						}
+					}
+					else {
+						for (auto k = 0; k < map_.get()->at(j); k++) {
+							if (data_[i * stride_ + count] != 0)
+								return false;
+							count++;
+						}
+					}
+				}
+			}
+			return true;
+		}
 	};
 
 	class TFeaturesPool {
@@ -124,10 +181,15 @@ namespace Agent
 
 		void Init() {
 			// karta detectora odin raz
-			size_t cascade_count = 3;  // rand ot 3 do 10
+			std::random_device rd;
+			std::mt19937 gen(rd());
+			std::uniform_int_distribution<> distr(3, 10);
+			size_t cascade_count = distr(gen);  // rand ot 3 do 10
 			//const size_t sizeof_one_feature = 100;
 			for (auto i = 0; i < cascade_count; i++) {
-				size_t feature_count = 10; // rand ot 10 do 100
+				std::mt19937 gen2(rd());
+				std::uniform_int_distribution<> distr2(10, 100);
+				size_t feature_count = distr2(gen2); // rand ot 10 do 100
 				feature_count_list_.push_back(feature_count);
 			}
 			tmap_ptr_ = std::make_shared<TFeatures::TMap>(feature_count_list_);
