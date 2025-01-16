@@ -7,6 +7,9 @@
 #include <memory>
 #include <mutex>
 
+#include "utils/tasks.h"
+#include "utils/object_pool.h"
+
 
 class TLFDetections {
 public:
@@ -22,11 +25,14 @@ private:
 
 class ILFSupervisor {
 public:
+	virtual ~ILFSupervisor() = default;
 	virtual std::shared_ptr<TLFDetections> Detect(std::shared_ptr<TLFImage> img) = 0;
 };
 
 class TLFAgent {
 public:
+	virtual ~TLFAgent() = default;
+
 	virtual void SetSupervisor(std::shared_ptr<ILFSupervisor> sv) {
 		supervisor_ = sv;
 	}
@@ -47,6 +53,19 @@ private:
 	ILFScanner*								scanner_ = nullptr;
 	std::shared_ptr<ILFSupervisor>			supervisor_;
 	std::unique_ptr<agent::IDetector>		detector_;
+
+
+	std::vector<std::unique_ptr<IWorker>>	workers_;
+
+	pool::ObjectPool<TFeaturesBuilder>		pool_;
+
+
+	std::vector<std::unique_ptr<agent::ICorrector>>	correctors_;
+
+	size_t		batch_size_ = 1024;
+
+	// MUST be equal to count of batches used simultaneously
+	size_t		max_threads_ = 32;
 
 };
 
@@ -79,8 +98,12 @@ namespace agent {
 
 		bool GetResult(size_t fragment_index) const { return (triggered_[fragment_index] < -1); }
 
-		size_t GetFragsBegin() { return frags_begin_; }
-		size_t GetFragsEnd() { return frags_end_; }
+		size_t frags_begin() const { return frags_begin_; }
+		size_t frags_end() const { return frags_end_; }
+
+		size_t	count() const { return frags_end_ - frags_begin_; }
+
+		const std::vector<int>& corrections() const { return corrections_; }
 
 	protected:
 		//Block of data
@@ -95,6 +118,8 @@ namespace agent {
 		//Number triggered stage or -1 if noone triggered;
 
 		std::vector<size_t>					triggered_;
+
+		std::vector<int>					corrections_;
 	};
 
 	class TFeaturesBuilder : public TFeatures {
@@ -112,16 +137,25 @@ namespace agent {
 		std::vector<size_t>& GetTriggered() { return triggered_; }
 
 		//Get memory to fill it;
-		float* GetMutation() {
+		float* GetMutableData() {
 
 			return data_.get();
 		}
+
+
+		std::vector<int>& GetMutableCorrections() { return corrections_; }
+
+
+	public:
+		std::vector<int>			corrections_;
 
 	};
 
 	class ICorrector
 	{
 	public:
+		virtual ~ICorrector() = default;
+
 		virtual bool Correct(const TFeatures& list) = 0;
 		virtual bool LoadXML(TiXmlElement* parent) = 0;
 
@@ -131,18 +165,26 @@ namespace agent {
 	class ITrainerCorrectors
 	{
 	public:
+		virtual ~ITrainerCorrectors() = default;
+
 		virtual void SetScanner(ILFScanner* scanner) = 0;
 		virtual void AddSamples(std::shared_ptr<TFeatures>) = 0;
+	};
+
+	class IWorker {
+	public:
+		virtual ~IWorker() = default;
+		virtual void Detect(std::shared_ptr<TLFImage> img, TFeaturesBuilder& builder) = 0;
 	};
 
 
 	class IDetector {
 	public:
+		virtual ~IDetector() = default;
 		virtual ILFScanner* GetScanner() = 0;
-		virtual void Detect(std::shared_ptr<TLFImage> img, TFeaturesBuilder& builder) = 0;
-		//virtual void SetCallback(std::function<void(std::shared_ptr<TFeatures>)> callback) = 0;
+		virtual std::unique_ptr<IWorker> CreateWorker() = 0;
+		
 		virtual bool LoadXML(TiXmlElement* parent) = 0;
-
 		virtual TiXmlElement* SaveXML() = 0;
 	};
 
