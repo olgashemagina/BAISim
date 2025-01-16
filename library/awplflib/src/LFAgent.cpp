@@ -10,7 +10,7 @@
 
 
 
-namespace Agent
+namespace agent
 {
 	class TRandomSupervisor : public ILFSupervisor
 	{
@@ -24,127 +24,7 @@ namespace Agent
 		}
 	};
 
-	class TFeatures {
-	public:
-		using TMap = std::vector<size_t>;
-		using TMapPtr = std::shared_ptr<TMap>;
-
-	public:
-		TFeatures(TMapPtr map, size_t batch_size) : map_(map), batch_size_(batch_size) {
-			stride_ = std::accumulate(map_->begin(), map_->end(), 0);
-			data_ = std::make_unique<float[]>(stride_ * batch_size_);
-			triggered_.resize(batch_size_, -1);
-		}
-
-		virtual ~TFeatures() {}
-
-	public:
-		float GetValue(size_t fragment_index, size_t feature_index) const {
-			assert(fragment_index < frags_end_&& fragment_index >= frags_begin_);
-			assert(feature_index < stride_);
-
-			size_t index = (fragment_index - frags_begin_) * stride_ + feature_index;
-			return data_[index];
-		}
-
-		bool GetResult(size_t fragment_index) const { return (triggered_[fragment_index] < -1); }
-
-		size_t GetFragsBegin() { return frags_begin_; }
-		size_t GetFragsEnd() { return frags_end_; }
-
-	protected:
-		//Block of data
-		std::unique_ptr<float[]>			data_;
-		TMapPtr								map_;
-		//Size of row of features of one fragment;
-		size_t								stride_ = 0;
-		// Size of fragments;
-		size_t								batch_size_ = 0;
-		size_t								frags_begin_ = 0;
-		size_t								frags_end_ = 0;
-		//Number triggered stage or -1 if noone triggered;
-
-		std::vector<size_t>					triggered_;
-	};
-
-	class TFeaturesBuilder : public TFeatures {
-	public:
-		TFeaturesBuilder(TMapPtr map, size_t batch_size) : TFeatures(map, batch_size) {}
-
-	public:
-		// Set fragments and 
-		void Reset(size_t frags_begin, size_t frags_end) {
-			frags_begin_ = frags_begin;
-			frags_end_ = frags_end;
-			triggered_.assign(triggered_.size(), -1);			
-		}
-
-		std::vector<size_t>& GetTriggered() { return triggered_; }
-
-		//Get memory to fill it;
-		float* GetMutation() { 
-			std::random_device rd;
-			std::mt19937 gen(rd());
-			std::uniform_int_distribution<> distr(0, 1);
-			std::mt19937 gen2(rd());
-			std::uniform_int_distribution<> distr2(0, map_->size() - 1);
-			std::mt19937 gen3(rd());
-			std::uniform_real_distribution<float> distr_float(1, 2);
-			for (auto i = 0; i < triggered_.size(); i++) {
-				if (distr(gen)) {
-					size_t cascade_number = distr2(gen2);
-					triggered_[i] = cascade_number;
-					size_t count = 0;
-					for (auto j = 0; j < map_->size(); j++) {
-						for (auto k = 0; k < map_.get()->at(j); k++) {
-							float rand_value = 0;
-							if (j <= cascade_number) rand_value = distr_float(gen3);
-							data_[i * stride_ + count] = rand_value;
-							count++;
-						}
-					}
-				}
-				else { // fill all cascade
-					for (auto j = 0; j < stride_; j++) {
-						data_[i * stride_ + j] = distr_float(gen3);
-					}
-				}
-			}
-			assert(CheckData());
-
-			return data_.get(); 
-		}
-
-	private:
-		bool CheckData() {
-			for (auto i = 0; i < triggered_.size(); i++) {
-				if (triggered_[i] != -1 && triggered_[i] >= map_->size())
-					return false;
-				size_t cascade_number = triggered_[i];
-				if (cascade_number == -1) {
-					cascade_number = map_->size();
-				}
-				size_t count = 0;
-				for (auto j = 0; j < map_->size(); j++) {
-					if (j <= cascade_number) {
-						for (auto k = 0; k < map_.get()->at(j); k++) {
-							if (data_[i * stride_ + count] == 0)
-								return false;
-							count++;
-						}
-					}
-					else {
-						for (auto k = 0; k < map_.get()->at(j); k++) {
-							if (data_[i * stride_ + count] != 0)
-								return false;
-							count++;
-						}
-					}
-				}
-			}
-			return true;
-		}
-	};
+	
 
 	class TFeaturesPool {
 	public:
@@ -168,12 +48,7 @@ namespace Agent
 		std::mutex mutex_;
 	};
 
-	class IDetector
-	{
-	public:
-		virtual void Detect(std::shared_ptr<TLFImage> img, std::shared_ptr<ILFScanner> scanner) = 0;
-		virtual void SetCallback(std::function<void(std::shared_ptr<TFeatures>)> callback) = 0;
-	};
+	
 
 	class TRandomDetector : public IDetector
 	{
@@ -313,50 +188,16 @@ namespace Agent
 		std::unique_ptr<TRandomDetector> detector_;
 	};
 
-	class ICorrector
-	{
-	public:
-		virtual bool Correct(const TFeatures& list) = 0;
-	};
 	
-	class TCorrector : public ICorrector
-	{
-	public:
-		TCorrector() {}
-
-		virtual bool Correct(const TFeatures& list) override {
-			bool result;
-			return result;
-		}
-
-		void LoadXML(TiXmlElement* parent) {
-
-		}
-
-		TiXmlElement* SaveXML() {
-			return nullptr;
-		}
-	};
-
-	class ITrainerCorrectors
-	{
-	public:
-		virtual void addSamples(std::shared_ptr<TFeatures>) = 0;
-	};
-
-	class TTrainerCorrectors : public ITrainerCorrectors
-	{
-	public:
-		TTrainerCorrectors() {}
-		virtual void addSamples(std::shared_ptr<TFeatures>) override {
-
-		}
-		//void addSamples(TLFResult/*ot detectora*/, return supervisor->detect(TLFImage * img), vector<TLFFeature>(size = nskolko), size_t(ot kuda), size_t nskolko)
-		//void addSamples(TLFResult result, std::shared_ptr<TLFDetections> detections, TLFDiscriptionFeatures features);
-	};
+	
 }
 
 std::shared_ptr<IAgent> CreateAgent() {
 	return std::make_shared<Agent::TRandomAgent>();
 }
 
+inline std::unique_ptr<TLFSemanticImageDescriptor> TLFAgent::Detect(std::shared_ptr<TLFImage> img) {
+	// TODO: 1) Run detector in parallel
+
+
+}
