@@ -23,8 +23,38 @@ public:
 	}
 };
 
-	
+class TRandomTrainerCorrectors : public ITrainerCorrectors
+{
+public:
+	virtual void SetScanner(ILFScanner* scanner) override {
 
+	}
+	virtual void AddSamples(std::shared_ptr<TFeatures> features) override {
+		count_ += features->count();
+		if (count_ >= max_count_) {
+			ICorrector* corrector = nullptr;
+			//todo send corrector
+		}
+	}
+private:
+	size_t count_ = 0;
+	const size_t max_count_ = 10000;
+};
+
+	
+class TRandomWorker : public IWorker {
+public:
+	TRandomWorker(std::shared_ptr<IDetector> detector) : detector_(detector) {}
+	virtual void Detect(std::shared_ptr<TLFImage> img, TFeaturesBuilder& builder) override {
+		mutex_.lock();
+		detector_->Detect(img, builder);
+		mutex_.unlock();
+	}
+
+private:
+	std::mutex mutex_;
+	std::shared_ptr<IDetector> detector_;
+};
 	
 
 class TRandomDetector : public IDetector
@@ -35,26 +65,38 @@ public:
 	}
 
 	void Init() {
-		// karta detectora odin raz
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_int_distribution<> distr(3, 10);
-		size_t cascade_count = distr(gen);  // rand ot 3 do 10
-		//const size_t sizeof_one_feature = 100;
+		size_t cascade_count = GetRand(3, 10);  // rand ot 3 do 10
 		for (auto i = 0; i < cascade_count; i++) {
-			std::mt19937 gen2(rd());
-			std::uniform_int_distribution<> distr2(10, 100);
-			size_t feature_count = distr2(gen2); // rand ot 10 do 100
+			size_t feature_count = GetRand(10, 100); // rand ot 10 do 100
 			feature_count_list_.push_back(feature_count);
 		}
 		tmap_ptr_ = std::make_shared<TFeatures::TMap>(feature_count_list_);
-		// cascade_count = 3: 10 + 19 + 21 = 50 features 
-		// cascade_count = 4: 10 + 19 + 21 + 10 = 60 features
-		//discription_features_ = std::make_shared<TLFDiscriptionFeatures>(feature_count_list);
 	}
 
-	void Detect(std::shared_ptr<TLFImage> img, std::shared_ptr<ILFScanner> scanner) override {
-		scanner->ScanImage(img.get());
+	virtual void Detect(std::shared_ptr<TLFImage> img, TFeaturesBuilder& builder) override {
+		float* data = builder.GetMutableData();
+		size_t stride = builder.GetStride();
+		auto triggered = builder.GetTriggered();
+		auto map = builder.GetMap();
+
+		for (auto i = 0; i < triggered.size(); i++) {
+			if (GetRand(0, 1)) {
+				size_t cascade_number = GetRand(0, stride - 1);
+				triggered[i] = cascade_number;
+				size_t count = 0;
+				for (auto j = 0; j < stride; j++) {
+					if (j > cascade_number) break;					
+					size_t cur_cascade_lenght = map.get()->at(j);
+					SetRandData(data + (i * stride) + count, cur_cascade_lenght);
+					count += cur_cascade_lenght;
+				}
+			}
+			else { // fill all cascade
+				SetRandData(data + (i * stride), stride);
+			}
+		}
+	}
+	/*	scanner->ScanImage(img.get());
 		const auto& frags = scanner->GetFragments();
 		int count = 0;
 		//size_t count_all_feature = 0;
@@ -87,16 +129,31 @@ public:
 			features_builder->GetMutation();
 			callback_(features_builder);
 		}
-	}
+	}*/
 
 	void SetCallback(std::function<void(std::shared_ptr<TFeatures> features)> callback) override {
 		callback_ = callback;
 	}
 
 private:
+	void SetRandData(float* data, size_t size) {
+		for (size_t i = 0; i < size; i++)
+			data[i] = GetRand(10, 100);
+	}
+	size_t GetRand(size_t low_dist, size_t high_dist) {
+		static bool init_srand = false;
+		if (!init_srand) {
+			std::srand((unsigned int)std::time(nullptr));
+			init_srand = true;
+		}
+		return low_dist + std::rand() % (high_dist + 1 - low_dist);
+	}
+
+private:
 	std::function<void(std::shared_ptr<TFeatures>)> callback_;
 	std::vector<size_t> feature_count_list_;
 	TFeatures::TMapPtr tmap_ptr_;
+
 };
 
 void DetectorCallback(std::shared_ptr<TFeatures> features) {

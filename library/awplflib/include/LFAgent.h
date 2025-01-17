@@ -7,8 +7,8 @@
 #include <memory>
 #include <mutex>
 
-#include "utils/tasks.h"
-#include "utils/object_pool.h"
+#include "../utils/tasks.h"
+#include "../utils/object_pool.h"
 
 
 class TLFDetections {
@@ -105,6 +105,8 @@ namespace agent {
 
 		const std::vector<int>& corrections() const { return corrections_; }
 
+		TMapPtr GetMap() { return map_; }
+
 	protected:
 		//Block of data
 		std::unique_ptr<float[]>			data_;
@@ -145,6 +147,7 @@ namespace agent {
 
 		std::vector<int>& GetMutableCorrections() { return corrections_; }
 
+		size_t GetStride() { return stride_; }
 
 	public:
 		std::vector<int>			corrections_;
@@ -180,6 +183,7 @@ namespace agent {
 
 	class IDetector {
 	public:
+		virtual void Detect(std::shared_ptr<TLFImage> img, TFeaturesBuilder& builder) = 0;
 		virtual ~IDetector() = default;
 		virtual ILFScanner* GetScanner() = 0;
 		virtual std::unique_ptr<IWorker> CreateWorker() = 0;
