@@ -8,12 +8,14 @@
 #include <mutex>
 #include <shared_mutex>
 
-#include "utils/tasks.h"
-#include "utils/object_pool.h"
+//#include "../utils/tasks.h"
+#include "../utils/object_pool.h"
 
 
 
 namespace agent {
+
+	static const int kNoCorrection = -1;
 
 	class TFeatures {
 	public:
@@ -51,6 +53,7 @@ namespace agent {
 
 		const std::vector<int>& corrections() const { return corrections_; }
 
+		TMapPtr GetMap() { return map_; }
 
 		template<typename F>
 		bool	CopyIf(F&& binary, float* mem, size_t size, size_t num_features = 0) {
@@ -123,7 +126,15 @@ namespace agent {
 
 	};
 
-	static const int kNoCorrection = -1;
+	class ILFSupervisor {
+	public:
+
+		using TDetections = std::vector<awpRect>;
+
+	public:
+		virtual ~ILFSupervisor() = default;
+		virtual TDetections Detect(std::shared_ptr<TLFImage> img) = 0;
+	};
 
 	class ICorrector
 	{
@@ -144,6 +155,7 @@ namespace agent {
 		// Setup new image samples extraction
 		virtual void BeginImage(ILFScanner* scanner, const ILFSupervisor::TDetections&) = 0;
 		// Process new samples
+		//start for each batchs
 		virtual std::vector<std::unique_ptr<ICorrector>> ProcessSamples(const std::shared_ptr<TFeatures>& feats ) = 0;
 		// Notify that image finished
 		virtual void EndImage() = 0;
@@ -165,11 +177,12 @@ namespace agent {
 		
 		virtual bool LoadXML(TiXmlElement* parent) = 0;
 		virtual TiXmlElement* SaveXML() = 0;
+		virtual TFeatures::TMapPtr GetMap() = 0;
 	};
 
 
 	class TCorrectors {
-	public:
+	public:/*
 		virtual bool LoadXML(TiXmlElement* parent) {
 			// TODO: load detector and all correctors
 			return false;
@@ -183,7 +196,8 @@ namespace agent {
 		void			Apply(const TFeatures& features, std::vector<int>& corrections) {
 
 			std::shared_lock<std::shared_mutex> lock(mutex_);
-						
+			//todo sele
+			
 			std::fill(corrections.begin(), corrections.end(), kNoCorrection);
 			for (const auto& corrector : correctors_) {
 				corrector->Correct(features, corrections);
@@ -193,11 +207,13 @@ namespace agent {
 
 		void			AddCorrector(std::unique_ptr<ICorrector> corr) {
 			std::lock_guard<std::shared_mutex> lock(mutex_);
-			correctors_.emplace_back(std::move(corr));
+			//todo sele
+			//correctors_.emplace_back(std::move(corr));
 		}
 		void			AddCorrectors(std::vector<std::unique_ptr<ICorrector>> corrs) {
 			std::lock_guard<std::shared_mutex> lock(mutex_);
-			correctors_.insert(correctors_.end(), corrs.begin(), corrs.end());
+			//todo sele
+			//correctors_.insert(correctors_.end(), corrs.begin(), corrs.end());
 		}
 
 
@@ -205,23 +221,18 @@ namespace agent {
 		std::shared_mutex									mutex_;
 
 		std::vector<std::unique_ptr<ICorrector>>			correctors_;
-
+*/
 	};
 
 	// TODO: move to separate header
 
-	class ILFSupervisor {
-	public:
 
-		using TDetections = std::vector<awpRect>;
-
-	public:
-		virtual ~ILFSupervisor() = default;
-		virtual TDetections Detect(std::shared_ptr<TLFImage> img) = 0;
-	};
 
 	class TLFAgent {
 	public:
+		TLFAgent(std::unique_ptr<agent::IDetector> detector)
+			: detector_(std::move(detector)),
+				pool_([this]() { return std::make_unique<TFeaturesBuilder>(detector_->GetMap()); }) {}
 		virtual ~TLFAgent() = default;
 
 		virtual void SetSupervisor(std::shared_ptr<ILFSupervisor> sv) {
@@ -239,9 +250,9 @@ namespace agent {
 			// TODO: save detector and all correctors
 			return nullptr;
 		}
-
 	private:
-
+		TLFAgent() = delete;
+	protected:
 		std::shared_ptr<ILFSupervisor>					supervisor_;
 		std::unique_ptr<agent::IDetector>				detector_;
 
@@ -264,7 +275,7 @@ namespace agent {
 
 	};
 
-
+	std::shared_ptr<TLFAgent> CreateAgent();
 
 
 }

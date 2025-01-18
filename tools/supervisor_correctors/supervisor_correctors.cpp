@@ -11,8 +11,9 @@ int main(int argc, char* argv[]) {
     std::string path_to_xml = argv[1];
     std::string path_to_image = argv[2];
 
-    auto agent = CreateAgent();
-    if (!agent->LoadXML(path_to_xml.c_str())) {
+    auto agent = agent::CreateAgent();
+    //if (!agent->LoadXML(path_to_xml.c_str())) {
+    if (!agent->LoadXML(nullptr)) {
         std::cout << "LoadXML return false for " << path_to_xml << std::endl;
         return -2;
     }

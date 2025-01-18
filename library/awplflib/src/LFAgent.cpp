@@ -15,27 +15,34 @@ class TRandomSupervisor : public ILFSupervisor
 {
 public:
 	TRandomSupervisor() {}
-	virtual std::shared_ptr<TLFDetections> Detect(std::shared_ptr<TLFImage> img) override {
+	virtual TDetections Detect(std::shared_ptr<TLFImage> img) override {
 		//TODO implement python call
-		std::vector<awpRect> rects;
-		std::shared_ptr<TLFDetections> detections = std::make_shared<TLFDetections>(rects);
-		return detections;
+		return TDetections();
 	}
 };
 
-class TRandomTrainerCorrectors : public ITrainerCorrectors
+class TRandomCorrectorTrainer : public ICorrectorTrainer
 {
 public:
-	virtual void SetScanner(ILFScanner* scanner) override {
-
+	// Setup new image samples extraction
+	virtual void BeginImage(ILFScanner* scanner, const ILFSupervisor::TDetections&) override {
 	}
-	virtual void AddSamples(std::shared_ptr<TFeatures> features) override {
+	// Process new samples
+	//start for each batchs
+	virtual std::vector<std::unique_ptr<ICorrector>> ProcessSamples(const std::shared_ptr<TFeatures>& features) override {
 		count_ += features->count();
+		std::vector<std::unique_ptr<ICorrector>> vec;
 		if (count_ >= max_count_) {
-			ICorrector* corrector = nullptr;
-			//todo send corrector
+			//ICorrector* corrector = nullptr;
+			//todo add corrector
+			//vec.push()
 		}
+		return vec;
 	}
+	// Notify that image finished
+	virtual void EndImage() override {
+	}
+
 private:
 	size_t count_ = 0;
 	const size_t max_count_ = 10000;
@@ -44,7 +51,8 @@ private:
 	
 class TRandomWorker : public IWorker {
 public:
-	TRandomWorker(std::shared_ptr<IDetector> detector) : detector_(detector) {}
+	//TRandomWorker(std::shared_ptr<IDetector> detector) : detector_(detector) {}
+	void SetDetector(std::shared_ptr<IDetector> detector) { detector_ = detector; }
 	virtual void Detect(std::shared_ptr<TLFImage> img, TFeaturesBuilder& builder) override {
 		mutex_.lock();
 		detector_->Detect(img, builder);
@@ -96,6 +104,23 @@ public:
 			}
 		}
 	}
+
+	virtual ILFScanner* GetScanner()  override {
+		return nullptr;
+	}
+	virtual std::unique_ptr<IWorker> CreateWorker()  override {
+		return std::make_unique<TRandomWorker>();
+	}
+
+	virtual bool LoadXML(TiXmlElement* parent)  override {
+		return false;
+	}
+	virtual TiXmlElement* SaveXML()  override {
+		return nullptr;
+	}
+
+	virtual TFeatures::TMapPtr GetMap() override { return tmap_ptr_; }
+
 	/*	scanner->ScanImage(img.get());
 		const auto& frags = scanner->GetFragments();
 		int count = 0;
@@ -130,10 +155,10 @@ public:
 			callback_(features_builder);
 		}
 	}*/
-
+	/*
 	void SetCallback(std::function<void(std::shared_ptr<TFeatures> features)> callback) override {
 		callback_ = callback;
-	}
+	}*/
 
 private:
 	void SetRandData(float* data, size_t size) {
@@ -158,78 +183,23 @@ private:
 
 void DetectorCallback(std::shared_ptr<TFeatures> features) {
 	std::thread::id this_id = std::this_thread::get_id();
-	std::cout << "thread " << this_id << "\nfrags_begin=" << features->GetFragsBegin() << "\nfrags_end=" << features->GetFragsEnd() << "\nfeatures=" << features->GetValue(features->GetFragsBegin(), 0) << std::endl;
+	//std::cout << "thread " << this_id << "\nfrags_begin=" << features->GetFragsBegin() << "\nfrags_end=" << features->GetFragsEnd() << "\nfeatures=" << features->GetValue(features->GetFragsBegin(), 0) << std::endl;
 	//TODO
 }
 
-class TRandomAgent : public IAgent
+class TRandomAgent : public TLFAgent
 {
 public:
-	TRandomAgent() {}
-
-public:
-	virtual void				SetSupervisor(std::shared_ptr<ILFSupervisor> supervisor) override {
-		supervisor_ = supervisor;
+	TRandomAgent() : TLFAgent(std::make_unique<TRandomDetector>()) {
 	}
-	virtual std::unique_ptr<TLFSemanticImageDescriptor> Detect(std::shared_ptr<TLFImage> img) override {			
-		detector_->SetCallback(DetectorCallback);
-		detector_->Detect(img, scanner_);
-		//todo call supervisor_
-		//todo call trainer
-		//todo nms algoritm return ILFDescriptor
-		std::unique_ptr<TLFSemanticImageDescriptor> ret = std::make_unique<TLFSemanticImageDescriptor>();
-		return ret;
-	}
-	virtual bool				LoadXML(const char* lpFileName) override {
-		//TODO
-		detector_ = std::make_unique<TRandomDetector>();
-		scanner_ = std::make_shared<TLFScanner>();
-		return true;
-	}
-	virtual bool				SaveXML(const char* lpFileName) override {
-		//TODO
-		return true;
-	}
-
-public:
-	bool				LoadXML(TiXmlElement* parent) {
-		if (parent == NULL)
-			return false;
-	}
-
-	TiXmlElement* SaveXML() {
-		TiXmlElement* node1 = NULL;//new TiXmlElement(this->GetName());
-		if (node1 == NULL)
-			return NULL;
-
-		//node1->SetAttribute("detector", this->m_strDetName.c_str());
-		if (scanner_ != NULL)
-		{
-			TiXmlElement* e = scanner_->SaveXML();
-			//node1->LinkEndChild(e);
-		}
-		else
-		{
-			//delete node1;
-			return NULL;
-		}
-
-		return node1;
-	}
-private:
-	std::shared_ptr<ILFScanner> scanner_;
-	std::shared_ptr<ILFSupervisor> supervisor_;
-	std::unique_ptr<TRandomDetector> detector_;
 };
-
-
 	
 
 inline std::unique_ptr<TLFSemanticImageDescriptor> TLFAgent::Detect(std::shared_ptr<TLFImage> img) {
 
 	auto scanner = detector_->GetScanner();
-
-	// We can process objects without supervisor also
+	scanner->ScanImage(img.get());
+// We can process objects without supervisor also
 	if (supervisor_ && trainer_) {
 		// Process image and get ground truth bounds
 		auto supervised = supervisor_->Detect(img);
@@ -284,14 +254,17 @@ inline std::unique_ptr<TLFSemanticImageDescriptor> TLFAgent::Detect(std::shared_
 		workers_[current_thread]->Detect(img, *features.get());
 
 		// Apply corrections and calc corrections vector
-		correctors_->Apply(*features.get(), features->GetMutableCorrections());
+		//todo sele
+		//correctors_->Apply(*features.get(), features->GetMutableCorrections());
 
 		// No new correctors without supervisor
 		if (supervisor_ && trainer_) {
 			// Process features and check if we can train new corrector(s)
 			auto new_correctors = trainer_->ProcessSamples(features);
-			if (!new_correctors.empty())
-				correctors_->AddCorrectors(new_correctors);
+			if (!new_correctors.empty()) {
+				//todo sele
+				//correctors_->AddCorrectors(new_correctors);
+			}
 		}
 		
 		// Prepare for NMS
@@ -313,6 +286,9 @@ inline std::unique_ptr<TLFSemanticImageDescriptor> TLFAgent::Detect(std::shared_
 	if (supervisor_ && trainer_)
 		trainer_->EndImage();
 
-
+	
 }
 
+std::shared_ptr<TLFAgent> agent::CreateAgent() {
+	return std::make_shared<TRandomAgent>();
+}
