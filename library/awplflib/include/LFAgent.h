@@ -6,68 +6,10 @@
 #include <numeric>
 #include <memory>
 #include <mutex>
+#include <shared_mutex>
 
-#include "../utils/tasks.h"
-#include "../utils/object_pool.h"
-
-
-class TLFDetections {
-public:
-	TLFDetections(std::vector<awpRect>& rects) {
-		rects_ = std::move(rects);
-	}
-	const std::vector<awpRect>& GetDetections() const {
-		return rects_;
-	}
-private:
-	std::vector<awpRect> rects_;
-};
-
-class ILFSupervisor {
-public:
-	virtual ~ILFSupervisor() = default;
-	virtual std::shared_ptr<TLFDetections> Detect(std::shared_ptr<TLFImage> img) = 0;
-};
-
-class TLFAgent {
-public:
-	virtual ~TLFAgent() = default;
-
-	virtual void SetSupervisor(std::shared_ptr<ILFSupervisor> sv) {
-		supervisor_ = sv;
-	}
-
-	virtual std::unique_ptr<TLFSemanticImageDescriptor> Detect(std::shared_ptr<TLFImage> img);
-
-	virtual bool LoadXML(TiXmlElement* parent) {
-		// TODO: load detector and all correctors
-		return false;
-	}
-
-	virtual TiXmlElement* SaveXML() {
-		// TODO: save detector and all correctors
-		return nullptr;
-	}
-
-private:
-	ILFScanner*								scanner_ = nullptr;
-	std::shared_ptr<ILFSupervisor>			supervisor_;
-	std::unique_ptr<agent::IDetector>		detector_;
-
-
-	std::vector<std::unique_ptr<IWorker>>	workers_;
-
-	pool::ObjectPool<TFeaturesBuilder>		pool_;
-
-
-	std::vector<std::unique_ptr<agent::ICorrector>>	correctors_;
-
-	size_t		batch_size_ = 1024;
-
-	// MUST be equal to count of batches used simultaneously
-	size_t		max_threads_ = 32;
-
-};
+#include "utils/tasks.h"
+#include "utils/object_pool.h"
 
 
 
@@ -79,10 +21,9 @@ namespace agent {
 		using TMapPtr = std::shared_ptr<TMap>;
 
 	public:
-		TFeatures(TMapPtr map, size_t batch_size) : map_(map), batch_size_(batch_size) {
+		TFeatures(TMapPtr map) : map_(map), batch_size_(0) {
 			stride_ = std::accumulate(map_->begin(), map_->end(), 0);
-			data_ = std::make_unique<float[]>(stride_ * batch_size_);
-			triggered_.resize(batch_size_, -1);
+			
 		}
 
 		virtual ~TFeatures() {}
@@ -96,7 +37,12 @@ namespace agent {
 			return data_[index];
 		}
 
-		bool GetResult(size_t fragment_index) const { return (triggered_[fragment_index] < -1); }
+		int GetDetectorResult(size_t fragment_index) const { return (triggered_[fragment_index - frags_begin_] < -1) ? 1 : 0; }
+
+		int GetCorrectedResult(size_t fragment_index) const { 
+			return (corrections_[fragment_index - frags_begin_] == kNoCorrection) ? 
+				GetDetectorResult(fragment_index) : corrections_[fragment_index - frags_begin_];
+		}
 
 		size_t frags_begin() const { return frags_begin_; }
 		size_t frags_end() const { return frags_end_; }
@@ -105,7 +51,23 @@ namespace agent {
 
 		const std::vector<int>& corrections() const { return corrections_; }
 
-		TMapPtr GetMap() { return map_; }
+
+		template<typename F>
+		bool	CopyIf(F&& binary, float* mem, size_t size, size_t num_features = 0) {
+
+			float* mem_end = mem + size;
+			float* row = data_.get();
+
+			num_features = num_features == 0 ? stride_ : num_features;
+
+			for (size_t pos = 0; pos < count() && mem < mem_end; ++pos, row += stride_) {
+				if (F(pos)) {
+					std::memcpy(mem, row, num_features * sizeof(float));
+					mem += stride_;
+				}
+			}
+			return mem < mem_end;
+		}
 
 	protected:
 		//Block of data
@@ -126,14 +88,24 @@ namespace agent {
 
 	class TFeaturesBuilder : public TFeatures {
 	public:
-		TFeaturesBuilder(TMapPtr map, size_t batch_size) : TFeatures(map, batch_size) {}
+		TFeaturesBuilder(TMapPtr map) : TFeatures(map) {}
 
 	public:
 		// Set fragments and 
-		void Reset(size_t frags_begin, size_t frags_end) {
+		void Setup(size_t frags_begin, size_t frags_end, size_t batch_size) {
 			frags_begin_ = frags_begin;
 			frags_end_ = frags_end;
-			triggered_.assign(triggered_.size(), -1);
+			
+			if (batch_size_ != batch_size) {
+				data_ = std::make_unique<float[]>(stride_ * batch_size);
+				triggered_.resize(batch_size, -1);
+				corrections_.resize(batch_size, kNoCorrection);
+				batch_size_ = batch_size;
+			}
+			else {
+				triggered_.assign(triggered_.size(), -1);
+				corrections_.assign(corrections_.size(), kNoCorrection);
+			}
 		}
 
 		std::vector<size_t>& GetTriggered() { return triggered_; }
@@ -149,29 +121,32 @@ namespace agent {
 
 		size_t GetStride() { return stride_; }
 
-	public:
-		std::vector<int>			corrections_;
-
 	};
+
+	static const int kNoCorrection = -1;
 
 	class ICorrector
 	{
 	public:
 		virtual ~ICorrector() = default;
 
-		virtual bool Correct(const TFeatures& list) = 0;
-		virtual bool LoadXML(TiXmlElement* parent) = 0;
+		virtual bool Correct(const TFeatures& features, std::vector<int>& corrections) = 0;
 
+		virtual bool LoadXML(TiXmlElement* parent) = 0;
 		virtual TiXmlElement* SaveXML() = 0;
 	};
 
-	class ITrainerCorrectors
+	class ICorrectorTrainer
 	{
 	public:
-		virtual ~ITrainerCorrectors() = default;
+		virtual ~ICorrectorTrainer() = default;
 
-		virtual void SetScanner(ILFScanner* scanner) = 0;
-		virtual void AddSamples(std::shared_ptr<TFeatures>) = 0;
+		// Setup new image samples extraction
+		virtual void BeginImage(ILFScanner* scanner, const ILFSupervisor::TDetections&) = 0;
+		// Process new samples
+		virtual std::vector<std::unique_ptr<ICorrector>> ProcessSamples(const std::shared_ptr<TFeatures>& feats ) = 0;
+		// Notify that image finished
+		virtual void EndImage() = 0;
 	};
 
 	class IWorker {
@@ -193,7 +168,103 @@ namespace agent {
 	};
 
 
-	
+	class TCorrectors {
+	public:
+		virtual bool LoadXML(TiXmlElement* parent) {
+			// TODO: load detector and all correctors
+			return false;
+		}
+
+		virtual TiXmlElement* SaveXML() {
+			// TODO: save detector and all correctors
+			return nullptr;
+		}
+
+		void			Apply(const TFeatures& features, std::vector<int>& corrections) {
+
+			std::shared_lock<std::shared_mutex> lock(mutex_);
+						
+			std::fill(corrections.begin(), corrections.end(), kNoCorrection);
+			for (const auto& corrector : correctors_) {
+				corrector->Correct(features, corrections);
+			}
+		}
+				
+
+		void			AddCorrector(std::unique_ptr<ICorrector> corr) {
+			std::lock_guard<std::shared_mutex> lock(mutex_);
+			correctors_.emplace_back(std::move(corr));
+		}
+		void			AddCorrectors(std::vector<std::unique_ptr<ICorrector>> corrs) {
+			std::lock_guard<std::shared_mutex> lock(mutex_);
+			correctors_.insert(correctors_.end(), corrs.begin(), corrs.end());
+		}
+
+
+	private:
+		std::shared_mutex									mutex_;
+
+		std::vector<std::unique_ptr<ICorrector>>			correctors_;
+
+	};
+
+	// TODO: move to separate header
+
+	class ILFSupervisor {
+	public:
+
+		using TDetections = std::vector<awpRect>;
+
+	public:
+		virtual ~ILFSupervisor() = default;
+		virtual TDetections Detect(std::shared_ptr<TLFImage> img) = 0;
+	};
+
+	class TLFAgent {
+	public:
+		virtual ~TLFAgent() = default;
+
+		virtual void SetSupervisor(std::shared_ptr<ILFSupervisor> sv) {
+			supervisor_ = sv;
+		}
+
+		virtual std::unique_ptr<TLFSemanticImageDescriptor> Detect(std::shared_ptr<TLFImage> img);
+
+		virtual bool LoadXML(TiXmlElement* parent) {
+			// TODO: load detector and all correctors
+			return false;
+		}
+
+		virtual TiXmlElement* SaveXML() {
+			// TODO: save detector and all correctors
+			return nullptr;
+		}
+
+	private:
+
+		std::shared_ptr<ILFSupervisor>					supervisor_;
+		std::unique_ptr<agent::IDetector>				detector_;
+
+		std::unique_ptr<agent::ICorrectorTrainer>		trainer_;
+
+
+		std::vector<std::unique_ptr<IWorker>>			workers_;
+
+		pool::ObjectPool<agent::TFeaturesBuilder>		pool_;
+
+		std::unique_ptr<agent::TCorrectors>				correctors_;
+
+		// Indices of detected fragments
+		std::vector<size_t>								detected_indices_;
+
+		size_t		batch_size_ = 2048;
+
+		// MUST be equal to count of batches used simultaneously
+		size_t		max_threads_ = 32;
+
+	};
+
+
 
 
 }

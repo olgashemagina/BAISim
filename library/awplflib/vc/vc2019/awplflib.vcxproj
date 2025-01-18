@@ -92,7 +92,7 @@
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..\..\..\awpipl2\include;..\..\accel_rects;..\..\include;..\..\..\..\3rdparty\OpenCL\include;..\..\..\..\3rdparty\TinyXML\src;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>..\..\;..\..\..\awpipl2\include;..\..\accel_rects;..\..\include;..\..\..\..\3rdparty\OpenCL\include;..\..\..\..\3rdparty\TinyXML\src;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>..\..\..\..\3rdparty\OpenCL\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -102,7 +102,7 @@
     <IncludePath>..\..\..\awpipl2\include;..\..\include;..\..\..\..\3rdparty\TinyXML\src;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>..\..\..\awpipl2\include;..\..\accel_rects;..\..\include;..\..\..\..\3rdparty\OpenCL\include;..\..\..\..\3rdparty\TinyXML\src;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>..\..\;..\..\..\awpipl2\include;..\..\accel_rects;..\..\include;..\..\..\..\3rdparty\OpenCL\include;..\..\..\..\3rdparty\TinyXML\src;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>..\..\..\..\3rdparty\OpenCL\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -305,7 +305,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\accel_rects\accel_rects.h" />
     <ClInclude Include="..\..\agent\agent.h" />
-    <ClInclude Include="..\..\agent\tasks.h" />
     <ClInclude Include="..\..\include\LF.h" />
     <ClInclude Include="..\..\include\LFAgent.h" />
     <ClInclude Include="..\..\include\LFGpuEngine.h" />
@@ -340,9 +339,8 @@
     <ClInclude Include="..\..\include\LFWeak.h" />
     <ClInclude Include="..\..\include\LFZone.h" />
     <ClInclude Include="..\..\include\_LFParameters.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\src\sc_kernels.cl" />
+    <ClInclude Include="..\..\utils\object_pool.h" />
+    <ClInclude Include="..\..\utils\tasks.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

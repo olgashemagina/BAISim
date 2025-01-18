@@ -229,27 +229,35 @@ inline std::unique_ptr<TLFSemanticImageDescriptor> TLFAgent::Detect(std::shared_
 
 	auto scanner = detector_->GetScanner();
 
+	// We can process objects without supervisor also
+	if (supervisor_ && trainer_) {
+		// Process image and get ground truth bounds
+		auto supervised = supervisor_->Detect(img);
+
+		// Prepare corrector trainer for building correctors
+		trainer_->BeginImage(scanner, supervised);
+	}
+
 	auto fragments_count = scanner->GetFragmentsCount();
 
 	size_t batches_count = std::ceil(fragments_count / batch_size_);
-
-	// TODO: 1) Run detector in parallel
-	// 2) Run correctors
-
-	
+			
 	size_t threads = 1;
 
 #ifdef _OMP_
 	threads = std::max<size_t>(omp_get_max_threads(), max_threads_);
 #endif 
 
-	if (workers_.size() != threads) {
+	// Acquire workers for processing;
+	if (workers_.size() < threads) {
 		workers_.resize(threads);
 		for (auto& worker : workers_) {
 			worker = std::move(detector_->CreateWorker());
 		}
 	}
 
+	detected_indices_.clear();
+	
 
 #ifdef _OMP_
 #pragma omp parallel for num_threads(threads)
@@ -261,17 +269,49 @@ inline std::unique_ptr<TLFSemanticImageDescriptor> TLFAgent::Detect(std::shared_
 #ifdef _OMP_
 		current_thread = omp_get_thread_num();
 #endif 
+		// Acquire object from pool or create new one
 		auto features = pool_.GetObject();
 
+		// Init features builder
+		size_t batch_begin = batch_size_ * batch;
+		size_t batch_end = batch_begin + batch_size_;
+		batch_end = batch_end < fragments_count ? batch_end : fragments_count;
 
-		workers_[current_thread]->Detect(img, *features);
+		// Setting up bounds of batch and alloc memory if needed
+		features->Setup(batch_begin, batch_end, batch_size_);
 
-		//Apply correctors
+		// Process batch by detector
+		workers_[current_thread]->Detect(img, *features.get());
+
+		// Apply corrections and calc corrections vector
+		correctors_->Apply(*features.get(), features->GetMutableCorrections());
+
+		// No new correctors without supervisor
+		if (supervisor_ && trainer_) {
+			// Process features and check if we can train new corrector(s)
+			auto new_correctors = trainer_->ProcessSamples(features);
+			if (!new_correctors.empty())
+				correctors_->AddCorrectors(new_correctors);
+		}
 		
+		// Prepare for NMS
+		for (size_t n = features->frags_begin(); n < features->frags_end(); ++n) {
+			if (features->GetCorrectedResult(n)) {
+#ifdef _OMP_
+#pragma omp critical 
+#endif
+				{
+					detected_indices_.push_back(n);
+				}
+			}
+		}
+
 	}
 
+	//TODO: run NMS;
 
-
+	if (supervisor_ && trainer_)
+		trainer_->EndImage();
 
 
 }
