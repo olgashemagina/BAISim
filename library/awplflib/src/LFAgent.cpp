@@ -256,16 +256,14 @@ inline std::unique_ptr<TLFSemanticImageDescriptor> TLFAgent::Detect(std::shared_
 		workers_[current_thread]->Detect(img, *features.get());
 
 		// Apply corrections and calc corrections vector
-		//todo sele
-		//correctors_->Apply(*features.get(), features->GetMutableCorrections());
+		correctors_->Apply(*features.get(), features->GetMutableCorrections());
 
 		// No new correctors without supervisor
 		if (supervisor_ && trainer_) {
 			// Process features and check if we can train new corrector(s)
 			auto new_correctors = trainer_->ProcessSamples(features);
 			if (!new_correctors.empty()) {
-				//todo sele
-				//correctors_->AddCorrectors(new_correctors);
+				correctors_->AddCorrectors(std::move(new_correctors));
 			}
 		}
 		
