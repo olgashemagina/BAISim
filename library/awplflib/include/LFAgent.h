@@ -185,19 +185,18 @@ namespace agent {
 
 	class TCorrectors {
 	public:
-		virtual bool LoadXML(TiXmlElement* parent) {
+		bool LoadXML(TiXmlElement* parent) {
 			// TODO: load detector and all correctors
 			return false;
 		}
 
-		virtual TiXmlElement* SaveXML() {
+		TiXmlElement* SaveXML() {
 			// TODO: save detector and all correctors
 			return nullptr;
 		}
 
 		void			Apply(const TFeatures& features, std::vector<int>& corrections) {
 			std::shared_lock<std::shared_mutex> lock(mutex_);
-			//todo sele
 			
 			std::fill(corrections.begin(), corrections.end(), kNoCorrection);
 			for (const auto& corrector : correctors_) {
@@ -208,14 +207,12 @@ namespace agent {
 
 		void			AddCorrector(std::unique_ptr<ICorrector> corr) {
 			std::shared_lock<std::shared_mutex> lock(mutex_);
-			//std::lock_guard<std::shared_mutex> lock(mutex_);
-			//todo sele
+
 			correctors_.emplace_back(std::move(corr));
 		}
 		void			AddCorrectors(std::vector<std::unique_ptr<ICorrector>> corrs) {
 			std::shared_lock<std::shared_mutex> lock(mutex_);
-			//std::lock_guard<std::shared_mutex> lock(mutex_);
-			//todo sele
+
 			auto it = std::next(correctors_.begin(), correctors_.size());
 			std::move(corrs.begin(), it, std::back_inserter(correctors_));
 			//correctors_.insert(correctors_.end(), corrs.begin(), corrs.end());
@@ -223,8 +220,7 @@ namespace agent {
 
 
 	private:
-		/*mutable*/ std::shared_mutex									mutex_;
-
+		std::shared_mutex									mutex_;
 		std::vector<std::unique_ptr<ICorrector>>			correctors_;
 
 	};
@@ -237,6 +233,7 @@ namespace agent {
 	public:
 		TLFAgent(std::unique_ptr<agent::IDetector> detector)
 			: detector_(std::move(detector)),
+				correctors_(std::make_unique<TCorrectors>()),
 				pool_([this]() { return std::make_unique<TFeaturesBuilder>(detector_->GetMap()); }) {}
 		virtual ~TLFAgent() = default;
 

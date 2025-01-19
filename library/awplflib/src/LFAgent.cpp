@@ -200,6 +200,7 @@ inline std::unique_ptr<TLFSemanticImageDescriptor> TLFAgent::Detect(std::shared_
 
 	auto scanner = detector_->GetScanner();
 	assert(scanner);
+	assert(correctors_);
 	scanner->ScanImage(img.get());
 // We can process objects without supervisor also
 	if (supervisor_ && trainer_) {
