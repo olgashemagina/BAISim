@@ -161,6 +161,8 @@ namespace agent {
 		virtual void EndImage() = 0;
 	};
 
+	class IDetector;
+
 	class IWorker {
 	public:
 		virtual ~IWorker() = default;

@@ -13,10 +13,10 @@ int main(int argc, char* argv[]) {
 
     auto agent = agent::CreateAgent();
     //if (!agent->LoadXML(path_to_xml.c_str())) {
-    if (!agent->LoadXML(nullptr)) {
-        std::cout << "LoadXML return false for " << path_to_xml << std::endl;
-        return -2;
-    }
+    //if (!agent->LoadXML(nullptr)) {
+    //    std::cout << "LoadXML return false for " << path_to_xml << std::endl;
+    //    return -2;
+    //}
     std::shared_ptr<TLFImage> img = std::make_shared<TLFImage>();
     if (!img->LoadFromFile(path_to_image.c_str())) {
         std::cout << "LoadFromFile return false for " << path_to_image << std::endl;

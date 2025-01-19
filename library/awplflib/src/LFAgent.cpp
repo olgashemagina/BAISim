@@ -51,24 +51,24 @@ private:
 	
 class TRandomWorker : public IWorker {
 public:
-	//TRandomWorker(std::shared_ptr<IDetector> detector) : detector_(detector) {}
-	void SetDetector(std::shared_ptr<IDetector> detector) { detector_ = detector; }
+	TRandomWorker(IDetector* detector) : detector_(detector) {}
 	virtual void Detect(std::shared_ptr<TLFImage> img, TFeaturesBuilder& builder) override {
 		mutex_.lock();
+		assert(detector_);
 		detector_->Detect(img, builder);
 		mutex_.unlock();
 	}
 
 private:
 	std::mutex mutex_;
-	std::shared_ptr<IDetector> detector_;
+	IDetector* detector_ = nullptr;
 };
 	
 
 class TRandomDetector : public IDetector
 {
 public:
-	TRandomDetector() {
+	TRandomDetector() : scanner_(new TLFScanner) {
 		Init();
 	}
 
@@ -89,10 +89,10 @@ public:
 
 		for (auto i = 0; i < triggered.size(); i++) {
 			if (GetRand(0, 1)) {
-				size_t cascade_number = GetRand(0, stride - 1);
+				size_t cascade_number = GetRand(0, map->size() - 1);
 				triggered[i] = cascade_number;
 				size_t count = 0;
-				for (auto j = 0; j < stride; j++) {
+				for (auto j = 0; j < map->size(); j++) {
 					if (j > cascade_number) break;					
 					size_t cur_cascade_lenght = map.get()->at(j);
 					SetRandData(data + (i * stride) + count, cur_cascade_lenght);
@@ -106,10 +106,10 @@ public:
 	}
 
 	virtual ILFScanner* GetScanner()  override {
-		return nullptr;
+		return scanner_;
 	}
-	virtual std::unique_ptr<IWorker> CreateWorker()  override {
-		return std::make_unique<TRandomWorker>();
+	virtual std::unique_ptr<IWorker> CreateWorker() override {
+		return std::make_unique<TRandomWorker>(this);
 	}
 
 	virtual bool LoadXML(TiXmlElement* parent)  override {
@@ -178,6 +178,7 @@ private:
 	std::function<void(std::shared_ptr<TFeatures>)> callback_;
 	std::vector<size_t> feature_count_list_;
 	TFeatures::TMapPtr tmap_ptr_;
+	ILFScanner* scanner_;
 
 };
 
@@ -198,6 +199,7 @@ public:
 inline std::unique_ptr<TLFSemanticImageDescriptor> TLFAgent::Detect(std::shared_ptr<TLFImage> img) {
 
 	auto scanner = detector_->GetScanner();
+	assert(scanner);
 	scanner->ScanImage(img.get());
 // We can process objects without supervisor also
 	if (supervisor_ && trainer_) {
@@ -286,7 +288,7 @@ inline std::unique_ptr<TLFSemanticImageDescriptor> TLFAgent::Detect(std::shared_
 	if (supervisor_ && trainer_)
 		trainer_->EndImage();
 
-	
+	return std::make_unique<TLFSemanticImageDescriptor>();
 }
 
 std::shared_ptr<TLFAgent> agent::CreateAgent() {
