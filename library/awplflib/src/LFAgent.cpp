@@ -52,15 +52,17 @@ private:
 class TRandomWorker : public IWorker {
 public:
 	TRandomWorker(IDetector* detector) : detector_(detector) {}
+
+
 	virtual void Detect(std::shared_ptr<TLFImage> img, TFeaturesBuilder& builder) override {
-		mutex_.lock();
+	
 		assert(detector_);
 		detector_->Detect(img, builder);
-		mutex_.unlock();
+	
 	}
 
 private:
-	std::mutex mutex_;
+	
 	IDetector* detector_ = nullptr;
 };
 	
@@ -68,17 +70,20 @@ private:
 class TRandomDetector : public IDetector
 {
 public:
-	TRandomDetector() : scanner_(new TLFScanner) {
-		Init();
-	}
+	TRandomDetector() = default;
 
-	void Init() {
+	bool Initialize() {
+
+		scanner_ = new TLFScanner();
+
+		std::srand((unsigned int)std::time(nullptr));
 		size_t cascade_count = GetRand(3, 10);  // rand ot 3 do 10
 		for (auto i = 0; i < cascade_count; i++) {
 			size_t feature_count = GetRand(10, 100); // rand ot 10 do 100
 			feature_count_list_.push_back(feature_count);
 		}
 		tmap_ptr_ = std::make_shared<TFeatures::TMap>(feature_count_list_);
+		return (bool)tmap_ptr_;
 	}
 
 	virtual void Detect(std::shared_ptr<TLFImage> img, TFeaturesBuilder& builder) override {
@@ -87,8 +92,11 @@ public:
 		auto triggered = builder.GetTriggered();
 		auto map = builder.GetMap();
 
+		size_t detected = 0;
+
 		for (auto i = 0; i < triggered.size(); i++) {
-			if (GetRand(0, 1)) {
+			// With probability 0.99 it is negative result
+			if (GetRand(0, 100) > 1) {
 				size_t cascade_number = GetRand(0, map->size() - 1);
 				triggered[i] = cascade_number;
 				size_t count = 0;
@@ -101,8 +109,21 @@ public:
 			}
 			else { // fill all cascade
 				SetRandData(data + (i * stride), stride);
+				detected++;
 			}
 		}
+
+		std::thread::id this_id = std::this_thread::get_id();
+
+		std::stringstream ss;
+
+		ss << "Detection thread " << this_id
+			<< " frags_begin=" << builder.frags_begin()
+			<< " frags_end=" << builder.frags_end()
+			<< " detected=" << detected << std::endl;
+
+		(std::cout << ss.str()).flush();
+
 	}
 
 	virtual ILFScanner* GetScanner()  override {
@@ -121,56 +142,15 @@ public:
 
 	virtual TFeatures::TMapPtr GetMap() override { return tmap_ptr_; }
 
-	/*	scanner->ScanImage(img.get());
-		const auto& frags = scanner->GetFragments();
-		int count = 0;
-		//size_t count_all_feature = 0;
-		const size_t batch_fragments = 1000;
-
-		if (frags.size() > batch_fragments)
-			count = frags.size() / batch_fragments;
-		size_t remainder_fragments = frags.size() - count * batch_fragments;
-
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_int_distribution<> distr(0, 1);
-
-		TFeaturesPool features_pool(tmap_ptr_);
-
-#ifdef _OMP_
-#pragma omp parallel for num_threads(omp_get_max_threads())
-#endif
-		for (auto i = 0; i <= count; i++) {
-			size_t batch_fragments_for_callback = batch_fragments;
-			const size_t frags_begin = i * batch_fragments;
-			if (i == count) {
-				if (remainder_fragments == 0) break;
-				batch_fragments_for_callback = remainder_fragments;
-
-			}
-			const size_t frags_end = frags_begin + batch_fragments_for_callback;
-			auto features_builder = features_pool.Alloc(batch_fragments);
-			features_builder->Reset(frags_begin, frags_end);
-			features_builder->GetMutation();
-			callback_(features_builder);
-		}
-	}*/
-	/*
-	void SetCallback(std::function<void(std::shared_ptr<TFeatures> features)> callback) override {
-		callback_ = callback;
-	}*/
+	
 
 private:
-	void SetRandData(float* data, size_t size) {
+	static void SetRandData(float* data, size_t size) {
 		for (size_t i = 0; i < size; i++)
-			data[i] = GetRand(10, 100);
+			data[i] = GetRand(1, 100);
 	}
-	size_t GetRand(size_t low_dist, size_t high_dist) {
-		static bool init_srand = false;
-		if (!init_srand) {
-			std::srand((unsigned int)std::time(nullptr));
-			init_srand = true;
-		}
+	static size_t GetRand(size_t low_dist, size_t high_dist) {
+		
 		return low_dist + std::rand() % (high_dist + 1 - low_dist);
 	}
 
@@ -182,25 +162,38 @@ private:
 
 };
 
-void DetectorCallback(std::shared_ptr<TFeatures> features) {
-	std::thread::id this_id = std::this_thread::get_id();
-	//std::cout << "thread " << this_id << "\nfrags_begin=" << features->GetFragsBegin() << "\nfrags_end=" << features->GetFragsEnd() << "\nfeatures=" << features->GetValue(features->GetFragsBegin(), 0) << std::endl;
-	//TODO
-}
 
 class TRandomAgent : public TLFAgent
 {
 public:
-	TRandomAgent() : TLFAgent(std::make_unique<TRandomDetector>()) {
+	TRandomAgent() : TLFAgent() {
 	}
+
+	bool Initialize() {
+		auto detector = std::make_unique<TRandomDetector>();
+		if (detector->Initialize())
+			detector_ = std::move(detector);
+
+		return bool(detector_);
+
+	}
+
 };
 	
+///////////////////////////////////////////////////////////////////////////////
 
-inline std::unique_ptr<TLFSemanticImageDescriptor> TLFAgent::Detect(std::shared_ptr<TLFImage> img) {
+TLFAgent::TLFAgent() 
+	: pool_([this]() { return std::make_unique<agent::TFeaturesBuilder>(); }) {
+}
+
+inline std::unique_ptr<TLFSemanticImageDescriptor> 
+TLFAgent::Detect(std::shared_ptr<TLFImage> img) {
 
 	auto scanner = detector_->GetScanner();
-	assert(scanner);
-	assert(correctors_);
+	
+	if (!scanner)
+		return nullptr;
+
 	scanner->ScanImage(img.get());
 // We can process objects without supervisor also
 	if (supervisor_ && trainer_) {
@@ -213,7 +206,11 @@ inline std::unique_ptr<TLFSemanticImageDescriptor> TLFAgent::Detect(std::shared_
 
 	auto fragments_count = scanner->GetFragmentsCount();
 
-	size_t batches_count = std::ceil(fragments_count / batch_size_);
+	if (fragments_count == 0)
+		return nullptr;
+
+
+	size_t batches_count = size_t(std::ceil(fragments_count / batch_size_));
 			
 	size_t threads = 1;
 
@@ -251,20 +248,20 @@ inline std::unique_ptr<TLFSemanticImageDescriptor> TLFAgent::Detect(std::shared_
 		batch_end = batch_end < fragments_count ? batch_end : fragments_count;
 
 		// Setting up bounds of batch and alloc memory if needed
-		features->Setup(batch_begin, batch_end, batch_size_);
+		features->Setup(detector_->GetMap(), batch_begin, batch_end, batch_size_);
 
 		// Process batch by detector
 		workers_[current_thread]->Detect(img, *features.get());
 
 		// Apply corrections and calc corrections vector
-		correctors_->Apply(*features.get(), features->GetMutableCorrections());
+		correctors_.Apply(*features.get(), features->GetMutableCorrections());
 
 		// No new correctors without supervisor
 		if (supervisor_ && trainer_) {
 			// Process features and check if we can train new corrector(s)
 			auto new_correctors = trainer_->ProcessSamples(features);
 			if (!new_correctors.empty()) {
-				correctors_->AddCorrectors(std::move(new_correctors));
+				correctors_.AddCorrectors(std::move(new_correctors));
 			}
 		}
 		
@@ -290,6 +287,10 @@ inline std::unique_ptr<TLFSemanticImageDescriptor> TLFAgent::Detect(std::shared_
 	return std::make_unique<TLFSemanticImageDescriptor>();
 }
 
-std::shared_ptr<TLFAgent> agent::CreateAgent() {
-	return std::make_shared<TRandomAgent>();
+std::shared_ptr<TLFAgent> CreateAgent() {
+	auto agent = std::make_shared<TRandomAgent>();
+	if (agent->Initialize())
+		return agent;
+
+	return nullptr;
 }

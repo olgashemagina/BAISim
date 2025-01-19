@@ -12,6 +12,15 @@
 #include "../utils/object_pool.h"
 
 
+class ILFSupervisor {
+public:
+
+	using TDetections = std::vector<awpRect>;
+
+public:
+	virtual ~ILFSupervisor() = default;
+	virtual TDetections Detect(std::shared_ptr<TLFImage> img) = 0;
+};
 
 namespace agent {
 
@@ -23,10 +32,7 @@ namespace agent {
 		using TMapPtr = std::shared_ptr<TMap>;
 
 	public:
-		TFeatures(TMapPtr map) : map_(map), batch_size_(0) {
-			stride_ = std::accumulate(map_->begin(), map_->end(), 0);
-			
-		}
+		TFeatures() {}
 
 		virtual ~TFeatures() {}
 
@@ -41,8 +47,8 @@ namespace agent {
 
 		int GetDetectorResult(size_t fragment_index) const { return (triggered_[fragment_index - frags_begin_] < -1) ? 1 : 0; }
 
-		int GetCorrectedResult(size_t fragment_index) const { 
-			return (corrections_[fragment_index - frags_begin_] == kNoCorrection) ? 
+		int GetCorrectedResult(size_t fragment_index) const {
+			return (corrections_[fragment_index - frags_begin_] == kNoCorrection) ?
 				GetDetectorResult(fragment_index) : corrections_[fragment_index - frags_begin_];
 		}
 
@@ -91,14 +97,19 @@ namespace agent {
 
 	class TFeaturesBuilder : public TFeatures {
 	public:
-		TFeaturesBuilder(TMapPtr map) : TFeatures(map) {}
+		TFeaturesBuilder() = default;
 
 	public:
 		// Set fragments and 
-		void Setup(size_t frags_begin, size_t frags_end, size_t batch_size) {
+		void Setup(TMapPtr map, size_t frags_begin, size_t frags_end, size_t batch_size) {
 			frags_begin_ = frags_begin;
 			frags_end_ = frags_end;
-			
+
+			if (map_ != map) {
+				stride_ = std::accumulate(map->begin(), map->end(), size_t(0));
+				map_ = map;
+			}
+
 			if (batch_size_ != batch_size) {
 				data_ = std::make_unique<float[]>(stride_ * batch_size);
 				triggered_.resize(batch_size, -1);
@@ -126,16 +137,6 @@ namespace agent {
 
 	};
 
-	class ILFSupervisor {
-	public:
-
-		using TDetections = std::vector<awpRect>;
-
-	public:
-		virtual ~ILFSupervisor() = default;
-		virtual TDetections Detect(std::shared_ptr<TLFImage> img) = 0;
-	};
-
 	class ICorrector
 	{
 	public:
@@ -153,10 +154,10 @@ namespace agent {
 		virtual ~ICorrectorTrainer() = default;
 
 		// Setup new image samples extraction
-		virtual void BeginImage(ILFScanner* scanner, const ILFSupervisor::TDetections&) = 0;
+		virtual void BeginImage(ILFScanner* scanner, const typename ILFSupervisor::TDetections&) = 0;
 		// Process new samples
 		//start for each batchs
-		virtual std::vector<std::unique_ptr<ICorrector>> ProcessSamples(const std::shared_ptr<TFeatures>& feats ) = 0;
+		virtual std::vector<std::unique_ptr<ICorrector>> ProcessSamples(const std::shared_ptr<TFeatures>& feats) = 0;
 		// Notify that image finished
 		virtual void EndImage() = 0;
 	};
@@ -175,11 +176,13 @@ namespace agent {
 		virtual void Detect(std::shared_ptr<TLFImage> img, TFeaturesBuilder& builder) = 0;
 		virtual ~IDetector() = default;
 		virtual ILFScanner* GetScanner() = 0;
+		virtual TFeatures::TMapPtr GetMap() = 0;
+
 		virtual std::unique_ptr<IWorker> CreateWorker() = 0;
-		
+
 		virtual bool LoadXML(TiXmlElement* parent) = 0;
 		virtual TiXmlElement* SaveXML() = 0;
-		virtual TFeatures::TMapPtr GetMap() = 0;
+		
 	};
 
 
@@ -197,13 +200,13 @@ namespace agent {
 
 		void			Apply(const TFeatures& features, std::vector<int>& corrections) {
 			std::shared_lock<std::shared_mutex> lock(mutex_);
-			
+
 			std::fill(corrections.begin(), corrections.end(), kNoCorrection);
 			for (const auto& corrector : correctors_) {
 				corrector->Correct(features, corrections);
 			}
 		}
-				
+
 
 		void			AddCorrector(std::unique_ptr<ICorrector> corr) {
 			std::shared_lock<std::shared_mutex> lock(mutex_);
@@ -224,61 +227,57 @@ namespace agent {
 		std::vector<std::unique_ptr<ICorrector>>			correctors_;
 
 	};
+}
 
 	// TODO: move to separate header
 
 
 
-	class TLFAgent {
-	public:
-		TLFAgent(std::unique_ptr<agent::IDetector> detector)
-			: detector_(std::move(detector)),
-				correctors_(std::make_unique<TCorrectors>()),
-				pool_([this]() { return std::make_unique<TFeaturesBuilder>(detector_->GetMap()); }) {}
-		virtual ~TLFAgent() = default;
+class TLFAgent {
+public:
+	TLFAgent();
+	
+	virtual ~TLFAgent() = default;
 
-		virtual void SetSupervisor(std::shared_ptr<ILFSupervisor> sv) {
-			supervisor_ = sv;
-		}
+	virtual void SetSupervisor(std::shared_ptr<ILFSupervisor> sv) {
+		supervisor_ = sv;
+	}
 
-		virtual std::unique_ptr<TLFSemanticImageDescriptor> Detect(std::shared_ptr<TLFImage> img);
+	virtual std::unique_ptr<TLFSemanticImageDescriptor> Detect(std::shared_ptr<TLFImage> img);
 
-		virtual bool LoadXML(TiXmlElement* parent) {
-			// TODO: load detector and all correctors
-			return false;
-		}
+	virtual bool LoadXML(TiXmlElement* parent) {
+		// TODO: load detector and all correctors
+		return false;
+	}
 
-		virtual TiXmlElement* SaveXML() {
-			// TODO: save detector and all correctors
-			return nullptr;
-		}
-	private:
-		TLFAgent() = delete;
-	protected:
-		std::shared_ptr<ILFSupervisor>					supervisor_;
-		std::unique_ptr<agent::IDetector>				detector_;
+	virtual TiXmlElement* SaveXML() {
+		// TODO: save detector and all correctors
+		return nullptr;
+	}
 
-		std::unique_ptr<agent::ICorrectorTrainer>		trainer_;
+protected:
+	std::shared_ptr<ILFSupervisor>					supervisor_;
+	std::unique_ptr<agent::IDetector>				detector_;
+
+	std::unique_ptr<agent::ICorrectorTrainer>		trainer_;
 
 
-		std::vector<std::unique_ptr<IWorker>>			workers_;
+	std::vector<std::unique_ptr<agent::IWorker>>	workers_;
 
-		pool::ObjectPool<agent::TFeaturesBuilder>		pool_;
+	pool::ObjectPool<agent::TFeaturesBuilder>		pool_;
 
-		std::unique_ptr<agent::TCorrectors>				correctors_;
+	agent::TCorrectors								correctors_;
 
-		// Indices of detected fragments
-		std::vector<size_t>								detected_indices_;
+	// Indices of detected fragments
+	std::vector<size_t>								detected_indices_;
 
-		size_t		batch_size_ = 2048;
+	size_t		batch_size_ = 2048;
 
-		// MUST be equal to count of batches used simultaneously
-		size_t		max_threads_ = 32;
+	// MUST be equal to count of batches used simultaneously
+	size_t		max_threads_ = 32;
 
-	};
+};
 
-	std::shared_ptr<TLFAgent> CreateAgent();
+std::shared_ptr<TLFAgent> CreateAgent();
 
-
-}
 
