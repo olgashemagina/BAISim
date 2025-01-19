@@ -280,4 +280,4 @@ protected:
 
 std::shared_ptr<TLFAgent> CreateAgent();
 
-
+std::shared_ptr<ILFSupervisor> CreateSupervisor();

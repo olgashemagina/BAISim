@@ -29,6 +29,7 @@ int main(int argc, char* argv[]) {
         std::cout << "LoadFromFile return false for " << path_to_image << std::endl;
         return -3;
     }*/
+    agent->SetSupervisor(CreateSupervisor());
     agent->Detect(img);
     return 0;
 }

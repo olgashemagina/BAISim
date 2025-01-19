@@ -10,6 +10,14 @@
 
 using namespace agent;
 
+static size_t GetRand(size_t low_dist, size_t high_dist) {
+	static bool init_srand = false;
+	if (!init_srand) {
+		std::srand((unsigned int)std::time(nullptr));
+		init_srand = true;
+	}
+	return low_dist + std::rand() % (high_dist + 1 - low_dist);
+}
 
 class TRandomSupervisor : public ILFSupervisor
 {
@@ -17,8 +25,22 @@ public:
 	TRandomSupervisor() {}
 	virtual TDetections Detect(std::shared_ptr<TLFImage> img) override {
 		//TODO implement python call
-		return TDetections();
+		auto width = img->GetImage()->sSizeX;
+		auto height = img->GetImage()->sSizeY;
+		
+		TDetections detections;
+		for (size_t i = 0; i < 10; i++) {
+			awpRect rect;
+			rect.left = GetRand(0, width - 5);
+			rect.right = GetRand(rect.left, width);
+			rect.top = GetRand(0, height - 5);
+			rect.bottom = GetRand(rect.top, height);
+			detections.push_back(rect);
+		}
+		
+		return detections;
 	}
+
 };
 
 class TRandomCorrectorTrainer : public ICorrectorTrainer
@@ -76,7 +98,6 @@ public:
 
 		scanner_ = new TLFScanner();
 
-		std::srand((unsigned int)std::time(nullptr));
 		size_t cascade_count = GetRand(3, 10);  // rand ot 3 do 10
 		for (auto i = 0; i < cascade_count; i++) {
 			size_t feature_count = GetRand(10, 100); // rand ot 10 do 100
@@ -148,10 +169,6 @@ private:
 	static void SetRandData(float* data, size_t size) {
 		for (size_t i = 0; i < size; i++)
 			data[i] = GetRand(1, 100);
-	}
-	static size_t GetRand(size_t low_dist, size_t high_dist) {
-		
-		return low_dist + std::rand() % (high_dist + 1 - low_dist);
 	}
 
 private:
@@ -293,4 +310,8 @@ std::shared_ptr<TLFAgent> CreateAgent() {
 		return agent;
 
 	return nullptr;
+}
+
+std::shared_ptr<ILFSupervisor> CreateSupervisor() {
+	return std::make_shared<TRandomSupervisor>();
 }
