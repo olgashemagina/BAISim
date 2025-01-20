@@ -339,6 +339,7 @@
     <ClInclude Include="..\..\include\LFWeak.h" />
     <ClInclude Include="..\..\include\LFZone.h" />
     <ClInclude Include="..\..\include\_LFParameters.h" />
+    <ClInclude Include="..\..\utils\matrix.h" />
     <ClInclude Include="..\..\utils\object_pool.h" />
     <ClInclude Include="..\..\utils\tasks.h" />
   </ItemGroup>

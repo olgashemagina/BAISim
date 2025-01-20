@@ -2,7 +2,6 @@
 #include "LFScanners.h"
 
 #include <random>
-#include <syncstream>
 
 #ifdef _OMP_
 #include <omp.h>
@@ -43,6 +42,7 @@ public:
 
 };
 
+/*
 class TRandomCorrectorTrainer : public ICorrectorTrainer
 {
 public:
@@ -68,7 +68,7 @@ public:
 private:
 	size_t count_ = 0;
 	const size_t max_count_ = 10000;
-};
+};*/
 
 	
 class TRandomWorker : public IWorker {
@@ -99,19 +99,21 @@ public:
 		scanner_ = new TLFScanner();
 
 		size_t cascade_count = GetRand(3, 10);  // rand ot 3 do 10
+		size_t count = 0;
 		for (auto i = 0; i < cascade_count; i++) {
 			size_t feature_count = GetRand(10, 100); // rand ot 10 do 100
-			feature_count_list_.push_back(feature_count);
+			feature_count_list_.push_back(feature_count + count);
+			count = feature_count_list_.back();
 		}
 		tmap_ptr_ = std::make_shared<TFeatures::TMap>(feature_count_list_);
 		return (bool)tmap_ptr_;
 	}
 
 	virtual void Detect(std::shared_ptr<TLFImage> img, TFeaturesBuilder& builder) override {
-		float* data = builder.GetMutableData();
-		size_t stride = builder.GetStride();
+		float* data = builder.GetMutableData().GetRow(0);
+		size_t stride = builder.feats_count();
 		auto triggered = builder.GetTriggered();
-		auto map = builder.GetMap();
+		auto map = builder.map();
 
 		size_t detected = 0;
 
@@ -168,7 +170,7 @@ public:
 private:
 	static void SetRandData(float* data, size_t size) {
 		for (size_t i = 0; i < size; i++)
-			data[i] = GetRand(1, 100);
+			data[i] = float(GetRand(1, 100));
 	}
 
 private:
@@ -211,14 +213,13 @@ TLFAgent::Detect(std::shared_ptr<TLFImage> img) {
 	if (!scanner)
 		return nullptr;
 
+	ILFSupervisor::TDetections	gt_detections;
+
 	scanner->ScanImage(img.get());
 // We can process objects without supervisor also
 	if (supervisor_ && trainer_) {
 		// Process image and get ground truth bounds
-		auto supervised = supervisor_->Detect(img);
-
-		// Prepare corrector trainer for building correctors
-		trainer_->BeginImage(scanner, supervised);
+		gt_detections = supervisor_->Detect(img);
 	}
 
 	auto fragments_count = scanner->GetFragmentsCount();
@@ -229,10 +230,10 @@ TLFAgent::Detect(std::shared_ptr<TLFImage> img) {
 
 	size_t batches_count = size_t(std::ceil(fragments_count / batch_size_));
 			
-	size_t threads = 1;
+	int threads = 1;
 
 #ifdef _OMP_
-	threads = std::max<size_t>(omp_get_max_threads(), max_threads_);
+	threads = std::max<int>(omp_get_max_threads(), max_threads_);
 #endif 
 
 	// Acquire workers for processing;
@@ -276,10 +277,8 @@ TLFAgent::Detect(std::shared_ptr<TLFImage> img) {
 		// No new correctors without supervisor
 		if (supervisor_ && trainer_) {
 			// Process features and check if we can train new corrector(s)
-			auto new_correctors = trainer_->ProcessSamples(features);
-			if (!new_correctors.empty()) {
-				correctors_.AddCorrectors(std::move(new_correctors));
-			}
+			trainer_->CollectSamples(scanner, *features.get(), gt_detections);
+			
 		}
 		
 		// Prepare for NMS
@@ -298,8 +297,10 @@ TLFAgent::Detect(std::shared_ptr<TLFImage> img) {
 
 	//TODO: run NMS;
 
-	if (supervisor_ && trainer_)
-		trainer_->EndImage();
+	if (supervisor_ && trainer_) {
+		auto correctors = trainer_->Train();
+		correctors_.AddCorrectors(std::move(correctors));
+	}
 
 	return std::make_unique<TLFSemanticImageDescriptor>();
 }
