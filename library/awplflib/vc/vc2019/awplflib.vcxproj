@@ -305,6 +305,11 @@
   <ItemGroup>
     <ClInclude Include="..\..\accel_rects\accel_rects.h" />
     <ClInclude Include="..\..\agent\agent.h" />
+    <ClInclude Include="..\..\agent\correctors.h" />
+    <ClInclude Include="..\..\agent\corrector_trainer.h" />
+    <ClInclude Include="..\..\agent\detectors.h" />
+    <ClInclude Include="..\..\agent\features.h" />
+    <ClInclude Include="..\..\agent\tests.h" />
     <ClInclude Include="..\..\include\LF.h" />
     <ClInclude Include="..\..\include\LFAgent.h" />
     <ClInclude Include="..\..\include\LFGpuEngine.h" />

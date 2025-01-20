@@ -83,12 +83,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)..\build\bin\$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>..\..\..\..\library\awpipl2\include\;..\..\..\..\3rdparty\TinyXML\src\;..\..\..\..\library\awplflib\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>..\..\..\..\library\awpipl2\include\;..\..\..\..\3rdparty\TinyXML\src\;..\..\..\..\library\awplflib;..\..\..\..\library\awplflib\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)..\build\bin\$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>..\..\..\..\library\awpipl2\include\;..\..\..\..\3rdparty\TinyXML\src\;..\..\..\..\library\awplflib\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>..\..\..\..\library\awpipl2\include\;..\..\..\..\3rdparty\TinyXML\src\;..\..\..\..\library\awplflib;..\..\..\..\library\awplflib\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
