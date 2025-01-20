@@ -75,20 +75,16 @@ namespace agent {
 			size_t detected = 0;
 
 			for (auto i = 0; i < triggered.size(); i++) {
+				auto row_data = builder.GetMutableData().GetRow(i);
 				// With probability 0.99 it is negative result
 				if (GetRand(0, 100) > 1) {
 					size_t cascade_number = GetRand(0, map->size() - 1);
 					triggered[i] = cascade_number;
-					size_t count = 0;
-					for (auto j = 0; j < map->size(); j++) {
-						if (j > cascade_number) break;
-						size_t cur_cascade_lenght = map.get()->at(j);
-						SetRandData(data + (i * stride) + count, cur_cascade_lenght);
-						count += cur_cascade_lenght;
-					}
+										
+					SetRandData(row_data, map.get()->at(cascade_number));
 				}
 				else { // fill all cascade
-					SetRandData(data + (i * stride), stride);
+					SetRandData(row_data, stride);
 					detected++;
 				}
 			}
