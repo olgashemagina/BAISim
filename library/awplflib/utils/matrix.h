@@ -42,19 +42,32 @@ public:
 
     // Resize matrix
     void Resize(size_t new_rows, size_t new_cols) {
-        std::vector<float> new_data(new_rows * new_cols, 0.0f);
 
-        size_t min_rows = std::min<size_t>(rows_, new_rows);
-        size_t min_cols = std::min<size_t>(cols_, new_cols);
+        if (rows_ != 0 && cols_ != 0) {
+            std::vector<float> new_data(new_rows * new_cols, 0.0f);
 
-        for (size_t row = 0; row < min_rows; ++row) {
-            std::memcpy(&new_data[row * new_cols], &data_[row * cols_], min_cols * sizeof(float));
+            size_t min_rows = std::min<size_t>(rows_, new_rows);
+            size_t min_cols = std::min<size_t>(cols_, new_cols);
+
+            for (size_t row = 0; row < min_rows; ++row) {
+                std::memcpy(&new_data[row * new_cols], &data_[row * cols_], min_cols * sizeof(float));
+            }
+
+         
+            data_ = std::move(new_data);
+        }
+        else {
+            data_.resize(new_rows * new_cols, 0.0f);
         }
 
         rows_ = new_rows;
         cols_ = new_cols;
-        data_ = std::move(new_data);
     }
+
+    void    Clear() {
+        rows_ = cols_ = 0;
+    }
+
 
     void Reserve(size_t new_rows, size_t new_cols) {
         data_.resize(0);

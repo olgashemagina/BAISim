@@ -309,6 +309,7 @@
     <ClInclude Include="..\..\agent\corrector_trainer.h" />
     <ClInclude Include="..\..\agent\detectors.h" />
     <ClInclude Include="..\..\agent\features.h" />
+    <ClInclude Include="..\..\agent\supervisors.h" />
     <ClInclude Include="..\..\agent\tests.h" />
     <ClInclude Include="..\..\include\LF.h" />
     <ClInclude Include="..\..\include\LFAgent.h" />

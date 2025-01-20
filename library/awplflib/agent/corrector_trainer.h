@@ -20,7 +20,9 @@ namespace agent {
 
 
 		// Process new samples for each batch in separate thread.
-		virtual void CollectSamples(ILFScanner* scanner, const TFeatures& feats, const ILFSupervisor::TDetections& detections) override {
+		virtual void CollectSamples(ILFScanner* scanner, const TFeatures& feats, const TDetections& detections) override {
+
+			ResizeIfNeeded(feats.layout());
 
 			for (size_t frag = feats.frags_begin(); frag < feats.frags_end(); ++frag) {
 				// Find frag indices that overlap proper detections
@@ -86,7 +88,7 @@ namespace agent {
 			}
 			else {
 				auto stage = std::min<size_t>(feats.GetTriggeredStage(index), min_features_stages_ - 1);
-				auto feats_count = feats.map()->at(stage);
+				auto feats_count = feats.layout().at(stage);
 				// No object detected
 				if (gt_overlap >= detection_threshold_) {
 					// FN
@@ -104,6 +106,26 @@ namespace agent {
 					// Skip other TN
 				}
 			}
+		}
+
+		void		ResizeIfNeeded(const TLayout& layout) {
+			size_t features_count = layout.back();
+
+			std::unique_lock<std::mutex> lock(mtx_);
+			if (fp_.cols() < features_count)
+				fp_.Resize(fp_.rows(), features_count);
+
+			if (tp_.cols() < features_count)
+				tp_.Resize(tp_.rows(), features_count);
+
+			features_count = layout.at(min_features_stages_ - 1);
+
+			if (fn_.cols() < features_count)
+				fn_.Resize(fn_.rows(), features_count);
+
+			if (tn_.cols() < features_count)
+				tn_.Resize(tn_.rows(), features_count);
+
 		}
 
 		// Calculate normal probability for selecting data;

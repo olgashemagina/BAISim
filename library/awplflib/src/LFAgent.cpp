@@ -76,7 +76,7 @@ TLFAgent::Detect(std::shared_ptr<TLFImage> img) {
 		batch_end = batch_end < fragments_count ? batch_end : fragments_count;
 
 		// Setting up bounds of batch and alloc memory if needed
-		features->Setup(detector_->GetMap(), batch_begin, batch_end, batch_size_);
+		features->SetBounds(batch_begin, batch_end);
 
 		// Process batch by detector
 		workers_[current_thread]->Detect(img, *features.get());

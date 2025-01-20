@@ -62,26 +62,28 @@ namespace agent {
 				feature_count_list_.push_back(feature_count + count);
 				count = feature_count_list_.back();
 			}
-			tmap_ptr_ = std::make_shared<TFeatures::TMap>(feature_count_list_);
-			return (bool)tmap_ptr_;
+			
+			return true;
 		}
 
 		void Detect(std::shared_ptr<TLFImage> img, TFeaturesBuilder& builder) {
+
+			builder.Reset(feature_count_list_);
+
 			float* data = builder.GetMutableData().GetRow(0);
 			size_t stride = builder.feats_count();
 			auto triggered = builder.GetTriggered();
-			auto map = builder.map();
-
+			
 			size_t detected = 0;
 
 			for (auto i = 0; i < triggered.size(); i++) {
 				auto row_data = builder.GetMutableData().GetRow(i);
 				// With probability 0.99 it is negative result
 				if (GetRand(0, 100) > 1) {
-					size_t cascade_number = GetRand(0, map->size() - 1);
+					size_t cascade_number = GetRand(0, feature_count_list_.size() - 1);
 					triggered[i] = cascade_number;
 										
-					SetRandData(row_data, map.get()->at(cascade_number));
+					SetRandData(row_data, feature_count_list_.at(cascade_number));
 				}
 				else { // fill all cascade
 					SetRandData(row_data, stride);
@@ -115,9 +117,6 @@ namespace agent {
 			return nullptr;
 		}
 
-		virtual TFeatures::TMapPtr GetMap() override { return tmap_ptr_; }
-
-
 
 	private:
 		static void SetRandData(float* data, size_t size) {
@@ -126,11 +125,9 @@ namespace agent {
 		}
 
 	private:
-		std::function<void(std::shared_ptr<TFeatures>)> callback_;
-		std::vector<size_t> feature_count_list_;
-		TFeatures::TMapPtr tmap_ptr_;
+		std::vector<size_t>				feature_count_list_;
 
-		std::unique_ptr<ILFScanner> scanner_;
+		std::unique_ptr<ILFScanner>		scanner_;
 
 	};
 

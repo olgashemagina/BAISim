@@ -1,6 +1,7 @@
 #include <iostream>
 #include "LFAgent.h"
 #include "agent/tests.h"
+#include "agent/detectors.h"
 
 // supervisor_correctors.exe path_to_xml path_to_jpeg
 int main(int argc, char* argv[]) {

@@ -19,6 +19,7 @@ class ILFSupervisor;
 
 namespace agent {
 
+	// Detections
 	using TDetections = std::vector<TLFRect>;
 
 	// Basic interfaces of Agent
@@ -64,10 +65,7 @@ namespace agent {
 
 		// Scanner of Detector;
 		virtual ILFScanner* GetScanner() = 0;
-
-		// Layout of detector describing features in stages.
-		virtual TFeatures::TMapPtr GetMap() = 0;
-
+				
 		// Creating Worker for parallel processing.
 		virtual std::unique_ptr<IWorker> CreateWorker() = 0;
 

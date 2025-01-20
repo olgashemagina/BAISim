@@ -10,7 +10,9 @@ namespace agent {
 	// No correction marker
 	static const int kNoCorrection = -1;
 
-
+	// Layout is vector of summing current stage count of features and all previous features;
+	using TLayout = std::vector<size_t>;
+	
 	// Features that collected from detector. May be represented as matrix with rows describing fragments
 	// and cols describing features of detector.
 	// Detector has structure of stages, size of each stage is described by Map.
@@ -18,10 +20,7 @@ namespace agent {
 	// Corrections is a vector of triplets {NoCorrection, 0, 1}
 	class TFeatures {
 	public:
-		// Map is vector of summing current stage count of features and all previous features;
-		using TMap = std::vector<size_t>;
-		using TMapPtr = std::shared_ptr<TMap>;
-
+		
 	public:
 		TFeatures() {}
 
@@ -50,7 +49,7 @@ namespace agent {
 
 		const std::vector<int>& corrections() const { return corrections_; }
 
-		TMapPtr map() const { return map_; }
+		const TLayout& layout() const { return layout_; }
 
 		const float* GetFeats(size_t fragment_index) const {
 			return data_.GetRow(fragment_index - frags_begin_);
@@ -63,8 +62,8 @@ namespace agent {
 		//Matrix of data there rows is fragments and cols is features
 		TMatrix								data_;
 
-		// Map of detector
-		TMapPtr								map_;
+		// Layout of detector
+		TLayout								layout_;
 
 		size_t								frags_begin_ = 0;
 		size_t								frags_end_ = 0;
@@ -82,27 +81,31 @@ namespace agent {
 		TFeaturesBuilder() = default;
 
 	public:
-		// Set fragments and 
-		void Setup(TMapPtr map, size_t frags_begin, size_t frags_end, size_t batch_size) {
+		void SetBounds(size_t frags_begin, size_t frags_end) {
 			frags_begin_ = frags_begin;
 			frags_end_ = frags_end;
+		}
 
+		// Reset memory for layout;
+		void Reset( const TLayout& layout) {
+			
 			size_t features_count = data_.cols();
 
-			if (map_ != map) {
-				features_count = map->back();
-				map_ = map;
+			if (layout_.size() != layout.size() || 
+				layout_.back() != layout.back()) {
+				features_count = layout.back();
+				layout_ = layout;
 			}
 
-			if (data_.rows() != batch_size) {
-				data_.Resize(batch_size, features_count);
-				triggered_.resize(batch_size, -1);
-				corrections_.resize(batch_size, kNoCorrection);
-			}
-			else {
-				triggered_.assign(triggered_.size(), -1);
-				corrections_.assign(corrections_.size(), kNoCorrection);
-			}
+			data_.Clear();
+			data_.Resize(frags_count(), features_count);
+
+			triggered_.clear();
+			corrections_.clear();
+
+			triggered_.resize(frags_count(), -1);
+			corrections_.resize(frags_count(), kNoCorrection);
+
 		}
 
 		std::vector<size_t>& GetTriggered() { return triggered_; }
@@ -110,6 +113,13 @@ namespace agent {
 		//Get memory to fill it;
 		TMatrix& GetMutableData() { return data_; }
 
+		float* GetFeats(size_t fragment_index) {
+			return data_.GetRow(fragment_index - frags_begin_);
+		}
+
+		void SetTriggered(size_t fragment_index, size_t triggered = -1) {
+			triggered_[fragment_index - frags_begin_] = triggered;
+		}
 
 		std::vector<int>& GetMutableCorrections() { return corrections_; }
 
