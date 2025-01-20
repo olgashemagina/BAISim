@@ -46,7 +46,7 @@ namespace agent {
                 double scale = std::min<double>(scale_x, scale_y);
 
                 TLFAlignedTransform transform(scale, scale, rect.left, rect.top);
-                double score = FLT_MAX;
+                float score = FLT_MAX;
 
                 TLFObjectList* strongs = detector_->GetStrongs();
 
@@ -71,7 +71,7 @@ namespace agent {
                     //Check If object detected;
                     if (triggered != -1) {
                         if (desc.result != 0) {
-                            score = std::min<double>(desc.score, score);
+                            score = std::min<float>(desc.score, score);
                         }
                         else {
                             // No object detected.
@@ -84,10 +84,7 @@ namespace agent {
                         break;
                 }
 
-                builder.SetTriggered(frag, triggered);
-
-                // TODO: store score;
-
+                builder.SetTriggered(frag, triggered, score);
             }
         }
 

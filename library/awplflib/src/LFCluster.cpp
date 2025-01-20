@@ -137,8 +137,8 @@ double TLFClusterMaker::Distance(TLFClusterItem* di1, TLFClusterItem* di2)
 {
 	if (di1 == NULL || di2 == NULL || di1 == di2)
 		return FLT_MAX;
-	awpPoint p1 = di1->GetDi()->GetBounds()->Center();
-	awpPoint p2 = di2->GetDi()->GetBounds()->Center();
+	awpPoint p1 = di1->GetDi()->GetBounds().Center();
+	awpPoint p2 = di2->GetDi()->GetBounds().Center();
 
 	return sqrt((double)(p1.X - p2.X)*(p1.X-p2.X) + (double)(p1.Y - p2.Y)*(p1.Y - p2.Y));
 }
@@ -354,7 +354,7 @@ void TLFClusterMaker::UpdateBlobs()
 		if (di != NULL)
 		{
 			int idx = di->GetClusterIdx();
-			awpPoint p = di->GetBounds()->Center();
+			awpPoint p = di->GetBounds().Center();
 			m_blobs[idx].area += 1;
 			m_blobs[idx].cx += p.X;
 			m_blobs[idx].cy += p.Y;
@@ -377,7 +377,7 @@ void TLFClusterMaker::UpdateBlobs()
 		if (di != NULL)
 		{
 			int idx = di->GetClusterIdx();
-			awpPoint p = di->GetBounds()->Center();
+			awpPoint p = di->GetBounds().Center();
 			if (m_blobs[idx].area > 0)
 			{
 				m_blobs[idx].mxx += (p.X - m_blobs[idx].cx)*(p.X - m_blobs[idx].cx);
@@ -657,7 +657,7 @@ static void DoUpdateBlobs(SLFBinaryBlob* blobs, TLFObjectList* list)
 			int idx = di->GetColor();
 			if (idx >= 0 && idx < LF_NUM_CLUSTERS)
 			{
-				awpPoint p = di->GetBounds()->Center();
+				awpPoint p = di->GetBounds().Center();
 				blobs[idx].area += 1;
 				blobs[idx].cx += p.X;
 				blobs[idx].cy += p.Y;
@@ -683,7 +683,7 @@ static void DoUpdateBlobs(SLFBinaryBlob* blobs, TLFObjectList* list)
 			int idx = di->GetColor();
 			if (idx >= 0 && idx < LF_NUM_CLUSTERS)
 			{
-				awpPoint p = di->GetBounds()->Center();
+				awpPoint p = di->GetBounds().Center();
 				if (m_blobs[idx].area > 0)
 				{
 					m_blobs[idx].mxx += (p.X - m_blobs[idx].cx)*(p.X - m_blobs[idx].cx);

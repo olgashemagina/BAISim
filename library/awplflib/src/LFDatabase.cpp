@@ -542,8 +542,8 @@ void TLFDBLabeledImages::CheckEngine(TLFDetectEngine& engine, double overlap)
 		for (int j = 0; j < d->GetCount(); j++)
 		{
 			TLFDetectedItem* item = d->GetDetectedItem(j);
-			TLFRect* lf_rect = item->GetBounds();
-			awpRect rect = lf_rect->GetRect();
+			
+			awpRect rect = item->GetBounds().GetRect();
 			detector->Init(&img);
 		    int result = detector->ClassifyRect(rect);
 			

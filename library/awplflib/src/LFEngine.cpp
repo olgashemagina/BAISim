@@ -557,7 +557,7 @@ void TLFDetectEngine::OverlapsFilter(TLFSemanticImageDescriptor* descriptor)
         for (int i = m_tmpList.GetCount() - 1; i >= 0; i--)
 		{
             TLFDetectedItem* di = (TLFDetectedItem*)m_tmpList.Get(i);
-            if (di->GetBounds()->IsCover(*de->GetBounds()) || de->GetBounds()->IsCover(*di->GetBounds()) ||  de->GetBounds()->RectOverlap(*di->GetBounds()) > 0.1)// <- this is overlap threshold
+            if (di->GetBounds().IsCover(de->GetBounds()) || de->GetBounds().IsCover(di->GetBounds()) ||  de->GetBounds().RectOverlap(di->GetBounds()) > 0.1)// <- this is overlap threshold
             {
                //
                 TLFDetectedItem* dd = new  TLFDetectedItem(di);
@@ -576,10 +576,10 @@ void TLFDetectEngine::OverlapsFilter(TLFSemanticImageDescriptor* descriptor)
         for (int i = 0; i < objectDescr.GetCount(); i++)
         {
              TLFDetectedItem* d =  (TLFDetectedItem*)objectDescr.Get(i);
-			 p.X += d->GetBounds()->Center().X;
-             p.Y += d->GetBounds()->Center().Y;
-             w += d->GetBounds()->Width();
-             h +=  d->GetBounds()->Height();
+			 p.X += d->GetBounds().Center().X;
+             p.Y += d->GetBounds().Center().Y;
+             w += d->GetBounds().Width();
+             h +=  d->GetBounds().Height();
              if (max_raiting < d->GetRaiting())
                 max_raiting =  d->GetRaiting();
         }
@@ -607,7 +607,7 @@ void TLFDetectEngine::OverlapsFilter(TLFSemanticImageDescriptor* descriptor)
        // memset(id, 0, sizeof(UUID));
 		LF_NULL_UUID_CREATE(id);
         // add object to result list
-        TLFDetectedItem* dd = new  TLFDetectedItem(&r, raiting, type, firstObject->GetAngle(), firstObject->GetRacurs(), bw, bh, firstObject->GetDetectorName(), id);
+        TLFDetectedItem* dd = new  TLFDetectedItem(r, raiting, type, firstObject->GetAngle(), firstObject->GetRacurs(), bw, bh, firstObject->GetDetectorName(), id);
 		descriptor->AddDetectedItem(dd);
 		delete dd;
     }
@@ -666,7 +666,7 @@ void    TLFFGEngine::BuildForeground()
 			TLFDetectedItem* item = d->GetItem(i);
 			if (item != NULL && item->HasObject())
 			{
-				awpRect    item_rect = item->GetBounds()->GetRect();
+				awpRect    item_rect = item->GetBounds().GetRect();
 				awpImage*  fg = m_foreground.GetImage();
 				awpFillRect(fg, &item_rect, 0, 255);
 
@@ -765,8 +765,8 @@ void TLFFGEngine::OverlapsFilter(TLFSemanticImageDescriptor* descriptor)
 			for (int i = 0; i < this->GetItemsCount(); i++)
 			{
 				TLFDetectedItem* di = this->GetItem(i);
-				TLFRect* di_rect = di->GetBounds();
-				if (di_rect->RectOverlap(r)>0 || di_rect->Distance(r) < 5)
+				
+				if (di->GetBounds().RectOverlap(r)>0 || di->GetBounds().Distance(r) < 5)
 				{
    					found = true;
 					break;
@@ -781,7 +781,7 @@ void TLFFGEngine::OverlapsFilter(TLFSemanticImageDescriptor* descriptor)
 		{
 			UUID id;
 			LF_NULL_UUID_CREATE(id);
-			TLFDetectedItem* dd = new  TLFDetectedItem(&rect, 0, "Foreground", 0, 0, 24, 24, "TLFFGBGDetector", id);
+			TLFDetectedItem* dd = new  TLFDetectedItem(rect, 0, "Foreground", 0, 0, 24, 24, "TLFFGBGDetector", id);
 			descriptor->AddDetectedItem(dd);
 			delete dd;
 		}
@@ -1030,7 +1030,7 @@ std::optional<std::vector<detected_item_ptr>> TLFTreeEngine::DetectInRect(const 
 			//Objects detected, run tree
 			for (int i = 0; i < node.first->GetNumItems(); i++) {
 				TLFDetectedItem* item = node.first->GetItem(i);
-				auto leaf_rect = item->GetBounds()->GetRect();
+				auto leaf_rect = item->GetBounds().GetRect();
 
 				auto parent = std::make_shared<TLFDetectedItem>(*item);
 

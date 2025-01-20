@@ -54,7 +54,7 @@ TLFDetectedItem::TLFDetectedItem()
 	this->m_bh = 10;
 	this->m_Raiting = 0;
 	this->m_racurs = 0;
-	this->m_pRect = new TLFRect();
+	this->m_rect = {0, 0, 0, 0};
 	this->m_type = "unknown";
 	this->m_angle = 0;
 	this->m_strDetectorName = "";
@@ -68,7 +68,7 @@ TLFDetectedItem::TLFDetectedItem()
 	this->m_zone = NULL;
 }
 
-TLFDetectedItem::TLFDetectedItem(awpRect* pRect,
+TLFDetectedItem::TLFDetectedItem(awpRect rect,
 									double raiting,
 									std::string type,
 									int angle,
@@ -79,9 +79,8 @@ TLFDetectedItem::TLFDetectedItem(awpRect* pRect,
 									UUID id,
 									ILFPredictor* predictor) : TLFObject()
 {
-	this->m_pRect = new TLFRect();
-	if (pRect != NULL)
-		m_pRect->SetRect(*pRect);
+	this->m_rect = std::move(rect);
+		
 	this->m_Raiting = raiting;
 	this->m_type = type;
 	this->m_angle = angle;
@@ -101,7 +100,7 @@ TLFDetectedItem::TLFDetectedItem(awpRect* pRect,
 
 TLFDetectedItem::TLFDetectedItem(TLFDetectedItem& item) : TLFObject()
 {
-	this->m_pRect = new TLFRect(*item.m_pRect);
+	this->m_rect = item.m_rect;
 	this->m_Raiting = item.m_Raiting;
 	this->m_type = item.m_type;
 	this->m_angle = item.m_angle;
@@ -127,7 +126,7 @@ TLFDetectedItem::TLFDetectedItem(TLFDetectedItem& item) : TLFObject()
 
 TLFDetectedItem::TLFDetectedItem(TLFDetectedItem* item) : TLFObject()
 {
-	this->m_pRect = new TLFRect(*item->m_pRect);
+	this->m_rect = item->m_rect;
 	this->m_Raiting = item->m_Raiting;
 	this->m_type = item->m_type;
 	this->m_angle = item->m_angle;
@@ -152,16 +151,14 @@ TLFDetectedItem::TLFDetectedItem(TLFDetectedItem* item) : TLFObject()
 }
 
 TLFDetectedItem::~TLFDetectedItem()
-{
-	if (this->m_pRect != NULL)
-		delete m_pRect;
+{	
 	if (this->m_predictor != NULL)
 		delete m_predictor;
 }
 /*data exchange*/
-TLFRect*	TLFDetectedItem::GetBounds()
+const TLFRect&	TLFDetectedItem::GetBounds()
 {
-	return this->m_pRect;
+	return this->m_rect;
 }
 double		TLFDetectedItem::GetRaiting()
 {
@@ -253,9 +250,8 @@ int   TLFDetectedItem::GetBH()
 }
 TiXmlElement* TLFDetectedItem::SaveXML()
 {
-	if (this->m_pRect == NULL)
-		return NULL;
-	awpRect r = this->m_pRect->GetRect();
+	
+	awpRect r = m_rect.GetRect();
 
 	TiXmlElement* elem = new TiXmlElement(this->GetName());
 	elem->SetAttribute("DetectorName", this->m_strDetectorName.c_str());
@@ -312,10 +308,8 @@ bool TLFDetectedItem::LoadXML(TiXmlElement* parent)
 	parent->Attribute("bottom", &iv);
 	r.bottom = iv;
 
-	if (this->m_pRect == NULL)
-		this->m_pRect = new TLFRect();
-
-	this->m_pRect->SetRect(r);
+	
+	m_rect.SetRect(r);
 
 	TiXmlElement* child = parent->FirstChildElement();
 	if (child)
@@ -329,37 +323,31 @@ bool TLFDetectedItem::LoadXML(TiXmlElement* parent)
 }
 
 void TLFDetectedItem::Resize(double factor)
-{
-	TLFRect* rect = this->GetBounds();
-	if (rect != NULL)
-	{
-		awpRect  awpr = rect->GetRect();
-		awpr.left = (AWPSHORT)floor(awpr.left*factor + 0.5);
-		awpr.right = (AWPSHORT)floor(awpr.right*factor + 0.5);
-		awpr.top = (AWPSHORT)floor(awpr.top*factor + 0.5);
-		awpr.bottom = (AWPSHORT)floor(awpr.bottom*factor + 0.5);
-		rect->SetRect(awpr);
-	}
+{	
+	awpRect  awpr = GetBounds().GetRect();
+	awpr.left = (AWPSHORT)floor(awpr.left * factor + 0.5);
+	awpr.right = (AWPSHORT)floor(awpr.right * factor + 0.5);
+	awpr.top = (AWPSHORT)floor(awpr.top * factor + 0.5);
+	awpr.bottom = (AWPSHORT)floor(awpr.bottom * factor + 0.5);
+	m_rect.SetRect(awpr);
 }
 
 void TLFDetectedItem::Flip(int w)
-{
-	TLFRect* rect = this->GetBounds();
-	awpRect  awpr = rect->GetRect();
+{	
+	awpRect  awpr = GetBounds().GetRect();
 	AWPSHORT l, r;
 	l = w - awpr.right;
 	r = w - awpr.left;
 	awpr.left = l;
 	awpr.right = r;
 
-	rect->SetRect(awpr);
+	m_rect.SetRect(awpr);
 }
 
 
 void TLFDetectedItem::Rotate(awpPoint c, int angle)
-{
-	TLFRect* rect1 = this->GetBounds();
-	awpRect  awpr = rect1->GetRect();
+{	
+	awpRect  awpr = GetBounds().GetRect();
 
 	double fi = angle*AWP_PI / 180.;
 
@@ -376,16 +364,12 @@ void TLFDetectedItem::Rotate(awpPoint c, int angle)
 	awpr.right = p.X + w;
 	awpr.top = p.Y;
 	awpr.bottom = p.Y + h;
-	rect1->SetRect(awpr);
+	m_rect.SetRect(awpr);
 }
 
 void		TLFDetectedItem::SetBounds(awpRect& rect, int iw, int ih)
 {
-	if (this->m_pRect == NULL)
-	{
-		m_pRect = new TLFRect();
-	}
-	m_pRect->SetRect(rect);
+	m_rect.SetRect(rect);
 
 	// setup zone
 	awp2DPoint p1;
@@ -416,21 +400,23 @@ TLFRect* TLFDetectedItem::Predict(ILFDetectEngine* engine)
 	return this->m_predictor->Predict(engine);
 }
 
-void TLFDetectedItem::Update(ILFDetectEngine* engine, TLFRect* rect)
+void TLFDetectedItem::Update(ILFDetectEngine* engine, const TLFRect& rect)
 {
 	if (engine == NULL || m_predictor == NULL)
 		return;
 
 	ILFScanner* s = engine->GetScanner(0);
 
-	if (rect == NULL && m_predictor->GetPredicted() == NULL)
+	auto square = rect.Square();
+
+	if (square == 0 && m_predictor->GetPredicted() == NULL)
 		this->m_state = 3;
-	else if (rect == NULL)
+	else if (square == 0)
 	{
 		TLFRect* predicted = m_predictor->GetPredicted();
 		if (predicted != NULL)
 		{
-			this->m_pRect->SetRect(predicted->GetRect());
+			m_rect.SetRect(predicted->GetRect());
 			this->m_state = 2;
 		}
 		else
@@ -441,13 +427,13 @@ void TLFDetectedItem::Update(ILFDetectEngine* engine, TLFRect* rect)
 		TLFRect* predicted = m_predictor->GetPredicted();
 		if (predicted != NULL)
 		{
-			this->m_pRect->SetRect(predicted->GetRect());
+			m_rect.SetRect(predicted->GetRect());
 			m_state = 2;
 		}
 		else
 		{
 			this->m_predictor->Learn(engine, rect);
-			this->m_pRect->SetRect(rect->GetRect());
+			m_rect.SetRect(rect.GetRect());
 			m_state = 1;
 		}
 	}
@@ -514,15 +500,13 @@ void TLFDetectedItem::SetZone(TLFZone* zone, int w, int h)
 
 		_r.right = floor(_rect2D->GetRightBottom().X*w / 100. + 0.5);
 		_r.bottom = floor(_rect2D->GetRightBottom().Y*h / 100. + 0.5);
-		m_pRect->SetRect(_r);
+		m_rect.SetRect(_r);
 		delete _rect2D;
 	}
 }
 
 TLFZone* TLFDetectedItem::GetZone()
 {
-	if (m_pRect == NULL)
-		return NULL;
 	if (m_zone == NULL)
 	{
 	  //TLF2DRect _rect(m_pRect->GetRect());

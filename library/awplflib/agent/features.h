@@ -28,14 +28,16 @@ namespace agent {
 
 	public:
 
-		int GetDetectorResult(size_t fragment_index) const { return (triggered_[fragment_index - frags_begin_] < -1) ? 1 : 0; }
+		int GetDetectorResult(size_t fragment_index) const { return (triggered_[fragment_index - frags_begin_].first == -1) ? 1 : 0; }
 
 		int GetCorrectedResult(size_t fragment_index) const {
 			return (corrections_[fragment_index - frags_begin_] == kNoCorrection) ?
 				GetDetectorResult(fragment_index) : corrections_[fragment_index - frags_begin_];
 		}
 
-		size_t	GetTriggeredStage(size_t fragment_index) const { return triggered_.at(fragment_index - frags_begin_); }
+		size_t	GetTriggeredStage(size_t fragment_index) const { return triggered_.at(fragment_index - frags_begin_).first; }
+
+		float	GetScore(size_t fragment_index) const { return triggered_.at(fragment_index - frags_begin_).second; }
 
 
 		size_t frags_begin() const { return frags_begin_; }
@@ -65,12 +67,15 @@ namespace agent {
 		// Layout of detector
 		TLayout								layout_;
 
+		// Fragments bounds
 		size_t								frags_begin_ = 0;
 		size_t								frags_end_ = 0;
-		//Number triggered stage or -1 if noone triggered;
+		
+		// Number triggered stage or -1 if none triggered and score of stage;
+		std::vector<std::pair<size_t, float>>					
+											triggered_;
 
-		std::vector<size_t>					triggered_;
-
+		// TODO: move corrections to builder
 		std::vector<int>					corrections_;
 	};
 
@@ -103,13 +108,12 @@ namespace agent {
 			triggered_.clear();
 			corrections_.clear();
 
-			triggered_.resize(frags_count(), -1);
+			triggered_.resize(frags_count(), { -1, 0.f });
 			corrections_.resize(frags_count(), kNoCorrection);
 
 		}
 
-		std::vector<size_t>& GetTriggered() { return triggered_; }
-
+		
 		//Get memory to fill it;
 		TMatrix& GetMutableData() { return data_; }
 
@@ -117,9 +121,10 @@ namespace agent {
 			return data_.GetRow(fragment_index - frags_begin_);
 		}
 
-		void SetTriggered(size_t fragment_index, size_t triggered = -1) {
-			triggered_[fragment_index - frags_begin_] = triggered;
+		void SetTriggered(size_t fragment_index, size_t triggered, float score) {
+			triggered_[fragment_index - frags_begin_] = { triggered, score };
 		}
+
 
 		std::vector<int>& GetMutableCorrections() { return corrections_; }
 

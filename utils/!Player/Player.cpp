@@ -113,7 +113,7 @@ int main(int argc, char* argv[])
 					}*/
 					if (di)
 					{
-						awpRect rect1 = di->GetBounds()->GetRect();
+						awpRect rect1 = di->GetBounds().GetRect();
 						bool result_90;
 						if (result == true) 
 						{

@@ -470,7 +470,7 @@ int  TSCObjectDetector::Detect()
 			UUID id;
 			LF_NULL_UUID_CREATE(id);
 			// записываем результат в лист.
-			TLFDetectedItem* de = new TLFDetectedItem(&rect, score, this->m_Type, this->m_Angle,
+			TLFDetectedItem* de = new TLFDetectedItem(rect, score, this->m_Type, this->m_Angle,
 				this->m_racurs, this->m_baseWidth, this->m_baseHeight, this->m_strDetName.c_str(), id);
 			de->SetHasObject(true);
 
@@ -564,7 +564,7 @@ int TSCObjectDetector::DetectInRect(awpRect roi)
 				//object detected
 				UUID id;
 				LF_NULL_UUID_CREATE(id);
-				TLFDetectedItem* de = new TLFDetectedItem(&rect, score, this->m_Type, this->m_Angle,
+				TLFDetectedItem* de = new TLFDetectedItem(rect, score, this->m_Type, this->m_Angle,
 					this->m_racurs, this->m_baseWidth, this->m_baseHeight, this->m_strDetName.c_str(), id);
 				de->SetHasObject(true);
 
@@ -808,7 +808,7 @@ bool TLFFGBGDetector::Init(TLFImage* pImage, awpRect* pRect)
 
 			LF_NULL_UUID_CREATE(id);
 
-			TLFDetectedItem* de = new TLFDetectedItem(&rect, 0, "Foreground", 0, 0,
+			TLFDetectedItem* de = new TLFDetectedItem(rect, 0, "Foreground", 0, 0,
 			this->m_baseWidth, this->m_baseHeight, this->m_strDetName.c_str(), id);
 			de->SetHasObject(false);
 			m_objects.Add(de);
@@ -849,8 +849,8 @@ int  TLFFGBGDetector::Detect()
 		if (di != NULL)
 		{
 		   	di->SetHasObject(false);
-			TLFRect* rect = di->GetBounds();
-			if (rect != NULL)
+			auto square = di->GetBounds().Square();
+			if (square > 0)
 			{ 
 				double e = di->GetRaiting();
 				

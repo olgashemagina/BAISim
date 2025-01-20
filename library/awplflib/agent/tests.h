@@ -72,17 +72,17 @@ namespace agent {
 
 			float* data = builder.GetMutableData().GetRow(0);
 			size_t stride = builder.feats_count();
-			auto triggered = builder.GetTriggered();
-			
+						
 			size_t detected = 0;
 
-			for (auto i = 0; i < triggered.size(); i++) {
-				auto row_data = builder.GetMutableData().GetRow(i);
+			for (size_t frag = builder.frags_begin(); frag < builder.frags_end(); ++frag) {
+				auto row_data = builder.GetFeats(frag);
 				// With probability 0.99 it is negative result
 				if (GetRand(0, 100) > 1) {
 					size_t cascade_number = GetRand(0, feature_count_list_.size() - 1);
-					triggered[i] = cascade_number;
-										
+
+					builder.SetTriggered(frag, cascade_number, 1);
+															
 					SetRandData(row_data, feature_count_list_.at(cascade_number));
 				}
 				else { // fill all cascade

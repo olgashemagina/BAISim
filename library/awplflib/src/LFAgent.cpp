@@ -9,19 +9,22 @@
 
 using namespace agent;
 
+static std::vector<TLFDetectedItem> NonMaximumSuppression(
+	std::vector<std::pair<TLFRect, float>>& rects,
+	float overlap_threshold, const TItemAttributes& attrs);
+
 ///////////////////////////////////////////////////////////////////////////////
 
 TLFAgent::TLFAgent() 
 	: pool_([this]() { return std::make_unique<agent::TFeaturesBuilder>(); }) {
 }
 
-inline std::unique_ptr<TLFSemanticImageDescriptor> 
-TLFAgent::Detect(std::shared_ptr<TLFImage> img) {
+ std::vector<TLFDetectedItem> TLFAgent::Detect(std::shared_ptr<TLFImage> img) {
 
 	auto scanner = detector_->GetScanner();
 	
 	if (!scanner)
-		return nullptr;
+		return {};
 
 	agent::TDetections	gt_detections;
 
@@ -35,7 +38,7 @@ TLFAgent::Detect(std::shared_ptr<TLFImage> img) {
 	auto fragments_count = scanner->GetFragmentsCount();
 
 	if (fragments_count == 0)
-		return nullptr;
+		return {};
 
 
 	size_t batches_count = size_t(std::ceil(fragments_count / batch_size_));
@@ -54,7 +57,7 @@ TLFAgent::Detect(std::shared_ptr<TLFImage> img) {
 		}
 	}
 
-	detected_indices_.clear();
+	prior_detections_.clear();
 	
 
 #ifdef _OMP_
@@ -98,20 +101,86 @@ TLFAgent::Detect(std::shared_ptr<TLFImage> img) {
 #pragma omp critical 
 #endif
 				{
-					detected_indices_.push_back(n);
+					prior_detections_.emplace_back(	scanner->GetFragmentRect(n), 
+													features->GetScore(n));
 				}
 			}
 		}
-
 	}
-
-	//TODO: run NMS;
 
 	if (supervisor_ && trainer_) {
 		auto correctors = trainer_->Train();
 		correctors_.AddCorrectors(std::move(correctors));
 	}
 
-	return std::make_unique<TLFSemanticImageDescriptor>();
+	return NonMaximumSuppression(prior_detections_, overlap_threshold_, item_attrs_);
+}
+
+
+// Filter detections
+static std::vector<TLFDetectedItem> NonMaximumSuppression(
+	std::vector<std::pair<TLFRect, float>>& rects, 
+	float overlap_threshold, const TItemAttributes& attrs ) {
+	
+	std::vector<TLFDetectedItem>	items;
+
+	// Sort by score
+	std::sort(rects.begin(), rects.end(), [](const auto& a, const auto& b) {
+			return a.second > b.second;
+	});
+
+#ifdef _OMP_
+#pragma omp parallel for num_threads(std::min<int>(omp_get_max_threads(), 4))
+#endif
+	for (int i = 0; i < rects.size(); ++i) {
+		const auto& [base_rect, base_score] = rects[i];
+
+		// Averaging position
+		awpPoint p = base_rect.Center();
+		AWPSHORT w = base_rect.Width();
+		AWPSHORT h = base_rect.Height();
+
+		AWPSHORT similar_count = 1;
+
+		for (size_t j = i + 1; j < rects.size(); ++j) {
+			auto& [rect, score] = rects[j];
+
+			if (score > 0 && rect.RectOverlap(base_rect) > overlap_threshold) {
+				p.X += rect.Center().X;
+				p.Y += rect.Center().Y;
+				w += rect.Width();
+				h += rect.Height();
+
+				similar_count++;
+#ifdef _OMP_
+#pragma omp critical 
+#endif
+				// Skip from using in futher tests
+				score = 0;
+			}
+
+		}
+		p.X /= similar_count;
+		p.Y /= similar_count;
+		w /= similar_count;
+		h /= similar_count;
+
+		awpRect r{ p.X - w / 2, p.Y - h / 2, p.X + w / 2, p.Y + h / 2 };
+
+		UUID id;
+		// memset(id, 0, sizeof(UUID));
+		LF_NULL_UUID_CREATE(id);
+		// add object to result list
+#ifdef _OMP_
+#pragma omp critical 
+#endif
+		{
+			items.emplace_back(std::move(r), base_score, attrs.type,
+				attrs.angle, attrs.racurs, attrs.base_width, attrs.base_height, attrs.name, id);
+		}
+
+	}
+
+	return items;
 }
 

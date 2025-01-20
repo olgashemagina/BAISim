@@ -294,7 +294,7 @@ bool		TCSBuildDetector::BuildBkground(int cascade)
 					TLFDetectedItem* item = m_Engine.GetItem(i);
 
 					awpImage* Fragment = NULL;
-					awpRect r = item->GetBounds()->GetRect();
+					awpRect r = item->GetBounds().GetRect();
 					bool canSave = true;
 					/*
 					попытаемся загрузить xml описание изображеия.
@@ -308,8 +308,8 @@ bool		TCSBuildDetector::BuildBkground(int cascade)
 							for (int ii = 0; ii < sd.GetItemsCount(); ii++)
 							{
 								TLFDetectedItem* di = sd.GetDetectedItem(ii);
-								TLFRect* bounds = di->GetBounds();
-								rect_ovr = bounds->RectOverlap(r);
+								const TLFRect& bounds = di->GetBounds();
+								rect_ovr = bounds.RectOverlap(r);
 								if (rect_ovr > 0.1)
 								{
 									canSave = false;
@@ -384,8 +384,8 @@ bool		TCSBuildDetector::BuildBkground(int cascade)
 						for (int ii = 0; ii < sd.GetItemsCount(); ii++)
 						{
 							TLFDetectedItem* di = sd.GetDetectedItem(ii);
-							TLFRect* bounds = di->GetBounds();
-							if (bounds->RectOverlap(r) > 0.75)
+							const TLFRect& bounds = di->GetBounds();
+							if (bounds.RectOverlap(r) > 0.75)
 							{
 								canSave = false;
 								break;
@@ -1053,7 +1053,7 @@ bool TLFBuilder::BuildBackground()
 				if (item->HasObject())
 				{
 					//save this
-					awpRect r = item->GetBounds()->GetRect();
+					awpRect r = item->GetBounds().GetRect();
 					awpImage* Fragment = NULL;
 					if (awpCopyRect(Image1.GetImage(), &Fragment, &r) == AWP_OK)
 					{

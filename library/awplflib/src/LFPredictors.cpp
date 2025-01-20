@@ -16,15 +16,13 @@ TLFAverageNNPredictor::TLFAverageNNPredictor()
 	m_pPredicted = NULL;
 	memset(&m_rect, 0, sizeof(awpRect));
 }
-void TLFAverageNNPredictor::Learn(ILFDetectEngine* engine, TLFRect* rect)
+void TLFAverageNNPredictor::Learn(ILFDetectEngine* engine, const TLFRect& rect)
 {
 	this->m_list.Clear();
 
 	if (engine == NULL)
 		return;
-	if (rect == NULL)
-		return;
-
+	
 	ILFObjectDetector* detector = NULL;
 	detector = engine->GetDetector(0);
 	if (detector == NULL)
@@ -43,12 +41,12 @@ void TLFAverageNNPredictor::Learn(ILFDetectEngine* engine, TLFRect* rect)
 		TLFBounds* b = scanner->GetFragment(i);
 		if (b)
 		{
-			double overlap = rect->RectOverlap(b->Rect);
+			double overlap = rect.RectOverlap(b->Rect);
 			TLFRect r(b->Rect);
 			if (overlap > 0.8)
 			{
 				// добавляем positive sample
-				TLFDblVector* d = this->Features(engine, &r, 1);
+				TLFDblVector* d = this->Features(engine, r, 1);
 				if (d != NULL)
 				{
 					m_list.Add(d);
@@ -61,7 +59,7 @@ void TLFAverageNNPredictor::Learn(ILFDetectEngine* engine, TLFRect* rect)
 				if (rnd > 8)
 					continue;
 				// добавляем negative sample
-				TLFDblVector* d = this->Features(engine, &r, 0);
+				TLFDblVector* d = this->Features(engine, r, 0);
 				if (d != NULL)
 				{
 					m_list.Add(d);
@@ -70,7 +68,7 @@ void TLFAverageNNPredictor::Learn(ILFDetectEngine* engine, TLFRect* rect)
 			}
 		}
 	}
-	this->m_rect = rect->GetRect();
+	this->m_rect = rect.GetRect();
 }
 TLFRect* TLFAverageNNPredictor::Predict(ILFDetectEngine* engine)
 {
@@ -103,7 +101,7 @@ TLFRect* TLFAverageNNPredictor::Predict(ILFDetectEngine* engine)
 		TLFRect   rr(b->Rect);
 		if (rect.RectOverlap(rr) > 0.3)
 		{
-			TLFDblVector* d = this->Features(engine, &rr, 0);
+			TLFDblVector* d = this->Features(engine, rr, 0);
 			if (d != NULL)
 			{
 				double e;
@@ -129,9 +127,9 @@ TLFRect* TLFAverageNNPredictor::Predict(ILFDetectEngine* engine)
 		return NULL;
 
 }
-TLFDblVector* TLFAverageNNPredictor::Features(ILFDetectEngine* engine, TLFRect* rect, int id)
+TLFDblVector* TLFAverageNNPredictor::Features(ILFDetectEngine* engine, const TLFRect& rect, int id)
 {
-	if (engine == NULL || rect == NULL)
+	if (engine == NULL)
 		return NULL;
 	ILFObjectDetector* d = engine->GetDetector(0);
 	if (d == NULL)
@@ -148,7 +146,7 @@ TLFDblVector* TLFAverageNNPredictor::Features(ILFDetectEngine* engine, TLFRect* 
 	ILFStrong* s = dynamic_cast<TCSStrong*>(stages->Get(idx));
 	if (s == NULL)
 		return NULL;
-	int width = rect->Width();
+	int width = rect.Width();
 	double scale_coef = (double)width / (double)d->GetBaseWidth();
 	TLFRect fragment;
 	TLFDblVector* data = new TLFDblVector(id);
@@ -161,7 +159,7 @@ TLFDblVector* TLFAverageNNPredictor::Features(ILFDetectEngine* engine, TLFRect* 
 
 			fragment = sensor_rect;
 			fragment.Scale(scale_coef);
-			fragment.Shift(rect->Left(), rect->Top());
+			fragment.Shift(rect.Left(), rect.Top());
 						
 			double s = fragment.Width()*fragment.Height();
 			double value = img->CalcLnSum(fragment.Left(), fragment.Top(), fragment.Width(), fragment.Height());
@@ -207,9 +205,9 @@ bool TLFAverageNNPredictor::Classify(TLFDblVector* d, double* err)
 
 }
 //-------------------------------TLFEmptyAverageNNPredictor----------------------
-TLFDblVector* TLFEmptyAverageNNPredictor::Features(ILFDetectEngine* engine, TLFRect* rect, int id)
+TLFDblVector* TLFEmptyAverageNNPredictor::Features(ILFDetectEngine* engine, const TLFRect& rect, int id)
 {
-	if (engine == NULL || rect == NULL)
+	if (engine == NULL)
 		return NULL;
 	ILFObjectDetector* d = engine->GetDetector(0);
 	if (d == NULL)
@@ -218,15 +216,15 @@ TLFDblVector* TLFEmptyAverageNNPredictor::Features(ILFDetectEngine* engine, TLFR
 	if (img == NULL)
 		return NULL;
 	TLFDblVector* data = new TLFDblVector(id);
-	double w = (double)rect->Width() / 8;
-	double h = (double)rect->Height() /8;
+	double w = (double)rect.Width() / 8;
+	double h = (double)rect.Height() /8;
 	double s = w*h;
 	for (int y = 0; y < 8; y++)
 	{
-		int yy = (int)floor(rect->Top() + y*w + 0.5);
+		int yy = (int)floor(rect.Top() + y*w + 0.5);
 		for (int x = 0; x < 8 ; x++)
 		{
-			int xx = (int)floor(rect->Left() + x*w + 0.5);
+			int xx = (int)floor(rect.Left() + x*w + 0.5);
 			double value = img->CalcLnSum(xx, yy, (int)w, (int)h)/s;
 			data->AddValue(value);
 		}
@@ -234,7 +232,7 @@ TLFDblVector* TLFEmptyAverageNNPredictor::Features(ILFDetectEngine* engine, TLFR
 	return data;
 }
 //-------------------------------TLFNullPredictor----------------------
-TLFDblVector* TLFNullPredictor::Features(ILFDetectEngine* engine, TLFRect* rect, int id)
+TLFDblVector* TLFNullPredictor::Features(ILFDetectEngine* engine, const TLFRect& rect, int id)
 {
 	return NULL;
 }
@@ -246,7 +244,7 @@ TLFRect* TLFNullPredictor::GetPredicted()
 {
 	return NULL;
 }
-void TLFNullPredictor::Learn(ILFDetectEngine* engine, TLFRect* rect)
+void TLFNullPredictor::Learn(ILFDetectEngine* engine, const TLFRect& rect)
 {
 	
 }
@@ -269,7 +267,7 @@ TLFIntegralImagePredictor::~TLFIntegralImagePredictor()
 		delete m_scanner;
 }
 
-TLFDblVector* TLFIntegralImagePredictor::Features(ILFDetectEngine* engine, TLFRect* rect, int id)
+TLFDblVector* TLFIntegralImagePredictor::Features(ILFDetectEngine* engine, const TLFRect& rect, int id)
 {
 	return NULL;
 }
@@ -277,7 +275,7 @@ bool TLFIntegralImagePredictor::Classify(TLFDblVector* d, double* err)
 {
 	return true;
 }
-void TLFIntegralImagePredictor::Learn(ILFDetectEngine* engine, TLFRect* rect)
+void TLFIntegralImagePredictor::Learn(ILFDetectEngine* engine, const TLFRect& rect)
 {
 	TLFFGEngine* e = dynamic_cast<TLFFGEngine*>(engine);
 	if (e == NULL)
@@ -285,7 +283,7 @@ void TLFIntegralImagePredictor::Learn(ILFDetectEngine* engine, TLFRect* rect)
    //	if (m_pPredicted != NULL)
    //		return;
 
-	m_rect.SetRect(rect->GetRect());
+	m_rect.SetRect(rect.GetRect());
 	if (m_scanner != NULL)
 		delete m_scanner;
 	m_scanner = new TLFTileScaleScanner(m_rect.Width(),m_rect.Height(), 0.5, 2, 1.2, 75);
@@ -350,10 +348,10 @@ TLFMomentsPredictor::~TLFMomentsPredictor()
           	delete this->m_pPredicted;
       }
 }
-void TLFMomentsPredictor::Learn(ILFDetectEngine* engine, TLFRect* rect)
+void TLFMomentsPredictor::Learn(ILFDetectEngine* engine, const TLFRect& rect)
 {
-	if (rect != NULL)
-		m_rect.SetRect(rect->GetRect());
+	
+	m_rect.SetRect(rect.GetRect());
 }
 TLFRect* TLFMomentsPredictor::Predict(ILFDetectEngine* engine)
 {
@@ -414,7 +412,7 @@ TLFRect* TLFMomentsPredictor::Predict(ILFDetectEngine* engine)
 		return NULL;
 }
 
-TLFDblVector* TLFMomentsPredictor::Features(ILFDetectEngine* engine, TLFRect* rect, int id)
+TLFDblVector* TLFMomentsPredictor::Features(ILFDetectEngine* engine, const TLFRect& rect, int id)
 {
 	return NULL;
 }
@@ -434,18 +432,18 @@ TLFCarPredictor::~TLFCarPredictor()
 {
 	_AWP_SAFE_RELEASE_(m_image)
 }
-void TLFCarPredictor::Learn(ILFDetectEngine* engine, TLFRect* rect)
+void TLFCarPredictor::Learn(ILFDetectEngine* engine, const TLFRect& rect)
 {
 	if (m_image == NULL)
 	{
 		// copy image fragment with resize 
 		awpImage* _img = NULL;
 		_img = engine->GetDetector(0)->GetImage()->GetImage();
-		awpRect _r = rect->GetRect();
+		awpRect _r = rect.GetRect();
 		awpCopyRect(_img, &m_image, &_r);
 		awpResize(m_image, 36,24);
         awpConvert(m_image, AWP_CONVERT_3TO1_BYTE);
-        m_rect.SetRect(rect->GetRect());
+        m_rect.SetRect(rect.GetRect());
 	}
 }
 TLFRect* TLFCarPredictor::Predict(ILFDetectEngine* engine)
@@ -494,7 +492,7 @@ TLFRect* TLFCarPredictor::Predict(ILFDetectEngine* engine)
   else
    return NULL;
 }
-TLFDblVector* TLFCarPredictor::Features(ILFDetectEngine* engine, TLFRect* rect, int id)
+TLFDblVector* TLFCarPredictor::Features(ILFDetectEngine* engine, const TLFRect& rect, int id)
 {
 	return NULL;
 }

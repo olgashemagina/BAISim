@@ -23,7 +23,20 @@ public:
 	virtual agent::TDetections Detect(std::shared_ptr<TLFImage> img) = 0;
 };
 
+
+struct TItemAttributes {
+	// Detected object type
+	std::string			type;
+	int					base_width = 24;
+	int					base_height = 24;
+	int					angle = 0;
+	int					racurs = 0;
+	// Name of detector
+	std::string			name;
+};
+
 class TLFAgent {
+
 public:
 	TLFAgent();
 	
@@ -33,7 +46,7 @@ public:
 		supervisor_ = sv;
 	}
 
-	virtual std::unique_ptr<TLFSemanticImageDescriptor> Detect(std::shared_ptr<TLFImage> img);
+	virtual std::vector<TLFDetectedItem> Detect(std::shared_ptr<TLFImage> img);
 
 	virtual bool LoadXML(TiXmlElement* parent) {
 		// TODO: load detector and all correctors
@@ -58,12 +71,16 @@ protected:
 
 	agent::TCorrectors								correctors_;
 
-	// Indices of detected fragments
-	std::vector<size_t>								detected_indices_;
+	// Prior detections
+	std::vector<std::pair<TLFRect, float>>		    prior_detections_;
 
 	size_t		batch_size_ = 2048;
 
 	// MUST be equal to count of batches used simultaneously
 	int			max_threads_ = 32;
+
+private:
+	float											overlap_threshold_ = 0.1f;
+	TItemAttributes									item_attrs_;
 
 };
