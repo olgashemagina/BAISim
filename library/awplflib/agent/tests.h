@@ -13,18 +13,15 @@
 namespace agent {
 
 	static size_t GetRand(size_t low_dist, size_t high_dist) {
-		static bool init_srand = false;
-		if (!init_srand) {
-			std::srand((unsigned int)std::time(nullptr));
-			init_srand = true;
-		}
 		return low_dist + std::rand() % (high_dist + 1 - low_dist);
 	}
 
 	class TRandomSupervisor : public ILFSupervisor
 	{
 	public:
-		TRandomSupervisor() {}
+		TRandomSupervisor() {
+			std::srand((unsigned int)std::time(nullptr));
+		}
 		virtual TDetections Detect(std::shared_ptr<TLFImage> img) override {
 			
 			auto width = img->GetImage()->sSizeX;
@@ -49,11 +46,13 @@ namespace agent {
 	class TRandomDetector : public IDetector
 	{
 	public:
-		TRandomDetector() = default;
+		TRandomDetector() {
+			std::srand((unsigned int)std::time(nullptr));
+			scanner_ = std::make_unique<TLFScanner>();
+		}
 
 		bool Initialize() {
-
-			scanner_ = std::make_unique<TLFScanner>();
+						
 
 			size_t cascade_count = GetRand(3, 10);  // rand ot 3 do 10
 			size_t count = 0;
@@ -104,17 +103,55 @@ namespace agent {
 
 		}
 
+		// Type of detected objects
+		virtual std::string_view GetType() const {
+			return "RandomObject";
+		}
+
+		// Detector name
+		virtual std::string_view GetName() const {
+			return "TRandomDetector";
+		}
+
 		virtual ILFScanner* GetScanner()  override {
 			return scanner_.get();
 		}
 
-		virtual std::unique_ptr<IWorker> CreateWorker() override;
+		std::unique_ptr<IWorker> CreateWorker() override;
 
-		virtual bool LoadXML(TiXmlElement* parent)  override {
-			return false;
+		virtual bool LoadXML(TiXmlElement* node)  {
+			
+			auto features = node->GetText();
+			if (features) {
+				std::istringstream ss(features);
+				size_t value = 0;
+				size_t count = 0;
+				while (ss >> value) {
+					count += value;
+					feature_count_list_.push_back(count);
+				}
+			}
+			return !feature_count_list_.empty();
+
 		}
+
 		virtual TiXmlElement* SaveXML()  override {
-			return nullptr;
+			TiXmlElement* node = new TiXmlElement("TRandomDetector");
+
+			std::stringstream ss;
+
+			size_t prev = 0;
+
+			for (size_t i = 0; i < feature_count_list_.size() - 1; ++i) {
+				ss << feature_count_list_[i] - prev << ' ';
+				prev = feature_count_list_[i];
+			}
+			ss << feature_count_list_.back() - prev;
+
+						
+			node->LinkEndChild(new TiXmlText(ss.str()));
+
+			return node;
 		}
 
 
@@ -144,11 +181,6 @@ namespace agent {
 	private:
 		TRandomDetector* detector_ = nullptr;
 	};
-
-	std::unique_ptr<IWorker> TRandomDetector::CreateWorker() {
-		return std::make_unique<TRandomWorker>(this);
-	}
-
 
 	class TRandomAgent : public TLFAgent
 	{

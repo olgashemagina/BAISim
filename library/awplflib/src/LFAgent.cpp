@@ -3,11 +3,28 @@
 
 #include <random>
 
+#include "agent/detectors.h"
+#include "agent/correctors.h"
+#include "agent/corrector_trainer.h"
+#include "agent/tests.h"
+
 #ifdef _OMP_
 #include <omp.h>
 #endif
 
 using namespace agent;
+
+
+struct TItemAttributes {
+	// Detected object type
+	std::string_view	type;
+	int					base_width = 24;
+	int					base_height = 24;
+	int					angle = 0;
+	int					racurs = 0;
+	// Name of detector
+	std::string_view	name;
+};
 
 static std::vector<TLFDetectedItem> NonMaximumSuppression(
 	std::vector<std::pair<TLFRect, float>>& rects,
@@ -110,10 +127,109 @@ TLFAgent::TLFAgent()
 
 	if (supervisor_ && trainer_) {
 		auto correctors = trainer_->Train();
-		correctors_.AddCorrectors(std::move(correctors));
+		if (!correctors.empty())
+			correctors_.AddCorrectors(std::move(correctors));
 	}
 
-	return NonMaximumSuppression(prior_detections_, overlap_threshold_, item_attrs_);
+	TItemAttributes attr = {	detector_->GetType(), 
+								scanner->GetBaseWidth(), 
+								scanner->GetBaseHeight(), 0, 0, 
+								detector_->GetName() };
+
+	return NonMaximumSuppression(prior_detections_, nms_threshold_, attr);
+}
+
+bool TLFAgent::LoadXML(TiXmlElement* agent_node) {
+
+	agent_node->QueryValueAttribute("batch_size", &batch_size_);
+	agent_node->QueryValueAttribute("max_threads", &max_threads_);
+	agent_node->QueryValueAttribute("nms_threshold", &nms_threshold_);
+
+	auto detector_interface_node = agent_node->FirstChildElement("IDetector");
+	if (!detector_interface_node) {
+		return false;
+	}
+
+	auto detector_node = detector_interface_node->FirstChildElement();
+
+	if (!detector_node) return false;
+
+	// TODO: switch nodes
+	if (detector_node->ValueStr() == "TStagesDetector") {
+
+		auto detector = std::make_unique<TStagesDetector>();
+		
+		if (!detector->LoadXML(detector_node))
+			return false;
+
+		detector_ = std::move(detector);
+	}
+	else if (detector_node->ValueStr() == "TRandomDetector") {
+		auto detector = std::make_unique<TRandomDetector>();
+		
+		if (!detector->LoadXML(detector_node))
+			return false;
+
+		detector_ = std::move(detector);
+	}
+
+	auto trainer_interface_node = agent_node->FirstChildElement("ICorrectorTrainer");
+
+	if (!trainer_interface_node) {
+		return false;
+	}
+
+	auto trainer_node = trainer_interface_node->FirstChildElement();
+
+	if (trainer_node) {
+		if (trainer_node->ValueStr() == "TCorrectorTrainerBase") {
+
+			auto trainer = std::make_unique<TCorrectorTrainerBase>();
+			
+			if (!trainer->LoadXML(trainer_node))
+				return false;
+			trainer_ = std::move(trainer);
+		}
+	}
+
+	auto correctors_node = agent_node->FirstChildElement("TCorrectorsCollection");
+
+	if (correctors_node && !correctors_.LoadXML(correctors_node) ) {
+		return false;
+	}
+	
+	return true;
+
+}
+
+inline TiXmlElement* TLFAgent::SaveXML() {
+	TiXmlElement* agent_node = new TiXmlElement("TLFAgent");
+
+	agent_node->SetAttribute("batch_size", batch_size_);
+	agent_node->SetAttribute("max_threads", max_threads_);
+	agent_node->SetDoubleAttribute("nms_threshold", nms_threshold_);
+
+	TiXmlElement* detector_node = new TiXmlElement("IDetector");
+
+	if (auto node = detector_->SaveXML()) {
+		detector_node->LinkEndChild(node);
+	}
+	
+	agent_node->LinkEndChild(detector_node);
+
+	if (trainer_) {
+		TiXmlElement* trainer_node = new TiXmlElement("ICorrectorTrainer");
+
+		if (auto node = trainer_->SaveXML()) {
+			trainer_node->LinkEndChild(node);
+		}
+		agent_node->LinkEndChild(trainer_node);
+	}
+
+	TiXmlElement* correctors_node = correctors_.SaveXML();
+	agent_node->LinkEndChild(correctors_node);
+
+	return agent_node;
 }
 
 
@@ -175,8 +291,8 @@ static std::vector<TLFDetectedItem> NonMaximumSuppression(
 #pragma omp critical 
 #endif
 		{
-			items.emplace_back(std::move(r), base_score, attrs.type,
-				attrs.angle, attrs.racurs, attrs.base_width, attrs.base_height, attrs.name, id);
+			items.emplace_back(std::move(r), base_score, std::string(attrs.type),
+				attrs.angle, attrs.racurs, attrs.base_width, attrs.base_height, std::string(attrs.name), id);
 		}
 
 	}

@@ -29,10 +29,10 @@ namespace agent {
 		virtual ~ICorrector() = default;
 
 		// Correct result of detector using features.
-		virtual bool Correct(const TFeatures& features, std::vector<int>& corrections) = 0;
+		virtual void Correct(const TFeatures& features, std::vector<int>& corrections) = 0;
 
 		// Serializing methods.
-		virtual bool LoadXML(TiXmlElement* parent) = 0;
+		//virtual bool LoadXML(TiXmlElement* parent) = 0;
 		virtual TiXmlElement* SaveXML() = 0;
 	};
 
@@ -45,6 +45,10 @@ namespace agent {
 		virtual void CollectSamples(ILFScanner* scanner, const TFeatures& feats, const TDetections&) = 0;
 		// Start training of samples if needed.
 		virtual std::vector<std::unique_ptr<ICorrector>> Train() = 0;
+
+		// Serializing methods.
+		//virtual bool LoadXML(TiXmlElement* parent) = 0;
+		virtual TiXmlElement* SaveXML() = 0;
 	};
 
 
@@ -63,6 +67,13 @@ namespace agent {
 	public:
 		virtual ~IDetector() = default;
 
+
+		// Type of detected objects
+		virtual std::string_view GetType() const = 0;
+
+		// Detector name
+		virtual std::string_view GetName() const = 0;
+
 		// Scanner of Detector;
 		virtual ILFScanner* GetScanner() = 0;
 				
@@ -70,7 +81,7 @@ namespace agent {
 		virtual std::unique_ptr<IWorker> CreateWorker() = 0;
 
 		// Serializing methods.
-		virtual bool LoadXML(TiXmlElement* parent) = 0;
+		//virtual bool LoadXML(TiXmlElement* parent) = 0;
 		virtual TiXmlElement* SaveXML() = 0;
 
 	};

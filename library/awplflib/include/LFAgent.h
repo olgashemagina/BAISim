@@ -11,7 +11,7 @@
 #include "utils/object_pool.h"
 #include "utils/matrix.h"
 #include "agent/agent.h"
-#include "agent/correctors.h"
+#include "agent/corrector_collection.h"
 #include "agent/features.h"
 
 class ILFSupervisor {
@@ -24,16 +24,6 @@ public:
 };
 
 
-struct TItemAttributes {
-	// Detected object type
-	std::string			type;
-	int					base_width = 24;
-	int					base_height = 24;
-	int					angle = 0;
-	int					racurs = 0;
-	// Name of detector
-	std::string			name;
-};
 
 class TLFAgent {
 
@@ -42,21 +32,25 @@ public:
 	
 	virtual ~TLFAgent() = default;
 
+
+public:
+	void		Initialize(std::unique_ptr<agent::IDetector> detector,
+		std::unique_ptr<agent::ICorrectorTrainer> trainer) {
+		detector_ = std::move(detector);
+		trainer_ = std::move(trainer);
+
+	}
+
+
 	virtual void SetSupervisor(std::shared_ptr<ILFSupervisor> sv) {
 		supervisor_ = sv;
 	}
 
 	virtual std::vector<TLFDetectedItem> Detect(std::shared_ptr<TLFImage> img);
 
-	virtual bool LoadXML(TiXmlElement* parent) {
-		// TODO: load detector and all correctors
-		return false;
-	}
+	virtual bool LoadXML(TiXmlElement* agent_node);
 
-	virtual TiXmlElement* SaveXML() {
-		// TODO: save detector and all correctors
-		return nullptr;
-	}
+	virtual TiXmlElement* SaveXML();
 
 protected:
 	std::shared_ptr<ILFSupervisor>					supervisor_;
@@ -69,18 +63,18 @@ protected:
 
 	pool::ObjectPool<agent::TFeaturesBuilder>		pool_;
 
-	agent::TCorrectors								correctors_;
+	agent::TCorrectorCollection						correctors_;
 
 	// Prior detections
 	std::vector<std::pair<TLFRect, float>>		    prior_detections_;
 
+	// Size of Batch of fragments
 	size_t		batch_size_ = 2048;
 
 	// MUST be equal to count of batches used simultaneously
 	int			max_threads_ = 32;
 
 private:
-	float											overlap_threshold_ = 0.1f;
-	TItemAttributes									item_attrs_;
-
+	float											nms_threshold_ = 0.1f;
+	
 };

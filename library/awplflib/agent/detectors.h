@@ -9,6 +9,7 @@
 #include "LFFileUtils.h"
 #include "LFFeatures.h"
 #include "LFWeak.h"
+#include "LFDetector.h"
 
 namespace agent {
 
@@ -29,6 +30,8 @@ namespace agent {
 
         // Scanner of Detector;
         ILFScanner* GetScanner() { return detector_->GetScanner(); }
+
+        ILFObjectDetector* GetDetector() { return detector_.get(); }
               
         
         // Run detector and fill features and result of detections for fragments in range [begin, end]
@@ -86,6 +89,40 @@ namespace agent {
 
                 builder.SetTriggered(frag, triggered, score);
             }
+        }
+
+
+        // Serializing methods.
+        bool LoadXML(TiXmlElement* stages_node) {
+            stages_node->QueryValueAttribute("min_stages", &min_stages_);
+
+            auto detector_node = stages_node->FirstChildElement();
+
+            if (detector_node && detector_node->ValueStr() == "TSCObjectDetector") {
+
+                auto detector = std::make_unique<TSCObjectDetector>();
+                //TiXmlElement* e = elem->FirstChildElement();
+                if (!detector->LoadXML(detector_node))
+                    return false;
+
+                detector_ = std::move(detector);
+            }
+
+            return true;
+
+        };
+
+
+        TiXmlElement* SaveXML() {
+            TiXmlElement* stages_node = new TiXmlElement("TStagesDetector");
+
+            stages_node->SetAttribute("min_stages", min_stages_);
+            
+            if (detector_) {
+                stages_node->LinkEndChild(detector_->SaveXML());
+            }
+
+            return stages_node;
         }
 
 
@@ -158,7 +195,7 @@ namespace agent {
     };
 
 
-	class TStagesDetector : IDetector {
+	class TStagesDetector : public IDetector {
 
         friend class TStagesWorker;
 	public:
@@ -171,9 +208,26 @@ namespace agent {
 
 		// Supported only SC detector
 		bool		Initialize(std::unique_ptr<ILFObjectDetector> detector) {
-            return impl_->Initialize(std::move(detector), 3);
+            if (impl_->Initialize(std::move(detector), 3)) {
+                type_ = impl_->GetDetector()->GetObjectType();
+                name_ = impl_->GetDetector()->GetName();
+                return true;
+            }
+            else {
+                type_ = "unknown";
+                name_ = "none";
+            }
+            return false;
 		}
-                
+        
+        //// VIRTUAL METHODS
+
+        // Type of detected objects
+        virtual std::string_view GetType() const { return type_; };
+
+        // Detector name
+        virtual std::string_view GetName() const { return name_; };
+
         // Scanner of Detector;
         virtual ILFScanner* GetScanner() { return impl_->GetScanner(); }
                 
@@ -183,15 +237,16 @@ namespace agent {
         }
 
         // Serializing methods.
-        virtual bool LoadXML(TiXmlElement* parent) {
-            return false;
+        bool LoadXML(TiXmlElement* parent) {
+            return impl_->LoadXML(parent);
         };
         virtual TiXmlElement* SaveXML() {
-            return nullptr;
+            return impl_->SaveXML();
         }
 
 	private:
-
+        std::string                                         type_;
+        std::string                                         name_;
         // Detector pointer
 		std::shared_ptr<TStagesDetectorImpl>				impl_;
 

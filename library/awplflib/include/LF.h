@@ -607,9 +607,9 @@ public:
    /**
    \brief deprecated
    \brief access to object type
-   \return aperture width
+   \return name
    */
-   std::string GetObjectType();
+   const std::string& GetObjectType() const;
    /**
    \brief access to the internal image for analysis
    \return pointer to TLFImage object

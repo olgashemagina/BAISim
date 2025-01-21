@@ -223,7 +223,7 @@ TLFDetectedItem* ILFObjectDetector::GetItem(int index)
 	return (TLFDetectedItem*)m_objects.Get(index);
 }
 
-std::string ILFObjectDetector::GetObjectType()
+const std::string& ILFObjectDetector::GetObjectType() const
 {
 	return this->m_Type;
 }
