@@ -1,5 +1,6 @@
 #include "LFAgent.h"
 #include "LFScanners.h"
+#include "LFEngine.h"
 
 #include <random>
 
@@ -137,6 +138,7 @@ TLFAgent::TLFAgent()
 								detector_->GetName() };
 
 	return NonMaximumSuppression(prior_detections_, nms_threshold_, attr);
+	//return {};
 }
 
 bool TLFAgent::LoadXML(TiXmlElement* agent_node) {
@@ -154,7 +156,8 @@ bool TLFAgent::LoadXML(TiXmlElement* agent_node) {
 
 	if (!detector_node) return false;
 
-	// TODO: switch nodes
+	decltype(detector_) det;
+	
 	if (detector_node->ValueStr() == "TStagesDetector") {
 
 		auto detector = std::make_unique<TStagesDetector>();
@@ -162,7 +165,7 @@ bool TLFAgent::LoadXML(TiXmlElement* agent_node) {
 		if (!detector->LoadXML(detector_node))
 			return false;
 
-		detector_ = std::move(detector);
+		det = std::move(detector);
 	}
 	else if (detector_node->ValueStr() == "TRandomDetector") {
 		auto detector = std::make_unique<TRandomDetector>();
@@ -170,7 +173,7 @@ bool TLFAgent::LoadXML(TiXmlElement* agent_node) {
 		if (!detector->LoadXML(detector_node))
 			return false;
 
-		detector_ = std::move(detector);
+		det = std::move(detector);
 	}
 
 	auto trainer_interface_node = agent_node->FirstChildElement("ICorrectorTrainer");
@@ -181,6 +184,8 @@ bool TLFAgent::LoadXML(TiXmlElement* agent_node) {
 
 	auto trainer_node = trainer_interface_node->FirstChildElement();
 
+	decltype(trainer_)	tr;
+
 	if (trainer_node) {
 		if (trainer_node->ValueStr() == "TCorrectorTrainerBase") {
 
@@ -188,16 +193,18 @@ bool TLFAgent::LoadXML(TiXmlElement* agent_node) {
 			
 			if (!trainer->LoadXML(trainer_node))
 				return false;
-			trainer_ = std::move(trainer);
+			tr = std::move(trainer);
 		}
 	}
+
+	Initialize(std::move(det), std::move(tr));
 
 	auto correctors_node = agent_node->FirstChildElement("TCorrectorsCollection");
 
 	if (correctors_node && !correctors_.LoadXML(correctors_node) ) {
 		return false;
 	}
-	
+		
 	return true;
 
 }
@@ -245,51 +252,48 @@ static std::vector<TLFDetectedItem> NonMaximumSuppression(
 			return a.second > b.second;
 	});
 
-#ifdef _OMP_
-#pragma omp parallel for num_threads(std::min<int>(omp_get_max_threads(), 4))
-#endif
 	for (int i = 0; i < rects.size(); ++i) {
 		const auto& [base_rect, base_score] = rects[i];
 
-		// Averaging position
-		awpPoint p = base_rect.Center();
-		AWPSHORT w = base_rect.Width();
-		AWPSHORT h = base_rect.Height();
+		if (base_score == 0)
+			continue;
 
-		AWPSHORT similar_count = 1;
+		// Averaging position
+	
+		float x = base_rect.Center().X, y = base_rect.Center().Y;
+		float w = base_rect.Width(), h = base_rect.Height();
+
+		int similar_count = 1;
 
 		for (size_t j = i + 1; j < rects.size(); ++j) {
 			auto& [rect, score] = rects[j];
 
 			if (score > 0 && rect.RectOverlap(base_rect) > overlap_threshold) {
-				p.X += rect.Center().X;
-				p.Y += rect.Center().Y;
+				x += rect.Center().X;
+				y += rect.Center().Y;
 				w += rect.Width();
 				h += rect.Height();
 
 				similar_count++;
-#ifdef _OMP_
-#pragma omp critical 
-#endif
+
+
 				// Skip from using in futher tests
 				score = 0;
 			}
 
 		}
-		p.X /= similar_count;
-		p.Y /= similar_count;
-		w /= similar_count;
-		h /= similar_count;
+		x /= float(similar_count);
+		y /= float(similar_count);
+		w /= float(similar_count);
+		h /= float(similar_count);
 
-		awpRect r{ p.X - w / 2, p.Y - h / 2, p.X + w / 2, p.Y + h / 2 };
+		awpRect r{ x - w / 2.f, y - h / 2.f, x + w / 2.f, y + h / 2.f };
 
 		UUID id;
 		// memset(id, 0, sizeof(UUID));
 		LF_NULL_UUID_CREATE(id);
 		// add object to result list
-#ifdef _OMP_
-#pragma omp critical 
-#endif
+
 		{
 			items.emplace_back(std::move(r), base_score, std::string(attrs.type),
 				attrs.angle, attrs.racurs, attrs.base_width, attrs.base_height, std::string(attrs.name), id);
@@ -297,6 +301,39 @@ static std::vector<TLFDetectedItem> NonMaximumSuppression(
 
 	}
 
+	std::cout << "Detected objects: " << rects.size() << " NMS: " << items.size() << std::endl;
+
 	return items;
+}
+
+std::unique_ptr<TLFAgent>       LoadAgentFromEngine(const std::string& engine_path) {
+
+	auto engine = std::make_unique<TLFDetectEngine>();
+	if (!engine->Load(engine_path.c_str())) {
+		std::cerr << "TLFDetectEngine couldn't parse file" <<
+			engine_path << std::endl;
+		return nullptr;
+	}
+
+	std::unique_ptr<ILFObjectDetector>  internal_detector(engine->GetDetector(0));
+
+	// Detach detector from list.
+	engine->RemoveDetector(0);
+
+	auto detector = std::make_unique<agent::TStagesDetector>();
+
+	if (!detector->Initialize(std::move(internal_detector))) {
+		std::cerr << "Cant initialize detector from file" <<
+			engine_path << std::endl;
+	}
+
+
+	auto trainer = std::make_unique<agent::TCorrectorTrainerBase>();
+
+	std::unique_ptr<TLFAgent>  agent = std::make_unique<TLFAgent>();
+	agent->Initialize(std::move(detector), std::move(trainer));
+
+	return agent;
+
 }
 

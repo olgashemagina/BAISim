@@ -6,8 +6,6 @@
 #include "LFEngine.h"
 #include "LFFileUtils.h"
 
-// TODO Load labels of images as described in semantic_desc and wrap to ILFSupervisor interface.
-
 
 namespace agent {
 
@@ -36,18 +34,7 @@ namespace agent {
 			return img;
 		}
 
-		int LoadDB(const TLFString& det_path, const TLFString& db_folder)
-		{
-			// TODO: for some reason neither vector of instances nor vector of smart
-			// pointers can be created, so extra error handling should be added later
-
-			std::unique_ptr<TLFDetectEngine> det = std::make_unique<TLFDetectEngine>();
-			if (!det->Load(det_path.c_str())) {
-				std::cerr << "TLFDetectEngine couldn't parse file" <<
-					det_path << std::endl;
-				return -100;
-			}
-
+		int LoadDB(const TLFString& db_folder) {
 
 			TLFStrings folder_files;
 			if (!LFGetDirFiles(db_folder.c_str(), folder_files)) {

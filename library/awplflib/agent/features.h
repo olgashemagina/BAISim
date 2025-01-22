@@ -2,13 +2,16 @@
 
 #include <numeric>
 #include <memory>
+#include <limits>
 
 #include "utils/matrix.h"
 
 namespace agent {
 
 	// No correction marker
-	static const int kNoCorrection = -1;
+	static constexpr int kNoCorrection = -1;
+
+	static const size_t	kNoTriggered = size_t(-1);
 
 	// Layout is vector of summing current stage count of features and all previous features;
 	using TLayout = std::vector<size_t>;
@@ -28,7 +31,7 @@ namespace agent {
 
 	public:
 
-		int GetDetectorResult(size_t fragment_index) const { return (triggered_[fragment_index - frags_begin_].first == -1) ? 1 : 0; }
+		int GetDetectorResult(size_t fragment_index) const { return (triggered_[fragment_index - frags_begin_].first == kNoTriggered) ? 1 : 0; }
 
 		int GetCorrectedResult(size_t fragment_index) const {
 			return (corrections_[fragment_index - frags_begin_] == kNoCorrection) ?
@@ -108,7 +111,7 @@ namespace agent {
 			triggered_.clear();
 			corrections_.clear();
 
-			triggered_.resize(frags_count(), { -1, 0.f });
+			triggered_.resize(frags_count(), { kNoTriggered, 0.f });
 			corrections_.resize(frags_count(), kNoCorrection);
 
 		}

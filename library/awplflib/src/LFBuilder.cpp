@@ -1107,11 +1107,11 @@ bool TLFBuilder::BuildBackground()
 		m_AdaBoost.DbgMsg("\n Bkground not found.\n");
 		return false;
 	}
-	/*else
+	else
 	{
 		m_AdaBoost.DbgMsg("Done.\n");
 		return true;
-	}*/
+	}
 }
 
 bool TLFBuilder::UpdateDetector()

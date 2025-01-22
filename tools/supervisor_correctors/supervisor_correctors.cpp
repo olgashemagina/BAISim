@@ -9,58 +9,44 @@
 #include "agent/corrector_trainer.h"
 #include "agent/supervisors.h"
 
-std::unique_ptr<TLFAgent>       build_agent(const std::string& engine_path) {
 
-    std::shared_ptr<TLFDetectEngine> engine = std::make_shared<TLFDetectEngine>();
-    if (!engine->Load(engine_path.c_str())) {
-        std::cerr << "TLFDetectEngine couldn't parse file" <<
-            engine_path << std::endl;
-        return nullptr;
-    }
-
-    auto detector = std::make_unique<agent::TStagesDetector>();
-
-    if (!detector->Initialize(engine->GetDetector(0))) {
-        std::cerr << "Cant initialize detector from file" <<
-            engine_path << std::endl;
-    }
-    
-
-    auto trainer = std::make_unique<agent::TCorrectorTrainerBase>();
-
-    std::unique_ptr<TLFAgent>  agent = std::make_unique<TLFAgent>();
-    agent->Initialize(std::move(detector), std::move(trainer));
-
-    return agent;
-
-    
-}
 
 int test(int argc, char* argv[]) {
     std::string db_folder = "d:/work/AI/testsupervisors/correct";
     std::string det_path = "d:/work/AI/testsupervisors/megapolis_2062im.xml";
+
+    db_folder = "D:\\Projects\\iap_ras\\BAISim\\dataset\\0\\source";
+    det_path = "D:\\Projects\\iap_ras\\BAISim\\models\\digits\\0_075_v3.xml";
+
+    auto agent = LoadAgentFromEngine(det_path);
+
+    save_xml("digit_0_agent.xml", agent->SaveXML());
+
+    agent = load_xml("digit_0_agent.xml", [](TiXmlElement* node) {
+        auto  agent = std::make_unique<TLFAgent>();
+        if (node && agent->LoadXML(node))
+            return agent;
+        return std::unique_ptr<TLFAgent>{};
+        });
+
     auto sv = std::make_shared<agent::TDBSupervisor>();
-    int count = sv->LoadDB(det_path, db_folder);
+    int count = sv->LoadDB(db_folder);
     if (count <= 0) {
         std::cerr << "LoadDB return ERROR: " << count << std::endl;
         return count;
     }
 
-    agent::TRandomAgent agent;
-    if (!agent.Initialize())
-        return -1;
-
-    agent.SetSupervisor(sv);
+    agent->SetSupervisor(sv);
 
     for (int i = 0; i < count; i++) {
         std::cout << "Processing " << i + 1 << " out of " << count << std::endl;
         std::shared_ptr<TLFImage> img = sv->LoadImg(i);
-        agent.Detect(img);
+        agent->Detect(img);
     }
 }
 // supervisor_correctors.exe path_to_xml path_to_jpeg
 int main(int argc, char* argv[]) {
-    //return test(argc, argv);
+    return test(argc, argv);
 
     if (!tests::make_serialization_tests()) {
         std::cout << "Serialization test ERROR " << std::endl;

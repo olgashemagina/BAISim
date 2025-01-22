@@ -78,3 +78,6 @@ private:
 	float											nms_threshold_ = 0.1f;
 	
 };
+
+
+std::unique_ptr<TLFAgent>       LoadAgentFromEngine(const std::string& engine_path);

@@ -53,7 +53,7 @@ namespace agent {
 
                 TLFObjectList* strongs = detector_->GetStrongs();
 
-                size_t triggered = -1;
+                size_t triggered = kNoTriggered;
 
                 for (int j = 0; j < strongs->GetCount(); j++)
                 {
@@ -72,7 +72,7 @@ namespace agent {
                     }
 
                     //Check If object detected;
-                    if (triggered != -1) {
+                    if (triggered == kNoTriggered) {
                         if (desc.result != 0) {
                             score = std::min<float>(desc.score, score);
                         }
@@ -98,6 +98,8 @@ namespace agent {
 
             auto detector_node = stages_node->FirstChildElement();
 
+            decltype(detector_) det;
+
             if (detector_node && detector_node->ValueStr() == "TSCObjectDetector") {
 
                 auto detector = std::make_unique<TSCObjectDetector>();
@@ -105,10 +107,10 @@ namespace agent {
                 if (!detector->LoadXML(detector_node))
                     return false;
 
-                detector_ = std::move(detector);
+                det = std::move(detector);
             }
 
-            return true;
+            return Initialize(std::move(det), min_stages_);
 
         };
 
