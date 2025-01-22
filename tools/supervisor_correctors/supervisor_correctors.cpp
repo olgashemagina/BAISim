@@ -83,13 +83,10 @@ int test(int argc, char* argv[]) {
         std::shared_ptr<TLFImage> img = sv->LoadImg(i);
         agent.Detect(img);
     }
-
-    // mozhet bit neskolko
-    //<TLFDetectedItem DetectorName="Human marked" Raiting="0.000000" Type="447FE06D-7393-42C5-8497-2D25BC8BCA6A" Angle="0" Racurs="0" Bw="24" Bh="12" left="163" top="192" right="1763" bottom="992" Comment="">
 }
 // supervisor_correctors.exe path_to_xml path_to_jpeg
 int main(int argc, char* argv[]) {
-    return test(argc, argv);
+    //return test(argc, argv);
 
     make_serialization_tests();
 
