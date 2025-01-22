@@ -43,6 +43,8 @@ namespace agent {
 				auto result = TrainFnCorrector(fn_, tn_);
 				if (result)
 					correctors.emplace_back(std::move(result));
+				fn_.Clear();
+				tn_.Clear();
 			}
 
 			if (fp_.rows() >= min_fp_samples_) {
@@ -51,9 +53,39 @@ namespace agent {
 				auto result = TrainFpCorrector(fp_, tp_);
 				if (result)
 					correctors.emplace_back(std::move(result));
+				fp_.Clear();
+				tp_.Clear();
 			}
 
 			return correctors;
+		}
+
+		// Serializing methods.
+		virtual bool LoadXML(TiXmlElement* parent) {
+			parent->QueryFloatAttribute("positive_threshold", &positive_threshold_);
+			parent->QueryFloatAttribute("negative_threshold", &negative_threshold_);
+			parent->QueryFloatAttribute("tn_prob", &use_tn_prob_);
+			parent->QueryValueAttribute("min_stages", &min_features_stages_);
+
+			parent->QueryValueAttribute("min_fn_samples", &min_fn_samples_);
+			parent->QueryValueAttribute("min_fp_samples", &min_fp_samples_);
+			
+			return true;
+		}
+		virtual TiXmlElement* SaveXML() {
+			TiXmlElement* trainer_node = new TiXmlElement("TCorrectorTrainerBase");
+
+			trainer_node->SetDoubleAttribute("positive_threshold", positive_threshold_);
+			trainer_node->SetDoubleAttribute("negative_threshold", negative_threshold_);
+			trainer_node->SetDoubleAttribute("tn_prob", use_tn_prob_);
+			trainer_node->SetAttribute("min_stages", min_features_stages_);
+
+			trainer_node->SetAttribute("min_fn_samples", min_fn_samples_);
+			trainer_node->SetAttribute("min_fp_samples", min_fp_samples_);
+
+			//trainer_node->SetValue("NewName");
+
+			return trainer_node;
 		}
 
 	protected:
@@ -73,7 +105,7 @@ namespace agent {
 
 			if (feats.GetDetectorResult(index)) {
 				// Object Detected
-				if (gt_overlap < detection_threshold_) {
+				if (gt_overlap < positive_threshold_) {
 					// FP
 					// Add to training fp-corrector;
 					fp_.AddRow(feats.GetFeats(index), feats.feats_count());
@@ -90,12 +122,12 @@ namespace agent {
 				auto stage = std::min<size_t>(feats.GetTriggeredStage(index), min_features_stages_ - 1);
 				auto feats_count = feats.layout().at(stage);
 				// No object detected
-				if (gt_overlap >= detection_threshold_) {
+				if (gt_overlap >= positive_threshold_) {
 					// FN
 					// Add to training fn-corrector;
 					fn_.AddRow(feats.GetFeats(index), feats_count);
 				}
-				else if (gt_overlap > std::min<float>(detection_threshold_, negative_threshold_)) {
+				else if (gt_overlap > std::min<float>(positive_threshold_, negative_threshold_)) {
 					// TN
 					// Test probability to use it;
 					// TODO: make balancing algorithm that changing probability to reduce amount of TN rows.
@@ -136,7 +168,7 @@ namespace agent {
 
 
 	private:
-		float								detection_threshold_ = 0.4f;
+		float								positive_threshold_ = 0.4f;
 		float								negative_threshold_ = 0.1f;
 
 		// Probability to add tn for futher usage;
