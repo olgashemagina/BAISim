@@ -2,64 +2,38 @@
 #include <fstream>
 
 #include "LFAgent.h"
+#include "LFEngine.h"
+
 #include "agent/tests.h"
 #include "agent/detectors.h"
 #include "agent/corrector_trainer.h"
 #include "agent/supervisors.h"
 
-std::unique_ptr<TLFAgent> build_random_agent() {
-    auto detector = std::make_unique<agent::TRandomDetector>();
+std::unique_ptr<TLFAgent>       build_agent(const std::string& engine_path) {
 
-    // TODO: remove
-    detector->Initialize();
+    std::shared_ptr<TLFDetectEngine> engine = std::make_shared<TLFDetectEngine>();
+    if (!engine->Load(engine_path.c_str())) {
+        std::cerr << "TLFDetectEngine couldn't parse file" <<
+            engine_path << std::endl;
+        return nullptr;
+    }
+
+    auto detector = std::make_unique<agent::TStagesDetector>();
+
+    if (!detector->Initialize(engine->GetDetector(0))) {
+        std::cerr << "Cant initialize detector from file" <<
+            engine_path << std::endl;
+    }
+    
 
     auto trainer = std::make_unique<agent::TCorrectorTrainerBase>();
 
-    auto sv = std::make_shared<agent::TRandomSupervisor>();
-
     std::unique_ptr<TLFAgent>  agent = std::make_unique<TLFAgent>();
     agent->Initialize(std::move(detector), std::move(trainer));
-    agent->SetSupervisor(sv);
-    return std::move(agent);
-}
 
-bool save_xml(const std::string& fn, TiXmlElement* element)
-{
-    TiXmlDocument doc;
-    TiXmlDeclaration* decl = new TiXmlDeclaration("1.0", "", "");
-    doc.LinkEndChild(decl);
-    doc.LinkEndChild(element);
-        
-    return doc.SaveFile(fn);
-}
+    return agent;
 
-std::unique_ptr<TLFAgent> load_xml(const std::string& fn)
-{
-    TiXmlDocument doc;
-
-    TiXmlElement* node = nullptr;
-
-    if (doc.LoadFile(fn, TIXML_ENCODING_UTF8)) {
-        TiXmlHandle handle(&doc);
-        node = handle.FirstChildElement().Element();
-
-        std::unique_ptr<TLFAgent>  agent = std::make_unique<TLFAgent>();
-        if (agent->LoadXML(node))
-            return agent;
-    }
-    return nullptr;
-}
-
-
-void make_serialization_tests() {
-    auto agent = build_random_agent();
-
-    save_xml("test_agent.xml", agent->SaveXML());
-
-    auto agent_loaded = load_xml("test_agent.xml");
-        
-    save_xml("test_agent_2.xml", agent_loaded->SaveXML());
-
+    
 }
 
 int test(int argc, char* argv[]) {
@@ -88,9 +62,14 @@ int test(int argc, char* argv[]) {
 int main(int argc, char* argv[]) {
     //return test(argc, argv);
 
-    make_serialization_tests();
+    if (!tests::make_serialization_tests()) {
+        std::cout << "Serialization test ERROR " << std::endl;
+    }
+    else {
+        std::cout << "Serialization test PASSED " << std::endl;
+    }
 
-    auto agent = build_random_agent();
+    auto agent = tests::build_random_agent();
 
     
 

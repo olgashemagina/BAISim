@@ -5,7 +5,9 @@
 
 #include "utils/object_pool.h"
 #include "utils/matrix.h"
+#include "utils/xml.h"
 #include "agent/agent.h"
+#include "agent/corrector_trainer.h"
 
 #include "LFAgent.h"
 #include "LFScanners.h"
@@ -182,22 +184,53 @@ namespace agent {
 		TRandomDetector* detector_ = nullptr;
 	};
 
-	class TRandomAgent : public TLFAgent
-	{
-	public:
-		TRandomAgent() : TLFAgent() {
-		}
-
-		bool Initialize() {
-			auto detector = std::make_unique<TRandomDetector>();
-			if (detector->Initialize())
-				detector_ = std::move(detector);
-
-			return bool(detector_);
-
-		}
-
-	};
-
+	
 }
+
+namespace tests {
+
+	static std::unique_ptr<TLFAgent> build_random_agent() {
+		auto detector = std::make_unique<agent::TRandomDetector>();
+				
+		detector->Initialize();
+
+		auto trainer = std::make_unique<agent::TCorrectorTrainerBase>();
+
+		auto sv = std::make_shared<agent::TRandomSupervisor>();
+
+		std::unique_ptr<TLFAgent>  agent = std::make_unique<TLFAgent>();
+		agent->Initialize(std::move(detector), std::move(trainer));
+		agent->SetSupervisor(sv);
+		return std::move(agent);
+	}
+
+	
+
+	static bool make_serialization_tests() {
+		auto agent = build_random_agent();
+
+		save_xml("test_agent.xml", agent->SaveXML());
+
+		auto agent_loaded = load_xml("test_agent.xml", [](TiXmlElement* node) {
+			auto  agent = std::make_unique<TLFAgent>();
+			if (node && agent->LoadXML(node))
+				return agent;
+			return std::unique_ptr<TLFAgent>{};
+			});
+
+		save_xml("test_agent_2.xml", agent_loaded->SaveXML());
+
+		auto agent_1 = agent->SaveXML();
+		auto agent_2 = agent_loaded->SaveXML();
+
+		auto result = compare_xml_elements(agent_1, agent_2);
+
+		delete agent_1;
+		delete agent_2;
+		return result;
+
+	}
+}
+
+
 
