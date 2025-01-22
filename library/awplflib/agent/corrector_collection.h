@@ -6,7 +6,6 @@
 #include <shared_mutex>
 
 #include "agent/agent.h"
-#include "agent/correctors.h"
 
 
 
@@ -29,18 +28,7 @@ namespace agent {
 			return false;
 		}
 
-		std::unique_ptr<ICorrector> LoadCorrector(TiXmlElement* corrector_node) {
-			std::string name = corrector_node->ValueStr();
-
-			if (name == "TCorrectorBaseline") {
-				auto corrector = std::make_unique<TCorrectorBaseline>();
-				if (corrector->LoadXML(corrector_node))
-					return corrector;
-			}
-
-			return nullptr;
-
-		}
+		std::unique_ptr<ICorrector> LoadCorrector(TiXmlElement* corrector_node);
 
 		TiXmlElement* SaveXML() {
 			
