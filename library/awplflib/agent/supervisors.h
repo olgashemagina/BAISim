@@ -1,3 +1,106 @@
 #pragma once
 
+#include "agent.h"
+
+#include "LF.h"
+#include "LFEngine.h"
+#include "LFFileUtils.h"
+
 // TODO Load labels of images as described in semantic_desc and wrap to ILFSupervisor interface.
+
+
+namespace agent {
+
+	
+	class TDBSupervisor : public ILFSupervisor
+	{
+	public:
+
+		struct FileInfo {
+			TLFString name;
+			TDetections detections;
+
+		};
+
+		TDBSupervisor() {}
+		virtual TDetections Detect(std::shared_ptr<TLFImage> img) override {
+			return img_files_[cur_index_].detections;
+		}
+	
+		std::shared_ptr<TLFImage> LoadImg(size_t index) {
+			cur_index_ = index;
+			std::shared_ptr<TLFImage> img = std::make_shared<TLFImage>();
+			if (!img->LoadFromFile(img_files_[index].name.c_str())) {
+				std::cout << "LoadFromFile return false for " << img_files_[index].name << std::endl;
+			}
+			return img;
+		}
+
+		int LoadDB(const TLFString& det_path, const TLFString& db_folder)
+		{
+			// TODO: for some reason neither vector of instances nor vector of smart
+			// pointers can be created, so extra error handling should be added later
+
+			std::unique_ptr<TLFDetectEngine> det = std::make_unique<TLFDetectEngine>();
+			if (!det->Load(det_path.c_str())) {
+				std::cerr << "TLFDetectEngine couldn't parse file" <<
+					det_path << std::endl;
+				return -100;
+			}
+
+
+			TLFStrings folder_files;
+			if (!LFGetDirFiles(db_folder.c_str(), folder_files)) {
+				std::cerr << "Could not read contents from " << db_folder << std::endl;
+				return -101;
+			}
+			else {
+				for (size_t i = 0; i < folder_files.size(); i++) {
+					if (LFIsImageFile(folder_files[i].c_str())) {
+						FileInfo fi;
+						fi.name = folder_files[i];
+						img_files_.push_back(fi);
+					}
+				}
+			}
+			folder_files.clear();
+			std::cout << "Found " << img_files_.size() << " images" << std::endl;
+
+			for (int i = 0; i < img_files_.size(); i++) {
+				std::cout << "Processing " << i + 1 << " out of " <<
+					img_files_.size() << std::endl;
+
+				TLFImage img;
+				if (!img.LoadFromFile(img_files_[i].name.c_str())) {
+					std::cerr << "Can't load image " << img_files_[i].name << std::endl;
+					return -102;
+				}
+
+				std::unique_ptr<TLFSemanticImageDescriptor> image_descriptor = std::make_unique<TLFSemanticImageDescriptor>();
+
+				TiXmlDocument samples_doc;
+				samples_doc.LinkEndChild(new TiXmlDeclaration("1.0", "", ""));
+
+				std::string xml_desc_name = LFChangeFileExt(img_files_[i].name, ".xml");
+				if (LFFileExists(xml_desc_name)) {
+					//We need to load image description
+					if (!image_descriptor->LoadXML(xml_desc_name.c_str())) {
+						std::cerr << "Cant load image description from " << xml_desc_name << std::endl;
+						continue;
+					}
+					for (int j = 0; i < image_descriptor->GetCount(); i++) {
+						auto obj = image_descriptor->Get(i);
+						TLFDetectedItem* item = static_cast<TLFDetectedItem*>(obj);
+						if (item != nullptr) {
+							img_files_[i].detections.push_back(item->GetBounds());
+						}
+					}					
+				}
+			}
+			return img_files_.size();
+		}
+	private:
+		std::vector<FileInfo> img_files_;
+		size_t cur_index_;
+	};
+}
