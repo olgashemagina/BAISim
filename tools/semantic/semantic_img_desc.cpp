@@ -52,15 +52,15 @@ void setup_callback(ILFObjectDetector* detector, TLFSemanticImageDescriptor* des
 				TLFRect* rect = item->GetBounds();
 
 				//TODO: detector untyped
-				if (detector->GetObjectType() == item->GetType()) 
-				{
+//				if (detector->GetObjectType() == item->GetType()) 
+//				{
 
 					iou = rect->RectOverlap(bounds.Rect);
 
 					if (iou >= overlap) {
 						break;
 					}
-				}
+//				}
 			}
 
 			std::string sample_test;
@@ -321,6 +321,11 @@ int main(int argc, char* argv[])
 	TLFString det2_path("");
 	TLFString db_folder_path("");
 	int res = 0;
+	if (argc < 3)
+	{
+		usage();
+		return 0;
+	}
 	// argv[0] is the launcher command, not parameter
 	TLFString mode = argv[1];
 	if (mode == "markup")

@@ -238,6 +238,26 @@ bool LFRemoveDir(const char* lpPath)
 //#endif
 }
 
+bool LFRemoveFilesInDir(const char* lpPath)
+{
+	const fs::path cur_dir{ lpPath };
+
+	if (fs::is_empty(cur_dir))
+		return false;
+	else
+	{
+		for (const auto& f : fs::directory_iterator(cur_dir))
+		{
+			if (fs::is_regular_file(fs::status(f)))
+			{
+				std::string tmp = f.path().generic_string();
+				fs::remove(tmp);
+			}
+		}
+		return true;
+	}
+}
+
 #if defined(WIN32) || defined(_WIN64)
 /* 128 bit GUID to human-readable string */
 static char * guid_to_str(UUID* id, char * out) {
@@ -325,7 +345,7 @@ static bool _LFGetDirNamesWindows(const std::string& lpDir, TLFStrings& names)
 		{
 			if (fs::is_regular_file(fs::status(f)))
 			{
-				std::string tmp = f.path().string();
+				std::string tmp = f.path().generic_string();
 				names.push_back(tmp);
 			}
 		}
