@@ -26,6 +26,65 @@ static auto load_xml(const std::string& fn, C&& create)
 	return create(node);
 }
 
+template<typename T>
+static std::vector<T>	split_vector(const std::string& str) {
+
+	std::vector<T>		result;
+	std::istringstream ss(str);
+	T value = 0;
+	while (ss >> value) {
+		result.push_back(value);
+	}
+	return result;
+}
+
+
+template<typename T>
+static bool	split_vector(const std::string& str, T* ptr, size_t size) {
+
+	std::vector<T>		result;
+	std::istringstream ss(str);
+	T value = 0;
+	while (size > 0 && ss >> *ptr) {
+		size--;
+		ptr++;
+	}
+	return size > 0;
+}
+
+template<typename T>
+static std::string	serialize_vector(const std::vector<T>& vec) {
+
+	std::stringstream ss;
+
+	if (!vec.empty()) {
+		for (size_t i = 0; i < vec.size() - 1; ++i) {
+			ss << vec[i] << ' ';
+		}
+		ss << vec.back();
+	}
+
+	return ss.str();
+
+}
+
+template<typename T>
+static std::string	serialize_vector(const T* vec, size_t size) {
+
+	std::stringstream ss;
+
+	if (size > 0) {
+		for (size_t i = 0; i < size - 1; ++i) {
+			ss << vec[i] << ' ';
+		}
+		ss << vec[size - 1];
+	}
+
+	return ss.str();
+
+}
+
+
 
 // Функция для сравнения двух элементов
 static bool compare_xml_elements(TiXmlElement* elem1, TiXmlElement* elem2) {
