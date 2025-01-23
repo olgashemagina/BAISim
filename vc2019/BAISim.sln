@@ -32,7 +32,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tree_builder", "..\tools\tr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "supervisor_correctors", "..\tools\supervisor_correctors\vc\vc2019\supervisor_correctors.vcxproj", "{73A0EC7F-0D0C-4DFB-AE00-CF744713DB27}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "random_supervisor_correctors", "..\tools\random_supervisor_correctors\vc\vc2019\random_supervisor_correctors.vcxproj", "{53A0EC7F-0D0C-4DFB-AE00-CF744713DB27}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests_supervisor_correctors", "..\tools\tests_supervisor_correctors\vc\vc2019\tests_supervisor_correctors.vcxproj", "{53A0EC7F-0D0C-4DFB-AE00-CF744713DB27}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

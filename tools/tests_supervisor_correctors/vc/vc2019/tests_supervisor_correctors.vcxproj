@@ -163,7 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\random_supervisor_correctors.cpp" />
+    <ClCompile Include="..\..\tests_supervisor_correctors.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\3rdparty\jpeg-6b\vc\vc2019\JPEGLIB.vcxproj">
