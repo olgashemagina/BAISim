@@ -20,6 +20,10 @@ namespace agent {
 	class TCorrectorBase : public ICorrector {
 	public:
 
+		TCorrectorBase(ECorrectorType type = kCorrectorType_Unknown) : type_(type)  {}
+
+		virtual ~TCorrectorBase() {}
+
 		// Correct result of detector using features.
 		virtual void Correct(const TFeatures& features, std::vector<int>& corrections) override {
 			if (type_ != kCorrectorType_Unknown) {
@@ -106,6 +110,10 @@ namespace agent {
 
 
 	public:
+
+		TBaselineCorrector(ECorrectorType type = kCorrectorType_Unknown) : TCorrectorBase(type) {}
+
+		virtual ~TBaselineCorrector() {}
 	
 
 		virtual void	Process(const TMatrix& data, std::vector<int>& corrections);

@@ -16,8 +16,24 @@ namespace agent {
 
 	class TCorrectorTrainerBase : public ICorrectorTrainer {
 	public:
-		virtual ~TCorrectorTrainerBase() = default;
 
+		TCorrectorTrainerBase() : thread_([=]() { RunTrain(); }) {
+
+		}
+
+		virtual ~TCorrectorTrainerBase() {
+			cancel_ = true;
+			if (thread_.joinable()) {
+				cv_.notify_one();
+				thread_.join();
+			}
+		}
+
+
+		virtual std::vector<std::unique_ptr<ICorrector>> ConsumeCorrectors() {
+			std::unique_lock<std::mutex> lock(mtx_);
+			return std::move(correctors_);
+		}
 
 		// Process new samples for each batch in separate thread.
 		virtual void CollectSamples(ILFScanner* scanner, const TFeatures& feats, const TDetections& detections) override {
@@ -35,29 +51,8 @@ namespace agent {
 
 		}
 		// Notify that image finished
-		virtual std::vector<std::unique_ptr<ICorrector>> Train() override {
-			std::vector<std::unique_ptr<ICorrector>> correctors;
-			if (fn_.rows() >= min_fn_samples_) {
-				// Run training of FN corrector;
-				std::unique_lock<std::mutex> lock(mtx_);
-				auto result = TrainFnCorrector(fn_, tn_);
-				if (result)
-					correctors.emplace_back(std::move(result));
-				fn_.Clear();
-				tn_.Clear();
-			}
-
-			if (fp_.rows() >= min_fp_samples_) {
-				// Run training of FP corrector;
-				std::unique_lock<std::mutex> lock(mtx_);
-				auto result = TrainFpCorrector(fp_, tp_);
-				if (result)
-					correctors.emplace_back(std::move(result));
-				fp_.Clear();
-				tp_.Clear();
-			}
-
-			return correctors;
+		virtual void Train() override {
+			cv_.notify_one();
 		}
 
 		// Serializing methods.
@@ -89,6 +84,57 @@ namespace agent {
 		}
 
 	protected:
+		void		RunTrain() {
+			TMatrix fn, tn;
+			TMatrix fp, tp;
+			
+			while (!cancel_) {
+				{
+					std::unique_lock<std::mutex> lock(mtx_);
+
+					cv_.wait(lock);
+
+					if (cancel_)
+						break;
+
+					// Move data for training
+					if (fn_.rows() >= min_fn_samples_) {
+						fn = std::move(fn_);
+						tn = std::move(tn_);
+					}
+
+					if (fp_.rows() >= min_fp_samples_) {
+						fp = std::move(fp_);
+						tp = std::move(tp_);
+					}
+				}
+
+
+				std::vector<std::unique_ptr<ICorrector>> correctors;
+				if (fn.rows() >= min_fn_samples_) {
+					// Run training of FN corrector;
+					auto result = TrainFnCorrector(fn, tn);
+					if (result) {
+						std::unique_lock<std::mutex> lock(mtx_);
+						correctors_.emplace_back(std::move(result));
+					}
+					fn.Clear();
+					tn.Clear();
+				}
+
+				if (fp.rows() >= min_fp_samples_) {
+					// Run training of FP corrector;
+					auto result = TrainFpCorrector(fp, tp);
+					if (result) {
+						std::unique_lock<std::mutex> lock(mtx_);
+						correctors.emplace_back(std::move(result));
+					}
+					fp.Clear();
+					tp.Clear();
+				}
+			}
+		}
+
 		// Train False Negative Corrector;
 		virtual std::unique_ptr<ICorrector>	TrainFnCorrector(const TMatrix& fn, const TMatrix& tn) {
 			return nullptr;
@@ -194,10 +240,15 @@ namespace agent {
 	private:
 
 		std::mutex							mtx_;
+		std::condition_variable				cv_;
 
+		std::thread							thread_;
 
+		std::atomic<bool>					cancel_ = false;
 
+		std::vector<std::unique_ptr<ICorrector>>  correctors_;
 	};
 
+	
 
 }

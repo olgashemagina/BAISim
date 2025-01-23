@@ -41,10 +41,12 @@ namespace agent {
 	public:
 		virtual ~ICorrectorTrainer() = default;
 
+
+		virtual std::vector<std::unique_ptr<ICorrector>> ConsumeCorrectors() = 0;
 		// Process new samples
 		virtual void CollectSamples(ILFScanner* scanner, const TFeatures& feats, const TDetections&) = 0;
 		// Start training of samples if needed.
-		virtual std::vector<std::unique_ptr<ICorrector>> Train() = 0;
+		virtual void Train() = 0;
 
 		// Serializing methods.
 		//virtual bool LoadXML(TiXmlElement* parent) = 0;

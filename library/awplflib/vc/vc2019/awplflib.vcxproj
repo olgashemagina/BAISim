@@ -92,7 +92,7 @@
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..\..\;..\..\..\awpipl2\include;..\..\accel_rects;..\..\include;..\..\..\..\3rdparty\OpenCL\include;..\..\..\..\3rdparty\boost\include\boost-1_87;..\..\..\..\3rdparty\TinyXML\src;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>..\..\;..\..\..\awpipl2\include;..\..\accel_rects;..\..\include;..\..\..\..\3rdparty\OpenCL\include;..\..\..\..\3rdparty\boost\include\boost-1_87;..\..\..\..\3rdparty\TinyXML\src;C:\Users\Raythe0n\AppData\Local\Programs\Python\Python311\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>..\..\..\..\3rdparty\OpenCL\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -266,6 +266,7 @@
     <ClCompile Include="..\..\accel_rects\accel_rects.cpp" />
     <ClCompile Include="..\..\agent\correctors.cpp" />
     <ClCompile Include="..\..\agent\corrector_collection.cpp" />
+    <ClCompile Include="..\..\agent\corrector_trainer.cpp" />
     <ClCompile Include="..\..\agent\tests.cpp" />
     <ClCompile Include="..\..\src\LFAgent.cpp" />
     <ClCompile Include="..\..\src\LFAttrFilter.cpp" />

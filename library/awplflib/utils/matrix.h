@@ -17,6 +17,22 @@ public:
     TMatrix(size_t rows, size_t cols)
         : rows_(rows), cols_(cols), data_(rows* cols, 0.0f) {}
 
+    TMatrix(TMatrix&& other)
+        : rows_(other.rows_), cols_(other.cols_), data_(std::move(other.data_)) {
+        other.rows_ = 0;
+        other.cols_ = 0;
+    }
+
+
+    TMatrix& operator=(TMatrix&& other) {
+        data_ = std::move(other.data_);
+        rows_ = other.rows_;
+        cols_ = other.cols_;
+        other.rows_ = 0;
+        other.cols_ = 0;
+        return *this;
+    }
+
     TMatrix() = default;
 
     // Access element

@@ -51,6 +51,9 @@ TLFAgent::TLFAgent()
 	if (supervisor_ && trainer_) {
 		// Process image and get ground truth bounds
 		gt_detections = supervisor_->Detect(img);
+		auto correctors = trainer_->ConsumeCorrectors();
+		if (!correctors.empty())
+			correctors_.AddCorrectors(std::move(correctors));
 	}
 
 	auto fragments_count = scanner->GetFragmentsCount();
@@ -127,9 +130,7 @@ TLFAgent::TLFAgent()
 	}
 
 	if (supervisor_ && trainer_) {
-		auto correctors = trainer_->Train();
-		if (!correctors.empty())
-			correctors_.AddCorrectors(std::move(correctors));
+		trainer_->Train();
 	}
 
 	TItemAttributes attr = {	detector_->GetType(), 
