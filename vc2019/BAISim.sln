@@ -32,6 +32,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tree_builder", "..\tools\tr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "supervisor_correctors", "..\tools\supervisor_correctors\vc\vc2019\supervisor_correctors.vcxproj", "{73A0EC7F-0D0C-4DFB-AE00-CF744713DB27}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "random_supervisor_correctors", "..\tools\random_supervisor_correctors\vc\vc2019\random_supervisor_correctors.vcxproj", "{53A0EC7F-0D0C-4DFB-AE00-CF744713DB27}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -144,6 +146,14 @@ Global
 		{73A0EC7F-0D0C-4DFB-AE00-CF744713DB27}.Release|Win32.Build.0 = Release|Win32
 		{73A0EC7F-0D0C-4DFB-AE00-CF744713DB27}.Release|x64.ActiveCfg = Release|x64
 		{73A0EC7F-0D0C-4DFB-AE00-CF744713DB27}.Release|x64.Build.0 = Release|x64
+		{53A0EC7F-0D0C-4DFB-AE00-CF744713DB27}.Debug|Win32.ActiveCfg = Debug|Win32
+		{53A0EC7F-0D0C-4DFB-AE00-CF744713DB27}.Debug|Win32.Build.0 = Debug|Win32
+		{53A0EC7F-0D0C-4DFB-AE00-CF744713DB27}.Debug|x64.ActiveCfg = Debug|x64
+		{53A0EC7F-0D0C-4DFB-AE00-CF744713DB27}.Debug|x64.Build.0 = Debug|x64
+		{53A0EC7F-0D0C-4DFB-AE00-CF744713DB27}.Release|Win32.ActiveCfg = Release|Win32
+		{53A0EC7F-0D0C-4DFB-AE00-CF744713DB27}.Release|Win32.Build.0 = Release|Win32
+		{53A0EC7F-0D0C-4DFB-AE00-CF744713DB27}.Release|x64.ActiveCfg = Release|x64
+		{53A0EC7F-0D0C-4DFB-AE00-CF744713DB27}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

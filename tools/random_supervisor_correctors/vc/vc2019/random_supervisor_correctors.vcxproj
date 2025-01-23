@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{73A0EC7F-0D0C-4DFB-AE00-CF744713DB27}</ProjectGuid>
+    <ProjectGuid>{53A0EC7F-0D0C-4DFB-AE00-CF744713DB27}</ProjectGuid>
     <RootNamespace>roc</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -163,7 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\supervisor_correctors.cpp" />
+    <ClCompile Include="..\..\random_supervisor_correctors.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\3rdparty\jpeg-6b\vc\vc2019\JPEGLIB.vcxproj">
