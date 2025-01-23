@@ -4,7 +4,6 @@
 #include "LFAgent.h"
 #include "LFEngine.h"
 
-#include "agent/tests.h"
 #include "agent/detectors.h"
 #include "agent/corrector_trainer.h"
 #include "agent/supervisors.h"
@@ -19,29 +18,7 @@ int main(int argc, char* argv[]) {
     std::string db_folder = argv[1];
     std::string det_path = argv[2];
 
-    if (!tests::make_serialization_tests()) {
-        std::cout << "Serialization test ERROR " << std::endl;
-    }
-    else {
-        std::cout << "Serialization test PASSED " << std::endl;
-    }
-
-    db_folder = "d:/work/AI/testsupervisors/correct";
-    det_path = "d:/work/AI/testsupervisors/megapolis_2062im.xml";
-
-    //db_folder = "D:\\Projects\\iap_ras\\BAISim\\dataset\\0\\source";
-    //det_path = "D:\\Projects\\iap_ras\\BAISim\\models\\digits\\0_075_v3.xml";
-
     auto agent = LoadAgentFromEngine(det_path);
-
-    save_xml("digit_0_agent.xml", agent->SaveXML());
-
-    agent = load_xml("digit_0_agent.xml", [](TiXmlElement* node) {
-        auto  agent = std::make_unique<TLFAgent>();
-        if (node && agent->LoadXML(node))
-            return agent;
-        return std::unique_ptr<TLFAgent>{};
-        });
 
     auto sv = std::make_shared<agent::TDBSupervisor>();
     int count = sv->LoadDB(db_folder);

@@ -25,8 +25,23 @@ std::unique_ptr<TLFAgent> build_random_agent() {
 
 
 int main(int argc, char* argv[]) {
+    if (!tests::make_serialization_tests()) {
+        std::cout << "Serialization test ERROR " << std::endl;
+    }
+    else {
+        std::cout << "Serialization test PASSED " << std::endl;
+    }
 
     auto agent = tests::build_random_agent();
+    save_xml("digit_0_agent.xml", agent->SaveXML());
+
+    agent = load_xml("digit_0_agent.xml", [](TiXmlElement* node) {
+        auto  agent = std::make_unique<TLFAgent>();
+        if (node && agent->LoadXML(node))
+            return agent;
+        return std::unique_ptr<TLFAgent>{};
+        });
+
 
     // Setup random image
     awpImage* image = nullptr;
