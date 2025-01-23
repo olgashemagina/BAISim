@@ -719,7 +719,7 @@ public:
 	TLFDetectedItem(awpRect rect, double raiting, TLFString, int angle, int racurs, int bw, int bh, TLFString strDetector, UUID id, ILFPredictor* predictor = NULL);
 	virtual ~TLFDetectedItem();
 	/*data exchange*/
-	const TLFRect&	GetBounds();
+	const TLFRect&	GetBounds() const;
 	void		SetBounds(awpRect& rect, int iw = 640, int ih = 480);
 	void		SetBounds(const awpRect& rect) { m_rect.SetRect(rect); }
 

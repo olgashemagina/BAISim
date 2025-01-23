@@ -56,18 +56,11 @@ namespace agent {
 			for (int i = 0; i < img_files_.size(); i++) {
 				std::cout << "Processing " << i + 1 << " out of " <<
 					img_files_.size() << std::endl;
-
-				TLFImage img;
-				if (!img.LoadFromFile(img_files_[i].name.c_str())) {
-					std::cerr << "Can't load image " << img_files_[i].name << std::endl;
-					return -102;
-				}
+							
 
 				std::unique_ptr<TLFSemanticImageDescriptor> image_descriptor = std::make_unique<TLFSemanticImageDescriptor>();
 
-				TiXmlDocument samples_doc;
-				samples_doc.LinkEndChild(new TiXmlDeclaration("1.0", "", ""));
-
+				
 				std::string xml_desc_name = LFChangeFileExt(img_files_[i].name, ".xml");
 				if (LFFileExists(xml_desc_name)) {
 					//We need to load image description
@@ -75,8 +68,8 @@ namespace agent {
 						std::cerr << "Cant load image description from " << xml_desc_name << std::endl;
 						continue;
 					}
-					for (int j = 0; i < image_descriptor->GetCount(); i++) {
-						auto obj = image_descriptor->Get(i);
+					for (int j = 0; j < image_descriptor->GetCount(); j++) {
+						auto obj = image_descriptor->Get(j);
 						TLFDetectedItem* item = static_cast<TLFDetectedItem*>(obj);
 						if (item != nullptr) {
 							img_files_[i].detections.push_back(item->GetBounds());

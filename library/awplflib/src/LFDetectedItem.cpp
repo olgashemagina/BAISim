@@ -156,7 +156,7 @@ TLFDetectedItem::~TLFDetectedItem()
 		delete m_predictor;
 }
 /*data exchange*/
-const TLFRect&	TLFDetectedItem::GetBounds()
+const TLFRect&	TLFDetectedItem::GetBounds() const
 {
 	return this->m_rect;
 }

@@ -79,5 +79,35 @@ private:
 	
 };
 
-
+// Load Agent from Object Detection Engine;
 std::unique_ptr<TLFAgent>       LoadAgentFromEngine(const std::string& engine_path);
+
+// Compare ground truths (gt) and detections (dets)
+// Returns FP and FN pair
+static std::pair<int, int>		CalcStat(const agent::TDetections& gt, const std::vector<TLFDetectedItem>& dets, float overlap) {
+	//Calc overlap matrix 
+	int FP = dets.size();
+	int FN = 0;
+		
+	unsigned char gt_mask[64] = {0};
+
+	for (size_t d = 0; d < dets.size(); ++d) {
+		unsigned char det_found = 0;
+		FN = gt.size();
+		for (size_t r = 0; r < gt.size(); ++r) {
+			if (dets[d].GetBounds().RectOverlap(gt[r]) > overlap) {
+				det_found = 1;
+				gt_mask[r] = 1;
+			}
+
+			if (gt_mask[r])
+				FN--;
+		}
+
+		if (det_found)
+			FP--;
+
+	}
+
+	return { FP, FN };
+}
