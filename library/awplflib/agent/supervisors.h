@@ -81,6 +81,6 @@ namespace agent {
 		}
 	private:
 		std::vector<FileInfo> img_files_;
-		size_t cur_index_;
+		size_t cur_index_ = 0;
 	};
 }
