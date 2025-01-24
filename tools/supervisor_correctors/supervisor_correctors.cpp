@@ -25,7 +25,7 @@ void usage()
 
 
 int main(int argc, char* argv[]) {
-    if (argc != 5) {
+    if (argc < 5) {
         usage();
         return -1;
     }
@@ -129,6 +129,13 @@ int main(int argc, char* argv[]) {
         return count;
     }
     if (mode == "train") {
+    auto sv = std::make_shared<agent::TDBSupervisor>();
+    int count = sv->LoadDB(db_folder_path);
+    if (count <= 0) {
+        std::cerr << "LoadDB return ERROR: " << count << std::endl;
+        return count;
+    }
+    if (mode == "train")
         agent->SetSupervisor(sv);
     }
     else if (mode == "test") {
