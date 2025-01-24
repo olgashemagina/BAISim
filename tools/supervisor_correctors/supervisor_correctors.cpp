@@ -25,7 +25,7 @@ void usage()
 
 
 int main(int argc, char* argv[]) {
-    if (argc != 5) {
+    if (argc < 5) {
         usage();
         return -1;
     }
@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
     TLFString agent_path;
     TLFString save_path;
     TLFString db_folder_path;
-    int count = 0;
+    //int count = 0;
 
     for (int i = 2; i < argc; i++) {
         TLFString key(argv[i]);
@@ -123,47 +123,39 @@ int main(int argc, char* argv[]) {
         return -20;
     }
 
-    if (mode == "train") {
-        auto sv = std::make_shared<agent::TDBSupervisor>();
-        int count = sv->LoadDB(db_folder_path);
-        if (count <= 0) {
-            std::cerr << "LoadDB return ERROR: " << count << std::endl;
-            return count;
-        }
 
+    auto sv = std::make_shared<agent::TDBSupervisor>();
+    int count = sv->LoadDB(db_folder_path);
+    if (count <= 0) {
+        std::cerr << "LoadDB return ERROR: " << count << std::endl;
+        return count;
+    }
+    if (mode == "train")
         agent->SetSupervisor(sv);
 
-        float overlap = 0.4f;
+    float overlap = 0.4f;
 
-        // False Posititive, False Negative, True Positive
-        int FP = 0, FN = 0, TP = 0;
+    // False Posititive, False Negative, True Positive
+    int FP = 0, FN = 0, TP = 0;
 
-        for (int i = 0; i < count; i++) {
-            std::cout << "Processing " << i + 1 << " out of " << count << std::endl;
-            std::shared_ptr<TLFImage> img = sv->LoadImg(i);
-            auto dets = agent->Detect(img);
+    for (int i = 0; i < count; i++) {
+        std::cout << "Processing " << i + 1 << " out of " << count << std::endl;
+        std::shared_ptr<TLFImage> img = sv->LoadImg(i);
+        auto dets = agent->Detect(img);
 
-            auto gt = sv->Detect(img);
+        auto gt = sv->Detect(img);
 
-            auto [fp, fn] = CalcStat(gt, dets, overlap);
+        auto [fp, fn] = CalcStat(gt, dets, overlap);
 
-            FP += fp;
-            FN += fn;
-            TP += (gt.size() + dets.size() - fp - fn) / 2;
-        }
-
-        float precision = TP / float(TP + FP);
-        float recall = TP / float(FN + TP);
-
-        std::cout << "Overall Precision=" << precision << " Recall=" << recall << std::endl;
+        FP += fp;
+        FN += fn;
+        TP += (gt.size() + dets.size() - fp - fn) / 2;
     }
-    else if (mode == "test") {
-        //todo
-    }
-    else {
-        usage();
-        return -10;
-    }
+
+    float precision = TP / float(TP + FP);
+    float recall = TP / float(FN + TP);
+
+    std::cout << "Overall Precision=" << precision << " Recall=" << recall << std::endl;
 
     if (!save_path.empty()) {
         save_xml(save_path, agent->SaveXML());
