@@ -1,0 +1,13 @@
+<map id="TLFBuilder" name="TLFBuilder">
+<area shape="rect" id="node1" title=" " alt="" coords="191,471,275,499"/>
+<area shape="rect" id="node2" href="$class_t_c_s_ada_boost.html" title=" " alt="" coords="111,379,214,407"/>
+<area shape="rect" id="node3" href="$class_t_l_f_object_list.html" title="List of LFObjects." alt="" coords="254,83,356,111"/>
+<area shape="rect" id="node6" href="$class_i_l_f_strong.html" title="ILFStrongStrong &#45; TLU logic classificator abstraction." alt="" coords="32,177,109,205"/>
+<area shape="rect" id="node7" href="$class_i_l_f_scanner.html" title=" " alt="" coords="261,177,349,205"/>
+<area shape="rect" id="node9" href="$class_i_l_f_object_detector.html" title=" " alt="" coords="379,287,505,315"/>
+<area shape="rect" id="node4" href="$class_t_l_f_object.html" title="Base class for all objects whithing library." alt="" coords="423,5,504,33"/>
+<area shape="rect" id="node10" href="$class_t_l_f_image.html" title="Raster data in the awpImage format Supports Load, Save, LoadDump, SaveDump IntegralImage for each cha..." alt="" coords="538,83,616,111"/>
+<area shape="rect" id="node5" href="$class_t_c_s_strong.html" title=" " alt="" coords="5,287,90,315"/>
+<area shape="rect" id="node8" href="$class_t_s_c_object_detector.html" title=" " alt="" coords="245,379,378,407"/>
+<area shape="rect" id="node11" href="$class_i_l_f_image.html" title=" " alt="" coords="540,5,614,33"/>
+</map>

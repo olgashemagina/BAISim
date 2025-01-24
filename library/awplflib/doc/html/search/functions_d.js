@@ -1,8 +1,14 @@
 var searchData=
 [
-  ['operator_3d_2176',['operator=',['../class_t_c_s_sensor.html#ab3607114a6120e9cbeaf3ae0a228deec',1,'TCSSensor::operator=()'],['../class_t_l_f2_d_contour.html#a5dff352c06bf5be7b4224c913ea3e42d',1,'TLF2DContour::operator=()'],['../class_t_l_f2_d_open_polygon.html#a44a9eca6de88551bb7a7e10f18832638',1,'TLF2DOpenPolygon::operator=()'],['../class_t_l_f_lab_color_database.html#a8cf63b94f7f143724d4704f67bb22e50',1,'TLFLabColorDatabase::operator=()'],['../class_t_l_f_semantic_dictinary_item.html#af14698c222ec5685046835e025124a96',1,'TLFSemanticDictinaryItem::operator=()'],['../class_t_c_s_weak.html#a5349e538f681b5cb8e537d194435216f',1,'TCSWeak::operator=()'],['../class_t_l_f_zone.html#a1a436a9bcb3e5027a8f20fff59f2f2a6',1,'TLFZone::operator=()'],['../class_t_l_f_zones.html#ab363e0f4c61bceb7a5f4db8661650abb',1,'TLFZones::operator=()']]],
-  ['oprientationgrad_2177',['OprientationGrad',['../structtag_rect_of_interst.html#ad518d2cdab92cd9844f69ed86ec0da62',1,'tagRectOfInterst']]],
-  ['orientation_2178',['Orientation',['../structtag_rect_of_interst.html#a0c757920efaa893abfd8d221b20f34e3',1,'tagRectOfInterst']]],
-  ['overlap_2179',['Overlap',['../class_t_l_f_semantic_image_descriptor.html#ab2a6e72d5d7fb4ba1c71152534dd410c',1,'TLFSemanticImageDescriptor']]],
-  ['overlapsfilter_2180',['OverlapsFilter',['../class_i_l_f_detect_engine.html#a7b5b2bfd26a5841b71b5a99c3a84872e',1,'ILFDetectEngine::OverlapsFilter()'],['../class_t_l_f_detect_engine.html#a602694b42f33edd1b27a14689f63a7f6',1,'TLFDetectEngine::OverlapsFilter()'],['../class_t_l_f_f_g_engine.html#a8298eaef885abc3732219442ba2bc873',1,'TLFFGEngine::OverlapsFilter()'],['../class_t_l_f_motion_engine.html#a0fc27477dcf90e016b104fa453e9a0bc',1,'TLFMotionEngine::OverlapsFilter()']]]
+  ['name_0',['name',['../class___t_l_f_parameter.html#ab8fe6fc5ba53cd84ec0849f88c56003c',1,'_TLFParameter::name()'],['../class_i_l_f_parameter.html#abba9560a6f2c8a54906776a8d06e103a',1,'ILFParameter::name()']]],
+  ['nearlest_1',['Nearlest',['../class_t_l_f_lab_color_database.html#ae49dee05f9b8259aa1ac4168b7da887a',1,'TLFLabColorDatabase']]],
+  ['nearlestblob_2',['NearlestBlob',['../class_t_l_f_cluster_track.html#a754bd3ddcac912eb01e4a2e024025337',1,'TLFClusterTrack']]],
+  ['needfastcomputing_3',['NeedFastComputing',['../class_i_l_f_attr_detector.html#afb42877361317fcf89d328c1cdde973d',1,'ILFAttrDetector']]],
+  ['needscaleimage_4',['NeedScaleImage',['../class_i_l_f_attr_detector.html#a9555a3a5f7cfc95e7ce64a959d9a8814',1,'ILFAttrDetector']]],
+  ['next_5',['Next',['../class_t_l_f_list.html#ac0dd24da6e9296d92c446c0f40b2d9ac',1,'TLFList::Next()'],['../class_i_l_f_media_source.html#a595bf3524641b5cd4b9b65315cb462bb',1,'ILFMediaSource::Next()'],['../class_t_l_f_image_source.html#a1b911be78fc3fcbe244ecb13476f661a',1,'TLFImageSource::Next()'],['../class_t_l_f_images_source.html#a54dbe7b1e4bb291bc6a1fe8666b06414',1,'TLFImagesSource::Next()']]],
+  ['nextnode_6',['NextNode',['../class_t_l_f_list_node.html#a7465c7cde4d1df1545488526b2ae7126',1,'TLFListNode']]],
+  ['norml2_7',['NormL2',['../class_t_l_f_dbl_vector.html#a2c5f421e1693f75552949fd9405b422b',1,'TLFDblVector']]],
+  ['normmodel_8',['NormModel',['../class_t_l_f_face_image_descriptor.html#a2c605d78f61fb05fe749a56005cd97ce',1,'TLFFaceImageDescriptor']]],
+  ['numclusters_9',['NumClusters',['../class_t_l_f_cluster_maker.html#ae2b621ef512e0db7d3d06cf541d47600',1,'TLFClusterMaker::NumClusters()'],['../class_t_l_f_cluster_recursive.html#adb56854d658511a97840da2d8bc77f87',1,'TLFClusterRecursive::NumClusters()']]],
+  ['numframes_10',['NumFrames',['../class_i_l_f_media_source.html#a50e046ffdb94dba377e104bb29a03044',1,'ILFMediaSource::NumFrames()'],['../class_t_l_f_image_source.html#a206d04142fa13df0f54bb90e0b49afdb',1,'TLFImageSource::NumFrames()'],['../class_t_l_f_images_source.html#ab3042e265092be4a3ea3366d563418b8',1,'TLFImagesSource::NumFrames()']]]
 ];

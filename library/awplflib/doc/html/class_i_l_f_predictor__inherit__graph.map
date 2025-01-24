@@ -1,0 +1,10 @@
+<map id="ILFPredictor" name="ILFPredictor">
+<area shape="rect" id="node1" title=" " alt="" coords="135,109,226,137"/>
+<area shape="rect" id="node3" href="$class_t_l_f_average_n_n_predictor.html" title=" " alt="" coords="281,5,440,33"/>
+<area shape="rect" id="node5" href="$class_t_l_f_car_predictor.html" title=" " alt="" coords="303,57,418,85"/>
+<area shape="rect" id="node6" href="$class_t_l_f_integral_image_predictor.html" title=" " alt="" coords="274,109,446,137"/>
+<area shape="rect" id="node7" href="$class_t_l_f_moments_predictor.html" title=" " alt="" coords="286,161,435,189"/>
+<area shape="rect" id="node8" href="$class_t_l_f_null_predictor.html" title=" " alt="" coords="302,213,419,241"/>
+<area shape="rect" id="node2" href="$class_t_l_f_object.html" title="Base class for all objects whithing library." alt="" coords="5,109,87,137"/>
+<area shape="rect" id="node4" href="$class_t_l_f_empty_average_n_n_predictor.html" title=" " alt="" coords="494,5,692,33"/>
+</map>

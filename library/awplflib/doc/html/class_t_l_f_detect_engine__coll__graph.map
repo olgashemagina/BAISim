@@ -1,0 +1,10 @@
+<map id="TLFDetectEngine" name="TLFDetectEngine">
+<area shape="rect" id="node1" title=" " alt="" coords="509,349,630,377"/>
+<area shape="rect" id="node2" href="$class_i_l_f_detect_engine.html" title=" " alt="" coords="272,272,389,300"/>
+<area shape="rect" id="node3" href="$class_t_l_f_object.html" title="Base class for all objects whithing library." alt="" coords="111,5,193,33"/>
+<area shape="rect" id="node4" href="$class_t_l_f_object_list.html" title="List of LFObjects." alt="" coords="371,83,474,111"/>
+<area shape="rect" id="node5" href="$class_t_l_f_image.html" title="Raster data in the awpImage format Supports Load, Save, LoadDump, SaveDump IntegralImage for each cha..." alt="" coords="113,83,191,111"/>
+<area shape="rect" id="node7" href="$class_t_l_f_zones.html" title="LF Zones List." alt="" coords="383,162,462,190"/>
+<area shape="rect" id="node8" href="$class_t_l_f_semantic_image_descriptor.html" title="The semantic description of the image or frame in the video file." alt="" coords="486,162,679,190"/>
+<area shape="rect" id="node6" href="$class_i_l_f_image.html" title=" " alt="" coords="5,5,80,33"/>
+</map>

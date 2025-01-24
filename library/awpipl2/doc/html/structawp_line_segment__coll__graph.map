@@ -1,0 +1,4 @@
+<map id="awpLineSegment" name="awpLineSegment">
+<area shape="rect" id="node1" title="Describes LineSegment." alt="" coords="5,113,126,141"/>
+<area shape="rect" id="node2" href="$structawp_point.html" title="Point abstraction." alt="" coords="28,5,103,33"/>
+</map>

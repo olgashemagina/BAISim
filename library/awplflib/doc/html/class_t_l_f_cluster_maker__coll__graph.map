@@ -1,0 +1,10 @@
+<map id="TLFClusterMaker" name="TLFClusterMaker">
+<area shape="rect" id="node1" title=" " alt="" coords="132,363,252,391"/>
+<area shape="rect" id="node2" href="$class_t_l_f_object.html" title="Base class for all objects whithing library." alt="" coords="258,5,339,33"/>
+<area shape="rect" id="node4" href="$class_i_l_f_object_detector.html" title=" " alt="" coords="274,271,401,299"/>
+<area shape="rect" id="node5" href="$class_t_l_f_image.html" title="Raster data in the awpImage format Supports Load, Save, LoadDump, SaveDump IntegralImage for each cha..." alt="" coords="176,177,254,205"/>
+<area shape="rect" id="node7" href="$class_i_l_f_scanner.html" title=" " alt="" coords="451,177,538,205"/>
+<area shape="rect" id="node8" href="$class_t_l_f_object_list.html" title="List of LFObjects." alt="" coords="400,83,502,111"/>
+<area shape="rect" id="node3" href="$structtag_binary_blob.html" title=" " alt="" coords="42,271,145,299"/>
+<area shape="rect" id="node6" href="$class_i_l_f_image.html" title=" " alt="" coords="136,83,211,111"/>
+</map>

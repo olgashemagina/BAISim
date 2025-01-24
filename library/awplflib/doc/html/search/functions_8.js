@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['hasobject_2071',['HasObject',['../class_t_l_f_detected_item.html#a57404680e80fd7ef602ed77062e162bb',1,'TLFDetectedItem']]],
-  ['height_2072',['Height',['../structtag_rect_of_interst.html#a7e9ed72b5ca5172277c9d53dfda2206b',1,'tagRectOfInterst::Height()'],['../class_t_l_f_semantic_image_descriptor.html#a92f7743787c03638ef4de4db115bd833',1,'TLFSemanticImageDescriptor::Height()'],['../class_t_l_f_rect.html#a9b865a03f81a8932e5c6283836b6f51d',1,'TLFRect::Height()'],['../class_t_l_f2_d_rect.html#adf14752682827c5d9724163dea6e220c',1,'TLF2DRect::Height()']]],
-  ['heightbase_2073',['HeightBase',['../class_t_c_s_ada_boost.html#ab538a55ee5d43e8ac16635dcf80dc477',1,'TCSAdaBoost']]],
-  ['hunit_2074',['hUnit',['../class_i_l_f_feature.html#a528968465c55228f4b8dcd7c5b1e684d',1,'ILFFeature']]],
-  ['hunitbase_2075',['hUnitBase',['../class_i_l_f_feature.html#af9ac2333853668de0e10bbfa7944d2f1',1,'ILFFeature']]]
+  ['hasobject_0',['HasObject',['../class_t_l_f_detected_item.html#a57404680e80fd7ef602ed77062e162bb',1,'TLFDetectedItem']]],
+  ['height_1',['Height',['../class_t_l_f_semantic_image_descriptor.html#a92f7743787c03638ef4de4db115bd833',1,'TLFSemanticImageDescriptor::Height()'],['../class_t_l_f_rect.html#a22f5edad7a4200c23831c89ce56b56f3',1,'TLFRect::Height()'],['../class_t_l_f2_d_rect.html#adf14752682827c5d9724163dea6e220c',1,'TLF2DRect::Height()']]],
+  ['height_2',['height',['../classaccel__rects_1_1_integral_data.html#aecf6978273d348300576778fd6c77b7f',1,'accel_rects::IntegralData::height()'],['../classaccel__rects_1_1_integral_view.html#a0d1cd575beef1c30222be7612729d33f',1,'accel_rects::IntegralView::height()'],['../class_t_gpu_integral.html#a1648d8f4feccd31126ffe20c56eb1bf8',1,'TGpuIntegral::height()'],['../class_t_l_f_image.html#acacd8c2e579208bc94a58617a81bfbee',1,'TLFImage::height()'],['../class_i_l_f_image.html#a9924b939da90439db26cac0eb95f40f9',1,'ILFImage::height()']]],
+  ['heightbase_3',['HeightBase',['../class_t_c_s_ada_boost.html#ab538a55ee5d43e8ac16635dcf80dc477',1,'TCSAdaBoost']]],
+  ['histc_4',['histc',['../namespacematlab__like__funcs.html#a1d2da460b751f5a643384f9919664ae1',1,'matlab_like_funcs']]]
 ];

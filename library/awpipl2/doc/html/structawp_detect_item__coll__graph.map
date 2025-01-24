@@ -1,0 +1,4 @@
+<map id="awpDetectItem" name="awpDetectItem">
+<area shape="rect" id="node1" title="struct awpDetectItem brief description of the detected object" alt="" coords="5,97,113,125"/>
+<area shape="rect" id="node2" href="$structawp_rect.html" title="Rectangle abstraction." alt="" coords="23,5,95,33"/>
+</map>

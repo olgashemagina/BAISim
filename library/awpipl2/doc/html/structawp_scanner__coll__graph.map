@@ -1,0 +1,4 @@
+<map id="awpScanner" name="awpScanner">
+<area shape="rect" id="node1" title="description of the scanner" alt="" coords="5,97,98,125"/>
+<area shape="rect" id="node2" href="$structawp_camera.html" title="\describes single camera settings and hardware properties" alt="" coords="7,5,96,33"/>
+</map>

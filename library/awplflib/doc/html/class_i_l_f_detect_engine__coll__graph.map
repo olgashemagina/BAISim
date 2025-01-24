@@ -1,0 +1,9 @@
+<map id="ILFDetectEngine" name="ILFDetectEngine">
+<area shape="rect" id="node1" title=" " alt="" coords="89,272,206,300"/>
+<area shape="rect" id="node2" href="$class_t_l_f_object.html" title="Base class for all objects whithing library." alt="" coords="107,5,188,33"/>
+<area shape="rect" id="node3" href="$class_t_l_f_object_list.html" title="List of LFObjects." alt="" coords="96,83,198,111"/>
+<area shape="rect" id="node4" href="$class_t_l_f_image.html" title="Raster data in the awpImage format Supports Load, Save, LoadDump, SaveDump IntegralImage for each cha..." alt="" coords="317,83,396,111"/>
+<area shape="rect" id="node6" href="$class_t_l_f_zones.html" title="LF Zones List." alt="" coords="108,162,186,190"/>
+<area shape="rect" id="node7" href="$class_t_l_f_semantic_image_descriptor.html" title="The semantic description of the image or frame in the video file." alt="" coords="211,162,403,190"/>
+<area shape="rect" id="node5" href="$class_i_l_f_image.html" title=" " alt="" coords="319,5,394,33"/>
+</map>

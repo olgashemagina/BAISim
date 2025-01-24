@@ -1,0 +1,8 @@
+<map id="TCSWeakTraining" name="TCSWeakTraining">
+<area shape="rect" id="node1" title=" " alt="" coords="5,421,131,449"/>
+<area shape="rect" id="node2" href="$class_t_c_s_weak.html" title=" " alt="" coords="28,344,108,372"/>
+<area shape="rect" id="node3" href="$class_i_l_f_weak.html" title=" " alt="" coords="31,267,105,295"/>
+<area shape="rect" id="node4" href="$class_t_l_f_object.html" title="Base class for all objects whithing library." alt="" coords="57,5,138,33"/>
+<area shape="rect" id="node5" href="$class_i_l_f_feature.html" title=" " alt="" coords="84,175,167,203"/>
+<area shape="rect" id="node6" href="$class_t_l_f_rect.html" title="LF Rect Descriptor based on awpRect structure." alt="" coords="134,83,205,111"/>
+</map>

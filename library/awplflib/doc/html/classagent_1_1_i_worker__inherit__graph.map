@@ -1,0 +1,5 @@
+<map id="agent::IWorker" name="agent::IWorker">
+<area shape="rect" id="node1" title=" " alt="" coords="121,5,227,33"/>
+<area shape="rect" id="node2" href="$classagent_1_1_t_random_worker.html" title=" " alt="" coords="5,81,164,109"/>
+<area shape="rect" id="node3" href="$classagent_1_1_t_stages_worker.html" title=" " alt="" coords="188,81,339,109"/>
+</map>

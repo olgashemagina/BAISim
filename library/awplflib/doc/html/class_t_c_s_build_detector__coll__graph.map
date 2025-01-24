@@ -1,0 +1,15 @@
+<map id="TCSBuildDetector" name="TCSBuildDetector">
+<area shape="rect" id="node1" title=" " alt="" coords="644,471,768,499"/>
+<area shape="rect" id="node2" href="$class_t_c_s_ada_boost.html" title=" " alt="" coords="740,379,843,407"/>
+<area shape="rect" id="node3" href="$class_t_l_f_object_list.html" title="List of LFObjects." alt="" coords="553,83,656,111"/>
+<area shape="rect" id="node6" href="$class_i_l_f_strong.html" title="ILFStrongStrong &#45; TLU logic classificator abstraction." alt="" coords="681,177,758,205"/>
+<area shape="rect" id="node7" href="$class_i_l_f_scanner.html" title=" " alt="" coords="782,177,870,205"/>
+<area shape="rect" id="node8" href="$class_t_l_f_detect_engine.html" title=" " alt="" coords="577,379,699,407"/>
+<area shape="rect" id="node9" href="$class_i_l_f_detect_engine.html" title=" " alt="" coords="213,287,330,315"/>
+<area shape="rect" id="node12" href="$class_t_l_f_zones.html" title="LF Zones List." alt="" coords="528,177,606,205"/>
+<area shape="rect" id="node13" href="$class_t_l_f_semantic_image_descriptor.html" title="The semantic description of the image or frame in the video file." alt="" coords="311,177,503,205"/>
+<area shape="rect" id="node4" href="$class_t_l_f_object.html" title="Base class for all objects whithing library." alt="" coords="231,5,312,33"/>
+<area shape="rect" id="node10" href="$class_t_l_f_image.html" title="Raster data in the awpImage format Supports Load, Save, LoadDump, SaveDump IntegralImage for each cha..." alt="" coords="5,83,84,111"/>
+<area shape="rect" id="node5" href="$class_t_c_s_strong.html" title=" " alt="" coords="676,287,760,315"/>
+<area shape="rect" id="node11" href="$class_i_l_f_image.html" title=" " alt="" coords="7,5,82,33"/>
+</map>

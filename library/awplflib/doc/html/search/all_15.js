@@ -1,11 +1,9 @@
 var searchData=
 [
-  ['w_1385',['w',['../structtag_binary_blob.html#a4e1f75d5757fc54ca98767ebbea1e7cb',1,'tagBinaryBlob']]],
-  ['wait_1386',['wait',['../structtag_binary_blob.html#aaaf490be1c3bf0935fe0f201efd2295b',1,'tagBinaryBlob']]],
-  ['weakcount_1387',['WeakCount',['../class_t_c_s_strong_sign.html#a8f69f16aa623940f49548d252f50a3bd',1,'TCSStrongSign']]],
-  ['weight_1388',['Weight',['../class_i_l_f_weak.html#ac4b6b8d3a7fec9566ffc92f69631768c',1,'ILFWeak']]],
-  ['width_1389',['Width',['../structtag_rect_of_interst.html#afb4d1268e64fd9a42b95e113ea692046',1,'tagRectOfInterst::Width()'],['../class_t_l_f_semantic_image_descriptor.html#a3ed6a5b1d4aab1e58d31e2951f152f0d',1,'TLFSemanticImageDescriptor::Width()'],['../class_t_l_f_rect.html#a815260aac21a3dda57f8a2b5b3af4572',1,'TLFRect::Width()'],['../class_t_l_f2_d_rect.html#a909c4f301c3316000d010b09e4ad81ab',1,'TLF2DRect::Width()']]],
-  ['widthbase_1390',['WidthBase',['../class_t_c_s_ada_boost.html#acf0de0253caef63ac103acba0490f14b',1,'TCSAdaBoost']]],
-  ['wunit_1391',['wUnit',['../class_i_l_f_feature.html#ae1b0a78d59f828f230115a0895a0d4a3',1,'ILFFeature']]],
-  ['wunitbase_1392',['wUnitBase',['../class_i_l_f_feature.html#a2abba96fbe45e8f04212830de4587b64',1,'ILFFeature']]]
+  ['v1_0',['v1',['../struct_s_l_f_triangle.html#a4a3765c48be05c4c19e78dca5fdb5bbb',1,'SLFTriangle']]],
+  ['v2_1',['v2',['../struct_s_l_f_triangle.html#ae4afac15f9e4e85b3a6cd73762401d6a',1,'SLFTriangle']]],
+  ['v3_2',['v3',['../struct_s_l_f_triangle.html#a08cfe997b11622551336df53c3f6d2b0',1,'SLFTriangle']]],
+  ['value_3',['value',['../struct_i_l_f_feature_1_1_t_result.html#af1e84e9dd64ccd8cda69e9d5749c4f57',1,'ILFFeature::TResult::value()'],['../class___t_l_f_parameter.html#a7c11ef495bb543b23cf1292c9034a0c0',1,'_TLFParameter::value()'],['../class_i_l_f_parameter.html#a5561b0344666cbf14584fda59214e0b4',1,'ILFParameter::value()']]],
+  ['vfeature_2etxt_4',['vfeature.txt',['../vfeature_8txt.html',1,'']]],
+  ['view_5',['view',['../class_t_gpu_detector.html#a70c09a1337d4edab237667cea37b21f8',1,'TGpuDetector::view()'],['../class_t_gpu_integral.html#a6227261b6b4717bcea5f3a78ec328d2c',1,'TGpuIntegral::view()']]]
 ];

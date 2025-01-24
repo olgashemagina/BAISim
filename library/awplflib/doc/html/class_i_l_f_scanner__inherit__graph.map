@@ -1,0 +1,9 @@
+<map id="ILFScanner" name="ILFScanner">
+<area shape="rect" id="node1" title=" " alt="" coords="279,81,366,109"/>
+<area shape="rect" id="node3" href="$class_t_l_f_all_scanner.html" title=" " alt="" coords="5,157,112,185"/>
+<area shape="rect" id="node4" href="$class_t_l_f_scanner.html" title=" " alt="" coords="136,157,227,185"/>
+<area shape="rect" id="node5" href="$class_t_l_f_tile_scale_scanner.html" title=" " alt="" coords="250,157,395,185"/>
+<area shape="rect" id="node6" href="$class_t_l_f_tile_scanner.html" title=" " alt="" coords="419,157,530,185"/>
+<area shape="rect" id="node7" href="$class_t_l_f_whole_image_scanner.html" title=" " alt="" coords="554,157,718,185"/>
+<area shape="rect" id="node2" href="$class_t_l_f_object.html" title="Base class for all objects whithing library." alt="" coords="282,5,363,33"/>
+</map>

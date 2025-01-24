@@ -1,30 +1,5 @@
 var searchData=
 [
-  ['r_1034',['r',['../structtag_rect_of_interst.html#abfb56ab8425e3579fc4842cd0494568c',1,'tagRectOfInterst']]],
-  ['raiting_1035',['raiting',['../struct_t_l_f_bounds.html#a83053346a90ab626b401d5e35b210457',1,'TLFBounds::raiting()'],['../class_t_i_e_f_s_strong.html#aff0d5cb366401a408f873354fef76307',1,'TIEFSStrong::Raiting()']]],
-  ['random_1036',['random',['../_l_f_utils_8cpp.html#aef463e2f28c89583c5102b796fd22d1d',1,'LFUtils.cpp']]],
-  ['randomize_1037',['randomize',['../_l_f_utils_8cpp.html#a83c832496374390c11c825cfb9500c87',1,'LFUtils.cpp']]],
-  ['readme_2emd_1038',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
-  ['readme_2etxt_1039',['ReadMe.txt',['../_detector_to_awp_2_read_me_8txt.html',1,'(Global Namespace)'],['../roc_2_read_me_8txt.html',1,'(Global Namespace)']]],
-  ['rect_1040',['Rect',['../struct_t_l_f_bounds.html#a1a7da7285aa928b6f6e92f5b6a14c9df',1,'TLFBounds']]],
-  ['rectcenter_1041',['RectCenter',['../group___l_f_roi_utils.html#ga9877646f65197d53737a38fcde573f7c',1,'RectCenter(awpRect r):&#160;LFUtils.cpp'],['../group___l_f_roi_utils.html#ga9877646f65197d53737a38fcde573f7c',1,'RectCenter(awpRect r):&#160;LFUtils.cpp']]],
-  ['rectoverlap_1042',['RectOverlap',['../class_t_l_f_rect.html#aca665f7f045028efd16b3f2327b3f72c',1,'TLFRect::RectOverlap(TLFRect &amp;rect)'],['../class_t_l_f_rect.html#afc653ad11b9037b95e7dbae797c0fdcf',1,'TLFRect::RectOverlap(awpRect &amp;rect)']]],
-  ['remove_1043',['Remove',['../class_t_l_f_object_list.html#afd96cc917c221c14a2a793b85737d5e9',1,'TLFObjectList']]],
-  ['removebkground_1044',['RemoveBkground',['../class_t_c_s_build_detector.html#ab19c9188c2b2bad72a4c32d6ee4eb52d',1,'TCSBuildDetector']]],
-  ['removeexpert_1045',['RemoveExpert',['../class_i_l_f_attr_detector.html#a493b0634da2c483178b633c1a3b1f1c1',1,'ILFAttrDetector']]],
-  ['removepoint_1046',['RemovePoint',['../class_t_l_f_contour.html#a8c18ae41727f7c0605a5c764e6a68d14',1,'TLFContour::RemovePoint()'],['../class_t_l_f2_d_contour.html#adda75e6c4f70b762e8403d6afc66417b',1,'TLF2DContour::RemovePoint()']]],
-  ['reset_1047',['Reset',['../class_t_l_f_face_image_descriptor.html#ac0fddf8fd6cec761bb2b4090b191399c',1,'TLFFaceImageDescriptor::Reset()'],['../class_t_l_f_dynamic_weak.html#a208096b458bdef2a4c0264b0b4d950ba',1,'TLFDynamicWeak::Reset()'],['../class_t_l_f_acc_weak.html#ae7a3a872819c54135fb57151a17acfe3',1,'TLFAccWeak::Reset()']]],
-  ['resize_1048',['Resize',['../class_t_l_f_detected_item.html#acf707be62e90bc3c28d33e089c95e75d',1,'TLFDetectedItem::Resize()'],['../class_t_l_f_semantic_image_descriptor.html#a14624841d377e0c2ab5b6b077ce4a873',1,'TLFSemanticImageDescriptor::Resize()']]],
-  ['resizeroi_1049',['ResizeROI',['../group___l_f_roi_utils.html#ga1343db46166e35dfee434d8336bf0ce8',1,'ResizeROI(TROI *roi, double scale):&#160;LFUtils.cpp'],['../group___l_f_roi_utils.html#ga1343db46166e35dfee434d8336bf0ce8',1,'ResizeROI(TROI *roi, double scale):&#160;LFUtils.cpp']]],
-  ['right_1050',['Right',['../class_t_l_f_rect.html#a957571d20dba96e8a19b4909ced14857',1,'TLFRect::Right()'],['../class_t_l_f2_d_rect.html#a8e56d58948d85fbf59f519fb3138ffef',1,'TLF2DRect::right()']]],
-  ['ro_1051',['ro',['../class_i_l_f_distance.html#a3b47064ba96a98a414c707677af685cf',1,'ILFDistance::ro()'],['../class_t_l_f_l2_distance.html#aeb95ff9267d99d848f43719945d2aedd',1,'TLFL2Distance::ro()'],['../class_t_l_f_l2_norm_distance.html#a7e705929c272c04f07ee359c4b4c082c',1,'TLFL2NormDistance::ro()'],['../class_t_l_f_i_e_f_s_distance.html#a7b012e506876689288c7be89f4ca6997',1,'TLFIEFSDistance::ro()'],['../class_t_l_f_triangle_list.html#a7f5da15ed329cb16326928c8fdf2b13b',1,'TLFTriangleList::Ro()']]],
-  ['roc_2ecpp_1052',['roc.cpp',['../roc_8cpp.html',1,'']]],
-  ['roc_5fentry_1053',['roc_entry',['../structroc__entry.html',1,'']]],
-  ['roidistance1_1054',['RoiDistance1',['../group___l_f_roi_utils.html#gaa198f21047761a2383015380f7a95692',1,'RoiDistance1(TROI &amp;roi1, TROI &amp;roi2):&#160;LFUtils.cpp'],['../group___l_f_roi_utils.html#gaa198f21047761a2383015380f7a95692',1,'RoiDistance1(TROI &amp;roi1, TROI &amp;roi2):&#160;LFUtils.cpp']]],
-  ['roidistance2_1055',['RoiDistance2',['../group___l_f_roi_utils.html#ga101bfd8b05dc237cc55ee197a3f48fbd',1,'RoiDistance2(TROI &amp;roi1, TROI &amp;roi2):&#160;LFUtils.cpp'],['../group___l_f_roi_utils.html#ga101bfd8b05dc237cc55ee197a3f48fbd',1,'RoiDistance2(TROI &amp;roi1, TROI &amp;roi2):&#160;LFUtils.cpp']]],
-  ['roidistanceavg_1056',['RoiDistanceAvg',['../group___l_f_roi_utils.html#ga3721bbf777f77be1528d03a0159bd267',1,'RoiDistanceAvg(TROI &amp;roi1, TROI &amp;roi2):&#160;LFUtils.cpp'],['../group___l_f_roi_utils.html#ga3721bbf777f77be1528d03a0159bd267',1,'RoiDistanceAvg(TROI &amp;roi1, TROI &amp;roi2):&#160;LFUtils.cpp']]],
-  ['roidistancemax_1057',['RoiDistanceMax',['../group___l_f_roi_utils.html#ga42c4aa1f1ac35003f6d9006c89b323df',1,'RoiDistanceMax(TROI &amp;roi1, TROI &amp;roi2):&#160;LFUtils.cpp'],['../group___l_f_roi_utils.html#ga42c4aa1f1ac35003f6d9006c89b323df',1,'RoiDistanceMax(TROI &amp;roi1, TROI &amp;roi2):&#160;LFUtils.cpp']]],
-  ['roidistancemin_1058',['RoiDistanceMin',['../group___l_f_roi_utils.html#ga4fc5c29a03969396de3d30ba9b2b8322',1,'RoiDistanceMin(TROI &amp;roi1, TROI &amp;roi2):&#160;LFUtils.cpp'],['../group___l_f_roi_utils.html#ga4fc5c29a03969396de3d30ba9b2b8322',1,'RoiDistanceMin(TROI &amp;roi1, TROI &amp;roi2):&#160;LFUtils.cpp']]],
-  ['rotate_1059',['Rotate',['../class_t_l_f_detected_item.html#a6bbeeb8485746d808707605347d02840',1,'TLFDetectedItem']]],
-  ['rotateroi_1060',['RotateROI',['../group___l_f_roi_utils.html#ga20515c663f1074bbcd0c2b764cf409b9',1,'RotateROI(TROI *roi, double angle, awpPoint center):&#160;LFUtils.cpp'],['../group___l_f_roi_utils.html#ga20515c663f1074bbcd0c2b764cf409b9',1,'RotateROI(TROI *roi, double angle, awpPoint center):&#160;LFUtils.cpp']]]
+  ['queue_0',['queue',['../classaccel__rects_1_1_core.html#a5155774e5f2372bcc2faec771a48ea53',1,'accel_rects::Core::queue()'],['../classaccel__rects_1_1_core.html#a65c9926e5ad804f49c45ea0d25a3dcc0',1,'accel_rects::Core::queue() const'],['../classaccel__rects_1_1_kernels.html#af363f3f2f6a83e477db0db6207759024',1,'accel_rects::Kernels::queue() const'],['../classaccel__rects_1_1_kernels.html#a66c2ae6766a276a08efd277abbff741e',1,'accel_rects::Kernels::queue()']]],
+  ['quicksort_1',['QuickSort',['../_l_f_common_8cpp.html#a58b5511e11e7a6feecb93a70925fd120',1,'LFCommon.cpp']]]
 ];

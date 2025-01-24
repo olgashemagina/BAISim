@@ -1,0 +1,5 @@
+<map id="TLFColorDetector" name="TLFColorDetector">
+<area shape="rect" id="node1" title="(obsolete) Implementation of human skin color detector, based on simply skin color HSV model" alt="" coords="7,157,130,185"/>
+<area shape="rect" id="node2" href="$class_i_l_f_object_detector.html" title=" " alt="" coords="5,81,132,109"/>
+<area shape="rect" id="node3" href="$class_t_l_f_object.html" title="Base class for all objects whithing library." alt="" coords="28,5,109,33"/>
+</map>

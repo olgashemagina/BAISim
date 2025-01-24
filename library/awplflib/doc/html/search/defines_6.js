@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['name_5fsize_3037',['NAME_SIZE',['../_l_f_attr_filter_8h.html#a834e9a379307f869a10f4da078be5786',1,'LFAttrFilter.h']]]
+  ['max_0',['MAX',['../_l_f_image_8cpp.html#afa99ec4acc4ecb2dc3c2d05da15d0e3f',1,'LFImage.cpp']]],
+  ['min_1',['MIN',['../_l_f_image_8cpp.html#a3acffbd305ee72dcd4593c0d8af64a4f',1,'LFImage.cpp']]]
 ];

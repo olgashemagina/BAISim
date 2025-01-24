@@ -1,6 +1,10 @@
 var searchData=
 [
-  ['v1_2967',['v1',['../struct_s_l_f_triangle.html#a4a3765c48be05c4c19e78dca5fdb5bbb',1,'SLFTriangle']]],
-  ['v2_2968',['v2',['../struct_s_l_f_triangle.html#ae4afac15f9e4e85b3a6cd73762401d6a',1,'SLFTriangle']]],
-  ['v3_2969',['v3',['../struct_s_l_f_triangle.html#a08cfe997b11622551336df53c3f6d2b0',1,'SLFTriangle']]]
+  ['racurs_0',['racurs',['../struct_t_item_attributes.html#a00fdf18351a3720ba309f58a355fd59c',1,'TItemAttributes']]],
+  ['rect_1',['Rect',['../struct_t_l_f_bounds.html#a1a7da7285aa928b6f6e92f5b6a14c9df',1,'TLFBounds']]],
+  ['rects_5f_2',['rects_',['../classaccel__rects_1_1_features.html#a07e0eb04d760ec15f63e831e7ab42096',1,'accel_rects::Features']]],
+  ['res_3',['res',['../classcreate__class__corr1_1_1_baseline_corrector.html#a02dd8ca807a31b350c940ecef7c82e69',1,'create_class_corr1.BaselineCorrector.res()'],['../classcreate__class__corr1_1_1_baseline_corrector.html#a41be2f838f1b4ec35b61c64044ab805b',1,'create_class_corr1.BaselineCorrector.res()']]],
+  ['resps_5f_4',['resps_',['../classaccel__rects_1_1_stages.html#ad4caced29ebb9805604fe907d993c3b7',1,'accel_rects::Stages']]],
+  ['result_5',['result',['../struct_i_l_f_weak_1_1_t_result.html#a7a3737a022ae13a41f04e7d1be3a5f35',1,'ILFWeak::TResult::result()'],['../struct_i_l_f_strong_1_1_t_result.html#afd3c6ac6f92a4603edf9eb9cce134938',1,'ILFStrong::TResult::result()'],['../struct_i_l_f_object_detector_1_1_t_description.html#ae9a17303227aed8f8e86e7e7eeab1655',1,'ILFObjectDetector::TDescription::result()']]],
+  ['ribs_6',['ribs',['../classrect2_d_map_1_1rect2_d_map.html#a44ef9a8adc8e9594258eac13795ff46d',1,'rect2DMap::rect2DMap']]]
 ];

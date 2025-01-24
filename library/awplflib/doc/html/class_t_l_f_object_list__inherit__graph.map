@@ -1,0 +1,19 @@
+<map id="TLFObjectList" name="TLFObjectList">
+<area shape="rect" id="node1" title="List of LFObjects." alt="" coords="135,317,237,345"/>
+<area shape="rect" id="node3" href="$class_i_l_f_strong.html" title="ILFStrongStrong &#45; TLU logic classificator abstraction." alt="" coords="343,31,420,59"/>
+<area shape="rect" id="node6" href="$class_t_i_e_f_s_strong.html" title=" " alt="" coords="334,83,429,111"/>
+<area shape="rect" id="node7" href="$class_t_l_f2_d_open_polygon.html" title=" " alt="" coords="313,135,450,163"/>
+<area shape="rect" id="node8" href="$class_t_l_f_cascade.html" title=" " alt="" coords="334,187,428,215"/>
+<area shape="rect" id="node9" href="$class_t_l_f_dbl_vector.html" title=" " alt="" coords="331,239,431,267"/>
+<area shape="rect" id="node10" href="$class_t_l_f_feature_list.html" title=" " alt="" coords="327,291,435,319"/>
+<area shape="rect" id="node11" href="$class_t_l_f_image_list.html" title="List TLFImage objects." alt="" coords="332,343,431,371"/>
+<area shape="rect" id="node12" href="$class_t_l_f_lab_color_database.html" title=" " alt="" coords="307,395,456,423"/>
+<area shape="rect" id="node13" href="$class_t_l_f_semantic_dictinary.html" title="Semantic dictionary, contains list of TLFSemanticDictinaryItem ." alt="" coords="307,447,456,475"/>
+<area shape="rect" id="node14" href="$class_t_l_f_semantic_image_descriptor.html" title="The semantic description of the image or frame in the video file." alt="" coords="285,499,477,527"/>
+<area shape="rect" id="node16" href="$class_t_l_f_triangle_list.html" title=" " alt="" coords="327,551,436,579"/>
+<area shape="rect" id="node17" href="$class_t_l_f_zones.html" title="LF Zones List." alt="" coords="342,603,420,631"/>
+<area shape="rect" id="node2" href="$class_t_l_f_object.html" title="Base class for all objects whithing library." alt="" coords="5,317,87,345"/>
+<area shape="rect" id="node4" href="$class_t_c_s_strong.html" title=" " alt="" coords="571,5,655,33"/>
+<area shape="rect" id="node5" href="$class_t_l_f_sabotage_strong.html" title=" " alt="" coords="545,57,681,85"/>
+<area shape="rect" id="node15" href="$class_t_l_f_d_b_semantic_descriptor.html" title=" " alt="" coords="525,499,701,527"/>
+</map>

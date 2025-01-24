@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['h_2608',['h',['../structtag_binary_blob.html#ae8eb8b84755461ebf2313abef6c610a6',1,'tagBinaryBlob']]],
-  ['hasobject_2609',['HasObject',['../struct_t_l_f_bounds.html#ac027cf9b841c0db26794ab46d0637b98',1,'TLFBounds']]]
+  ['gtri_0',['gtri',['../_l_f_face_descriptor_8cpp.html#a5553e09525a24de8b1d54301a8467317',1,'LFFaceDescriptor.cpp']]]
 ];

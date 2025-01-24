@@ -1,0 +1,6 @@
+<map id="TLFSemanticDictinaryItem" name="TLFSemanticDictinaryItem">
+<area shape="rect" id="node1" title="Elemnet of semantic dictionary, contains: class label, \ aperture and scanner." alt="" coords="5,267,180,295"/>
+<area shape="rect" id="node2" href="$class_t_l_f_object.html" title="Base class for all objects whithing library." alt="" coords="81,5,163,33"/>
+<area shape="rect" id="node3" href="$class_i_l_f_scanner.html" title=" " alt="" coords="109,175,196,203"/>
+<area shape="rect" id="node4" href="$class_t_l_f_object_list.html" title="List of LFObjects." alt="" coords="159,83,261,111"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="TLFColorDetector" name="TLFColorDetector">
+<area shape="rect" id="node1" title="(obsolete) Implementation of human skin color detector, based on simply skin color HSV model" alt="" coords="33,348,156,376"/>
+<area shape="rect" id="node2" href="$class_i_l_f_object_detector.html" title=" " alt="" coords="190,271,316,299"/>
+<area shape="rect" id="node3" href="$class_t_l_f_object.html" title="Base class for all objects whithing library." alt="" coords="171,5,253,33"/>
+<area shape="rect" id="node4" href="$class_t_l_f_image.html" title="Raster data in the awpImage format Supports Load, Save, LoadDump, SaveDump IntegralImage for each cha..." alt="" coords="50,177,128,205"/>
+<area shape="rect" id="node6" href="$class_i_l_f_scanner.html" title=" " alt="" coords="163,177,250,205"/>
+<area shape="rect" id="node7" href="$class_t_l_f_object_list.html" title="List of LFObjects." alt="" coords="205,83,307,111"/>
+<area shape="rect" id="node5" href="$class_i_l_f_image.html" title=" " alt="" coords="5,83,80,111"/>
+</map>
