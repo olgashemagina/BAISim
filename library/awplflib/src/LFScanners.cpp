@@ -162,6 +162,10 @@ bool ILFScanner::LoadXML(TiXmlElement* parent)
 	return true;
 }
 
+const std::vector<TLFBounds>& ILFScanner::GetFragments() {
+	return (const std::vector<TLFBounds>&)fragments_;
+}
+
 TiXmlElement* ILFScanner::SaveXML()
 {
 	TiXmlElement* elem = new TiXmlElement("ILFScanner");

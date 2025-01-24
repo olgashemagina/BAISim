@@ -60,11 +60,11 @@ class TLFAverageNNPredictor : public ILFPredictor
 protected:
 	TLFObjectList  m_list;
 	awpRect		   m_rect;
-	virtual TLFDblVector* Features(ILFDetectEngine* engine, TLFRect* rect, int id);
+	virtual TLFDblVector* Features(ILFDetectEngine* engine, const TLFRect& rect, int id);
 	virtual bool Classify(TLFDblVector* d, double* err);
 public:
 	TLFAverageNNPredictor();
-	virtual void Learn(ILFDetectEngine* engine, TLFRect* rect);
+	virtual void Learn(ILFDetectEngine* engine, const TLFRect& rect);
 	virtual TLFRect* Predict(ILFDetectEngine* engine);
 	virtual const char* GetName()
 	{
@@ -75,18 +75,18 @@ public:
 class TLFEmptyAverageNNPredictor : public TLFAverageNNPredictor
 {
 protected:
-	virtual TLFDblVector* Features(ILFDetectEngine* engine, TLFRect* rect, int id);
+	virtual TLFDblVector* Features(ILFDetectEngine* engine, const TLFRect& rect, int id);
 };
 //
 class TLFNullPredictor : public ILFPredictor
 {
 protected:
 //	TLFRect* m_pPredicted;
-	virtual TLFDblVector* Features(ILFDetectEngine* engine, TLFRect* rect, int id);
+	virtual TLFDblVector* Features(ILFDetectEngine* engine, const TLFRect& rect, int id);
 	virtual bool Classify(TLFDblVector* d, double* err);
 public:
 	TLFRect* GetPredicted();
-	virtual void Learn(ILFDetectEngine* engine, TLFRect* rect);
+	virtual void Learn(ILFDetectEngine* engine, const TLFRect& rect);
 	virtual TLFRect* Predict(ILFDetectEngine* engine);
 };
 // estimates brigthness of tracking box over
@@ -96,12 +96,12 @@ class TLFIntegralImagePredictor : public ILFPredictor
 protected:
 	TLFTileScaleScanner* m_scanner;
 	TLFRect    m_rect;
-	virtual TLFDblVector* Features(ILFDetectEngine* engine, TLFRect* rect, int id);
+	virtual TLFDblVector* Features(ILFDetectEngine* engine, const TLFRect& rect, int id);
 	virtual bool Classify(TLFDblVector* d, double* err);
 public:
 	TLFIntegralImagePredictor();
 	virtual ~TLFIntegralImagePredictor();
-	virtual void Learn(ILFDetectEngine* engine, TLFRect* rect);
+	virtual void Learn(ILFDetectEngine* engine, const TLFRect& rect);
 	virtual TLFRect* Predict(ILFDetectEngine* engine);
 	virtual const char* GetName()
 	{
@@ -114,12 +114,12 @@ class TLFMomentsPredictor : public ILFPredictor
 {
 protected:
 	TLFRect    m_rect;
-	virtual TLFDblVector* Features(ILFDetectEngine* engine, TLFRect* rect, int id);
+	virtual TLFDblVector* Features(ILFDetectEngine* engine, const TLFRect& rect, int id);
 	virtual bool Classify(TLFDblVector* d, double* err);
 public:
 	TLFMomentsPredictor();
 	virtual ~TLFMomentsPredictor();
-	virtual void Learn(ILFDetectEngine* engine, TLFRect* rect);
+	virtual void Learn(ILFDetectEngine* engine, const TLFRect& rect);
 	virtual TLFRect* Predict(ILFDetectEngine* engine);
 	virtual const char* GetName()
 	{
@@ -133,12 +133,12 @@ class TLFCarPredictor : public ILFPredictor
 protected:
 	TLFRect    m_rect;
 	awpImage*  m_image;
-	virtual TLFDblVector* Features(ILFDetectEngine* engine, TLFRect* rect, int id);
+	virtual TLFDblVector* Features(ILFDetectEngine* engine, const TLFRect& rect, int id);
 	virtual bool Classify(TLFDblVector* d, double* err);
 public:
 	TLFCarPredictor();
 	virtual ~TLFCarPredictor();
-	virtual void Learn(ILFDetectEngine* engine, TLFRect* rect);
+	virtual void Learn(ILFDetectEngine* engine, const TLFRect& rect);
 	virtual TLFRect* Predict(ILFDetectEngine* engine);
 	virtual const char* GetName()
 	{

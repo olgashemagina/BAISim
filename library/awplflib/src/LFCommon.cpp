@@ -736,22 +736,21 @@ bool TLFSemanticImageDescriptor::AddDetectedItem(TLFDetectedItem* item)
    //     return false;
     if (item == NULL)
         return false;
-    if (item->GetBounds() == NULL)
-        return false;
-
+   
 	TLFDetectedItem* detected = new TLFDetectedItem(item);
-    TLFRect* r = detected->GetBounds();
+    const TLFRect& r = detected->GetBounds();
 
 	//Fixes Bounds
 	//TODO: move to OverlapFilter
 
-    awpRect rr = r->GetRect();
+    awpRect rr = r.GetRect();
 	rr.left = std::max<int>(rr.left, 0);
 	rr.right = std::min<int>(rr.right, m_imageWidth);
 	rr.top = std::max<int>(rr.top, 0);
 	rr.bottom = std::min<int>(rr.bottom, m_imageHeight);
 	
-	r->SetRect(rr);
+	detected->SetBounds(rr);
+	
 	/*
     if (awpRectInImage(this->m_Image.GetImage(), &rr) !=AWP_OK)
     {
@@ -833,14 +832,14 @@ double TLFSemanticImageDescriptor::Compare(TLFSemanticImageDescriptor* Descripto
 	for (int i = 0; i < GetCount(); i++)
 	{
 		TLFDetectedItem* item1 = this->GetDetectedItem(i);
-		TLFRect* rect1 = item1->GetBounds();
-		if (Descriptor->Overlap(*rect1) > overlap)
+		
+		if (Descriptor->Overlap(item1->GetBounds()) > overlap)
 			count++;
 	}
 	return GetCount() - count;
 }
 
-double TLFSemanticImageDescriptor::Overlap(TLFRect& rect)
+double TLFSemanticImageDescriptor::Overlap( const TLFRect& rect)
 {
 	if (this->GetCount() == 0)
 		return 0;
@@ -848,8 +847,8 @@ double TLFSemanticImageDescriptor::Overlap(TLFRect& rect)
 	for (int i = 0; i < GetCount(); i++)
 	{
 		TLFDetectedItem* di = GetDetectedItem(i);
-		TLFRect* di_rect = di->GetBounds();
-		double v = rect.RectOverlap(*di_rect);
+		
+		double v = rect.RectOverlap(di->GetBounds());
 		if (v > max_overlap)
 			max_overlap = v;
 	}
@@ -871,11 +870,8 @@ int TLFSemanticImageDescriptor::GetItemSize(int index)
    TLFDetectedItem* di =  (TLFDetectedItem*)Get(index);
    if (di == NULL)
     return 0;
-
-   TLFRect* r = di->GetBounds();
-   if (r == NULL)
-    return 0;
-   awpRect rr = r->GetRect();
+      
+   awpRect rr = di->GetBounds().GetRect();
 
    int so = (rr.right - rr.left)*(rr.bottom-rr.top);
    double a = 100.f*(double)so / (double)si;
@@ -904,11 +900,8 @@ int TLFSemanticImageDescriptor::GetItemPos (int index)
     TLFDetectedItem* di =  (TLFDetectedItem*)Get(index);
 	if (di == NULL)
           return 0;
-
-   TLFRect* r = di->GetBounds();
-   if (r == NULL)
-    return 0;
-   awpRect rr = r->GetRect();
+	   
+   awpRect rr = di->GetBounds().GetRect();
 
    awpPoint p;
    p.X = (rr.left + rr.right) / 2;
@@ -966,8 +959,7 @@ void TLFSemanticImageDescriptor::Update(ILFDetectEngine* engine,  TLFSemanticIma
 		if (di1)
 		{
 			di1->Resize(d_factor);
-			
-			TLFRect* rect1 = di1->GetBounds();
+						
 			bool found = false;
 			for (int j = sid->GetCount()-1; j >=0; j--)
 			{
@@ -975,11 +967,11 @@ void TLFSemanticImageDescriptor::Update(ILFDetectEngine* engine,  TLFSemanticIma
 				if (di2)
 				{
 					di2->Resize(d_factor);
-					TLFRect* rect2 = di2->GetBounds();
-					if (rect1->RectOverlap(*rect2) > 0)
+					
+					if (di1->GetBounds().RectOverlap(di2->GetBounds()) > 0)
 					{
 						found = true;
-						di1->Update(engine, rect2);
+						di1->Update(engine, di2->GetBounds());
 						sid->Delete(j);
 					}
 					else
@@ -988,7 +980,8 @@ void TLFSemanticImageDescriptor::Update(ILFDetectEngine* engine,  TLFSemanticIma
 			}
 
 			if (!found)
-				di1->Update(engine, NULL);
+				// Empty rect
+				di1->Update(engine, TLFRect());
 
 			di1->Resize(u_factor);
 		}
@@ -998,15 +991,14 @@ void TLFSemanticImageDescriptor::Update(ILFDetectEngine* engine,  TLFSemanticIma
 	for (int i = 0; i < GetCount(); i++)
 	{
 		TLFDetectedItem* d0 = this->GetDetectedItem(i);
-		TLFRect* r0 = d0->GetBounds();
-		double s0 = r0->Square ();
+		double s0 = d0->GetBounds().Square ();
 		for (int j = i+1; j < GetCount(); j++ )
 		{
 			TLFDetectedItem* d1 = this->GetDetectedItem(j);
-			TLFRect* r1 = d1->GetBounds();
-			if (r0->RectOverlap(*r1) > 0.1)
+			
+			if (d0->GetBounds().RectOverlap(d1->GetBounds()) > 0.1)
 			{
-				double s1 = r1->Square();
+				double s1 = d1->GetBounds().Square();
 			if (s0 < s1)
 					d0->SetState(3);
 				else
@@ -1031,15 +1023,14 @@ void TLFSemanticImageDescriptor::Update(ILFDetectEngine* engine,  TLFSemanticIma
 	for (int i = 0; i < sid->GetCount(); i++)
 	{
 		TLFDetectedItem* di = sid->GetDetectedItem(i);
-		awpRect pRect = di->GetBounds()->GetRect();
+		awpRect pRect = di->GetBounds().GetRect();
 		ILFPredictor* predictor = LFCreatePredictor(engine->GetPredictorName(), engine);
 		UUID id;
         LF_UUID_CREATE(id);
-        TLFDetectedItem* item = new TLFDetectedItem(&pRect, di->GetRaiting(), di->GetType(), di->GetAngle(), di->GetRacurs(), di->GetBW(), di->GetBH(), di->GetDetectorName(), id, predictor);
+        TLFDetectedItem* item = new TLFDetectedItem(pRect, di->GetRaiting(), di->GetType(), di->GetAngle(), di->GetRacurs(), di->GetBW(), di->GetBH(), di->GetDetectorName(), id, predictor);
 		item->Resize(d_factor);
-		TLFRect* rect;
-		rect = item->GetBounds();
-		item->Update(engine, rect);
+		
+		item->Update(engine, item->GetBounds());
 		item->Resize(u_factor);
 		Add(item);
 	}

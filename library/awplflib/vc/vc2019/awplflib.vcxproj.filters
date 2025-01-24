@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\src\LFAttrFilter.cpp" />
+    <ClCompile Include="..\..\src\LFBuffer.cpp" />
+    <ClCompile Include="..\..\src\LFBuilder.cpp" />
+    <ClCompile Include="..\..\src\LFCascade.cpp" />
+    <ClCompile Include="..\..\src\LFCluster.cpp" />
+    <ClCompile Include="..\..\src\LFCommon.cpp" />
+    <ClCompile Include="..\..\src\lfcsboost.cpp" />
+    <ClCompile Include="..\..\src\LFDatabase.cpp" />
+    <ClCompile Include="..\..\src\LFDetectedItem.cpp" />
+    <ClCompile Include="..\..\src\LFDetector.cpp" />
+    <ClCompile Include="..\..\src\LFDistance.cpp" />
+    <ClCompile Include="..\..\src\LFEngine.cpp" />
+    <ClCompile Include="..\..\src\LFFeatureImpl.cpp" />
+    <ClCompile Include="..\..\src\LFFeatures.cpp" />
+    <ClCompile Include="..\..\src\LFFileUtils.cpp" />
+    <ClCompile Include="..\..\src\LFGeometry.cpp" />
+    <ClCompile Include="..\..\src\LFHistogramm.cpp" />
+    <ClCompile Include="..\..\src\LFImage.cpp" />
+    <ClCompile Include="..\..\src\LFImageProcessor.cpp" />
+    <ClCompile Include="..\..\src\LFLandmarks.cpp" />
+    <ClCompile Include="..\..\src\LFParameter.cpp" />
+    <ClCompile Include="..\..\src\LFPredictors.cpp" />
+    <ClCompile Include="..\..\src\LFSample.cpp" />
+    <ClCompile Include="..\..\src\LFScanners.cpp" />
+    <ClCompile Include="..\..\src\LFSemantic.cpp" />
+    <ClCompile Include="..\..\src\LFStrong.cpp" />
+    <ClCompile Include="..\..\src\LFStrongImpl.cpp" />
+    <ClCompile Include="..\..\src\LFThresholdProc.cpp" />
+    <ClCompile Include="..\..\src\LFUtils.cpp" />
+    <ClCompile Include="..\..\src\LFVector.cpp" />
+    <ClCompile Include="..\..\src\LFWeak.cpp" />
+    <ClCompile Include="..\..\src\LFWeakImpl.cpp" />
+    <ClCompile Include="..\..\src\LFZones.cpp" />
+    <ClCompile Include="..\..\src\_LFMediaSource.cpp" />
+    <ClCompile Include="..\..\src\_LFParameters.cpp" />
+    <ClCompile Include="..\..\accel_rects\accel_rects.cpp">
+      <Filter>accel_rects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LFGpuEngine.cpp" />
+    <ClCompile Include="..\..\src\LFAgent.cpp" />
+    <ClCompile Include="..\..\agent\tests.cpp">
+      <Filter>agent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\agent\corrector_collection.cpp">
+      <Filter>agent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\agent\correctors.cpp">
+      <Filter>agent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\agent\corrector_trainer.cpp">
+      <Filter>agent</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\LF.h" />
+    <ClInclude Include="..\..\include\LFAttrFilter.h" />
+    <ClInclude Include="..\..\include\LFBuffer.h" />
+    <ClInclude Include="..\..\include\LFBuilder.h" />
+    <ClInclude Include="..\..\include\LFCluster.h" />
+    <ClInclude Include="..\..\include\LFCore.h" />
+    <ClInclude Include="..\..\include\LFCSBoost.h" />
+    <ClInclude Include="..\..\include\LFDatabase.h" />
+    <ClInclude Include="..\..\include\LFDetector.h" />
+    <ClInclude Include="..\..\include\LFDistance.h" />
+    <ClInclude Include="..\..\include\LFEngine.h" />
+    <ClInclude Include="..\..\include\LFFeatures.h" />
+    <ClInclude Include="..\..\include\LFFileUtils.h" />
+    <ClInclude Include="..\..\include\LFGeometry.h" />
+    <ClInclude Include="..\..\include\LFHistogramm.h" />
+    <ClInclude Include="..\..\include\LFImage.h" />
+    <ClInclude Include="..\..\include\LFImageProcessor.h" />
+    <ClInclude Include="..\..\include\LFInterface.h" />
+    <ClInclude Include="..\..\include\LFLandmarks.h" />
+    <ClInclude Include="..\..\include\LFMCDetector.h" />
+    <ClInclude Include="..\..\include\LFParameter.h" />
+    <ClInclude Include="..\..\include\LFPredictors.h" />
+    <ClInclude Include="..\..\include\LFSample.h" />
+    <ClInclude Include="..\..\include\LFScanners.h" />
+    <ClInclude Include="..\..\include\LFSemantic.h" />
+    <ClInclude Include="..\..\include\LFStrong.h" />
+    <ClInclude Include="..\..\include\LFThresholdProc.h" />
+    <ClInclude Include="..\..\include\LFUtils.h" />
+    <ClInclude Include="..\..\include\LFVector.h" />
+    <ClInclude Include="..\..\include\LFWeak.h" />
+    <ClInclude Include="..\..\include\LFZone.h" />
+    <ClInclude Include="..\..\include\_LFParameters.h" />
+    <ClInclude Include="..\..\accel_rects\accel_rects.h">
+      <Filter>accel_rects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\LFGpuEngine.h" />
+    <ClInclude Include="..\..\include\LFAgent.h" />
+    <ClInclude Include="..\..\utils\object_pool.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\utils\tasks.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\utils\matrix.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\agent\agent.h">
+      <Filter>agent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\agent\corrector_trainer.h">
+      <Filter>agent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\agent\correctors.h">
+      <Filter>agent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\agent\detectors.h">
+      <Filter>agent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\agent\features.h">
+      <Filter>agent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\agent\tests.h">
+      <Filter>agent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\agent\supervisors.h">
+      <Filter>agent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\agent\corrector_collection.h">
+      <Filter>agent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\utils\xml.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="accel_rects">
+      <UniqueIdentifier>{0558fc2b-b23c-424f-9bbe-9637e3524eb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{13f586f6-5ba1-4a4b-aeae-0ee8e03b4b83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="agent">
+      <UniqueIdentifier>{947cdfa2-2035-45e1-86d5-e1154e55f26a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

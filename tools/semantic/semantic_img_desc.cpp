@@ -49,13 +49,12 @@ void setup_callback(ILFObjectDetector* detector, TLFSemanticImageDescriptor* des
 			for (int i = 0; i < descriptor->GetCount(); i++)
 			{
 				TLFDetectedItem* item = descriptor->GetDetectedItem(i);
-				TLFRect* rect = item->GetBounds();
-
+				
 				//TODO: detector untyped
 //				if (detector->GetObjectType() == item->GetType()) 
 //				{
 
-					iou = rect->RectOverlap(bounds.Rect);
+					iou = item->GetBounds().RectOverlap(bounds.Rect);
 
 					if (iou >= overlap) {
 						break;
@@ -289,14 +288,14 @@ int apply_detectors_to_folder(const TLFString& det_path1, const TLFString& det_p
 		for (int i = 0; i < semantic1->GetCount(); i++)
 		{
 			TLFDetectedItem* item1 = semantic1->GetDetectedItem(i);
-			TLFRect* rect1 = item1->GetBounds();
+			
 			double max_iou = 0;
 			for (int j = 0; j < semantic2->GetCount(); j++)
 			{
 				TLFDetectedItem* item2 = semantic2->GetDetectedItem(i);
-				TLFRect* rect2 = item2->GetBounds();
-				TLFRect r(rect2->Left(), rect2->Top(), rect2->Width(), rect2->Height());
-				double ovrlp = rect1->RectOverlap(r);
+				TLFRect r = item2->GetBounds();
+				
+				double ovrlp = item1->GetBounds().RectOverlap(r);
 				if (ovrlp > max_iou)
 					max_iou = ovrlp;
 			}

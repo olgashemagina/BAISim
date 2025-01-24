@@ -124,7 +124,7 @@ std::vector<TLFDetectedItem> TGpuEngine::Run(TGpuDetector detector, TGpuIntegral
 #pragma omp critical 
 #endif
                     {
-                        objects.emplace_back(&rect, 1.0, det_source->GetObjectType(), det_source->GetAngle(), det_source->GetRacurs()
+                        objects.emplace_back(rect, 1.0, det_source->GetObjectType(), det_source->GetAngle(), det_source->GetRacurs()
                             , det_source->GetBaseWidth(), det_source->GetBaseHeight(), det_source->GetName(), id);
                         objects.back().SetHasObject(true);
 

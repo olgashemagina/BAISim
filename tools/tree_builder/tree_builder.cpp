@@ -40,6 +40,15 @@
   //merge --tree="../../../../models/railway/rw_tree.xml" --det="../../../../models/railway/Rtank_Num_Digits/8_075_v3.xml" --tree_path="RailwayTank.Numbers.Digit8"
   //merge --tree="../../../../models/railway/rw_tree.xml" --det="../../../../models/railway/Rtank_Num_Digits/9_075_v3.xml" --tree_path="RailwayTank.Numbers.Digit9"
 
+
+enum EStatus {
+	kStatus_Success = 0,
+	kStatus_WrongPath,
+	kStatus_WrongArgument,
+
+};
+
+
 void usage()
 {
 	std::cout << "Tree Builder v1.0" << std::endl <<
@@ -57,7 +66,7 @@ void usage()
 }
 	
 
-int merge_detector(const TLFString& tree_path, const TLFString& det_path,
+static EStatus merge_detector(const TLFString& tree_path, const TLFString& det_path,
 	const std::vector<TLFString>& tree_path_det) {
 
 	TLFTreeEngine			tree_engine;
@@ -70,27 +79,27 @@ int merge_detector(const TLFString& tree_path, const TLFString& det_path,
 	if (!det->Load(det_path.c_str())) {
 		std::cerr << "TLFDetectEngine couldn't parse file" <<
 			det_path << std::endl;
-		return -100;
+		return kStatus_WrongPath;
 	}
 
 	for (const auto& path : tree_path_det) {
 		if (!tree_engine.SetDetector(path, std::shared_ptr<ILFObjectDetector>(det, det->GetDetector(0))))
-			return -101;
+			return kStatus_WrongPath;
 	}
 
 	if (!tree_engine.Save(tree_path))
-		return -102;
+		return kStatus_WrongPath;
 
-	return 0;
+	return kStatus_Success;
 }
 
-int export_detector(const TLFString& tree_path, const TLFString& det_path,
+static EStatus export_detector(const TLFString& tree_path, const TLFString& det_path,
 	const TLFString& tree_path_det) {
 
 	auto tree_engine = std::make_unique<TLFTreeEngine>();
 
 	if (!tree_engine->Load(tree_path))
-		return -100;
+		return kStatus_WrongPath;
 
 
 	auto det = tree_engine->GetDetector(tree_path_det);
@@ -98,7 +107,7 @@ int export_detector(const TLFString& tree_path, const TLFString& det_path,
 	if (!det) {
 		std::cerr << "TLFTreeEngine cant find path in tree " <<
 			tree_path_det << std::endl;
-		return -101;
+		return kStatus_WrongPath;
 	}
 
 	//Delete engine to hold pointer to detector det;
@@ -112,12 +121,12 @@ int export_detector(const TLFString& tree_path, const TLFString& det_path,
 	if (!det_engine->Save(det_path.c_str())) {
 		std::cerr << "TLFDetectEngine couldn't write file" <<
 			det_path << std::endl;
-		return -102;
+		return kStatus_WrongPath;
 	}
 
 	det_engine->RemoveDetector(0);
 
-	return 0;
+	return kStatus_Success;
 }
 
 
@@ -138,20 +147,20 @@ int main(int argc, char* argv[])
 		TLFString key(argv[i]);
 		if (key.substr(0, 6) == "--help" || key.substr(0, 2) == "-h") {
 			usage();
-			return 0;
+			return kStatus_Success;
 		}
 		if (key.substr(0, 6) == "--det=") {
 			if (key.length() < 7 || key[5] != '=') {
 				std::cerr << "Parsing error: use \"det=<path>\", "
 					"no extra spaces" << std::endl;
 				usage();
-				return -3;
+				return kStatus_WrongArgument;
 			}
 			if (!det_path.empty()) {
 				std::cerr << "Engine file was already specified "
 					"in parameters" << std::endl;
 				usage();
-				return -4;
+				return kStatus_WrongArgument;
 			}
 			det_path = key.substr(6);
 		} else if (key.substr(0, 7) == "--tree=") {
@@ -159,13 +168,13 @@ int main(int argc, char* argv[])
 				std::cerr << "Parsing error: use \"tree=<path>\", "
 					"no extra spaces" << std::endl;
 				usage();
-				return -3;
+				return kStatus_WrongArgument;
 			}
 			if (!tree_path.empty()) {
 				std::cerr << "Engine file was already specified "
 					"in parameters" << std::endl;
 				usage();
-				return -4;
+				return kStatus_WrongArgument;
 			}
 			tree_path = key.substr(7);
 		}
@@ -174,7 +183,7 @@ int main(int argc, char* argv[])
 				std::cerr << "Parsing error: use \"tree_path=<path>\", "
 					"no extra spaces" << std::endl;
 				usage();
-				return -4;
+				return kStatus_WrongArgument;
 			}
 
 			tree_path_det.push_back(key.substr(12));
@@ -182,22 +191,22 @@ int main(int argc, char* argv[])
 		} else {
 			std::cerr << "Unknown key: " << key << std::endl;
 			usage();
-			return -2;
+			return kStatus_WrongArgument;
 		}
 	}
 	if (det_path.size() == 0) {
 		std::cerr << "No detector provided" << std::endl;
 		usage();
-		return -3;
+		return kStatus_WrongArgument;
 	} else {
 		std::cout << "Using detector: " << det_path << std::endl;
 	}
 	
-	int res =	(command == "merge") ? merge_detector(tree_path, det_path, tree_path_det) : 
-				(command == "export") ? export_detector(tree_path, det_path, tree_path_det[0]) : -1;
+	EStatus res =	(command == "merge") ? merge_detector(tree_path, det_path, tree_path_det) : 
+				(command == "export") ? export_detector(tree_path, det_path, tree_path_det[0]) : kStatus_WrongArgument;
 		
 
-	if (res == 0) {
+	if (res == kStatus_Success) {
 		std::cout << "Done" << std::endl;
 	} else {
 		std::cerr << "Stopped due to error" << std::endl;

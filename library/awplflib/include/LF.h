@@ -128,11 +128,11 @@ class ILFPredictor : public TLFObject
 {
 protected:
 	TLFRect* m_pPredicted;
-	virtual TLFDblVector* Features(ILFDetectEngine* engine, TLFRect* rect, int id) = 0;
+	virtual TLFDblVector* Features(ILFDetectEngine* engine, const TLFRect& rect, int id) = 0;
 	virtual bool Classify(TLFDblVector* d, double* err) = 0;
 public:
 	TLFRect* GetPredicted();
-	virtual void Learn(ILFDetectEngine* engine, TLFRect* rect) = 0;
+	virtual void Learn(ILFDetectEngine* engine, const TLFRect& rect) = 0;
 	virtual TLFRect* Predict(ILFDetectEngine* engine) = 0;
 };
 
@@ -390,6 +390,7 @@ public:
 	int				GetFragmentsCount();
 	awpRect			GetFragmentRect(int index);
 	TLFBounds*		GetFragment(int index);
+	const std::vector<TLFBounds>& GetFragments();
 	int				GetParamsCount();
 	TLFParameter* GetParameter(int index);
 
@@ -606,9 +607,9 @@ public:
    /**
    \brief deprecated
    \brief access to object type
-   \return aperture width
+   \return name
    */
-   std::string GetObjectType();
+   const std::string& GetObjectType() const;
    /**
    \brief access to the internal image for analysis
    \return pointer to TLFImage object
@@ -693,7 +694,7 @@ class TLFDetectedItem: public TLFObject
 protected:
 	TLFString		m_strDetectorName; /*ID detector*/
 	TLFString 		m_strComment;      /*additional description*/
-	TLFRect*		m_pRect;		   /*bounding box*/
+	TLFRect			m_rect;				/*bounding box*/
 	double			m_Raiting;         /*рейтинг 0..1*/
 	TLFString		m_type;            /*type of detection. set by the detector*/
 	int				m_angle;           /*detection angle*/
@@ -715,11 +716,12 @@ public:
 	TLFDetectedItem();
 	TLFDetectedItem(TLFDetectedItem& item);
 	TLFDetectedItem(TLFDetectedItem* pItem);
-	TLFDetectedItem(awpRect* pRect, double raiting, TLFString, int angle, int racurs, int bw, int bh, TLFString strDetector, UUID id, ILFPredictor* predictor = NULL);
+	TLFDetectedItem(awpRect rect, double raiting, TLFString, int angle, int racurs, int bw, int bh, TLFString strDetector, UUID id, ILFPredictor* predictor = NULL);
 	virtual ~TLFDetectedItem();
 	/*data exchange*/
-	TLFRect*	GetBounds();
+	const TLFRect&	GetBounds() const;
 	void		SetBounds(awpRect& rect, int iw = 640, int ih = 480);
+	void		SetBounds(const awpRect& rect) { m_rect.SetRect(rect); }
 
 	double		GetRaiting();
 	void		SetRaiting(double value);
@@ -761,7 +763,7 @@ public:
 	void Delete();
 	void Rotate(awpPoint c, int angle);
 	TLFRect* Predict(ILFDetectEngine* engine);
-	void Update(ILFDetectEngine* engine, TLFRect* rect);
+	void Update(ILFDetectEngine* engine, const TLFRect& rect);
 	int GetHealth();
 
 	void SetZone(TLFZone* zone, int w = 640, int h = 480);
@@ -827,7 +829,7 @@ public:
 	/*comparison of semantic descriptions of images*/
 	double Compare(const char* lpFileName, double overlap);
 	double Compare(TLFSemanticImageDescriptor* Descriptor, double overlap);
-	double Overlap(TLFRect& rect);
+	double Overlap(const TLFRect& rect);
 
 	void Predict(ILFDetectEngine* engine);
 	void Update(ILFDetectEngine* engine, TLFSemanticImageDescriptor* sid);
