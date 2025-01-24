@@ -92,7 +92,7 @@
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..\..\;..\..\..\awpipl2\include;..\..\accel_rects;..\..\include;..\..\..\..\3rdparty\OpenCL\include;..\..\..\..\3rdparty\boost\include\boost-1_87;..\..\..\..\3rdparty\TinyXML\src;C:\Users\Raythe0n\AppData\Local\Programs\Python\Python311\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(LOCALAPPDATA)\Programs\Python\Python38\include\;$(LOCALAPPDATA)\Programs\Python\Python311\include;..\..\;..\..\..\awpipl2\include;..\..\accel_rects;..\..\include;..\..\..\..\3rdparty\OpenCL\include;..\..\..\..\3rdparty\boost\include\boost-1_87;..\..\..\..\3rdparty\TinyXML\src;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>..\..\..\..\3rdparty\OpenCL\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -102,7 +102,7 @@
     <IncludePath>..\..\..\awpipl2\include;..\..\include;..\..\..\..\3rdparty\TinyXML\src;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>..\..\;..\..\..\awpipl2\include;..\..\accel_rects;..\..\include;..\..\..\..\3rdparty\OpenCL\include;..\..\..\..\3rdparty\TinyXML\src;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(LOCALAPPDATA)\Programs\Python\Python38\include\;$(LOCALAPPDATA)\Programs\Python\Python311\include;..\..\;..\..\..\awpipl2\include;..\..\accel_rects;..\..\include;..\..\..\..\3rdparty\OpenCL\include;..\..\..\..\3rdparty\boost\include\boost-1_87;..\..\..\..\3rdparty\TinyXML\src;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>..\..\..\..\3rdparty\OpenCL\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -186,7 +186,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_OMP_;_USE_UNICODE_VS_;TIXML_USE_STL;_DEBUG;_LIB;WIN32;_WIN64;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>HAVE_SNPRINTF;_OMP_;_USE_UNICODE_VS_;TIXML_USE_STL;_DEBUG;_LIB;WIN32;_WIN64;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ExceptionHandling>Sync</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -232,7 +232,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>..\..\..\TinyXML;..\..\..\awpipl2\include;..\..\include;..\..\..\TinyXML\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_OMP_;_USE_UNICODE_VS_;TIXML_USE_STL;NDEBUG;_LIB;WIN64;WIN32;_OMP_;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>HAVE_SNPRINTF;_OMP_;_USE_UNICODE_VS_;TIXML_USE_STL;NDEBUG;_LIB;WIN64;WIN32;_OMP_;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
