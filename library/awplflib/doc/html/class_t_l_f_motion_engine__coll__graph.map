@@ -1,0 +1,13 @@
+<map id="TLFMotionEngine" name="TLFMotionEngine">
+<area shape="rect" id="node1" title=" " alt="" coords="436,395,558,423"/>
+<area shape="rect" id="node2" href="$class_i_l_f_detect_engine.html" title=" " alt="" coords="170,303,288,331"/>
+<area shape="rect" id="node3" href="$class_t_l_f_object.html" title="Base class for all objects whithing library." alt="" coords="414,5,495,33"/>
+<area shape="rect" id="node4" href="$class_t_l_f_object_list.html" title="List of LFObjects." alt="" coords="244,83,347,111"/>
+<area shape="rect" id="node5" href="$class_t_l_f_image.html" title="Raster data in the awpImage format Supports Load, Save, LoadDump, SaveDump IntegralImage for each cha..." alt="" coords="628,83,707,111"/>
+<area shape="rect" id="node10" href="$class_i_l_f_image_processor.html" title="Generalized image processing interface." alt="" coords="484,193,617,221"/>
+<area shape="rect" id="node11" href="$class_t_l_f_rect.html" title="LF Rect Descriptor based on awpRect structure." alt="" coords="419,83,489,111"/>
+<area shape="rect" id="node7" href="$class_t_l_f_zones.html" title="LF Zones List." alt="" coords="114,193,192,221"/>
+<area shape="rect" id="node8" href="$class_t_l_f_semantic_image_descriptor.html" title="The semantic description of the image or frame in the video file." alt="" coords="217,193,409,221"/>
+<area shape="rect" id="node6" href="$class_i_l_f_image.html" title=" " alt="" coords="630,5,705,33"/>
+<area shape="rect" id="node9" href="$class_t_l_f_threshold_proc.html" title=" " alt="" coords="486,303,612,331"/>
+</map>

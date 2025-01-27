@@ -1,0 +1,5 @@
+<map id="awpSpotProperty" name="awpSpotProperty">
+<area shape="rect" id="node1" title="List of properties for awpStrokeObj object." alt="" coords="30,97,151,125"/>
+<area shape="rect" id="node2" href="$structawp_point.html" title="Point abstraction." alt="" coords="5,5,80,33"/>
+<area shape="rect" id="node3" href="$structawp_rect.html" title="Rectangle abstraction." alt="" coords="104,5,176,33"/>
+</map>

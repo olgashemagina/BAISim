@@ -1,0 +1,4 @@
+<map id="awpStrong" name="awpStrong">
+<area shape="rect" id="node1" title="strong classifier" alt="" coords="5,97,88,125"/>
+<area shape="rect" id="node2" href="$structawp_weak.html" title="weak classifier" alt="" coords="7,5,86,33"/>
+</map>

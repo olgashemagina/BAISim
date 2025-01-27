@@ -1,0 +1,13 @@
+<map id="TLFClusterItem" name="TLFClusterItem">
+<area shape="rect" id="node1" title=" " alt="" coords="5,463,115,491"/>
+<area shape="rect" id="node2" href="$class_t_l_f_object.html" title="Base class for all objects whithing library." alt="" coords="295,5,377,33"/>
+<area shape="rect" id="node3" href="$class_t_l_f_detected_item.html" title=" " alt="" coords="80,371,200,399"/>
+<area shape="rect" id="node4" href="$class_t_l_f_rect.html" title="LF Rect Descriptor based on awpRect structure." alt="" coords="149,83,219,111"/>
+<area shape="rect" id="node5" href="$class_i_l_f_predictor.html" title=" " alt="" coords="177,187,268,215"/>
+<area shape="rect" id="node6" href="$class_t_l_f_zone.html" title="LF Zone Descriptor." alt="" coords="400,279,472,307"/>
+<area shape="rect" id="node7" href="$class_t_l_f2_d_rect.html" title="LF 2D Rect Double Descriptor based on couple of awp2DPoint structures." alt="" coords="344,135,430,163"/>
+<area shape="rect" id="node8" href="$class_t_l_f2_d_contour.html" title="LF 2DContour (Polygon) Descriptor based on awp2DContour structure." alt="" coords="437,135,542,163"/>
+<area shape="rect" id="node9" href="$class_t_l_f2_d_line_segment.html" title="LF Line Segment (vector) Descriptor based on awp2DLineSegment structure." alt="" coords="548,135,684,163"/>
+<area shape="rect" id="node11" href="$class_t_l_f_object_list.html" title="List of LFObjects." alt="" coords="626,83,729,111"/>
+<area shape="rect" id="node10" href="$class_t_l_f2_d_open_polygon.html" title=" " alt="" coords="694,187,831,215"/>
+</map>

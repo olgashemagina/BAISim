@@ -1,0 +1,9 @@
+<map id="TLFZone" name="TLFZone">
+<area shape="rect" id="node1" title="LF Zone Descriptor." alt="" coords="116,279,187,307"/>
+<area shape="rect" id="node2" href="$class_t_l_f_object.html" title="Base class for all objects whithing library." alt="" coords="118,5,199,33"/>
+<area shape="rect" id="node3" href="$class_t_l_f2_d_rect.html" title="LF 2D Rect Double Descriptor based on couple of awp2DPoint structures." alt="" coords="12,135,99,163"/>
+<area shape="rect" id="node4" href="$class_t_l_f2_d_contour.html" title="LF 2DContour (Polygon) Descriptor based on awp2DContour structure." alt="" coords="106,135,210,163"/>
+<area shape="rect" id="node5" href="$class_t_l_f2_d_line_segment.html" title="LF Line Segment (vector) Descriptor based on awp2DLineSegment structure." alt="" coords="241,187,377,215"/>
+<area shape="rect" id="node7" href="$class_t_l_f_object_list.html" title="List of LFObjects." alt="" coords="379,83,481,111"/>
+<area shape="rect" id="node6" href="$class_t_l_f2_d_open_polygon.html" title=" " alt="" coords="400,187,538,215"/>
+</map>

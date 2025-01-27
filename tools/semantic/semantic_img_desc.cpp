@@ -38,7 +38,7 @@ void usage()
 		"(which is created in the same directory with images)." << std::endl;
 }
 
-void setup_callback(ILFObjectDetector* detector, TLFSemanticImageDescriptor* descriptor, TiXmlNode* node, double overlap = 0.7, double negative_threshold = 0.3) {
+void setup_callback(ILFObjectDetector* detector, TLFSemanticImageDescriptor* descriptor, TiXmlNode* node, double overlap = 0, double negative_threshold = 0) {
 	//Mutex if OMP threading used.
 	auto mtx = std::make_shared<std::mutex>();
 	detector->SetDescCallback([=](size_t index,
@@ -51,15 +51,15 @@ void setup_callback(ILFObjectDetector* detector, TLFSemanticImageDescriptor* des
 				TLFDetectedItem* item = descriptor->GetDetectedItem(i);
 				
 				//TODO: detector untyped
-				if (detector->GetObjectType() == item->GetType()) 
-				{
+//				if (detector->GetObjectType() == item->GetType()) 
+//				{
 
 					iou = item->GetBounds().RectOverlap(bounds.Rect);
 
 					if (iou >= overlap) {
 						break;
 					}
-				}
+//				}
 			}
 
 			std::string sample_test;
@@ -320,6 +320,11 @@ int main(int argc, char* argv[])
 	TLFString det2_path("");
 	TLFString db_folder_path("");
 	int res = 0;
+	if (argc < 3)
+	{
+		usage();
+		return 0;
+	}
 	// argv[0] is the launcher command, not parameter
 	TLFString mode = argv[1];
 	if (mode == "markup")

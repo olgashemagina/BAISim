@@ -1,10 +1,18 @@
 var searchData=
 [
-  ['boost_1775',['Boost',['../class_t_c_s_build_detector.html#a860a42d4eeb36b5e12ff543f64f59ac6',1,'TCSBuildDetector::Boost()'],['../class_t_c_s_ada_boost.html#a20ff9fb59b04b96039699aea4a92e3fa',1,'TCSAdaBoost::Boost()'],['../class_t_c_s_ada_boost_sign.html#acb614ecee2a55f60cfc10f41992889e2',1,'TCSAdaBoostSign::Boost()'],['../class_t_i_e_f_s_ada_boost.html#a20279b218d355bc5c84cebfc8e18354b',1,'TIEFSAdaBoost::Boost()']]],
-  ['bottom_1776',['Bottom',['../class_t_l_f_rect.html#aa01267de67bc5b7daa4151b45952c4b5',1,'TLFRect::Bottom()'],['../class_t_l_f2_d_rect.html#af3ee5ded132dd662ee5184384aa22321',1,'TLF2DRect::bottom()']]],
-  ['build_1777',['Build',['../class_t_c_s_build_detector.html#a8e4236f10361b9aed1d783b819794193',1,'TCSBuildDetector::Build()'],['../class_t_l_f_builder.html#a4a5b8898a5665fda04a95e5f5e557c27',1,'TLFBuilder::Build()']]],
-  ['buildbackground_1778',['BuildBackground',['../class_t_l_f_builder.html#a2e4c8eea3bfa2d30b07fe942e7834e88',1,'TLFBuilder']]],
-  ['buildbkground_1779',['BuildBkground',['../class_t_c_s_build_detector.html#a0a870d30cb75b924ab7683749057f33d',1,'TCSBuildDetector']]],
-  ['builddefaultbkground_1780',['BuildDefaultBkGround',['../class_t_c_s_build_detector.html#a5b1e57dcef95e5fc05c61f581b5301a9',1,'TCSBuildDetector']]],
-  ['buildforeground_1781',['BuildForeground',['../class_t_l_f_f_g_engine.html#a37ff0b81be18f97b64e1992ac9137900',1,'TLFFGEngine::BuildForeground()'],['../class_t_l_f_motion_engine.html#a8c4dbf305917257dd3be5b07a0497325',1,'TLFMotionEngine::BuildForeground()']]]
+  ['baserect_0',['baseRect',['../class_t_c_s_sensor.html#a57366913e15091c7827fbabe92944a07',1,'TCSSensor::baseRect()'],['../class___i_l_f_feature.html#a043d0fd6c1fa65b2818f273f14332337',1,'_ILFFeature::baseRect()']]],
+  ['baseunit_1',['baseUnit',['../class_t_c_s_sensor.html#a359035541490d6117a46791709b39e9c',1,'TCSSensor::baseUnit()'],['../class___i_l_f_feature.html#a902d71ba4fb65d58abc3407c44dd7bda',1,'_ILFFeature::baseUnit()']]],
+  ['batch_5fsize_2',['batch_size',['../classagent_1_1_t_features.html#aadfdd4a4ebc49df9a7a9848b0451d38e',1,'agent::TFeatures']]],
+  ['begin_3',['Begin',['../classaccel__rects_1_1_detector_builder.html#a9be9d3fee860aa5b5d95a410c5d3dc85',1,'accel_rects::DetectorBuilder']]],
+  ['beginstage_4',['BeginStage',['../classaccel__rects_1_1_detector_builder.html#aa7e95a4ad71ecfa91c8e455477085a68',1,'accel_rects::DetectorBuilder']]],
+  ['boost_5',['Boost',['../class_t_c_s_build_detector.html#a860a42d4eeb36b5e12ff543f64f59ac6',1,'TCSBuildDetector::Boost()'],['../class_t_c_s_ada_boost.html#a20ff9fb59b04b96039699aea4a92e3fa',1,'TCSAdaBoost::Boost()'],['../class_t_c_s_ada_boost_sign.html#acb614ecee2a55f60cfc10f41992889e2',1,'TCSAdaBoostSign::Boost()'],['../class_t_i_e_f_s_ada_boost.html#a20279b218d355bc5c84cebfc8e18354b',1,'TIEFSAdaBoost::Boost()']]],
+  ['bordercases_6',['borderCases',['../class_map_geometry_1_1_map_geometry.html#aad761f46fd888fe9e84607bbd7a0368d',1,'MapGeometry::MapGeometry']]],
+  ['bottom_7',['Bottom',['../class_t_l_f_rect.html#ac9f09b01b42fe98937cf45d39722de2b',1,'TLFRect']]],
+  ['bottom_8',['bottom',['../class_t_l_f2_d_rect.html#af3ee5ded132dd662ee5184384aa22321',1,'TLF2DRect']]],
+  ['build_9',['Build',['../class_t_c_s_build_detector.html#a8e4236f10361b9aed1d783b819794193',1,'TCSBuildDetector::Build()'],['../class_t_l_f_builder.html#a4a5b8898a5665fda04a95e5f5e557c27',1,'TLFBuilder::Build()']]],
+  ['build_5frandom_5fagent_10',['build_random_agent',['../namespacetests.html#a67a54a0d332df39dcda36565314df4eb',1,'tests']]],
+  ['buildbackground_11',['BuildBackground',['../class_t_l_f_builder.html#a2e4c8eea3bfa2d30b07fe942e7834e88',1,'TLFBuilder']]],
+  ['buildbkground_12',['BuildBkground',['../class_t_c_s_build_detector.html#a4251a7a1b8cceaaf5c426d4836f38f16',1,'TCSBuildDetector']]],
+  ['builddefaultbkground_13',['BuildDefaultBkGround',['../class_t_c_s_build_detector.html#a5b1e57dcef95e5fc05c61f581b5301a9',1,'TCSBuildDetector']]],
+  ['buildforeground_14',['BuildForeground',['../class_t_l_f_f_g_engine.html#a37ff0b81be18f97b64e1992ac9137900',1,'TLFFGEngine::BuildForeground()'],['../class_t_l_f_motion_engine.html#a8c4dbf305917257dd3be5b07a0497325',1,'TLFMotionEngine::BuildForeground()']]]
 ];

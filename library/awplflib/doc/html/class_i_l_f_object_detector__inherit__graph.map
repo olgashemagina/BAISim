@@ -1,0 +1,8 @@
+<map id="ILFObjectDetector" name="ILFObjectDetector">
+<area shape="rect" id="node1" title=" " alt="" coords="230,81,356,109"/>
+<area shape="rect" id="node3" href="$class_t_l_f_color_detector.html" title="(obsolete) Implementation of human skin color detector, based on simply skin color HSV model" alt="" coords="5,157,128,185"/>
+<area shape="rect" id="node4" href="$class_t_l_f_f_g_b_g_detector.html" title=" " alt="" coords="151,157,281,185"/>
+<area shape="rect" id="node5" href="$class_t_l_f_motion_detector.html" title=" " alt="" coords="305,157,436,185"/>
+<area shape="rect" id="node6" href="$class_t_s_c_object_detector.html" title=" " alt="" coords="460,157,593,185"/>
+<area shape="rect" id="node2" href="$class_t_l_f_object.html" title="Base class for all objects whithing library." alt="" coords="253,5,334,33"/>
+</map>

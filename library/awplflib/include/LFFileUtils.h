@@ -149,6 +149,7 @@ bool LFDeleteFile(const char* lpName);
 bool LFGetDirFiles(const std::string& lpDir, TLFStrings& names);
 bool LFIsImageFile(const char* fileName);
 bool LFIsVideoFile(const char* fileName);
+bool LFRemoveFilesInDir(const char* lpPath);
 // functions to convert data
 std::string LFIntToStr(int value);
 std::string LFGUIDToString(UUID* id);

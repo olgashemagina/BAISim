@@ -1,0 +1,9 @@
+<map id="TLFIntegralImagePredictor" name="TLFIntegralImagePredictor">
+<area shape="rect" id="node1" title=" " alt="" coords="69,359,241,387"/>
+<area shape="rect" id="node2" href="$class_i_l_f_predictor.html" title=" " alt="" coords="5,175,97,203"/>
+<area shape="rect" id="node3" href="$class_t_l_f_object.html" title="Base class for all objects whithing library." alt="" coords="129,5,210,33"/>
+<area shape="rect" id="node4" href="$class_t_l_f_rect.html" title="LF Rect Descriptor based on awpRect structure." alt="" coords="81,83,152,111"/>
+<area shape="rect" id="node6" href="$class_i_l_f_scanner.html" title=" " alt="" coords="221,175,308,203"/>
+<area shape="rect" id="node7" href="$class_t_l_f_object_list.html" title="List of LFObjects." alt="" coords="225,83,328,111"/>
+<area shape="rect" id="node5" href="$class_t_l_f_tile_scale_scanner.html" title=" " alt="" coords="192,267,337,295"/>
+</map>

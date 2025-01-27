@@ -619,8 +619,8 @@ void		    TCSBuildDetector::RemoveBkground()
 {
 	m_AdaBoost.DbgMsg("Removing old bkground...\n");
 	std::string strPathToArt = m_AdaBoost.GetArtefactsBase();
-
-#ifdef WIN32
+	LFRemoveFilesInDir(strPathToArt.c_str());
+/*#ifdef WIN32
 
 	std::string strPath = strPathToArt;
 	strPath += "*.awp";
@@ -640,6 +640,7 @@ void		    TCSBuildDetector::RemoveBkground()
 #else
 	LFRemoveDir(strPathToArt.c_str());
 #endif
+*/
 	m_AdaBoost.DbgMsg("Done removing old bkground.\n");
 
 }

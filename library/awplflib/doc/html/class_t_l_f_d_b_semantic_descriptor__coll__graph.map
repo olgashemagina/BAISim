@@ -1,0 +1,6 @@
+<map id="TLFDBSemanticDescriptor" name="TLFDBSemanticDescriptor">
+<area shape="rect" id="node1" title=" " alt="" coords="14,233,189,261"/>
+<area shape="rect" id="node2" href="$class_t_l_f_semantic_image_descriptor.html" title="The semantic description of the image or frame in the video file." alt="" coords="5,157,198,185"/>
+<area shape="rect" id="node3" href="$class_t_l_f_object_list.html" title="List of LFObjects." alt="" coords="50,81,153,109"/>
+<area shape="rect" id="node4" href="$class_t_l_f_object.html" title="Base class for all objects whithing library." alt="" coords="61,5,142,33"/>
+</map>

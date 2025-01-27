@@ -1,0 +1,5 @@
+<map id="agent::ICorrectorTrainer" name="agent::ICorrectorTrainer">
+<area shape="rect" id="node1" title=" " alt="" coords="22,5,179,33"/>
+<area shape="rect" id="node2" href="$classagent_1_1_t_corrector_trainer_base.html" title=" " alt="" coords="5,81,196,109"/>
+<area shape="rect" id="node3" href="$class_t_baseline_corrector_trainer.html" title=" " alt="" coords="15,157,186,185"/>
+</map>

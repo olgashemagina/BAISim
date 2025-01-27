@@ -1,10 +1,6 @@
 var searchData=
 [
-  ['zonetype_1395',['ZoneType',['../class_t_l_f_zone.html#a2ff7191b974ae6b1b501afc657bc261b',1,'TLFZone']]],
-  ['ztcircle_1396',['ZTCircle',['../_l_f_8h.html#a93f964b7f728442d95200d36eb99fe73a6e475aa0bc1e0388ee87cf0145c3cff5',1,'LF.h']]],
-  ['ztcontour_1397',['ZTContour',['../_l_f_8h.html#a93f964b7f728442d95200d36eb99fe73a70c943eafd09367073c63a189ea50f31',1,'LF.h']]],
-  ['ztlinesegment_1398',['ZTLineSegment',['../_l_f_8h.html#a93f964b7f728442d95200d36eb99fe73ab9040a0c566972002e902e768be75aeb',1,'LF.h']]],
-  ['ztopenpolygon_1399',['ZTOpenPolygon',['../_l_f_8h.html#a93f964b7f728442d95200d36eb99fe73ae557c996b556c9bc2e296a6c17b30065',1,'LF.h']]],
-  ['ztrect_1400',['ZTRect',['../_l_f_8h.html#a93f964b7f728442d95200d36eb99fe73afd9d9868c1a22709a9fe89cf1f1601d7',1,'LF.h']]],
-  ['ztunknown_1401',['ZTUnknown',['../_l_f_8h.html#a93f964b7f728442d95200d36eb99fe73aef01ed3ff78f84aa872649a9b181a90c',1,'LF.h']]]
+  ['y_0',['y',['../struct___l_f_point.html#acd4ad4f9293bd217ccc5354b00fac929',1,'_LFPoint::y()'],['../struct___l_f_rect.html#a296e63035a7aa4d4c53176508d22282f',1,'_LFRect::y()'],['../class_t_l_f_landmark.html#ac911ce5866b8da47976c4111d0ee8f1d',1,'TLFLandmark::y()']]],
+  ['y_5ftest_1',['y_test',['../classcreate__class__corr2_1_1_elastic_map_corrector.html#a1c4abdc9fdf10d5b1a90e2d45b6975f3',1,'create_class_corr2.ElasticMapCorrector.y_test()'],['../classcreate__class__corr3_1_1_s_o_m_corrector.html#aacfa088b4bfa039ae074e529700f800c',1,'create_class_corr3.SOMCorrector.y_test()']]],
+  ['y_5ftrain_2',['y_train',['../classcreate__class__corr2_1_1_elastic_map_corrector.html#a94fe3abfda75ce164d0b3d4ba706d135',1,'create_class_corr2.ElasticMapCorrector.y_train()'],['../classcreate__class__corr3_1_1_s_o_m_corrector.html#aaa6441bd9589189962ea83c32597e3b3',1,'create_class_corr3.SOMCorrector.y_train()']]]
 ];

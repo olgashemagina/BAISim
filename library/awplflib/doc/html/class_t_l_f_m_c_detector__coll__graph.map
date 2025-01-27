@@ -1,0 +1,6 @@
+<map id="TLFMCDetector" name="TLFMCDetector">
+<area shape="rect" id="node1" title=" " alt="" coords="22,175,134,203"/>
+<area shape="rect" id="node2" href="$class_t_l_f_object.html" title="Base class for all objects whithing library." alt="" coords="38,5,119,33"/>
+<area shape="rect" id="node3" href="$class_t_l_f_histogramm.html" title="Histogramm." alt="" coords="22,83,135,111"/>
+<area shape="rect" id="node4" href="$class_t_l_f_object_list.html" title="List of LFObjects." alt="" coords="159,83,261,111"/>
+</map>

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['sclusterdescr_2974',['SClusterDescr',['../group___l_f_cluster.html#gae97c6def3cb3a6edeb6d7fd4d4171e6f',1,'LFCluster.h']]],
-  ['slfbinaryblob_2975',['SLFBinaryBlob',['../group___l_f_cluster.html#ga0cbaecf9275e00122bbf07c77f54aac1',1,'LFCluster.h']]],
-  ['slfbinarymoments_2976',['SLFBinaryMoments',['../group___l_f_image_processors.html#gaf8e86044f0ca0589d162862dadd9af57',1,'LFThresholdProc.h']]]
+  ['fdesccallback_0',['FDescCallback',['../class_i_l_f_object_detector.html#a6160fe692b089f698a85d6ec47283638',1,'ILFObjectDetector']]],
+  ['features_5fptr_1',['features_ptr',['../classaccel__rects_1_1_task.html#a0a73f2851d0c29e53ba7e3947a99b802',1,'accel_rects::Task']]],
+  ['features_5ft_2',['features_t',['../namespaceaccel__rects.html#a0a528cce6801b720b410375c1f05a4cb',1,'accel_rects']]]
 ];

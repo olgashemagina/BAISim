@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['max_3035',['MAX',['../_l_f_image_8cpp.html#afa99ec4acc4ecb2dc3c2d05da15d0e3f',1,'LFImage.cpp']]],
-  ['min_3036',['MIN',['../_l_f_image_8cpp.html#a3acffbd305ee72dcd4593c0d8af64a4f',1,'LFImage.cpp']]]
+  ['lf_5fdefault_5fhealth_0',['LF_DEFAULT_HEALTH',['../_l_f_detected_item_8cpp.html#a13abc2209271a8902d17547290166f0c',1,'LFDetectedItem.cpp']]]
 ];

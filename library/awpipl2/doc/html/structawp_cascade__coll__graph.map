@@ -1,0 +1,7 @@
+<map id="awpCascade" name="awpCascade">
+<area shape="rect" id="node1" title=" " alt="" coords="71,281,166,309"/>
+<area shape="rect" id="node2" href="$structawp_detector.html" title="cascade detector data" alt="" coords="5,189,99,217"/>
+<area shape="rect" id="node3" href="$structawp_strong.html" title="strong classifier" alt="" coords="11,97,93,125"/>
+<area shape="rect" id="node4" href="$structawp_weak.html" title="weak classifier" alt="" coords="13,5,91,33"/>
+<area shape="rect" id="node5" href="$structtagawp_image.html" title="Awp image struct." alt="" coords="137,189,234,217"/>
+</map>
