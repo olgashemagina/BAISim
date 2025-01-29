@@ -217,9 +217,17 @@ namespace tests {
 		file_prediction.close();
 
 
-		if (!save_xml("../../test_corrector/out_data.xml", corrector->SaveXML())) {
+		std::string test_xml_path = "../../test_corrector/out_data.xml";
+		if (!save_xml(test_xml_path, corrector->SaveXML())) {
 			return false;
 		}
+		auto corrector_test = load_xml(test_xml_path, [](TiXmlElement* node) {
+			auto corrector = std::make_unique<agent::TBaselineCorrector>();
+			if (node && corrector->LoadXML(node))
+				return corrector;
+			return std::unique_ptr<agent::TBaselineCorrector>{};
+			});
+
 		return true;
 	}
 }

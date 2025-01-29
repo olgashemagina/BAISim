@@ -149,6 +149,7 @@ TiXmlElement* TBaselineCorrector::SaveXML() {
 	for (const auto& centroid : centroids_) {
 		auto centroid_node = new TiXmlElement("centroid");
 		centroid_node->LinkEndChild(new TiXmlText(serialize_vector(centroid)));
+		centroids_node->LinkEndChild(centroid_node);
 	}
 	node->LinkEndChild(centroids_node);
 
@@ -156,7 +157,8 @@ TiXmlElement* TBaselineCorrector::SaveXML() {
 
 	for (size_t r = 0; r < pca_proj_.rows(); ++r) {
 		auto row_node = new TiXmlElement("row");
-		project_node->LinkEndChild(new TiXmlText(serialize_vector(pca_proj_.GetRow(r), pca_proj_.cols())));
+		row_node->LinkEndChild(new TiXmlText(serialize_vector(pca_proj_.GetRow(r), pca_proj_.cols())));
+		project_node->LinkEndChild(row_node);
 	}
 
 	node->LinkEndChild(project_node);
@@ -165,14 +167,13 @@ TiXmlElement* TBaselineCorrector::SaveXML() {
 
 	for (size_t r = 0; r < fisher_.rows(); ++r) {
 		auto row_node = new TiXmlElement("row");
-		fd_node->LinkEndChild(new TiXmlText(serialize_vector(fisher_.GetRow(r), fisher_.cols())));
+		row_node->LinkEndChild(new TiXmlText(serialize_vector(fisher_.GetRow(r), fisher_.cols())));
+		fd_node->LinkEndChild(row_node);
 	}
 	node->LinkEndChild(fd_node);
 
 	auto thres_node = new TiXmlElement("treshs");
-
 	thres_node->LinkEndChild(new TiXmlText(serialize_vector(thres_)));
-
 	node->LinkEndChild(thres_node);
 
 
