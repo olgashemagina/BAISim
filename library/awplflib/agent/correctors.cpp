@@ -1,5 +1,7 @@
 #include "correctors.h"
 
+
+
 using namespace agent;
 
 
@@ -10,7 +12,7 @@ void	TBaselineCorrector::Process(const TMatrix& data, std::vector<int>& correcti
 
 	// TODO: make multithreaded
 	projected_.Resize(1, pca_proj_.cols());
-
+	corrections.resize(data.rows());
 	for (size_t r = 0; r < data.rows(); ++r) {
 		const float* data_row = data.GetRow(r);
 		float* proj_row = projected_.GetRow(0);
@@ -20,7 +22,7 @@ void	TBaselineCorrector::Process(const TMatrix& data, std::vector<int>& correcti
 			float proj_value = 0;
 			for (size_t f = 0; f < pca_proj_.rows(); ++f) {
 				const float* proj_row = pca_proj_.GetRow(f);
-				proj_value = (data_row[f] - center_[f]) * proj_row[p];
+				proj_value += (data_row[f] - center_[f]) * proj_row[p];
 			}
 			proj_row[p] = proj_value;
 		}
@@ -47,7 +49,7 @@ void	TBaselineCorrector::Process(const TMatrix& data, std::vector<int>& correcti
 			thres_proj += fisher_.GetRow(p)[best_centroid] * proj_row[p];
 		}
 
-		corrections[r] = (thres_[best_centroid] >= thres_proj) ? 0 : 1;
+		corrections[r] = (thres_[best_centroid] >= thres_proj) ? 1 : 0;
 	}
 
 }
@@ -96,7 +98,7 @@ bool TBaselineCorrector::LoadXML(TiXmlElement* node) {
 		size_t proj_row = 0;
 		for (TiXmlElement* child = project_node->FirstChildElement("row"); child; child = child->NextSiblingElement("row"), proj_row++) {
 
-			if (!split_vector<float>(child->GetText(), pca_proj_.GetRow(proj_row), latent_size))
+			if (!split_vector<float>(child->GetText(), pca_proj_.GetRow(proj_row), latent_size + 1))
 				return false;
 		}
 
@@ -109,7 +111,7 @@ bool TBaselineCorrector::LoadXML(TiXmlElement* node) {
 		proj_row = 0;
 		for (TiXmlElement* child = fd_node->FirstChildElement("row"); child; child = child->NextSiblingElement("row"), proj_row++) {
 
-			if (!split_vector<float>(child->GetText(), fisher_.GetRow(proj_row), centroids_.size()))
+			if (!split_vector<float>(child->GetText(), fisher_.GetRow(proj_row), centroids_.size() + 1))
 				return false;
 		}
 

@@ -9,6 +9,12 @@
 
 
 int main(int argc, char* argv[]) {
+    if (!tests::test_baseline_corrector()) {
+        std::cout << "Corrector test ERROR " << std::endl;
+    }
+    else {
+        std::cout << "Corrector test PASSED " << std::endl;
+    }
     if (!tests::test_serialization()) {
         std::cout << "Serialization test ERROR " << std::endl;
     }

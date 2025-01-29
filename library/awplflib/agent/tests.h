@@ -3,11 +3,15 @@
 #include <numeric>
 #include <memory>
 
+#include <iostream>
+#include <fstream>
+
 #include "utils/object_pool.h"
 #include "utils/matrix.h"
 #include "utils/xml.h"
 #include "agent/agent.h"
 #include "agent/corrector_trainer.h"
+#include "agent/correctors.h"
 
 #include "LFAgent.h"
 #include "LFScanners.h"
@@ -153,6 +157,70 @@ namespace tests {
 		}
 		return true;
 
+	}
+
+	static bool test_baseline_corrector() {
+		auto corrector = load_xml("../../test_corrector/data.xml", [](TiXmlElement* node) {
+			auto corrector = std::make_unique<agent::TBaselineCorrector>();
+			if (node && corrector->LoadXML(node))
+				return corrector;
+			return std::unique_ptr<agent::TBaselineCorrector>{};
+			});
+		std::ifstream file("../../test_corrector/features.txt");
+		if (!file) {
+			return false;
+		}
+		
+		std::vector<std::vector<float>> vectors;
+		std::string line;
+		while (std::getline(file, line))
+		{
+			std::istringstream ss(line);
+			std::vector<float> new_vec;
+			float v;
+			while (ss >> v)
+			{
+				new_vec.push_back(v);
+			}
+			vectors.push_back(new_vec);
+		}
+		file.close();
+		TMatrix data(0, vectors[0].size());
+		for (int i = 0; i < vectors.size(); i++) {
+			data.AddRow(&(vectors[i][0]), vectors[i].size());
+		}
+		std::vector<int> corrections;
+		corrector->Process(data, corrections);
+
+		std::ifstream file_prediction("../../test_corrector/prediction.txt");
+		if (!file_prediction) {
+			return false;
+		}
+
+		std::vector<std::vector<float>> vectors_prediction;
+		std::string line_prediction;
+		int i = 0;
+		while (std::getline(file_prediction, line_prediction))
+		{
+			std::istringstream ss(line_prediction);
+			std::vector<float> new_vec;
+			int v;
+			while (ss >> v)
+			{
+				if (corrections[i] != v) {
+					return false;
+				}
+			}
+			i++;
+			vectors_prediction.push_back(new_vec);
+		}
+		file_prediction.close();
+
+
+		if (!save_xml("../../test_corrector/out_data.xml", corrector->SaveXML())) {
+			return false;
+		}
+		return true;
 	}
 }
 
