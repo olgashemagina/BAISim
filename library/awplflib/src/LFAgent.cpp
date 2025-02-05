@@ -328,8 +328,7 @@ std::unique_ptr<TLFAgent>       LoadAgentFromEngine(const std::string& engine_pa
 			engine_path << std::endl;
 	}
 
-
-	auto trainer = std::make_unique<agent::TCorrectorTrainerBase>();
+	auto trainer = agent::CreateBaselineTrainer("C:\\Users\\olgas\\Desktop\\python_mipt\\bsiiroko\\create_class_corr1.py", "C:\\Users\\olgas\\Desktop\\python_mipt\\bsiiroko\\");
 
 	std::unique_ptr<TLFAgent>  agent = std::make_unique<TLFAgent>();
 	agent->Initialize(std::move(detector), std::move(trainer));

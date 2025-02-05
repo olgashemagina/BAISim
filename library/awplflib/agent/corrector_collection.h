@@ -62,8 +62,8 @@ namespace agent {
 		void			AddCorrectors(std::vector<std::unique_ptr<ICorrector>> corrs) {
 			std::unique_lock<std::shared_mutex> lock(mutex_);
 
-			auto it = std::next(correctors_.begin(), correctors_.size());
-			std::move(corrs.begin(), it, std::back_inserter(correctors_));
+			//auto it = std::next(correctors_.begin(), correctors_.size());
+			std::move(corrs.begin(), corrs.end(), std::back_inserter(correctors_));
 			//correctors_.insert(correctors_.end(), corrs.begin(), corrs.end());
 		}
 

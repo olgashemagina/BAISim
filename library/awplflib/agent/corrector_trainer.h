@@ -134,7 +134,7 @@ namespace agent {
 				}
 			}
 		}
-
+	public:
 		// Train False Negative Corrector;
 		virtual std::unique_ptr<ICorrector>	TrainFnCorrector(const TMatrix& fn, const TMatrix& tn) {
 			return nullptr;
@@ -165,7 +165,7 @@ namespace agent {
 				}
 			}
 			else {
-				auto stage = std::min<size_t>(feats.GetTriggeredStage(index), min_features_stages_ - 1);
+				auto stage = min_features_stages_ - 1;
 				auto feats_count = feats.layout().at(stage);
 				// No object detected
 				if (gt_overlap >= positive_threshold_) {
@@ -249,6 +249,6 @@ namespace agent {
 		std::vector<std::unique_ptr<ICorrector>>  correctors_;
 	};
 
-	
 
+	std::unique_ptr<TCorrectorTrainerBase> CreateBaselineTrainer(const std::string& script_path, const std::string& state_path);
 }

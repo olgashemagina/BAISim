@@ -72,7 +72,7 @@ protected:
 	size_t		batch_size_ = 2048;
 
 	// MUST be equal to count of batches used simultaneously
-	int			max_threads_ = 32;
+	int			max_threads_ = 1;
 
 private:
 	float											nms_threshold_ = 0.1f;

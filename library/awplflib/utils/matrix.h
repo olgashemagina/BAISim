@@ -17,6 +17,9 @@ public:
     TMatrix(size_t rows, size_t cols)
         : rows_(rows), cols_(cols), data_(rows* cols, 0.0f) {}
 
+    TMatrix(size_t rows, size_t cols, const std::vector<float> &data)
+        : rows_(rows), cols_(cols), data_(data) {}
+
     TMatrix(TMatrix&& other)
         : rows_(other.rows_), cols_(other.cols_), data_(std::move(other.data_)) {
         other.rows_ = 0;

@@ -82,7 +82,7 @@ namespace agent {
                             triggered = j;
                         }
                     }
-                    else if (j + 1 >= min_stages_)
+                    if ((j + 1 >= min_stages_)&&triggered!= kNoTriggered)
                         // Stop checking;
                         break;
                 }

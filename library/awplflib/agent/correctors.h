@@ -66,13 +66,14 @@ namespace agent {
 
 		// Serializing methods.
 		bool LoadXML(TiXmlElement* node) {
-			auto attr_type = node->Attribute("type");
-			if (attr_type) {
-				std::string type = attr_type;
-
-				if (type == "FN")
+			
+			auto type = node->Attribute("type");
+			if (type != nullptr)
+			{
+				std::string str(type);
+				if (str == "FN")
 					type_ = kCorrectorType_FN;
-				else if (type == "FP")
+				else if (str == "FP")
 					type_ = kCorrectorType_FP;
 				else
 					type_ = kCorrectorType_Unknown;

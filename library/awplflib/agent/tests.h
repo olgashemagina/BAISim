@@ -230,7 +230,54 @@ namespace tests {
 
 		return true;
 	}
+	static bool test_build_correctors(const std::string& path)
+	{
+		std::string fppath = path + "FP_dron.bin";
+		std::string tppath = path + "TP_dron.bin";
+		// Open the binary file
+		std::ifstream fpfile(fppath, std::ios::binary);
+
+		// Check if the file is open
+		if (!fpfile.is_open()) {
+			std::cerr << "Error opening file!" << std::endl;
+			return 1;
+		}
+		int w, h;
+		fpfile.read(reinterpret_cast<char*>(&w), sizeof(w));
+		fpfile.read(reinterpret_cast<char*>(&h), sizeof(h));
+
+		std::vector<float> fp(w*h);
+
+		// Read the entire binary data into the vector
+		fpfile.read(reinterpret_cast<char*>(fp.data()), w*h * sizeof(float));
+
+		// Close the file
+		fpfile.close();
+		const TMatrix fp_matrix(h, w, fp);
+
+
+		std::ifstream tpfile(tppath, std::ios::binary);
+
+		// Check if the file is open
+		if (!tpfile.is_open()) {
+			std::cerr << "Error opening file!" << std::endl;
+			return 1;
+		}
+		int wb, hb;
+		tpfile.read(reinterpret_cast<char*>(&wb), sizeof(wb));
+		tpfile.read(reinterpret_cast<char*>(&hb), sizeof(hb));
+
+		std::vector<float> tp(wb * hb);
+
+		// Read the entire binary data into the vector
+		tpfile.read(reinterpret_cast<char*>(tp.data()), wb * hb * sizeof(float));
+
+		// Close the file
+		tpfile.close();
+		const TMatrix tp_matrix(hb, wb, tp);
+
+		auto corrector = agent::CreateBaselineTrainer("C:\\Users\\olgas\\Desktop\\python_mipt\\bsiiroko\\create_class_corr1.py", "C:\\Users\\olgas\\Desktop\\python_mipt\\bsiiroko\\");
+		
+		corrector->TrainFpCorrector(fp_matrix, tp_matrix);
+	}
 }
-
-
-
