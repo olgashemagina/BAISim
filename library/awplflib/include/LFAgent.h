@@ -23,7 +23,12 @@ public:
 	virtual agent::TDetections Detect(std::shared_ptr<TLFImage> img) = 0;
 };
 
+// Contans CPU TLFImage and GPU accel_rect IntegralImage
+class TLFImageContainer {
+public:
 
+
+};
 
 class TLFAgent {
 
@@ -46,7 +51,13 @@ public:
 		supervisor_ = sv;
 	}
 
+	// Detect objects on image using agent;
 	virtual std::vector<TLFDetectedItem> Detect(std::shared_ptr<TLFImage> img);
+
+	// Advanced method that used rois  for fragments and supervised detections;
+	// If supervised is nullptr then do not using trainer for new correctors;\
+	// If rois is nullptr then all image used for detections
+	//virtual std::vector<TLFDetectedItem> Detect(TLFImageContainer img, const std::vector<TLFRect>* supervised = nullptr, const std::vector<TLFRect>*rois = nullptr );
 
 	virtual bool LoadXML(TiXmlElement* agent_node);
 

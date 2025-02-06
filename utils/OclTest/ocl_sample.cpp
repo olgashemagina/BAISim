@@ -26,7 +26,7 @@
 
 #include "LFGpuEngine.h"
 
-#include "accel_rects.h"
+#include "accel_rects/accel_rects.h"
 
 #include <mutex>
 #include <optional>
@@ -135,36 +135,36 @@ int apply_detector(TLFDetectEngine* engine,
 
     //Mutex if OMP threading used.
     auto mtx = std::make_shared<std::mutex>();
-    engine->GetDetector(0)->SetDescCallback([=](size_t index,
+    /*engine->GetDetector(0)->SetDescCallback([=](size_t index,
         const auto& bounds,
         const auto& desc) {
             if (desc.result) {
                 std::cout << "Detected! Bound: " << bounds.Rect.left << " " << bounds.Rect.top << " " << bounds.Rect.right << " " << bounds.Rect.bottom << std::endl;
             }
-            /*std::cout << "Start Detector " << std::endl;
-            for (size_t s = 0; s < desc.descs.size(); ++s) {
-                const auto& strong = desc.descs[s];
-                std::cout << "Start Strong " << s << std::endl;
-                for (const auto& weak : strong.weaks) {
+            //std::cout << "Start Detector " << std::endl;
+            //for (size_t s = 0; s < desc.descs.size(); ++s) {
+                //const auto& strong = desc.descs[s];
+                //std::cout << "Start Strong " << s << std::endl;
+                f//or (const auto& weak : strong.weaks) {
 
-                    const auto& feature = weak.feature;
+//                    const auto& feature = weak.feature;
 
-                    std::cout << feature.value << " : [";
+  //                  std::cout << feature.value << " : [";
 
-                    for (auto v : feature.features) {
-                        std::cout << int(v) << ", ";
+    //                for (auto v : feature.features) {
+      //                  std::cout << int(v) << ", ";
 
-                    }
-                    std::cout << "]" << std::endl;
+        //            }
+          //          std::cout << "]" << std::endl;
 
-                }
+            //    }
 
-                std::cout << std::endl;
+              //  std::cout << std::endl;
 
-            }
-            std::cout << "End Detector " << std::endl;*/
+            //}
+            //std::cout << "End Detector " << std::endl;
 
-        });
+        });*/
 
     if (!engine->SetSourceImage(image, true)) {
         return -103;
@@ -173,7 +173,7 @@ int apply_detector(TLFDetectEngine* engine,
     return 0;
 }
 
-
+/*
 
 int test_detector(const std::string& detector_path, const std::string& image_path) {
     auto det = load_detector(detector_path);
@@ -231,13 +231,13 @@ int test_detector(const std::string& detector_path, const std::string& image_pat
         // std::cout << "Callback " << dims[0] << " : " << dims[1] << " : " << dims[2] << ". " << std::this_thread::get_id() << std::endl;
 
         for (size_t t = 0; t < dims[0]; ++t) {
-            /*       std::cout << "Features " << dims[2] << "." << std::endl;
+                   std::cout << "Features " << dims[2] << "." << std::endl;
                    for (size_t f = 0; f < dims[2]; ++f) {
                        std::cout << feats[t * dims[2] + f] << "\t";
                    }
 
                    std::cout << std::endl << "Detections " << dims[1] << "." << std::endl;
-                   */bool detected = true;
+                   bool detected = true;
                    for (size_t s = 0; s < dims[1]; ++s) {
                        //std::cout << int(dets[t * dims[1] + s]) << " ";
                        if (dets[t * dims[1] + s] == 0) {
@@ -310,7 +310,7 @@ int test_detector(const std::string& detector_path, const std::string& image_pat
 
 }
 
-
+*/
 
 
 std::vector<uint8_t>            generate_image(int width, int height) {
@@ -347,7 +347,7 @@ std::vector<uint64_t>            integral_image(const std::vector<uint8_t>& imag
     
     return integral;
 }
-
+/*
 int test1() {
     int width = 1280;
     int height = 720;
@@ -412,7 +412,7 @@ int test1() {
             }
             std::cout << std::endl;
         }*/
-
+/*
 
         };
 
@@ -450,13 +450,15 @@ int test1() {
 
     return 0;
 }
-
+*/
 
 int test_gpu_engine(const std::string& detector_path, const std::string& image_path) {
     auto det = load_detector(detector_path);
     auto img = load_image(image_path);
-
-    TGpuEngine engine;
+    
+    //TGpuEngine engine(2, 8, 16192);
+    TGpuEngine engine(8, 16192);
+    //TGpuEngine engine(4, 32, 64);
 
     auto detector = engine.CreateDetector((TSCObjectDetector* /*HACK*/)det->GetDetector(0));
 
@@ -487,14 +489,16 @@ int test_ñpu_engine(const std::string& detector_path, const std::string& image_p
     auto img = load_image(image_path);
         
     auto begin = std::chrono::high_resolution_clock::now();
-
-    apply_detector(det.get(), img.get());
+    int count = 10;
+    for (int i = 0; i < count; ++i) {
+        apply_detector(det.get(), img.get());
+    }
     
 
     auto end = std::chrono::high_resolution_clock::now();
     auto dur = end - begin;
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
-    std::cout << "Execution duration " << ms  << " ms." << std::endl;
+    std::cout << "Execution duration " << ms / count  << " ms." << std::endl;
 
     return 0;
 
@@ -502,10 +506,9 @@ int test_ñpu_engine(const std::string& detector_path, const std::string& image_p
 
 
 int main()
-{
-    //return test_detector("test/detector.xml", "test/test.awp");
-    //return test_gpu_engine("test/detector.xml", "test/test.awp");
-    return test_ñpu_engine("test/detector.xml", "test/test.awp");
+{    
+    return test_gpu_engine("test/detector.xml", "test/test.awp");
+    //return test_ñpu_engine("test/detector.xml", "test/test.awp");
    
   
 }

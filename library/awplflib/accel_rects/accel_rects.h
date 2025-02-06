@@ -9,17 +9,17 @@
 #include <assert.h>
 
 
-
 namespace accel_rects {
-
+    using features_t = std::vector<float>;
+    using triggered_t = std::vector<int>;
 
     using transforms_t = std::vector<std::array<float, 4>>;
     //Base rects of features. For example SC feature has 10 rects
     using rects_t = std::vector<std::array<float, 4>>;
     //Features values
-    using features_t = std::vector<uint16_t>;
+    using measures_t = std::vector<uint16_t>;
     //Result of detections
-    using detections_t = std::vector<uint8_t>;
+    using detections_t = std::vector<int>;
     //Stages positions
     using positions_t = std::vector<int>;
     //Weights of features
@@ -30,10 +30,10 @@ namespace accel_rects {
     using sc_table_t = std::array<uint8_t, 64>;
     using sc_resps_t = std::vector<sc_table_t>;
 
-    //transform_size, stages_size, features_size
-    using dims_t = std::array<int, 3>; 
+    //transform_begin, transform_end, stages_size, features_size
+    using dims_t = std::array<int, 4>; 
     
-    using callback_t = std::function<void(const dims_t& dimensions, const detections_t& dets, const features_t& feats)>;
+    using callback_t = std::function<void(const dims_t& dimensions, const detections_t& dets, const measures_t& feats)>;
 
     struct ScTable : public sc_table_t {
         ScTable() {
@@ -121,12 +121,15 @@ namespace accel_rects {
 
     class Stages {
     public:
-        const weights_t& weights() const { return weights_; }
-        const thres_t& thres() const { return thres_; }
-        const positions_t& positions() const { return positions_; }
-        const sc_resps_t& resps() const { return resps_; }
+        inline const weights_t& weights() const { return weights_; }
+        inline const thres_t& thres() const { return thres_; }
+        inline const positions_t& positions() const { return positions_; }
+        inline const sc_resps_t& resps() const { return resps_; }
         
-        int count() const { return int(thres_.size()); }
+        inline int count() const { return int(thres_.size()); }
+
+        // Count of features for stage i;
+        inline int count(int i) const { return positions_[i+1] - positions_[i]; }
 
     protected:
         weights_t                       weights_;
@@ -186,8 +189,31 @@ namespace accel_rects {
     class Kernels;
     class Core;
     class FeaturesData;
+    class TransformsData;
     class DetectorData;
     class IntegralData;
+
+    //Represent transforms data in GPU;
+    class TransformsView {
+    public:
+        TransformsView() {}
+        TransformsView(const std::shared_ptr<TransformsData>& data) : data_(data) {}
+        TransformsView(const TransformsView&) = default;
+        TransformsView(TransformsView&&) = default;
+
+
+        TransformsView& operator = (const TransformsView&) = default;
+        TransformsView& operator = (TransformsView&&) = default;
+
+        const std::shared_ptr<TransformsData>& data() const { return data_; }
+
+        const transforms_t& transforms() const;
+
+        bool    is_valid() const;
+
+    private:
+        std::shared_ptr<TransformsData>       data_;
+    };
 
     //Represent features data in GPU;
     class FeaturesView {
@@ -196,6 +222,8 @@ namespace accel_rects {
         FeaturesView(const FeaturesView&) = default;
         FeaturesView(FeaturesView&&) = default;
 
+        FeaturesView& operator = (const FeaturesView&) = default;
+        FeaturesView& operator = (FeaturesView&&) = default;
         const std::shared_ptr<FeaturesData>& data() const { return data_; }
 
         const Features& features() const;
@@ -213,6 +241,8 @@ namespace accel_rects {
         DetectorView(const DetectorView&) = default;
         DetectorView(DetectorView&&) = default;
 
+        DetectorView& operator = (const DetectorView&) = default;
+        DetectorView& operator = (DetectorView&&) = default;
         const std::shared_ptr<DetectorData>& data() const { return data_; }
 
         const Stages& stages() const;
@@ -231,6 +261,8 @@ namespace accel_rects {
         IntegralView(const IntegralView&) = default;
         IntegralView(IntegralView&&) = default;
 
+        IntegralView& operator = (const IntegralView&) = default;
+        IntegralView& operator = (IntegralView&&) = default;
         const std::shared_ptr<IntegralData>& data() const { return data_; }
 
         bool    is_valid() const;
@@ -245,23 +277,33 @@ namespace accel_rects {
     };
 
     
+    
     class Worker {
     public:
-        Worker(std::shared_ptr<Core> core);
-        Worker(Worker&& other);
-
-
-        ~Worker();
+        
+        virtual ~Worker() {}
 
     public:
-        bool        Enqueue(IntegralView integral, DetectorView detector, const transforms_t& trans, callback_t cb);
-        bool        Enqueue(IntegralView integral, FeaturesView features, const transforms_t& trans, callback_t cb);
 
-   
+        // Process transforms for detector;
+        // integral - integral image,
+        // detector - processed detector,
+        // trans - transforms for fragments,
+        // min_stages - minimal count of stages to run for features,
+        // begin_index - start index of transforms,
+        // end_index of transforms,
+        // triggered - number of stage that return 0, or -1 if not triggered,
+        // features - measured features, count of them not less than min_stages features and not more than count of features.
+        // For each transform requered count_of_features space and features from max(triggered, min_stages) to count_of_features are equal to 0;
 
-    private:
-        std::shared_ptr<Core>           core_;
-        std::unique_ptr<Kernels>        kernels_;
+        virtual bool        Run(    IntegralView integral,  
+                                        DetectorView detector, 
+                                        TransformsView trans, 
+                                        int min_stages, 
+                                        int begin_index, 
+                                        int end_index, 
+                                        triggered_t& triggered, 
+                                        features_t& features) = 0;
     };
 
     class Engine {
@@ -271,17 +313,19 @@ namespace accel_rects {
     public:
         ~Engine();
 
-        static Engine       Create(size_t tasks_limits = 8);
+        static Engine       Create();
 
         bool                is_valid() const { return bool(core_); }
 
     public:
         //Workers used in context one thread;
-        Worker              CreateWorker();
+        std::unique_ptr<Worker>              CreateWorker();
                 
         IntegralView        CreateIntegral(const uint64_t*, size_t width, size_t height, size_t stride);
         DetectorView        CreateDetector(detector_t&& detector);
         FeaturesView        CreateFeatures(Features&& features);
+
+        TransformsView      CreateTransforms(transforms_t&& transforms);
      
 
     private:

@@ -71,11 +71,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>..\..\3rdparty\OpenCL\include;..\..\library\awpipl2\include\;..\..\3rdparty\TinyXML\src\;..\..\library\awplflib\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>..\..\3rdparty\OpenCL\include;..\..\library\awplflib;..\..\library\awpipl2\include\;..\..\3rdparty\TinyXML\src\;..\..\library\awplflib\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>..\..\3rdparty\OpenCL\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..\..\3rdparty\OpenCL\include;..\..\library\awpipl2\include\;..\..\3rdparty\TinyXML\src\;..\..\library\awplflib\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>..\..\3rdparty\OpenCL\include;..\..\library\awplflib;..\..\library\awpipl2\include\;..\..\3rdparty\TinyXML\src\;..\..\library\awplflib\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>..\..\3rdparty\OpenCL\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -143,12 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="accel_rects.cpp" />
     <ClCompile Include="ocl_sample.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="accel_rects.h" />
-    <ClInclude Include="task_thread_pool.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\3rdparty\jpeg-6b\vc\vc2019\JPEGLIB.vcxproj">

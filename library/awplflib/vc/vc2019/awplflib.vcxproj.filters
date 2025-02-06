@@ -128,6 +128,9 @@
     <ClInclude Include="..\..\utils\xml.h">
       <Filter>utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\agent\fragments.h">
+      <Filter>agent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="accel_rects">

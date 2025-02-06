@@ -84,7 +84,7 @@ TLFAgent::TLFAgent()
 #ifdef _OMP_
 #pragma omp parallel for num_threads(threads)
 #endif
-	for (auto batch = 0; batch <= batches_count; batch++) {
+	for (auto batch = 0; batch < batches_count; batch++) {
 
 		int current_thread = 0;
 
@@ -92,7 +92,7 @@ TLFAgent::TLFAgent()
 		current_thread = omp_get_thread_num();
 #endif 
 		// Acquire object from pool or create new one
-		auto features = pool_.GetObject();
+		auto features = pool_.Get();
 
 		// Init features builder
 		size_t batch_begin = batch_size_ * batch;

@@ -7,11 +7,17 @@
 #include <variant>
 
 
+#define MEASURE_COMPRESS_FACTOR         100.f
+
+
+#define VALUE(string) #string
+#define TO_LITERAL(string) VALUE(string)
 
 static const char cl_source_code[] =
 " const sampler_t sampler = CLK_NORMALIZED_COORDS_FALSE | CLK_ADDRESS_CLAMP_TO_EDGE | CLK_FILTER_NEAREST;\n"
+//"#pragma OPENCL EXTENSION cl_khr_global_int32_base_atomics : enable\n"
 
-"float calc_rect_norm(const size_t id, const image2d_t integral, const float4 rect, const float4 transform) {\n"
+"float calc_rect_norm(const image2d_t integral, const float4 rect, const float4 transform) {\n"
 "    int4 transformed;\n"
 "    ulong abcd[4];\n"
 //Transform rect
@@ -36,7 +42,7 @@ static const char cl_source_code[] =
 "    return result; \n"
 "}\n"
 
-"float sum_rect_norm(const size_t id, const image2d_t integral, const int4 rect) {\n"
+"float sum_rect_norm(const image2d_t integral, const int4 rect) {\n"
 "    ulong abcd[4];\n"
 
 "    abcd[0] = as_ulong(convert_ushort4(read_imageui(integral, sampler, rect.lo)));\n"
@@ -57,151 +63,200 @@ static const char cl_source_code[] =
 "    return result; \n"
 "}\n"
 
+// Store obly two signs after the dot;
+"ushort pack_measure(float value) {\n"
+"   return convert_ushort(value * "
+TO_LITERAL(MEASURE_COMPRESS_FACTOR)
+"); \n"
+"}\n"
+
 /*
 * integral - 2d image of uint16 * 4 channels (RGBA) = 512bits = 2e9. Image of 4 channel of 16 bit integers contains splitted uint64 value as (R, G, B, A) == (0 1, 2 3, 4 5, 6 7) bytes sequence. Little-endian.
 * feat_size - count of features for one transform
 * rects - rectangles (xmin, ymin, width, height) - base unit of rect
 * transforms - list of transforms as (xscale, yscale, xtranslate, ytranslate).
-* features - list of feature result (indices) count = feat_size * trans_size
+* feats - one value of feature coded as ushort(float * 100 )list of feature result (indices) count = feat_size * trans_size
 * NOTE: run as global kernel of size (feat_size, trans_size)
 */
-"kernel void calc_census_features(read_only const image2d_t integral, const int feats_size, global const float4 * rects, global const float4 * transforms, global ushort * features) {\n"
+"ushort calc_census_feature(read_only const image2d_t integral, global const float4* feat_rect, global const float4* transform, global ushort * feats) {\n"
 
-"    int feat_id = get_global_id(0);\n"
-"    int trans_id = get_global_id(1);\n"
-//"    printf(\"Starting calc features: grid %dx%d %d \",  feat_id, trans_id, feats_size);\n"
 //Use only for SC features
-"    float4 feat_rect = rects[feat_id];\n"
-"    float4 transform = transforms[trans_id];\n"
+//"    float4 feat_rect = rects[feat_id];\n"
+//"    float4 transform = transforms[trans_id];\n"
 
 "    float4 transformed;\n"
 
 //Transform rect
-"    transformed.lo = feat_rect.lo * transform.lo + transform.hi;\n"
-"    transformed.hi = feat_rect.hi * transform.lo;\n"
+"   transformed.lo = feat_rect->lo * transform->lo + transform->hi;\n"
+"   transformed.hi = feat_rect->hi * transform->lo;\n"
 //"    int4 base_rect = convert_int4_rte(transformed);\n"
-"    int4 base_rect = convert_int4_rtz(transformed + 0.5f);\n"
-"    int2 rect_size = base_rect.hi;\n"
-"    int2 full_size = base_rect.hi * 3;\n"
-"   float total = 0;\n"  
+"   int4 base_rect = convert_int4_rtz(transformed + 0.5f);\n"
+"   int2 rect_size = base_rect.hi;\n"
+"   int2 full_size = base_rect.hi * 3;\n"
+"   float total = 0;\n"
 
-"    float base = sum_rect_norm(feat_id, integral, (int4)(base_rect.lo, base_rect.lo + full_size));\n"
-"    ushort feat_value = 0;\n"
-"   int2 pos = base_rect.lo;\n"  
+//"   float* feats = features + feat_id + trans_id * feats_size;\n"  
+
+"   float base = sum_rect_norm(integral, (int4)(base_rect.lo, base_rect.lo + full_size));\n"
+//"   *(feats++) = base;\n"  
+"   feats[0] = pack_measure(base);\n"
+"   ushort feat_value = 0;\n"
+"   int2 pos = base_rect.lo;\n"
 "   for (int j = 0; j < 2; ++j, pos.y += rect_size.y, pos.x = base_rect.x) {\n"
 
 "       for (int i = 0; i < 3; ++i, pos.x += rect_size.x) {\n"
-"           float sum = sum_rect_norm(feat_id, integral, (int4)(pos, pos + rect_size));\n"
+"           float sum = sum_rect_norm(integral, (int4)(pos, pos + rect_size));\n"
 "           if (sum > base)\n"
 "               feat_value |= 1;\n"
 "           total += sum;\n"
 "           feat_value = feat_value << 1;\n"
+//"           *(feats++)=sum;\n"
 
 "       }\n"
 
 "   }\n"
 
 "   for (int i = 0; i < 2; ++i, pos.x += rect_size.x) {\n"
-"       float sum = sum_rect_norm(feat_id, integral, (int4)(pos, pos + rect_size));\n"
+"       float sum = sum_rect_norm(integral, (int4)(pos, pos + rect_size));\n"
 "       if (sum > base)\n"
 "           feat_value |= 1;\n"
-
 "       total += sum;\n"
-
+//"       *(feats++)=sum;\n"
 "       feat_value = feat_value << 1;\n"
-
 "   }\n"
 
-"   float sum = sum_rect_norm(feat_id, integral, (int4)(pos, pos + rect_size));\n"
+"   float sum = sum_rect_norm(integral, (int4)(pos, pos + rect_size));\n"
 "   if (sum > base)\n"
 "       feat_value |= 1;\n"
-
+//"   *(feats++)=sum;\n"
 "   total += sum;\n"
-
 
 //"    printf(\"Feature: id: %d v: %d R: %f %f %f %f %f %f %f %f %f %f\\n \",  feat_id, feat_value, f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7], f[8], f[9]);\n"
 //"    printf(\"Feature: id: %d v: %d . B= %f , Total= %f; TRANS: %f %f %f %f\\n \",  feat_id, feat_value, base, total / 9.f, transformed[0], transformed[1], transformed[2], transformed[3]);\n"
-"    features[feat_id + trans_id * feats_size] = feat_value;\n"
+"    return feat_value;\n"
 "}\n"
 
-/*
-* integral - 2d image of uint16 * 4 channels (RGBA) = 512bits = 2e9. Image of 4 channel of 16 bit integers contains splitted uint64 value as (R, G, B, A) == (0 1, 2 3, 4 5, 6 7) bytes sequence. Little-endian.
-* feat_size - count of features for one transform
-* rects - rectangles (xmin, ymin, xmax, ymax) with count 10*feat_size
-* transforms - list of transforms as (xscale, yscale, xtranslate, ytranslate).
-* features - list of feature result (indices) count = feat_size * trans_size
-* NOTE: run as global kernel of size (feat_size, trans_size)
-*/
-"kernel void calc_sc_features(read_only const image2d_t integral, const int feats_size, global const float4 * rects, global const float4 * transforms, global ushort * features) {\n"
+"kernel void init_dets_table(global int* dets_table) {dets_table[0] = 0;}\n"
 
-"    int feat_id = get_global_id(0);\n"
-"    int trans_id = get_global_id(1);\n"
-//"    printf(\"Starting calc features: grid %dx%d %d \",  feat_id, trans_id, feats_size);\n"
-//Use only for SC features
-"    const float4 * feat_rects = rects + feat_id * 10;\n"
-"float f[10];"
-
-"    float base = calc_rect_norm(feat_id, integral, feat_rects[0], transforms[trans_id]);\n"
-"    ushort feat_value = 0;\n f[0] = base;"
-
-"    size_t rect = 1;\n"
-"    for (; rect < 9; ++rect) {\n"
-"       float sum = calc_rect_norm(feat_id, integral, feat_rects[rect], transforms[trans_id]);\n f[rect] = sum;"
-"       if (sum > base)\n"
-"           feat_value |= 1;\n"
-
-"       feat_value = feat_value << 1;\n"
-"    }\n"
-
-"    float sum = calc_rect_norm(feat_id, integral, feat_rects[rect], transforms[trans_id]);\n f[rect] = sum;"
-"    if (sum > base)\n"
-"       feat_value |= 1;\n"
-//"    printf(\"Feature: id: %d v: %d R: %f %f %f %f %f %f %f %f %f %f\\n \",  feat_id, feat_value, f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7], f[8], f[9]);\n"
-"    features[feat_id + trans_id * feats_size] = feat_value;\n"
-"}\n"
 /*
 * feats_size - count of features.
 * stages_size - count of stages in detector
-* features - precalculated values of features (0-512) (feats_size * trans_size)
 * stages - start feature indices of stage [0, ..., feats_size] (stages_size + 1)
 * resps - code table of responces. 512 bits per weak feature. (64 * feats_size)
 * weights - weights of weaks. (feats_size).
 * thres - thresholds of stages (stages_size)
-* dets - result of detections (stages_size * thres_size)
+* dets_table - index of returned stage ( stages_size*trans_size + 1). First int is top bounds of features.
+* features - output of features  (feats_size * 10 * trans_size)
 */
-"kernel void calc_sc_detector(int feats_size, int stages_size, global const ushort* features, global const int* stages, global const uchar* resps, global const float* weights, global const float* thres, global uchar* dets) {\n"
-    //Features have had (feats_size x trans_size) size
-"    int stage_id = get_global_id(0);\n"
-"    int trans_id = get_global_id(1);\n"
+"kernel void detect_frag(read_only const image2d_t integral, int min_stages, global const float4 * rects, global const float4 * transforms, "
+"int stages_size, global const int* stages, global const uchar* resps, global const float* weights, global const float* thres, global int* dets_table, global ushort* features ) {\n"
+ 
+//Features have had (feats_size x trans_size) size
+"    int trans_id = get_global_id(0);\n"
+"    int trans_offset = trans_id - get_global_offset(0);\n"
+
+
+
+
+    //stages - number of feature to start stage. size of stages  - stages_size + 1;
+    //dets - (stages_size x trans_size)
+    // Mark that detector not triggered;
+
+"   int feats_size = stages[stages_size];\n"
+"   global int* dets = dets_table + (stages_size + 1)* trans_offset + 1;\n"
+"   dets[0] = -1;\n"
+
+// HACK:
+//"dets[trans_id] = 0;return;"
+
+
+"   for (int stage_id = 0; stage_id < stages_size; ++stage_id) {\n"
+
+
+"       int stage_start = stages[stage_id];\n"
+"       int stage_end = stages[stage_id + 1];\n"
+
+"       const uchar * code_table = resps + stage_start * 64;\n"
+"       const float* w = weights + stage_start;\n"
+
+"       float activation = 0;\n"
+
+//"    if (trans_id == 0) "
+//"printf(\"Feat stage=%d place: pos %d \\n\",  stage_id, dets_table[0]);\n"
+"       int feats_place = atomic_add(dets_table, (stage_end - stage_start));\n"
+
+"       if (feats_place > feats_size * get_global_size(0)) {printf(\"Error in placing features. Place=%d, Count=%d.\", feats_place, get_global_size(0));}\n"      
+//"       printf(\"Feat stage=%d place: %d size %d \\n\",  stage_id, feats_place, dets_table[0]);\n"
+ 
+//"    if (trans_id == 0) printf(\"Feat stage=%d place: %d size %d \\n\",  stage_id, feats_place, dets_table[0]);\n"
+"       global ushort* feats = features + feats_place;\n"
+"       dets[stage_id+1] = feats_place;\n"
+
+"       for (int feat_id = stage_start; feat_id < stage_end; ++feat_id, feats += 1, ++w, code_table += 64) {\n"
+//CS feature
+"           ushort index = calc_census_feature(integral, rects + feat_id, transforms + trans_id, feats); \n"
+//"           ushort index = 0; \n"
+
+"           ushort byte_index = index >> 3;\n"
+"           ushort byte_offset = index % 8;\n"
+
+"           uchar value = (code_table[byte_index] >> byte_offset) & 1;\n"
+"           activation += *w * value;\n"
+"       }\n"
+
+"       if (activation < thres[stage_id] && dets[0] < 0)\n {"
+"           dets[0] = stage_id; }\n"
+
+"       if (dets[0] >= 0 && (stage_id + 1) >= min_stages)\n"
+"           break;\n"
+"   }\n"
+//"    if (trans_id == 0) printf(\"Feat place: %d \",  dets_table[0]);\n"
+"}\n"
+// Packed detector due to limits of args in opencl kernel;
+// |num_stages|thres_s1|feats_s1|rect_s1_1|weight_s1_1|code_table_s1_1|rect_s1_2|weights_s1_2|ct_s1_2|....
+// |thres_s2|feats_s2|rect_s2_1 |ct_s2_1|...
+/*"kernel void detect_frags_packed(read_only const image2d_t integral, int min_stages, global const float4 * transforms, global const uchar* detector_packed, "
+"int feats_size, global int* dets, global float* features ) {\n"
+//Features have had (feats_size x trans_size) size
+"    int trans_id = get_global_id(0);\n"
 
 //"    printf(\"Starting calc features: grid %dx%d %d \",  stage_id, trans_id, feats_size);\n"
 
     //stages - number of feature to start stage. size of stages  - stages_size + 1;
     //dets - (stages_size x trans_size)
-"    int stage_start = stages[stage_id];\n"
-"    int stage_end = stages[stage_id + 1];\n"
+    // Mark that detector not triggered;
+    "   dets[trains_id] = -1;\n"
+    "   float* feats = features + feats_size * 10 * trans_id;"
+    "   int num_stages = *(global const int*)detector_packed; detector_packed+=sizeof(int);\n"
+        
+    "   for (int stage_id = 0; stage_id < stages_size; ++stage_id) {\n"
 
-"    const ushort* feats = features + feats_size * trans_id + stage_start;\n"
-"    const uchar * code_table = resps + stage_start * 64;\n"
-"    const float* w = weights + stage_start;\n"
-"    uchar * d = dets + stages_size * trans_id;\n"
+    "       int stage_start = stages[stage_id];\n"
+    "       int stage_end = stages[stage_id + 1];\n"
 
-"    float activation = 0;\n"
+    "       const uchar * code_table = resps + stage_start * 64;\n"
+    "       const float* w = weights + stage_start;\n"
 
-"    for (int feat_id = stage_start; feat_id < stage_end; ++feat_id, ++feats, ++w, code_table += 64) {\n"
-        //CS feature
-"       ushort index = *feats;\n"
+    "       float activation = 0;\n"
 
-"       ushort byte_index = index >> 3;\n"
-"       ushort byte_offset = index % 8;\n"
+    "       for (int feat_id = stage_start; feat_id < stage_end; ++feat_id, feats += 10, ++w, code_table += 64) {\n"
+    //CS feature
+    "           ushort index = calc_census_feature(integral, rects[feat_id], transforms[trans_id], feats); \n"
 
-"       uchar value = (code_table[byte_index] >> byte_offset) & 1;\n"
-"       activation += *w * value;\n"
-"   }\n"
-"   d[stage_id] = activation >= thres[stage_id] ? 1 : 0;\n"
-"}\n"
+    "           ushort byte_index = index >> 3;\n"
+    "           ushort byte_offset = index % 8;\n"
+
+    "           uchar value = (code_table[byte_index] >> byte_offset) & 1;\n"
+    "           activation += *w * value;\n"
+    "       }\n"
+    "       if (activation < thres[stage_id] && dets[trans_id] < 0)\n"
+    "           dets[trains_id] = stage_id;\n"
+
+    "       if (dets[trans_id] >= 0 && (stage_id + 1) >= min_stages)\n"
+    "           break;\n"
+    "   }\n"
+    "}\n"*/
 ;
-
 
 #define CL_CHECK(expr, value)                                                    \
 {     cl_int _err = (expr);                                            \
@@ -227,6 +282,7 @@ namespace accel_rects {
             std::unique_lock<std::mutex>     locker(mtx_);
 
             while (limits_ > 0 && objects_.size() >= limits_ && pool_.size() == 0) {
+                //                std::cout << "Waiting task..." << std::endl;
                 cv_.wait(locker);
             }
 
@@ -318,12 +374,48 @@ namespace accel_rects {
 
     size_t IntegralView::width() const {
         return data_ ? data_->width() : 0;
-        
+
     }
 
     size_t IntegralView::height() const {
         return data_ ? data_->height() : 0;
     }
+
+    /// <summary>
+    /// TransformsData
+    /// </summary>
+    class TransformsData {
+    public:
+        TransformsData(const cl::Context& context, transforms_t&& trans)
+            : transforms_(std::move(trans)) {
+            trans_ = cl::Buffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
+                sizeof(cl_float4) * transforms_.size(), (void*)transforms_.data(), &err_);
+        }
+
+        bool    is_valid() const { return err_ == CL_SUCCESS; }
+
+        const transforms_t& transforms() const { return transforms_; }
+
+        const cl::Buffer& trans_buffer() const { return trans_; }
+
+
+    private:
+        cl_int                      err_ = CL_SUCCESS;
+
+        cl::Buffer                  trans_;
+        transforms_t                transforms_;
+    };
+
+    const transforms_t& TransformsView::transforms() const
+    {
+        return data_->transforms();
+    }
+
+    bool TransformsView::is_valid() const
+    {
+        return data_ && data_->is_valid();
+    }
+
 
 
     /// <summary>
@@ -331,7 +423,7 @@ namespace accel_rects {
     /// </summary>
     class FeaturesData {
     public:
-        FeaturesData(const cl::Context& context, Features&& features): features_(std::move(features)) {
+        FeaturesData(const cl::Context& context, Features&& features) : features_(std::move(features)) {
             rects_ = cl::Buffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
                 sizeof(cl_float4) * features_.rects().size(), (void*)features_.rects().data(), &err_);
         }
@@ -339,13 +431,13 @@ namespace accel_rects {
         bool    is_valid() const { return err_ == CL_SUCCESS; }
 
         const Features& features() const { return features_; }
-                
+
         const cl::Buffer& rects() const { return rects_; }
 
 
     private:
         cl_int                      err_ = CL_SUCCESS;
-                
+
         cl::Buffer                  rects_;
         Features                    features_;
     };
@@ -387,7 +479,7 @@ namespace accel_rects {
         bool    is_valid() const { return err_ == CL_SUCCESS; }
 
         const Stages& stages() const { return stages_; }
-      
+
         const cl::Buffer& positions() const { return positions_; }
         const cl::Buffer& thresholds() const { return thres_; }
         const cl::Buffer& weights() const { return weights_; }
@@ -405,7 +497,7 @@ namespace accel_rects {
         cl::Buffer                  thres_;
         //Responces of weak features;
         cl::Buffer                  resps_;
-              
+
         Stages                      stages_;
     };
 
@@ -429,10 +521,10 @@ namespace accel_rects {
 
         const StagesData& stages_data() const { return stages_data_; }
         StagesData& stages_data() { return stages_data_; }
-        
+
 
     private:
-        
+
         FeaturesData                features_data_;
         StagesData                  stages_data_;
     };
@@ -443,7 +535,7 @@ namespace accel_rects {
 
     FeaturesView DetectorView::features_view() {
         return std::shared_ptr<FeaturesData>(data_, &data_->features_data());
-               
+
     }
 
     bool DetectorView::is_valid() const
@@ -451,29 +543,24 @@ namespace accel_rects {
         return data_ ? data_->is_valid() : false;
     }
 
-    
-    
+
+
     class Core : public std::enable_shared_from_this<Core> {
     public:
-        Core(size_t tasks_limits = 8) : pool_(tasks_limits) {}
+        Core() = default;
 
-        ~Core() {
-            std::cout << "Tasks count " << pool_.tasks_count() << std::endl;
-        }
+        ~Core() = default;
 
         void            Finish() {
-            if (queue_.finish() == CL_SUCCESS) {
-                //Awaiting tasks
-                pool_.WaitAllTasks();
-            }
-            else {
+            if (kernel_queue_.finish() != CL_SUCCESS && read_queue_.finish() != CL_SUCCESS && write_queue_.finish() != CL_SUCCESS) {
+                
                 std::cout << "Error while finishing Engine." << std::endl;
             }
         }
 
 
         bool            Initialize() {
-            
+
             std::vector<cl::Platform> all_platforms;
             cl::Platform::get(&all_platforms);
             if (all_platforms.empty()) {
@@ -498,6 +585,20 @@ namespace accel_rects {
             device_ = all_devices[0];
             std::cout << "Using device: " << device_.getInfo<CL_DEVICE_NAME>() << std::endl;
 
+            std::cout << "MaxArgs: " << device_.getInfo<CL_DEVICE_MAX_CONSTANT_ARGS>() << std::endl;
+            std::cout << "Max Const Buffer Size: " << device_.getInfo<CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE>() << std::endl;
+
+            std::cout << "Max Global mem Size: " << device_.getInfo<CL_DEVICE_GLOBAL_MEM_SIZE>() << std::endl;
+
+            std::cout << "Max Alloc Size: " << device_.getInfo<CL_DEVICE_MAX_MEM_ALLOC_SIZE>() << std::endl;
+                        
+            std::cout << "Max Compute Units: " << device_.getInfo<CL_DEVICE_MAX_COMPUTE_UNITS>() << std::endl;
+
+            std::cout << "Max WARP_SIZE: " << device_.getInfo<CL_DEVICE_WARP_SIZE_NV>() << std::endl;
+
+                       
+
+
             context_ = cl::Context({ device_ });
 
             cl::Program::Sources sources;
@@ -516,39 +617,65 @@ namespace accel_rects {
 
             cl_int err = 0;
 
-            queue_ = cl::CommandQueue(context_, device_, properties, &err);
+            kernel_queue_ = cl::CommandQueue(context_, device_, properties, &err);
             CL_CHECK_BOOL(err);
-                    
+
+            read_queue_ = cl::CommandQueue(context_, device_, properties, &err);
+            CL_CHECK_BOOL(err);
+
+            write_queue_ = cl::CommandQueue(context_, device_, properties, &err);
+            CL_CHECK_BOOL(err);
+
 
             return true;
 
         }
 
-             
+
         //cl::Context& context() { return context_; }
         const cl::Context& context() const { return context_; }
 
         const cl::Device& device() const { return device_; }
 
-        cl::CommandQueue& queue() { return queue_; }
-        const cl::CommandQueue& queue() const { return queue_; }
+        cl::CommandQueue& kernel_queue() { return kernel_queue_; }
+        const cl::CommandQueue& kernel_queue() const { return kernel_queue_; }
+
+        cl::CommandQueue& read_queue() { return read_queue_; }
+        const cl::CommandQueue& read_queue() const { return read_queue_; }
+
+        cl::CommandQueue& write_queue() { return write_queue_; }
+        const cl::CommandQueue& write_queue() const { return write_queue_; }
 
         cl::Program& program() { return program_; }
         const cl::Program& program() const { return program_; }
 
-
     public:
-        Task*     CreateTask() {
-            return pool_.Create();
+        bool ResizeBufferIfNeeded(cl::Buffer& buffer, cl_mem_flags flags, size_t bytes) {
+            cl_int err = 0;
+            auto size = buffer.getInfo<CL_MEM_SIZE>(&err);
+            if (err != CL_SUCCESS || size < bytes) {
+
+                buffer = cl::Buffer(context_, flags, bytes, 0, &err);
+                CL_CHECK_BOOL(err);
+                //if (err == CL_SUCCESS)
+                //    std::cout << "Resizing from " << size << " to " << bytes << std::endl;
+            }
+            return true;
+
         }
 
-        void     ReleaseTask(Task* task) {
-            pool_.Release(task);
+
+        bool CreateKernel(const std::string& name, cl::Kernel& kernel) {
+            cl_int err = 0;
+            kernel = cl::Kernel(program_, name.c_str(), &err);
+
+            if (err != CL_SUCCESS) {
+                std::cout << "Error while creating kernel " << name << std::endl;
+                return false;
+            }
+            return true;
         }
 
-        int         tasks_count() const { return pool_.tasks_count(); }
-
-    
 
 
     private:
@@ -556,47 +683,179 @@ namespace accel_rects {
         cl::Device                  device_;
         //Source code of cl program
         cl::Program                 program_;
-        cl::CommandQueue            queue_;
-              
-        
+        cl::CommandQueue            kernel_queue_;
 
-        Pool<Task>                  pool_;
+        cl::CommandQueue            read_queue_;
+        cl::CommandQueue            write_queue_;
     };
 
-    class Kernels {
-           
-    public:
-        Kernels(const Core& core) {
-            cl_int err = 0;
-            feats_kernel_ = cl::Kernel(core.program(), "calc_census_features", &err);
-            dets_kernel_ = cl::Kernel(core.program(), "calc_sc_detector", &err);
 
-            const cl_queue_properties properties[] = { CL_QUEUE_PROPERTIES, CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE /*| CL_QUEUE_PROFILING_ENABLE */ , 0 };
-                        
-            queue_ = cl::CommandQueue(core.context(), core.device(), properties, &err);
+    class TaskWorker : public Worker {
+
+
+    public:
+        TaskWorker() {}
+
+
+        virtual ~TaskWorker() {}
+
+
+        bool    Initialize(const std::shared_ptr<Core>& core) {
+            core_ = core;
+            return core_->CreateKernel("detect_frag", kernel_);
         }
 
 
-        cl::Kernel& feats_kernel() { return feats_kernel_; }
-        const cl::Kernel& feats_kernel() const { return feats_kernel_; }
+    public:
+        bool        Run(IntegralView integral, DetectorView detector, TransformsView trans, int min_stages, int begin_index, int end_index, triggered_t& triggered, features_t& features) override {
+            cl_int err = 0;
 
-        cl::Kernel& dets_kernel() { return dets_kernel_; }
-        const cl::Kernel& dets_kernel() const { return dets_kernel_; }
 
-        const cl::CommandQueue& queue() const { return queue_; }
-        cl::CommandQueue& queue() { return queue_; }
+            int stages_count = detector.stages().count();
+            int measures_count = detector.data()->features_data().features().count();
 
+            int trans_size = end_index - begin_index;
+
+            int measures_size = measures_count * trans_size;
+            size_t table_size = trans_size * (stages_count + 1) + 1;
+
+            measures_.resize(measures_size, 0);
+            dets_table_.resize(table_size, 0);
+
+            
+            if (!core_->ResizeBufferIfNeeded(measures_mem_, CL_MEM_WRITE_ONLY, sizeof(cl_float) * measures_.size()))
+                return false;
+
+            if (!core_->ResizeBufferIfNeeded(dets_table_mem_, CL_MEM_WRITE_ONLY, sizeof(cl_int) * dets_table_.size()))
+                return false;
+
+            cl::Event proc_evt, dets_evt, read_feats_evt, read_dets_evt, evt_write;
+
+
+            // Reset index of packet features;
+            CL_CHECK_BOOL(core_->write_queue().enqueueFillBuffer<int>(dets_table_mem_, 0, 0, sizeof(cl_int), 0, &evt_write));
+            waiting_evts_.push_back(evt_write);
+
+           
+            //read_only const image2d_t integral, int min_stages, global const float4 * rects, global const float4 * transforms, 
+            // int stages_size, global const int* stages, global const uchar* resps, global const float* weights, global const float* thres, global int* dets, global float* features
+
+
+            CL_CHECK_BOOL(kernel_.setArg(0, integral.data()->integral()));
+            CL_CHECK_BOOL(kernel_.setArg<int>(1, min_stages));
+            CL_CHECK_BOOL(kernel_.setArg(2, detector.data()->features_data().rects()));
+            CL_CHECK_BOOL(kernel_.setArg(3, trans.data()->trans_buffer()));
+            CL_CHECK_BOOL(kernel_.setArg<int>(4, stages_count));
+            CL_CHECK_BOOL(kernel_.setArg(5, detector.data()->stages_data().positions()));
+            CL_CHECK_BOOL(kernel_.setArg(6, detector.data()->stages_data().responses()));
+            CL_CHECK_BOOL(kernel_.setArg(7, detector.data()->stages_data().weights()));
+            CL_CHECK_BOOL(kernel_.setArg(8, detector.data()->stages_data().thresholds()));
+            CL_CHECK_BOOL(kernel_.setArg(9, dets_table_mem_));
+            CL_CHECK_BOOL(kernel_.setArg(10, measures_mem_));
+
+
+            CL_CHECK_BOOL(core_->kernel_queue().enqueueNDRangeKernel(kernel_, cl::NDRange(begin_index), cl::NDRange(end_index - begin_index), cl::NullRange, &waiting_evts_, &proc_evt));
+            //CL_CHECK_BOOL(kernels.queue().enqueueNDRangeKernel(detect_kernel, cl::NDRange(begin_index), cl::NDRange(end_index - begin_index), cl::NullRange, &waiting_evts_, &proc_evt));
+
+            waiting_evts_.clear();
+            waiting_evts_.push_back(proc_evt);
+
+
+            //CL_CHECK_BOOL(core->queue().enqueueReadBuffer(feats_mem_, CL_FALSE, 0, sizeof(cl_float) * feats_ptr_->size(), feats_ptr_->data(), &waiting_evts_, &read_feats_evt));
+            //CL_CHECK_BOOL(core->queue().enqueueReadBuffer(feats_mem_, CL_FALSE, 0, sizeof(cl_half) * feats_ptr_->size() / 10, feats_ptr_->data(), &waiting_evts_, &read_feats_evt));
+            //CL_CHECK_BOOL(core->queue().enqueueReadBuffer(dets_mem_, CL_FALSE, 0, sizeof(cl_int) * dets_ptr_->size(), dets_ptr_->data(), &waiting_evts_, &read_dets_evt));
+            //CL_CHECK_BOOL(core->queue().enqueueReadBuffer(dets_mem_, CL_FALSE, 0, sizeof(cl_int) * dets_ptr_->size(), dets_ptr_->data(), &waiting_evts_, &read_dets_evt));
+
+            // TODO: make big buffer and add all data here;
+
+
+            CL_CHECK_BOOL(core_->read_queue().enqueueReadBuffer(dets_table_mem_, CL_TRUE, 0, sizeof(cl_int) * dets_table_.size(), dets_table_.data(), &waiting_evts_));
+
+            int measures_pack_size = dets_table_.at(0);
+
+
+            CL_CHECK_BOOL(core_->read_queue().enqueueReadBuffer(measures_mem_, CL_TRUE, 0, sizeof(cl_ushort) * measures_pack_size, measures_.data()));
+            // const int* table = &dets_table_[1];
+             //const uint16_t* measures_ptr = measures_.data();
+
+
+             /*
+             const int* dets_table_ptr = (const int*)core->read_queue().enqueueMapBuffer(dets_table_mem_, CL_TRUE, CL_MAP_READ, 0, sizeof(cl_int) * table_size, &waiting_evts_);
+
+             int measures_pack_size = dets_table_ptr[0];
+             const int* table = &dets_table_ptr[1];
+
+             const uint16_t* measures_ptr = (const uint16_t*)core->read_queue().enqueueMapBuffer(measures_mem_, CL_TRUE, CL_MAP_READ, 0, sizeof(cl_ushort) * measures_pack_size);
+             */
+
+            DecodeMeasures(detector.stages().positions(), &dets_table_[1], measures_.data(), trans_size, min_stages, triggered, features);
+
+
+            /*
+
+            CL_CHECK_BOOL(core->read_queue().enqueueUnmapMemObject(measures_mem_, (void*)measures_ptr));
+
+            // Cancel mapping of detection table
+            CL_CHECK_BOOL(core->read_queue().enqueueUnmapMemObject(dets_table_mem_, (void*)dets_table_ptr));
+            */
+
+
+            return true;
+        }
+
+        private:
+            void            DecodeMeasures(const positions_t& stages_positions,
+                const int* table,
+                const uint16_t* measures,
+                int table_size,
+                int min_stages,
+                triggered_t& triggered,
+                features_t& features) {
+
+                triggered.resize(table_size, -1);
+                features.resize(stages_positions.back() * table_size, 0);
+                float* measures_output = features.data();
+                size_t measures_size = features.size();
+                size_t stages_plus_1 = stages_positions.size();
+
+
+
+                for (int t = 0; t < table_size; ++t, table += stages_plus_1) {
+                    // First number is number of stage triggered or -1;
+                    int triggered_stage = table[0];
+                    const int* stages_offset = table + 1;
+                    int num_stages = triggered_stage < 0 ? stages_plus_1 - 1 : std::max<int>(triggered_stage + 1, min_stages);
+                    triggered[t] = triggered_stage;
+
+
+                    for (int s = 0; s < num_stages; ++s) {
+                        int stage_size = stages_positions[s + 1] - stages_positions[s];
+
+                        const uint16_t* stage_measures = measures + stages_offset[s];
+                        for (int i = 0; i < stage_size; i++) {
+                            measures_output[i] = float(stage_measures[i] / MEASURE_COMPRESS_FACTOR);
+                        }
+                    }
+                    measures_output += stages_positions.back();
+                    measures_size -= stages_positions.back();
+                }
+            }
 
 
     private:
-        cl::Kernel          feats_kernel_;
-        cl::Kernel          dets_kernel_;
+        std::shared_ptr<Core>           core_;
+        
+        measures_t                      measures_;
+        detections_t                    dets_table_;
 
-        cl::CommandQueue            queue_;
+        cl::Kernel                      kernel_;
+        cl::Buffer                      measures_mem_;
+        cl::Buffer                      dets_table_mem_;
+
+        
+        std::vector<cl::Event>          waiting_evts_;
     };
-
-    
-
+    /*
 
     class Task {
     public:
@@ -608,182 +867,219 @@ namespace accel_rects {
     public:
         Task() {   }
 
-
-        void        OnComplete() {
-          
-            if (cb_)
-                cb_(dims_, dets_, feats_);
-
-            integral_data_.reset();
-            features_data_.reset();
-            detector_data_.reset();
-
-            //Trick to reduce cross references;
-            auto core = core_;
-            core_.reset();
-            core->ReleaseTask(this);
-        }
-
         static bool ResizeBufferIfNeeded(const cl::Context& context, cl::Buffer& buffer, cl_mem_flags flags, size_t bytes) {
             cl_int err = 0;
             auto size = buffer.getInfo<CL_MEM_SIZE>(&err);
             if (err != CL_SUCCESS || size < bytes) {
-              
+
                 buffer = cl::Buffer(context, flags, bytes, 0, &err);
                 CL_CHECK_BOOL(err);
-                //std::cout << "Resizing from " << size << " to " << bytes << std::endl;
+                //if (err == CL_SUCCESS)
+                //    std::cout << "Resizing from " << size << " to " << bytes << std::endl;
             }
             return true;
 
         }
 
-        
-        bool      Enqueue(const std::shared_ptr<Core>& core, const integral_ptr& integral, const data_ptr_var& data, const Kernels& kernels, const transforms_t& transforms, callback_t callback) {
+        // TODO: use one block of data for different calls and use atomics to split each call
+        bool      EnqueueDetect(const std::shared_ptr<Core>& core,
+            const IntegralData& integral,
+            const DetectorData& detector,
+            const TransformsData& transforms,
+            const Kernels& kernels,
+            int min_stages,
+            int begin_index,
+            int end_index,
+            triggered_t& triggered,
+            features_t& features) {
             cl_int err = 0;
 
-            cb_ = std::move(callback);
-
-            integral_data_ = integral;
-            core_ = core;
-
-            if (std::holds_alternative<features_ptr>(data)) {
-                features_data_ = std::get<features_ptr>(data);
-            } else if (std::holds_alternative<detector_ptr>(data)) {
-                detector_data_ = std::get<detector_ptr>(data);
-                features_data_ = features_ptr(detector_data_, &detector_data_->features_data());
-            }
+          
+            int stages_count = detector.stages().count();
+            int measures_count = detector.features_data().features().count();
             
+            int trans_size = end_index - begin_index;
 
-            int stages_count = detector_data_ ? detector_data_->stages().count() : 0;
-            int feats_count = features_data_->features().count() ;
-
-            dims_ = { int(transforms.size()), stages_count, feats_count };
-
-            //trans_ = std::move(transforms);
-            trans_ = transforms;
-            feats_.resize(feats_count * trans_.size(), 0);
-            dets_.resize(stages_count * trans_.size(), 0);
-
-            if (!ResizeBufferIfNeeded(core_->context(), trans_mem_, CL_MEM_READ_ONLY, sizeof(cl_float4) * trans_.size()))
-                return false;
+            int measures_size = measures_count * trans_size;
+            size_t table_size = trans_size * (stages_count + 1) + 1;
                         
-            if (!ResizeBufferIfNeeded(core_->context(), feats_mem_, CL_MEM_READ_WRITE, sizeof(cl_ushort) * feats_.size()))
-                return false;
-                                                        
-
-            cl::Event feats_evt, dets_evt, read_feats_evt, read_dets_evt, evt_write;
+            measures_.resize(measures_size, 0);
+            //feats_ptr_->resize(feats_count * trans_.size(), 0);
                         
+            dets_table_.resize(table_size, 0);
 
-            CL_CHECK_BOOL(core->queue().enqueueWriteBuffer(trans_mem_, CL_FALSE, 0, sizeof(cl_float4) * trans_.size(), trans_.data(), 0, &evt_write));
+            //if (!ResizeBufferIfNeeded(core_->context(), trans_mem_, CL_MEM_READ_ONLY, sizeof(cl_float4) * trans_.size())) 
+            //    return false;
 
+            if (!ResizeBufferIfNeeded(core->context(), measures_mem_, CL_MEM_WRITE_ONLY, sizeof(cl_float) * measures_.size()))
+                return false;
+
+            if (!ResizeBufferIfNeeded(core->context(), dets_table_mem_, CL_MEM_WRITE_ONLY, sizeof(cl_int) * dets_table_.size()))
+                return false;
+
+            cl::Event proc_evt, dets_evt, read_feats_evt, read_dets_evt, evt_write;
+
+
+            //CL_CHECK_BOOL(core->queue().enqueueWriteBuffer(trans_mem_, CL_FALSE, 0, sizeof(cl_float4) * trans_.size(), trans_.data(), 0, &evt_write));
+
+            //core->queue().enqueueMapBuffer(dets_mem_, CL_FALSE, )
+
+            //waiting_evts_.push_back(evt_write);
+
+            //dets_ptr_->at(0) = 0;
+
+            // Reset index of packet features;
+            CL_CHECK_BOOL(core->write_queue().enqueueFillBuffer<int>(dets_table_mem_, 0, 0, sizeof(cl_int), 0, &evt_write));
             waiting_evts_.push_back(evt_write);
 
-            cl::Kernel feats_kernel = kernels.feats_kernel();
-            CL_CHECK_BOOL(feats_kernel.setArg(0, integral_data_->integral()));
-            CL_CHECK_BOOL(feats_kernel.setArg<int>(1, feats_count));
-            CL_CHECK_BOOL(feats_kernel.setArg(2, features_data_->rects()));
-            CL_CHECK_BOOL(feats_kernel.setArg(3, trans_mem_));
-            CL_CHECK_BOOL(feats_kernel.setArg(4, feats_mem_));
+            cl::Kernel detect_kernel = kernels.detect_kernel();
 
-            CL_CHECK_BOOL(core->queue().enqueueNDRangeKernel(feats_kernel, cl::NullRange, cl::NDRange(feats_count, trans_.size()), cl::NullRange, &waiting_evts_, &feats_evt));
-        
-            waiting_evts_.clear();
-            waiting_evts_.push_back(feats_evt);
+            //read_only const image2d_t integral, int min_stages, global const float4 * rects, global const float4 * transforms, 
+            // int stages_size, global const int* stages, global const uchar* resps, global const float* weights, global const float* thres, global int* dets, global float* features
 
-            CL_CHECK_BOOL(core->queue().enqueueReadBuffer(feats_mem_, CL_FALSE, 0, sizeof(cl_ushort) * feats_.size(), feats_.data(), &waiting_evts_, &evt_complete_));
+
+
+            CL_CHECK_BOOL(detect_kernel.setArg(0, integral.integral()));
+            CL_CHECK_BOOL(detect_kernel.setArg<int>(1, min_stages));
+            CL_CHECK_BOOL(detect_kernel.setArg(2, detector.features_data().rects()));
+            CL_CHECK_BOOL(detect_kernel.setArg(3, transforms.trans_buffer()));
+            CL_CHECK_BOOL(detect_kernel.setArg<int>(4, stages_count));
+            CL_CHECK_BOOL(detect_kernel.setArg(5, detector.stages_data().positions()));
+            CL_CHECK_BOOL(detect_kernel.setArg(6, detector.stages_data().responses()));
+            CL_CHECK_BOOL(detect_kernel.setArg(7, detector.stages_data().weights()));
+            CL_CHECK_BOOL(detect_kernel.setArg(8, detector.stages_data().thresholds()));
+            CL_CHECK_BOOL(detect_kernel.setArg(9, dets_table_mem_));
+            CL_CHECK_BOOL(detect_kernel.setArg(10, measures_mem_));
+
             
-            //Also run detector stages
-            if (detector_data_) {
-                if (!ResizeBufferIfNeeded(core_->context(), dets_mem_, CL_MEM_WRITE_ONLY, sizeof(cl_uchar) * dets_.size()))
-                    return false;
+            CL_CHECK_BOOL(core->kernel_queue().enqueueNDRangeKernel(detect_kernel, cl::NDRange(begin_index), cl::NDRange(end_index - begin_index), cl::NullRange, &waiting_evts_, &proc_evt));
+            //CL_CHECK_BOOL(kernels.queue().enqueueNDRangeKernel(detect_kernel, cl::NDRange(begin_index), cl::NDRange(end_index - begin_index), cl::NullRange, &waiting_evts_, &proc_evt));
 
-                cl::Kernel dets_kernel = kernels.dets_kernel();
+            waiting_evts_.clear();
+            waiting_evts_.push_back(proc_evt);
+            
 
-                CL_CHECK_BOOL(dets_kernel.setArg<int>(0, feats_count));
-                CL_CHECK_BOOL(dets_kernel.setArg<int>(1, stages_count));
-                CL_CHECK_BOOL(dets_kernel.setArg(2, feats_mem_));
-                CL_CHECK_BOOL(dets_kernel.setArg(3, detector_data_->stages_data().positions()));
-                CL_CHECK_BOOL(dets_kernel.setArg(4, detector_data_->stages_data().responses()));
-                CL_CHECK_BOOL(dets_kernel.setArg(5, detector_data_->stages_data().weights()));
-                CL_CHECK_BOOL(dets_kernel.setArg(6, detector_data_->stages_data().thresholds()));
-                CL_CHECK_BOOL(dets_kernel.setArg(7, dets_mem_));
+            //CL_CHECK_BOOL(core->queue().enqueueReadBuffer(feats_mem_, CL_FALSE, 0, sizeof(cl_float) * feats_ptr_->size(), feats_ptr_->data(), &waiting_evts_, &read_feats_evt));
+            //CL_CHECK_BOOL(core->queue().enqueueReadBuffer(feats_mem_, CL_FALSE, 0, sizeof(cl_half) * feats_ptr_->size() / 10, feats_ptr_->data(), &waiting_evts_, &read_feats_evt));
+            //CL_CHECK_BOOL(core->queue().enqueueReadBuffer(dets_mem_, CL_FALSE, 0, sizeof(cl_int) * dets_ptr_->size(), dets_ptr_->data(), &waiting_evts_, &read_dets_evt));
+            //CL_CHECK_BOOL(core->queue().enqueueReadBuffer(dets_mem_, CL_FALSE, 0, sizeof(cl_int) * dets_ptr_->size(), dets_ptr_->data(), &waiting_evts_, &read_dets_evt));
 
+            // TODO: make big buffer and add all data here;
 
-                waiting_evts_.clear();
-                waiting_evts_.push_back(feats_evt);
+            
+            CL_CHECK_BOOL(core->read_queue().enqueueReadBuffer(dets_table_mem_, CL_TRUE, 0, sizeof(cl_int) * dets_table_.size(), dets_table_.data(), &waiting_evts_));
 
-                CL_CHECK_BOOL(core->queue().enqueueNDRangeKernel(dets_kernel, cl::NullRange, cl::NDRange(stages_count, trans_.size()), cl::NullRange, &waiting_evts_, &dets_evt));
+            int measures_pack_size = dets_table_.at(0);
+            
 
-                waiting_evts_.clear();
-                waiting_evts_.push_back(dets_evt);
+            CL_CHECK_BOOL(core->read_queue().enqueueReadBuffer(measures_mem_, CL_TRUE, 0, sizeof(cl_ushort) * measures_pack_size, measures_.data()));
+           // const int* table = &dets_table_[1];
+            //const uint16_t* measures_ptr = measures_.data();
+            
 
-                CL_CHECK_BOOL(core->queue().enqueueReadBuffer(dets_mem_, CL_FALSE, 0, sizeof(cl_uchar) * dets_.size(), dets_.data(), &waiting_evts_, &read_dets_evt));
+            /*
+            const int* dets_table_ptr = (const int*)core->read_queue().enqueueMapBuffer(dets_table_mem_, CL_TRUE, CL_MAP_READ, 0, sizeof(cl_int) * table_size, &waiting_evts_);
 
-                //Adding marker of finishing reading
-                waiting_evts_.clear();
-                read_feats_evt = evt_complete_;
-                waiting_evts_.push_back(read_dets_evt);
-                waiting_evts_.push_back(read_feats_evt);
-                CL_CHECK_BOOL(core->queue().enqueueMarkerWithWaitList(&waiting_evts_, &evt_complete_));
-            }
-           
-            CL_CHECK_BOOL(evt_complete_.setCallback(CL_COMPLETE, &Task::EvtCallback, this));
-                    
+            int measures_pack_size = dets_table_ptr[0];
+            const int* table = &dets_table_ptr[1];
 
+            const uint16_t* measures_ptr = (const uint16_t*)core->read_queue().enqueueMapBuffer(measures_mem_, CL_TRUE, CL_MAP_READ, 0, sizeof(cl_ushort) * measures_pack_size);
+            */
+            
+            //DecodeMeasures(detector.stages().positions(), & dets_table_[1], measures_.data(), trans_size, min_stages, triggered, features);
+                                 
+            
+            //core->ReleaseTask(this);
+
+            
+            /*
+
+            CL_CHECK_BOOL(core->read_queue().enqueueUnmapMemObject(measures_mem_, (void*)measures_ptr));
+
+            // Cancel mapping of detection table
+            CL_CHECK_BOOL(core->read_queue().enqueueUnmapMemObject(dets_table_mem_, (void*)dets_table_ptr));
+            */
+
+/*
             return true;
         }
 
 
     private:
+        void            DecodeMeasures( const positions_t& stages_positions, 
+                                        const int* table, 
+                                        const uint16_t* measures, 
+                                        int table_size, 
+                                        int min_stages, 
+                                        triggered_t& triggered, 
+                                        features_t& features) {
 
-        static void __stdcall EvtCallback(cl_event event, cl_int status, void* user_data) {
-            auto task = static_cast<Task*>(user_data);
-            task->OnComplete();
+            triggered.resize(table_size, -1);
+            features.resize(stages_positions.back() * table_size, 0);
+            float* measures_output = features.data();
+            size_t measures_size = features.size();
+            size_t stages_plus_1 = stages_positions.size();
+
+           
+
+            for (int t = 0; t < table_size; ++t, table += stages_plus_1) {
+                // First number is number of stage triggered or -1;
+                int triggered_stage = table[0];
+                const int* stages_offset = table + 1;
+                int num_stages = triggered_stage < 0 ? stages_plus_1 - 1 : std::max<int>(triggered_stage + 1, min_stages);
+                triggered[t] = triggered_stage;
+
+                
+                for (int s = 0; s < num_stages; ++s) {
+                    int stage_size = stages_positions[s + 1] - stages_positions[s];
+                   
+                    const uint16_t* stage_measures = measures + stages_offset[s];
+                    for (int i = 0; i < stage_size; i++) {
+                        measures_output[i] = float(stage_measures[i] / MEASURE_COMPRESS_FACTOR);
+                    }
+                }
+                measures_output += stages_positions.back();
+                measures_size -= stages_positions.back();
+            }
         }
 
+
     private:
-        std::shared_ptr<Core>           core_;
+          
+        measures_t                      measures_;
+        detections_t                    dets_table_;
 
-        transforms_t                    trans_;
-
-        features_t                      feats_;
-        detections_t                    dets_;
-
-        callback_t                      cb_;
-
-        cl::Buffer                      trans_mem_;
-        cl::Buffer                      feats_mem_;
-        cl::Buffer                      dets_mem_;
+       
+        cl::Buffer                      measures_mem_;
+        cl::Buffer                      dets_table_mem_;
 
         cl::Event                       evt_complete_;
-
-        //trans, stages, feats
-        dims_t                          dims_;
-
+              
         std::vector<cl::Event>          waiting_evts_;
 
-    private:
-        integral_ptr                    integral_data_;
-        features_ptr                    features_data_;
-        detector_ptr                    detector_data_;
 
-    };
+    };*/
 
     Engine::~Engine() {
         core_->Finish();
-            
-        std::cout << "Overall tasks count " << core_->tasks_count() << std::endl;
+
+       // std::cout << "Overall tasks count " << core_->tasks_count() << std::endl;
     }
 
-    Engine Engine::Create(size_t tasks_limits)
+    Engine Engine::Create()
     {
-        auto core = std::make_shared<Core>(tasks_limits);
+        auto core = std::make_shared<Core>();
         if (core->Initialize())
             return Engine(core);
         return Engine(nullptr);
     }
 
-    Worker Engine::CreateWorker() { return core_; }
+    std::unique_ptr<Worker> Engine::CreateWorker() { 
+        auto worker = std::make_unique<TaskWorker>();
+        if (worker->Initialize(core_))
+            return worker;
+        return {};
+    }
 
     IntegralView Engine::CreateIntegral(const uint64_t* ptr, size_t width, size_t height, size_t stride) {
         return std::make_shared<IntegralData>(core_->context(), ptr, width, height, stride);
@@ -796,33 +1092,14 @@ namespace accel_rects {
     FeaturesView Engine::CreateFeatures(Features&& features) {
         return std::make_shared<FeaturesData>(core_->context(), std::forward<Features>(features));
     }
-           
 
-    Worker::Worker(std::shared_ptr<Core> core) : core_(core) {
-        kernels_ = std::make_unique<Kernels>(*core_);
+    TransformsView Engine::CreateTransforms(transforms_t&& transforms)
+    {
+        return std::make_shared<TransformsData>(core_->context(), std::forward<transforms_t>(transforms));
     }
 
-    Worker::Worker(Worker&& other) {
-        core_ = std::move(other.core_);
-        kernels_ = std::move(other.kernels_);
-    }
 
-    Worker::~Worker() { }
-
-    bool Worker::Enqueue(IntegralView integral, DetectorView detector, const transforms_t& trans, callback_t cb) {
-        auto task = core_->CreateTask();
-        return task->Enqueue(core_, integral.data(), detector.data(), *kernels_, trans, cb);
-    }
-
-    bool Worker::Enqueue(IntegralView integral, FeaturesView features, const transforms_t& trans, callback_t cb) {
-        auto task = core_->CreateTask();
-        return task->Enqueue(core_, integral.data(), features.data(), *kernels_, trans, cb);
-
-    }
-
-     
+}
    
 
     
-
-}

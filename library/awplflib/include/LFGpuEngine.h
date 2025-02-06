@@ -4,7 +4,10 @@
 #include "LFCore.h"
 #include "LF.h"
 #include "LFDetector.h"
-#include "accel_rects.h"
+#include "accel_rects/accel_rects.h"
+#include "utils/object_pool.h"
+
+
 #include <omp.h>
 
 class TGpuDetector {
@@ -56,12 +59,10 @@ private:
 
 class TGpuEngine {
 public:
-	using TCallback = std::function<void(const awpRect& fragment, const uint8_t* stages, const uint16_t* features)>;
+	using TCallback = std::function<void(const awpRect& fragment, int triggered, int stages, const float* features)>;
 public:
 
-    TGpuEngine() :
-        engine_(accel_rects::Engine::Create(16)) {
-    }
+    TGpuEngine(int num_threads = 4, int num_transforms = 2048, int min_stages = 3);
 
     TGpuDetector						CreateDetector(TSCObjectDetector* detector /*TODO: move ownership*/);
     TGpuIntegral						CreateIntegral(TLFImage* image /*TODO: move ownership*/);
@@ -73,8 +74,23 @@ public:
 
 
 private:
-    int                             num_tasks_ = 16;
-    int                             num_transforms_ = 4096;
-    int                             num_threads_ = 4;
+    int                             num_transforms_ = 2048;
+    int                             num_threads_ = 8;
+
+    int                             min_stages_ = 3;
+
 	accel_rects::Engine				engine_;
+
+    std::vector<std::unique_ptr<accel_rects::Worker>>        workers_;
+
+    std::vector<std::pair<accel_rects::triggered_t, accel_rects::features_t>>        result_;
+
+
+
+    accel_rects::TransformsView                 transforms_;
+
+    //std::unique_ptr<pool::ObjectPool<accel_rects::Worker>>             pool_;
+
+private:
+    awpRect                         rect_;
 };

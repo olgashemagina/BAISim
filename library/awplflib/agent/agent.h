@@ -64,6 +64,8 @@ namespace agent {
 		virtual void Detect(std::shared_ptr<TLFImage> img, TFeaturesBuilder& builder) = 0;
 	};
 
+	
+
 	// Interface of any Detector that can be corrected;
 	class IDetector {
 	public:
@@ -78,6 +80,8 @@ namespace agent {
 
 		// Scanner of Detector;
 		virtual ILFScanner* GetScanner() = 0;
+
+		//virtual TFragments  ScanImage(TLFImageContainer image, const std::vector<TLFRect>* rois) = 0;
 				
 		// Creating Worker for parallel processing.
 		virtual std::unique_ptr<IWorker> CreateWorker() = 0;
