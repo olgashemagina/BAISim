@@ -11,6 +11,7 @@
 #include "utils/object_pool.h"
 #include "utils/matrix.h"
 #include "agent/features.h"
+#include "agent/fragments.h"
 
 
 // Forward declaration of supervisor interface defainde in TLFAgent
@@ -44,24 +45,13 @@ namespace agent {
 
 		virtual std::vector<std::unique_ptr<ICorrector>> ConsumeCorrectors() = 0;
 		// Process new samples
-		virtual void CollectSamples(ILFScanner* scanner, const TFeatures& feats, const TDetections&) = 0;
+		virtual void CollectSamples(const TFragments& fragments, const TFeatures& feats, const TDetections&) = 0;
 		// Start training of samples if needed.
 		virtual void Train() = 0;
 
 		// Serializing methods.
 		//virtual bool LoadXML(TiXmlElement* parent) = 0;
 		virtual TiXmlElement* SaveXML() = 0;
-	};
-
-
-	// Worker of detector that support parallel processing in different threads.
-	// Garanteed that Detect can be called from one thread simultaneously	
-	class IWorker {
-	public:
-		virtual ~IWorker() = default;
-
-		// Run detector and fill features and result of detections for fragments in range [begin, end]
-		virtual void Detect(std::shared_ptr<TLFImage> img, TFeaturesBuilder& builder) = 0;
 	};
 
 	
@@ -77,14 +67,17 @@ namespace agent {
 
 		// Detector name
 		virtual std::string_view GetName() const = 0;
-
-		// Scanner of Detector;
-		virtual ILFScanner* GetScanner() = 0;
-
-		//virtual TFragments  ScanImage(TLFImageContainer image, const std::vector<TLFRect>* rois) = 0;
 				
-		// Creating Worker for parallel processing.
-		virtual std::unique_ptr<IWorker> CreateWorker() = 0;
+		// Initialize detector for the image
+		virtual const TFragments& Setup(std::shared_ptr<TLFImage> img, const std::vector<TLFRect>* rois = nullptr) = 0;
+					
+	
+		// Run detector and fill features and result of detections for fragments in range [begin, end]
+		// Can be called in parallel for different fragments;
+		virtual bool Detect(TFeaturesBuilder& builder) const = 0;
+
+		// Finalize processing image
+		virtual void Release() = 0;
 
 		// Serializing methods.
 		//virtual bool LoadXML(TiXmlElement* parent) = 0;

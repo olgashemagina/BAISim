@@ -146,6 +146,7 @@ TO_LITERAL(MEASURE_COMPRESS_FACTOR)
 * weights - weights of weaks. (feats_size).
 * thres - thresholds of stages (stages_size)
 * dets_table - index of returned stage ( stages_size*trans_size + 1). First int is top bounds of features.
+* dets_table = |size_of_features| [t0] |stage0_feat_pos|stage0_score|stage1_feat_pos|stage1_score|... == (2 * stages + 1) * trans_size
 * features - output of features  (feats_size * 10 * trans_size)
 */
 "kernel void detect_frag(read_only const image2d_t integral, int min_stages, global const float4 * rects, global const float4 * transforms, "
@@ -163,12 +164,9 @@ TO_LITERAL(MEASURE_COMPRESS_FACTOR)
     // Mark that detector not triggered;
 
 "   int feats_size = stages[stages_size];\n"
-"   global int* dets = dets_table + (stages_size + 1)* trans_offset + 1;\n"
+"   global int* dets = dets_table + (stages_size + 2)* trans_offset + 1;\n"
+"   global int* dets_pos = dets + 2;\n"
 "   dets[0] = -1;\n"
-
-// HACK:
-//"dets[trans_id] = 0;return;"
-
 
 "   for (int stage_id = 0; stage_id < stages_size; ++stage_id) {\n"
 
@@ -180,7 +178,8 @@ TO_LITERAL(MEASURE_COMPRESS_FACTOR)
 "       const float* w = weights + stage_start;\n"
 
 "       float activation = 0;\n"
-
+"       float sum_weights = 0;\n"
+//"printf(\"Feat stage_start=%d stage_end=%d \\n\",  stage_start, stage_end);\n"
 //"    if (trans_id == 0) "
 //"printf(\"Feat stage=%d place: pos %d \\n\",  stage_id, dets_table[0]);\n"
 "       int feats_place = atomic_add(dets_table, (stage_end - stage_start));\n"
@@ -190,7 +189,9 @@ TO_LITERAL(MEASURE_COMPRESS_FACTOR)
  
 //"    if (trans_id == 0) printf(\"Feat stage=%d place: %d size %d \\n\",  stage_id, feats_place, dets_table[0]);\n"
 "       global ushort* feats = features + feats_place;\n"
-"       dets[stage_id+1] = feats_place;\n"
+//"       global int* dets_info = dets + 2 * stage_id + 1;\n"
+"       *dets_pos = feats_place;\n"
+//"       dets_info[0] = feats_place;\n"
 
 "       for (int feat_id = stage_start; feat_id < stage_end; ++feat_id, feats += 1, ++w, code_table += 64) {\n"
 //CS feature
@@ -202,10 +203,17 @@ TO_LITERAL(MEASURE_COMPRESS_FACTOR)
 
 "           uchar value = (code_table[byte_index] >> byte_offset) & 1;\n"
 "           activation += *w * value;\n"
+"           sum_weights += *w;\n"
 "       }\n"
 
-"       if (activation < thres[stage_id] && dets[0] < 0)\n {"
-"           dets[0] = stage_id; }\n"
+"       if (dets[0] < 0)\n {"
+// Score
+"           dets[1] = as_int(activation / sum_weights);\n"
+"           if (activation < thres[stage_id])\n {"
+"               dets[0] = stage_id;\n"
+"           }\n"
+
+"       }\n"
 
 "       if (dets[0] >= 0 && (stage_id + 1) >= min_stages)\n"
 "           break;\n"
@@ -271,74 +279,10 @@ TO_LITERAL(MEASURE_COMPRESS_FACTOR)
 #define CL_CHECK_BOOL(expr)  CL_CHECK(expr, false)
 
 namespace accel_rects {
-
-    template<typename T>
-    class Pool {
-    public:
-        Pool(size_t limits = 0) : limits_(limits) {}
-
-        template<typename ...A>
-        T* Create(A &&... args) {
-            std::unique_lock<std::mutex>     locker(mtx_);
-
-            while (limits_ > 0 && objects_.size() >= limits_ && pool_.size() == 0) {
-                //                std::cout << "Waiting task..." << std::endl;
-                cv_.wait(locker);
-            }
-
-            if (pool_.empty()) {
-                objects_.emplace_back(std::make_unique<T>(args...));
-                pool_.push_back(objects_.back().get());
-            }
-
-            tasks_count_.fetch_add(1, std::memory_order_relaxed);
-
-            T* obj = pool_.back();
-            pool_.pop_back();
-            return obj;
-        }
-
-        void Release(T* obj) {
-            std::lock_guard<std::mutex>     locker(mtx_);
-            pool_.push_back(obj);
-            tasks_count_.fetch_sub(1, std::memory_order_relaxed);
-            cv_.notify_one();
-        }
-
-        int     tasks_count() const { return tasks_count_.load(std::memory_order_acquire); }
-
-        void    WaitTask() {
-            std::unique_lock<std::mutex>     locker(mtx_);
-
-            if (objects_.size() > pool_.size()) {
-                cv_.wait(locker);
-            }
-        }
-
-        void    WaitAllTasks() {
-            std::unique_lock<std::mutex>     locker(mtx_);
-
-            while (objects_.size() > pool_.size()) {
-                cv_.wait(locker);
-            }
-        }
-
-    private:
-        std::vector<std::unique_ptr<T>> objects_;
-
-        size_t                          limits_ = 0;
-
-        std::vector<T*>                 pool_;
-        std::mutex                      mtx_;
-        std::condition_variable         cv_;
-
-        std::atomic_int32_t             tasks_count_ = 0;
-    };
-
-    class Task;
+     
 
     /// <summary>
-    /// IntegralData
+    /// IntegralView
     /// </summary>
     class IntegralData {
     public:
@@ -349,12 +293,12 @@ namespace accel_rects {
 
         bool    is_valid() const { return err_ == CL_SUCCESS; }
 
-        size_t  width() const {
-            return integral_.getImageInfo<CL_IMAGE_WIDTH>();
+        int  width() const {
+            return int(integral_.getImageInfo<CL_IMAGE_WIDTH>());
         }
 
-        size_t  height() const {
-            return integral_.getImageInfo<CL_IMAGE_HEIGHT>();
+        int  height() const {
+            return int(integral_.getImageInfo<CL_IMAGE_HEIGHT>());
         }
 
         const cl::Image2D& integral() const { return integral_; }
@@ -367,126 +311,102 @@ namespace accel_rects {
 
     };
 
-    bool IntegralView::is_valid() const
-    {
-        return data_ ? data_->is_valid() : false;
-    }
+    IntegralView::IntegralView(std::unique_ptr<IntegralData> data) : data_(std::move(data)) {}
 
-    size_t IntegralView::width() const {
-        return data_ ? data_->width() : 0;
+    IntegralView::IntegralView() = default;
+    
+    IntegralView::IntegralView(IntegralView&&) = default;
 
-    }
+    IntegralView& IntegralView::operator=(IntegralView&&) = default;
 
-    size_t IntegralView::height() const {
-        return data_ ? data_->height() : 0;
-    }
+    IntegralView::~IntegralView() = default;
+
+    bool IntegralView::is_valid() const { return data_ && data_->is_valid(); }
+    int IntegralView::width() const { return data_->width(); }
+    int IntegralView::height() const { return data_->height(); }
+      
 
     /// <summary>
-    /// TransformsData
+    /// TransformsData transforms data must exclusive for it.
     /// </summary>
     class TransformsData {
     public:
-        TransformsData(const cl::Context& context, transforms_t&& trans)
-            : transforms_(std::move(trans)) {
+        TransformsData(const cl::Context& context, const transforms_t& trans)
+        {
             trans_ = cl::Buffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
-                sizeof(cl_float4) * transforms_.size(), (void*)transforms_.data(), &err_);
+                sizeof(cl_float4) * trans.size(), (void*)trans.data(), &err_);
         }
 
         bool    is_valid() const { return err_ == CL_SUCCESS; }
-
-        const transforms_t& transforms() const { return transforms_; }
-
-        const cl::Buffer& trans_buffer() const { return trans_; }
+                
+        const cl::Buffer& buffer() const { return trans_; }
 
 
     private:
         cl_int                      err_ = CL_SUCCESS;
 
         cl::Buffer                  trans_;
-        transforms_t                transforms_;
     };
 
-    const transforms_t& TransformsView::transforms() const
-    {
-        return data_->transforms();
-    }
+    TransformsView::TransformsView() = default;
 
-    bool TransformsView::is_valid() const
-    {
-        return data_ && data_->is_valid();
-    }
+    TransformsView::TransformsView(std::unique_ptr<TransformsData> data) : data_(std::move(data)) {}
+
+    TransformsView::TransformsView(TransformsView&&) = default;
+
+    TransformsView& TransformsView::operator=(TransformsView&&) = default;
+
+    TransformsView::~TransformsView() = default;
 
 
+    bool TransformsView::is_valid() const { return data_ && data_->is_valid(); }
 
-    /// <summary>
-    /// FeaturesData
+      
+
+    /// <DetectorView>
+    /// DetectorView
     /// </summary>
-    class FeaturesData {
+    class DetectorData {
     public:
-        FeaturesData(const cl::Context& context, Features&& features) : features_(std::move(features)) {
-            rects_ = cl::Buffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
-                sizeof(cl_float4) * features_.rects().size(), (void*)features_.rects().data(), &err_);
-        }
-
-        bool    is_valid() const { return err_ == CL_SUCCESS; }
-
-        const Features& features() const { return features_; }
-
-        const cl::Buffer& rects() const { return rects_; }
-
-
-    private:
-        cl_int                      err_ = CL_SUCCESS;
-
-        cl::Buffer                  rects_;
-        Features                    features_;
-    };
-
-
-    const Features& FeaturesView::features() const {
-        return data_->features();
-    }
-
-    bool FeaturesView::is_valid() const {
-        return data_->is_valid();
-    }
-
-    /// <summary>
-    /// StagesData
-    /// </summary>
-    class StagesData {
-    public:
-        StagesData(const cl::Context& context, Stages&& stages)
-            : stages_(std::move(stages)) {
+        DetectorData(const cl::Context& context, const Detector& detector) : detector_(detector)  {
 
             positions_ = cl::Buffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
-                sizeof(cl_int) * stages_.positions().size(), (void*)stages_.positions().data(), &err_);
+                sizeof(cl_int) * detector_.positions().size(), (void*)detector_.positions().data(), &err_);
             CL_CHECK_RET(err_);
 
             weights_ = cl::Buffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
-                sizeof(cl_float) * stages_.weights().size(), (void*)stages_.weights().data(), &err_);
+                sizeof(cl_float) * detector_.weights().size(), (void*)detector_.weights().data(), &err_);
             CL_CHECK_RET(err_);
 
             thres_ = cl::Buffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
-                sizeof(cl_float) * stages_.thres().size(), (void*)stages_.thres().data(), &err_);
+                sizeof(cl_float) * detector_.thres().size(), (void*)detector_.thres().data(), &err_);
             CL_CHECK_RET(err_);
 
             resps_ = cl::Buffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
-                sizeof(cl_uchar) * sizeof(sc_resps_t::value_type) * stages_.resps().size(), (void*)stages_.resps().data(), &err_);
+                sizeof(cl_uchar) * sizeof(sc_resps_t::value_type) * detector_.resps().size(), (void*)detector_.resps().data(), &err_);
             CL_CHECK_RET(err_);
+
+            rects_ = cl::Buffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
+                sizeof(cl_float4) * detector_.rects().size(), (void*)detector_.rects().data(), &err_);
+
         }
 
         bool    is_valid() const { return err_ == CL_SUCCESS; }
 
-        const Stages& stages() const { return stages_; }
+           
 
         const cl::Buffer& positions() const { return positions_; }
         const cl::Buffer& thresholds() const { return thres_; }
         const cl::Buffer& weights() const { return weights_; }
         const cl::Buffer& responses() const { return resps_; }
 
+        const cl::Buffer& rects() const { return rects_; }
+
+        const Detector& detector() const { return detector_;  }
+                
 
     private:
+
         cl_int                      err_ = CL_SUCCESS;
 
         //Cascades of features;
@@ -498,58 +418,36 @@ namespace accel_rects {
         //Responces of weak features;
         cl::Buffer                  resps_;
 
-        Stages                      stages_;
+        // Features
+        cl::Buffer                  rects_;
+
+        Detector                    detector_;
+
     };
 
-    /// <summary>
-    /// DetectorData
-    /// </summary>
-    class DetectorData {
-    public:
-        DetectorData(const cl::Context& context, std::pair<Stages, Features>&& detector)
-            : stages_data_(context, std::move(detector.first))
-            , features_data_(context, std::move(detector.second)) {
-        }
+    DetectorView::DetectorView() = default;
 
-        bool    is_valid() const { return stages_data_.is_valid() && features_data_.is_valid(); }
+    DetectorView::DetectorView(std::unique_ptr<DetectorData> data)
+        : data_(std::move(data)) {}
 
-        const Stages& stages() const { return stages_data_.stages(); }
-        const Features& features() const { return features_data_.features(); }
+  
 
-        const FeaturesData& features_data() const { return features_data_; }
-        FeaturesData& features_data() { return features_data_; }
+    DetectorView::DetectorView(DetectorView&&) = default;
 
-        const StagesData& stages_data() const { return stages_data_; }
-        StagesData& stages_data() { return stages_data_; }
+    DetectorView& DetectorView::operator=(DetectorView&&) = default;
+
+    DetectorView::~DetectorView() = default;
+
+    bool DetectorView::is_valid() const { return data_ && data_->is_valid(); }
+
+    const Detector& DetectorView::detector() const { return data_->detector(); }
 
 
-    private:
-
-        FeaturesData                features_data_;
-        StagesData                  stages_data_;
-    };
-
-    const Stages& DetectorView::stages() const {
-        return data_->stages();
-    }
-
-    FeaturesView DetectorView::features_view() {
-        return std::shared_ptr<FeaturesData>(data_, &data_->features_data());
-
-    }
-
-    bool DetectorView::is_valid() const
-    {
-        return data_ ? data_->is_valid() : false;
-    }
-
-
-
-    class Core : public std::enable_shared_from_this<Core> {
+    class Core : public Engine, public std::enable_shared_from_this<Core> {
     public:
         Core() = default;
 
-        ~Core() = default;
+        ~Core() { Finish(); };
 
         void            Finish() {
             if (kernel_queue_.finish() != CL_SUCCESS && read_queue_.finish() != CL_SUCCESS && write_queue_.finish() != CL_SUCCESS) {
@@ -676,6 +574,41 @@ namespace accel_rects {
             return true;
         }
 
+    public:
+
+
+        WorkerView CreateWorker();
+
+        IntegralView CreateIntegral(const uint64_t* ptr, size_t width, size_t height, size_t stride) {
+            auto integral = std::make_unique<IntegralData>(context_, ptr, width, height, stride);
+
+            if (integral->is_valid())
+                return std::move(integral);
+
+            return nullptr;
+
+        }
+
+        DetectorView CreateDetector(const Detector& detector) {
+            auto data = std::make_unique<DetectorData>(context_, detector);
+            if (data->is_valid())
+                return std::move(data);
+
+            return nullptr;
+        }
+
+      
+        TransformsView CreateTransforms(const transforms_t& transforms)
+        {
+            auto trans = std::make_unique<TransformsData>(context_, transforms);
+            if (trans->is_valid())
+                return std::move(trans);
+
+            return nullptr;
+
+        }
+
+
 
 
     private:
@@ -690,14 +623,14 @@ namespace accel_rects {
     };
 
 
-    class TaskWorker : public Worker {
+    class Worker {
 
 
     public:
-        TaskWorker() {}
+        Worker() {}
 
 
-        virtual ~TaskWorker() {}
+        virtual ~Worker() {}
 
 
         bool    Initialize(const std::shared_ptr<Core>& core) {
@@ -707,17 +640,17 @@ namespace accel_rects {
 
 
     public:
-        bool        Run(IntegralView integral, DetectorView detector, TransformsView trans, int min_stages, int begin_index, int end_index, triggered_t& triggered, features_t& features) override {
+        bool        Run(const IntegralView& integral, const DetectorView& detector,  const TransformsView& trans, int min_stages, int begin_index, int end_index, triggered_t& triggered, features_t* features = nullptr) {
             cl_int err = 0;
 
 
-            int stages_count = detector.stages().count();
-            int measures_count = detector.data()->features_data().features().count();
+            int stages_count = detector.detector().stages_count();
+            int measures_count = detector.detector().features_count();
 
             int trans_size = end_index - begin_index;
 
             int measures_size = measures_count * trans_size;
-            size_t table_size = trans_size * (stages_count + 1) + 1;
+            size_t table_size = trans_size * (stages_count + 2) + 1;
 
             measures_.resize(measures_size, 0);
             dets_table_.resize(table_size, 0);
@@ -743,13 +676,13 @@ namespace accel_rects {
 
             CL_CHECK_BOOL(kernel_.setArg(0, integral.data()->integral()));
             CL_CHECK_BOOL(kernel_.setArg<int>(1, min_stages));
-            CL_CHECK_BOOL(kernel_.setArg(2, detector.data()->features_data().rects()));
-            CL_CHECK_BOOL(kernel_.setArg(3, trans.data()->trans_buffer()));
+            CL_CHECK_BOOL(kernel_.setArg(2, detector.data()->rects()));
+            CL_CHECK_BOOL(kernel_.setArg(3, trans.data()->buffer()));
             CL_CHECK_BOOL(kernel_.setArg<int>(4, stages_count));
-            CL_CHECK_BOOL(kernel_.setArg(5, detector.data()->stages_data().positions()));
-            CL_CHECK_BOOL(kernel_.setArg(6, detector.data()->stages_data().responses()));
-            CL_CHECK_BOOL(kernel_.setArg(7, detector.data()->stages_data().weights()));
-            CL_CHECK_BOOL(kernel_.setArg(8, detector.data()->stages_data().thresholds()));
+            CL_CHECK_BOOL(kernel_.setArg(5, detector.data()->positions()));
+            CL_CHECK_BOOL(kernel_.setArg(6, detector.data()->responses()));
+            CL_CHECK_BOOL(kernel_.setArg(7, detector.data()->weights()));
+            CL_CHECK_BOOL(kernel_.setArg(8, detector.data()->thresholds()));
             CL_CHECK_BOOL(kernel_.setArg(9, dets_table_mem_));
             CL_CHECK_BOOL(kernel_.setArg(10, measures_mem_));
 
@@ -788,7 +721,7 @@ namespace accel_rects {
              const uint16_t* measures_ptr = (const uint16_t*)core->read_queue().enqueueMapBuffer(measures_mem_, CL_TRUE, CL_MAP_READ, 0, sizeof(cl_ushort) * measures_pack_size);
              */
 
-            DecodeMeasures(detector.stages().positions(), &dets_table_[1], measures_.data(), trans_size, min_stages, triggered, features);
+            DecodeMeasures(detector.detector().positions(), &dets_table_[1], measures_.data(), trans_size, min_stages, triggered, features);
 
 
             /*
@@ -803,6 +736,13 @@ namespace accel_rects {
             return true;
         }
 
+#pragma pack(push, 1)
+        struct TStageInfo {
+            int         triggered;
+            float       score;
+        };
+#pragma pack(pop)
+
         private:
             void            DecodeMeasures(const positions_t& stages_positions,
                 const int* table,
@@ -810,34 +750,51 @@ namespace accel_rects {
                 int table_size,
                 int min_stages,
                 triggered_t& triggered,
-                features_t& features) {
+                features_t* features = nullptr) {
 
                 triggered.resize(table_size, -1);
-                features.resize(stages_positions.back() * table_size, 0);
-                float* measures_output = features.data();
-                size_t measures_size = features.size();
-                size_t stages_plus_1 = stages_positions.size();
+                int stages_plus_2 = int(stages_positions.size()) + 1;
 
+                
 
+                if (features) {
+                    features->resize(stages_positions.back() * table_size, 0);
+                    float* measures_output = features->data();
+                    size_t measures_size = features->size();
 
-                for (int t = 0; t < table_size; ++t, table += stages_plus_1) {
-                    // First number is number of stage triggered or -1;
-                    int triggered_stage = table[0];
-                    const int* stages_offset = table + 1;
-                    int num_stages = triggered_stage < 0 ? stages_plus_1 - 1 : std::max<int>(triggered_stage + 1, min_stages);
-                    triggered[t] = triggered_stage;
+                    for (int t = 0; t < table_size; ++t, table += stages_plus_2) {
+                        // First number is number of stage triggered or -1;
+                        
+                        const TStageInfo* info = (const TStageInfo*)table;
+                        float score = info->score;
+                        int triggered_stage = info->triggered;
+                        triggered[t] = triggered_stage;
 
+                        const int* stage_offset = (const int*)(info + 1);
+                        int num_stages = triggered_stage < 0 ? stages_positions.size() - 1 : std::max<int>(triggered_stage + 1, min_stages);
 
-                    for (int s = 0; s < num_stages; ++s) {
-                        int stage_size = stages_positions[s + 1] - stages_positions[s];
+                        for (int s = 0; s < num_stages; ++s, stage_offset ++) {
+                            int stage_size = stages_positions[s + 1] - stages_positions[s];
 
-                        const uint16_t* stage_measures = measures + stages_offset[s];
-                        for (int i = 0; i < stage_size; i++) {
-                            measures_output[i] = float(stage_measures[i] / MEASURE_COMPRESS_FACTOR);
+                            const uint16_t* stage_measures = measures + *stage_offset;
+                        
+                            for (int i = 0; i < stage_size; i++) {
+                                measures_output[i] = float(stage_measures[i] / MEASURE_COMPRESS_FACTOR);
+                            }
                         }
+                        measures_output += stages_positions.back();
+                        measures_size -= stages_positions.back();
                     }
-                    measures_output += stages_positions.back();
-                    measures_size -= stages_positions.back();
+                }
+                else {
+                    for (int t = 0; t < table_size; ++t, table += stages_plus_2) {
+
+                        const TStageInfo* info = (const TStageInfo*)table;
+                        float score = info->score;
+                        int triggered_stage = info->triggered;
+                        triggered[t] = triggered_stage;
+                    }
+
                 }
             }
 
@@ -855,249 +812,55 @@ namespace accel_rects {
         
         std::vector<cl::Event>          waiting_evts_;
     };
-    /*
 
-    class Task {
-    public:
-        using integral_ptr = std::shared_ptr<IntegralData>;
-        using detector_ptr = std::shared_ptr<DetectorData>;
-        using features_ptr = std::shared_ptr<FeaturesData>;
-        using data_ptr_var = std::variant<std::shared_ptr<DetectorData>, std::shared_ptr<FeaturesData>>;
+    WorkerView Core::CreateWorker() {
+        auto worker = std::make_unique<Worker>();
+        if (worker->Initialize(shared_from_this()))
+            return std::move(worker);
+        return nullptr;
+    }
+        
 
-    public:
-        Task() {   }
+    WorkerView::WorkerView() = default;
 
-        static bool ResizeBufferIfNeeded(const cl::Context& context, cl::Buffer& buffer, cl_mem_flags flags, size_t bytes) {
-            cl_int err = 0;
-            auto size = buffer.getInfo<CL_MEM_SIZE>(&err);
-            if (err != CL_SUCCESS || size < bytes) {
+    /// <summary>
+    /// Worker view
+    /// </summary>
+    /// <param name="data"></param>
+    WorkerView::WorkerView(std::unique_ptr<Worker> data) : data_(std::move(data)) {}
 
-                buffer = cl::Buffer(context, flags, bytes, 0, &err);
-                CL_CHECK_BOOL(err);
-                //if (err == CL_SUCCESS)
-                //    std::cout << "Resizing from " << size << " to " << bytes << std::endl;
-            }
-            return true;
+    WorkerView::WorkerView(WorkerView&&) = default;
 
+    WorkerView& WorkerView::operator=(WorkerView&&) = default;
+    
+    WorkerView::~WorkerView() = default;
+
+    bool WorkerView::Run(const IntegralView& integral, const DetectorView& detector, const TransformsView& trans, int min_stages, int begin_index, int end_index, triggered_t& triggered, features_t* features)
+    {
+        if (data_) {
+            return data_->Run(integral, detector, trans, min_stages, begin_index, end_index, triggered, features);
         }
-
-        // TODO: use one block of data for different calls and use atomics to split each call
-        bool      EnqueueDetect(const std::shared_ptr<Core>& core,
-            const IntegralData& integral,
-            const DetectorData& detector,
-            const TransformsData& transforms,
-            const Kernels& kernels,
-            int min_stages,
-            int begin_index,
-            int end_index,
-            triggered_t& triggered,
-            features_t& features) {
-            cl_int err = 0;
-
-          
-            int stages_count = detector.stages().count();
-            int measures_count = detector.features_data().features().count();
-            
-            int trans_size = end_index - begin_index;
-
-            int measures_size = measures_count * trans_size;
-            size_t table_size = trans_size * (stages_count + 1) + 1;
-                        
-            measures_.resize(measures_size, 0);
-            //feats_ptr_->resize(feats_count * trans_.size(), 0);
-                        
-            dets_table_.resize(table_size, 0);
-
-            //if (!ResizeBufferIfNeeded(core_->context(), trans_mem_, CL_MEM_READ_ONLY, sizeof(cl_float4) * trans_.size())) 
-            //    return false;
-
-            if (!ResizeBufferIfNeeded(core->context(), measures_mem_, CL_MEM_WRITE_ONLY, sizeof(cl_float) * measures_.size()))
-                return false;
-
-            if (!ResizeBufferIfNeeded(core->context(), dets_table_mem_, CL_MEM_WRITE_ONLY, sizeof(cl_int) * dets_table_.size()))
-                return false;
-
-            cl::Event proc_evt, dets_evt, read_feats_evt, read_dets_evt, evt_write;
-
-
-            //CL_CHECK_BOOL(core->queue().enqueueWriteBuffer(trans_mem_, CL_FALSE, 0, sizeof(cl_float4) * trans_.size(), trans_.data(), 0, &evt_write));
-
-            //core->queue().enqueueMapBuffer(dets_mem_, CL_FALSE, )
-
-            //waiting_evts_.push_back(evt_write);
-
-            //dets_ptr_->at(0) = 0;
-
-            // Reset index of packet features;
-            CL_CHECK_BOOL(core->write_queue().enqueueFillBuffer<int>(dets_table_mem_, 0, 0, sizeof(cl_int), 0, &evt_write));
-            waiting_evts_.push_back(evt_write);
-
-            cl::Kernel detect_kernel = kernels.detect_kernel();
-
-            //read_only const image2d_t integral, int min_stages, global const float4 * rects, global const float4 * transforms, 
-            // int stages_size, global const int* stages, global const uchar* resps, global const float* weights, global const float* thres, global int* dets, global float* features
-
-
-
-            CL_CHECK_BOOL(detect_kernel.setArg(0, integral.integral()));
-            CL_CHECK_BOOL(detect_kernel.setArg<int>(1, min_stages));
-            CL_CHECK_BOOL(detect_kernel.setArg(2, detector.features_data().rects()));
-            CL_CHECK_BOOL(detect_kernel.setArg(3, transforms.trans_buffer()));
-            CL_CHECK_BOOL(detect_kernel.setArg<int>(4, stages_count));
-            CL_CHECK_BOOL(detect_kernel.setArg(5, detector.stages_data().positions()));
-            CL_CHECK_BOOL(detect_kernel.setArg(6, detector.stages_data().responses()));
-            CL_CHECK_BOOL(detect_kernel.setArg(7, detector.stages_data().weights()));
-            CL_CHECK_BOOL(detect_kernel.setArg(8, detector.stages_data().thresholds()));
-            CL_CHECK_BOOL(detect_kernel.setArg(9, dets_table_mem_));
-            CL_CHECK_BOOL(detect_kernel.setArg(10, measures_mem_));
-
-            
-            CL_CHECK_BOOL(core->kernel_queue().enqueueNDRangeKernel(detect_kernel, cl::NDRange(begin_index), cl::NDRange(end_index - begin_index), cl::NullRange, &waiting_evts_, &proc_evt));
-            //CL_CHECK_BOOL(kernels.queue().enqueueNDRangeKernel(detect_kernel, cl::NDRange(begin_index), cl::NDRange(end_index - begin_index), cl::NullRange, &waiting_evts_, &proc_evt));
-
-            waiting_evts_.clear();
-            waiting_evts_.push_back(proc_evt);
-            
-
-            //CL_CHECK_BOOL(core->queue().enqueueReadBuffer(feats_mem_, CL_FALSE, 0, sizeof(cl_float) * feats_ptr_->size(), feats_ptr_->data(), &waiting_evts_, &read_feats_evt));
-            //CL_CHECK_BOOL(core->queue().enqueueReadBuffer(feats_mem_, CL_FALSE, 0, sizeof(cl_half) * feats_ptr_->size() / 10, feats_ptr_->data(), &waiting_evts_, &read_feats_evt));
-            //CL_CHECK_BOOL(core->queue().enqueueReadBuffer(dets_mem_, CL_FALSE, 0, sizeof(cl_int) * dets_ptr_->size(), dets_ptr_->data(), &waiting_evts_, &read_dets_evt));
-            //CL_CHECK_BOOL(core->queue().enqueueReadBuffer(dets_mem_, CL_FALSE, 0, sizeof(cl_int) * dets_ptr_->size(), dets_ptr_->data(), &waiting_evts_, &read_dets_evt));
-
-            // TODO: make big buffer and add all data here;
-
-            
-            CL_CHECK_BOOL(core->read_queue().enqueueReadBuffer(dets_table_mem_, CL_TRUE, 0, sizeof(cl_int) * dets_table_.size(), dets_table_.data(), &waiting_evts_));
-
-            int measures_pack_size = dets_table_.at(0);
-            
-
-            CL_CHECK_BOOL(core->read_queue().enqueueReadBuffer(measures_mem_, CL_TRUE, 0, sizeof(cl_ushort) * measures_pack_size, measures_.data()));
-           // const int* table = &dets_table_[1];
-            //const uint16_t* measures_ptr = measures_.data();
-            
-
-            /*
-            const int* dets_table_ptr = (const int*)core->read_queue().enqueueMapBuffer(dets_table_mem_, CL_TRUE, CL_MAP_READ, 0, sizeof(cl_int) * table_size, &waiting_evts_);
-
-            int measures_pack_size = dets_table_ptr[0];
-            const int* table = &dets_table_ptr[1];
-
-            const uint16_t* measures_ptr = (const uint16_t*)core->read_queue().enqueueMapBuffer(measures_mem_, CL_TRUE, CL_MAP_READ, 0, sizeof(cl_ushort) * measures_pack_size);
-            */
-            
-            //DecodeMeasures(detector.stages().positions(), & dets_table_[1], measures_.data(), trans_size, min_stages, triggered, features);
-                                 
-            
-            //core->ReleaseTask(this);
-
-            
-            /*
-
-            CL_CHECK_BOOL(core->read_queue().enqueueUnmapMemObject(measures_mem_, (void*)measures_ptr));
-
-            // Cancel mapping of detection table
-            CL_CHECK_BOOL(core->read_queue().enqueueUnmapMemObject(dets_table_mem_, (void*)dets_table_ptr));
-            */
-
-/*
-            return true;
-        }
-
-
-    private:
-        void            DecodeMeasures( const positions_t& stages_positions, 
-                                        const int* table, 
-                                        const uint16_t* measures, 
-                                        int table_size, 
-                                        int min_stages, 
-                                        triggered_t& triggered, 
-                                        features_t& features) {
-
-            triggered.resize(table_size, -1);
-            features.resize(stages_positions.back() * table_size, 0);
-            float* measures_output = features.data();
-            size_t measures_size = features.size();
-            size_t stages_plus_1 = stages_positions.size();
-
-           
-
-            for (int t = 0; t < table_size; ++t, table += stages_plus_1) {
-                // First number is number of stage triggered or -1;
-                int triggered_stage = table[0];
-                const int* stages_offset = table + 1;
-                int num_stages = triggered_stage < 0 ? stages_plus_1 - 1 : std::max<int>(triggered_stage + 1, min_stages);
-                triggered[t] = triggered_stage;
-
-                
-                for (int s = 0; s < num_stages; ++s) {
-                    int stage_size = stages_positions[s + 1] - stages_positions[s];
-                   
-                    const uint16_t* stage_measures = measures + stages_offset[s];
-                    for (int i = 0; i < stage_size; i++) {
-                        measures_output[i] = float(stage_measures[i] / MEASURE_COMPRESS_FACTOR);
-                    }
-                }
-                measures_output += stages_positions.back();
-                measures_size -= stages_positions.back();
-            }
-        }
-
-
-    private:
-          
-        measures_t                      measures_;
-        detections_t                    dets_table_;
-
-       
-        cl::Buffer                      measures_mem_;
-        cl::Buffer                      dets_table_mem_;
-
-        cl::Event                       evt_complete_;
-              
-        std::vector<cl::Event>          waiting_evts_;
-
-
-    };*/
-
-    Engine::~Engine() {
-        core_->Finish();
-
-       // std::cout << "Overall tasks count " << core_->tasks_count() << std::endl;
+        return false;
     }
 
-    Engine Engine::Create()
+
+    std::shared_ptr<Engine> CreateEngine()
     {
         auto core = std::make_shared<Core>();
         if (core->Initialize())
-            return Engine(core);
-        return Engine(nullptr);
-    }
-
-    std::unique_ptr<Worker> Engine::CreateWorker() { 
-        auto worker = std::make_unique<TaskWorker>();
-        if (worker->Initialize(core_))
-            return worker;
+            return core;
         return {};
     }
 
-    IntegralView Engine::CreateIntegral(const uint64_t* ptr, size_t width, size_t height, size_t stride) {
-        return std::make_shared<IntegralData>(core_->context(), ptr, width, height, stride);
-    }
-
-    DetectorView Engine::CreateDetector(detector_t&& detector) {
-        return std::make_shared<DetectorData>(core_->context(), std::forward<detector_t>(detector));
-    }
-
-    FeaturesView Engine::CreateFeatures(Features&& features) {
-        return std::make_shared<FeaturesData>(core_->context(), std::forward<Features>(features));
-    }
-
-    TransformsView Engine::CreateTransforms(transforms_t&& transforms)
+    std::shared_ptr<Engine> GetDefault()
     {
-        return std::make_shared<TransformsData>(core_->context(), std::forward<transforms_t>(transforms));
-    }
+        static std::shared_ptr<Engine> core = CreateEngine();
 
+        if (!core)
+            throw std::runtime_error("Cant create GPU engine");
+
+        return core;
+    }
 
 }
    

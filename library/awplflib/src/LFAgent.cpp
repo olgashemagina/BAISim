@@ -39,14 +39,8 @@ TLFAgent::TLFAgent()
 
  std::vector<TLFDetectedItem> TLFAgent::Detect(std::shared_ptr<TLFImage> img) {
 
-	auto scanner = detector_->GetScanner();
-	
-	if (!scanner)
-		return {};
-
 	agent::TDetections	gt_detections;
 
-	scanner->ScanImage(img.get());
 // We can process objects without supervisor also
 	if (supervisor_ && trainer_) {
 		// Process image and get ground truth bounds
@@ -56,31 +50,27 @@ TLFAgent::TLFAgent()
 			correctors_.AddCorrectors(std::move(correctors));
 	}
 
-	auto fragments_count = scanner->GetFragmentsCount();
-
-	if (fragments_count == 0)
-		return {};
-
-
-	size_t batches_count = size_t(std::ceil(fragments_count / batch_size_));
-			
+	
 	int threads = 1;
 
 #ifdef _OMP_
 	threads = std::max<int>(omp_get_max_threads(), max_threads_);
 #endif 
 
-	// Acquire workers for processing;
-	if (workers_.size() < threads) {
-		workers_.resize(threads);
-		for (auto& worker : workers_) {
-			worker = std::move(detector_->CreateWorker());
-		}
-	}
-
-	prior_detections_.clear();
 	
+	prior_detections_.clear();
 
+	// Setup image for detector;
+	const auto& fragments = detector_->Setup(img);
+
+	auto fragments_count = fragments.count();
+
+	if (fragments_count == 0)
+		return {};
+
+	// Split on batches;
+	size_t batches_count = size_t(std::ceil(fragments_count / batch_size_));
+	
 #ifdef _OMP_
 #pragma omp parallel for num_threads(threads)
 #endif
@@ -103,7 +93,9 @@ TLFAgent::TLFAgent()
 		features->SetBounds(batch_begin, batch_end);
 
 		// Process batch by detector
-		workers_[current_thread]->Detect(img, *features.get());
+		if (!detector_->Detect(*features.get())) {
+			throw std::runtime_error("Error while running detect.");
+		}
 
 		// Apply corrections and calc corrections vector
 		correctors_.Apply(*features.get(), features->GetMutableCorrections());
@@ -111,7 +103,7 @@ TLFAgent::TLFAgent()
 		// No new correctors without supervisor
 		if (supervisor_ && trainer_) {
 			// Process features and check if we can train new corrector(s)
-			trainer_->CollectSamples(scanner, *features.get(), gt_detections);
+			trainer_->CollectSamples(fragments, *features.get(), gt_detections);
 			
 		}
 		
@@ -122,20 +114,22 @@ TLFAgent::TLFAgent()
 #pragma omp critical 
 #endif
 				{
-					prior_detections_.emplace_back(	scanner->GetFragmentRect(n), 
+					prior_detections_.emplace_back(	fragments.get(n), 
 													features->GetScore(n));
 				}
 			}
 		}
 	}
 
+	detector_->Release();
+
 	if (supervisor_ && trainer_) {
 		trainer_->Train();
 	}
 
 	TItemAttributes attr = {	detector_->GetType(), 
-								scanner->GetBaseWidth(), 
-								scanner->GetBaseHeight(), 0, 0, 
+								0, 
+								0, 0, 0, 
 								detector_->GetName() };
 
 	return NonMaximumSuppression(prior_detections_, nms_threshold_, attr);
@@ -256,7 +250,7 @@ static std::vector<TLFDetectedItem> NonMaximumSuppression(
 	for (int i = 0; i < rects.size(); ++i) {
 		const auto& [base_rect, base_score] = rects[i];
 
-		if (base_score == 0)
+		if (base_score < 0)
 			continue;
 
 		// Averaging position
@@ -269,7 +263,7 @@ static std::vector<TLFDetectedItem> NonMaximumSuppression(
 		for (size_t j = i + 1; j < rects.size(); ++j) {
 			auto& [rect, score] = rects[j];
 
-			if (score > 0 && rect.RectOverlap(base_rect) > overlap_threshold) {
+			if (score >= 0 && rect.RectOverlap(base_rect) > overlap_threshold) {
 				x += rect.Center().X;
 				y += rect.Center().Y;
 				w += rect.Width();
@@ -279,7 +273,7 @@ static std::vector<TLFDetectedItem> NonMaximumSuppression(
 
 
 				// Skip from using in futher tests
-				score = 0;
+				score = -1.f;
 			}
 
 		}
@@ -307,7 +301,7 @@ static std::vector<TLFDetectedItem> NonMaximumSuppression(
 	return items;
 }
 
-std::unique_ptr<TLFAgent>       LoadAgentFromEngine(const std::string& engine_path) {
+std::unique_ptr<TLFAgent>       LoadAgentFromEngine(const std::string& engine_path, bool use_gpu) {
 
 	auto engine = std::make_unique<TLFDetectEngine>();
 	if (!engine->Load(engine_path.c_str())) {
@@ -316,24 +310,64 @@ std::unique_ptr<TLFAgent>       LoadAgentFromEngine(const std::string& engine_pa
 		return nullptr;
 	}
 
-	std::unique_ptr<ILFObjectDetector>  internal_detector(engine->GetDetector(0));
+	std::unique_ptr<TSCObjectDetector>  internal_detector((TSCObjectDetector*)engine->GetDetector(0));
 
 	// Detach detector from list.
 	engine->RemoveDetector(0);
 
-	auto detector = std::make_unique<agent::TStagesDetector>();
-
-	if (!detector->Initialize(std::move(internal_detector))) {
-		std::cerr << "Cant initialize detector from file" <<
-			engine_path << std::endl;
-	}
-
-	auto trainer = agent::CreateBaselineTrainer("C:\\Users\\olgas\\Desktop\\python_mipt\\bsiiroko\\create_class_corr1.py", "C:\\Users\\olgas\\Desktop\\python_mipt\\bsiiroko\\");
+	auto trainer = agent::CreateBaselineTrainer("create_class_corr1.py", "");
 
 	std::unique_ptr<TLFAgent>  agent = std::make_unique<TLFAgent>();
-	agent->Initialize(std::move(detector), std::move(trainer));
+
+	if (use_gpu) {
+		auto detector = agent::CreateGpuDetector(std::move(internal_detector), 3);
+				
+		agent->Initialize(std::move(detector), std::move(trainer));
+	}
+	else {
+		auto detector = std::make_unique<agent::TStagesDetector>();
+
+		if (!detector->Initialize(std::move(internal_detector))) {
+			std::cerr << "Cant initialize detector from file" <<
+				engine_path << std::endl;
+		}
+		agent->Initialize(std::move(detector), std::move(trainer));
+	}
 
 	return agent;
 
+}
+
+
+
+// Compare ground truths (gt) and detections (dets)
+// Returns FP and FN pair
+std::pair<int, int>		CalcStat(const agent::TDetections& gt, const std::vector<TLFDetectedItem>& dets, float overlap) {
+	//Calc overlap matrix 
+	int FP = dets.size();
+	int FN = gt.size();
+
+	unsigned char gt_mask[128] = { 0 };
+
+	for (size_t d = 0; d < dets.size(); ++d) {
+		unsigned char det_found = 0;
+		
+		for (size_t r = 0; r < gt.size(); ++r) {
+			if (dets[d].GetBounds().RectOverlap(gt[r]) > overlap) {
+				det_found = 1;
+				gt_mask[r] = 1;
+			}
+		}
+
+		if (det_found)
+			FP--;
+	}
+
+	for (size_t r = 0; r < gt.size(); ++r) {
+		if (gt_mask[r])
+			FN--;
+	}
+
+	return { FP, FN };
 }
 

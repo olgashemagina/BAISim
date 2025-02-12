@@ -63,71 +63,6 @@ std::unique_ptr<TLFImage> load_image(const TLFString& path)
     return img;
 }
 
-std::optional<accel_rects::detector_t>   convert_detector(ILFObjectDetector* detector) {
-    accel_rects::DetectorBuilder builder;
-
-    TLFObjectList* strongs = detector->GetStrongs();
-    if (strongs == NULL)
-        return std::nullopt;
-
-    builder.Begin();
-
-    for (size_t s = 0; s < strongs->GetCount(); ++s) {
-        ILFStrong* classifier = (ILFStrong*)strongs->Get(s);
-        if (classifier == NULL)
-            return std::nullopt;
-
-        builder.BeginStage();
-
-        auto threshold = classifier->GetThreshold();
-
-        for (size_t w = 0; w < classifier->GetCount(); ++w) {
-
-            
-            TCSWeak* weak = (TCSWeak*)classifier->GetWeak(w);
-            auto weight = weak->Weight();
-
-            auto feature = (TCSSensor*)weak->Fetaure();
-            auto rect = feature->GetRect();
-
-            accel_rects::ScTable table;
-
-            for (int i = 0; i < 512; ++i) {
-                table.SetBit(i, weak->Classificator(i));
-            }
-            
-            builder.AddSCWeak(weight, table, rect.Left(), rect.Top(), rect.Width(), rect.Height());
-        }
-
-        builder.EndStage(threshold);
-
-    }
-    builder.End();
-
-    return builder.Consume();
-}
-
-accel_rects::transforms_t   convert_transforms(ILFScanner* scanner, int width, int height) {
-
-    //TODO: use omp;
-    accel_rects::transforms_t transforms;
-    
-    awpRect rect = { 0, 0, (short)width, (short)height };
-    scanner->ScanRect(rect);
-
-    for (int i = 0; i < scanner->GetFragmentsCount(); i++) {
-
-        awpRect rect = scanner->GetFragmentRect(i);
-                
-        float scale_x = (rect.right - rect.left) / float(scanner->GetBaseWidth());
-        float scale_y = (rect.bottom - rect.top) / float(scanner->GetBaseHeight());
-        float scale = std::min<float>(scale_x, scale_y);
-
-        transforms.push_back({ scale, scale, float(rect.left), float(rect.top) });
-    }
-    return transforms;
-}
-
 
 int apply_detector(TLFDetectEngine* engine,
     TLFImage* image)
@@ -172,146 +107,6 @@ int apply_detector(TLFDetectEngine* engine,
    
     return 0;
 }
-
-/*
-
-int test_detector(const std::string& detector_path, const std::string& image_path) {
-    auto det = load_detector(detector_path);
-    auto img = load_image(image_path);
-    auto acc_det = convert_detector(det->GetDetector(0));
-
-    //apply_detector(det.get(), img.get());
-    
-    auto integral_image = img->GetIntegralImage();
-
-    std::vector<uint64_t> integral(integral_image->sSizeX * integral_image->sSizeY, 0);
-
-    for (size_t p = 0; p < integral.size(); ++p) {
-        integral[p] = ((double*)integral_image->pPixels)[p];
-    }
-
-    auto engine = accel_rects::Engine::Create(16);
-    
-    auto integral_view = engine.CreateIntegral(integral.data(), integral_image->sSizeX, integral_image->sSizeY, integral_image->sSizeX * sizeof(uint64_t));
-
-    if (!integral_view.is_valid()) {
-        return -1;
-    }
-
-    
-   // transforms.resize(1);
-    auto det_view = engine.CreateDetector(std::move(*acc_det));
-
-    auto worker = engine.CreateWorker();
-   
-
-    int num_transforms_per_task = 4096; //1024;
-    int num_threads_proc = 0;
-#ifdef _OMP_
-    num_threads_proc = std::min<int>(4, omp_get_max_threads());
-#endif 
-    auto scanner = det->GetDetector(0)->GetScanner();
-
-    //Transforms per thread
-    std::vector<accel_rects::transforms_t>  multi_transforms(num_threads_proc);
-    std::vector<std::vector<awpRect>>       multi_fragments(num_threads_proc);
-    std::vector<accel_rects::Worker>        workers;
-
-    for (int i = 0; i < num_threads_proc; ++i) {
-        multi_transforms[i].reserve(num_transforms_per_task);
-        multi_fragments[i].reserve(num_transforms_per_task);
-        workers.push_back(engine.CreateWorker());
-    }
-        
-    awpRect rect = { 0, 0, (short)integral_image->sSizeX, (short)integral_image->sSizeY };
-    scanner->ScanRect(rect);
-       
-    auto processing = [](const accel_rects::dims_t& dims, const accel_rects::detections_t& dets, const accel_rects::features_t& feats, const std::vector<awpRect>& frags) {
-        //dims: transforms, stages, features
-        // std::cout << "Callback " << dims[0] << " : " << dims[1] << " : " << dims[2] << ". " << std::this_thread::get_id() << std::endl;
-
-        for (size_t t = 0; t < dims[0]; ++t) {
-                   std::cout << "Features " << dims[2] << "." << std::endl;
-                   for (size_t f = 0; f < dims[2]; ++f) {
-                       std::cout << feats[t * dims[2] + f] << "\t";
-                   }
-
-                   std::cout << std::endl << "Detections " << dims[1] << "." << std::endl;
-                   bool detected = true;
-                   for (size_t s = 0; s < dims[1]; ++s) {
-                       //std::cout << int(dets[t * dims[1] + s]) << " ";
-                       if (dets[t * dims[1] + s] == 0) {
-                           detected = false;
-                           break;
-                       }
-                       //std::cout << int(dets[t * dims[1] + s]) << "\t";
-                   }
-
-                   if (detected) {
-                       auto rect = frags[t];
-                       std::cout << "Detected! Bounds: " << rect.left << " " << rect.top << " " << rect.right << " " << rect.bottom << std::endl;
-                   }
-                   // std::cout << std::endl;
-        }
-    };
-
-        
-
-#ifdef _OMP_
-#pragma omp parallel for num_threads(num_threads_proc)
-#endif 
-    for (int i = 0; i < scanner->GetFragmentsCount(); i++) {
-
-        int current_thread = 0;
-
-#ifdef _OMP_
-        current_thread = omp_get_thread_num();
-#endif 
-        //std::cout << "Thread: " << current_thread << std::endl;
-
-
-        auto& trans = multi_transforms[current_thread];
-        auto& frags = multi_fragments[current_thread];
-
-        awpRect rect = scanner->GetFragmentRect(i);
-
-        float scale_x = (rect.right - rect.left) / float(scanner->GetBaseWidth());
-        float scale_y = (rect.bottom - rect.top) / float(scanner->GetBaseHeight());
-        float scale = std::min<float>(scale_x, scale_y);
-
-
-        trans.push_back({scale, scale, float(rect.left), float(rect.top)});
-        frags.push_back(rect);
-
-
-        if (trans.size() >= num_transforms_per_task) {
-                        
-            auto res = workers[current_thread].Enqueue(integral_view, det_view, trans,
-                std::bind(processing, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::move(frags)));
-
-            frags.reserve(num_threads_proc);
-
-            trans.resize(0);
-            frags.resize(0);
-
-        }
-
-        
-    }
-
-    for (int i = 0; i < num_threads_proc; ++i) {
-        
-        auto res = workers[i].Enqueue(integral_view, det_view, multi_transforms[i],
-            std::bind(processing, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::move(multi_fragments[i])));
-
-    }
-    
-    return 0;
-
-}
-
-*/
-
 
 std::vector<uint8_t>            generate_image(int width, int height) {
     // First create an instance of an engine.
@@ -455,14 +250,25 @@ int test1() {
 int test_gpu_engine(const std::string& detector_path, const std::string& image_path) {
     auto det = load_detector(detector_path);
     auto img = load_image(image_path);
+
+    std::unique_ptr<TSCObjectDetector>  internal_detector((TSCObjectDetector* /*HACK*/)det->GetDetector(0));
+
+    // Detach detector from list.
+    det->RemoveDetector(0);
     
     //TGpuEngine engine(2, 8, 16192);
-    TGpuEngine engine(8, 16192);
+    TGpuEngine engine(4, 2, 16192, 3);
     //TGpuEngine engine(4, 32, 64);
 
-    auto detector = engine.CreateDetector((TSCObjectDetector* /*HACK*/)det->GetDetector(0));
+    if (!engine.Initialize(std::move(internal_detector))) {
+        std::cout << "Cant initialize GPU detector!" << std::endl;
+    }
 
-    auto integral = engine.CreateIntegral(img.get());
+    TGpuIntegral integral;
+
+    if (!integral.Update(img.get())) {
+        std::cout << "Cant initialize GPU image!" << std::endl;
+    }
 
     auto begin = std::chrono::high_resolution_clock::now();
 
@@ -470,7 +276,7 @@ int test_gpu_engine(const std::string& detector_path, const std::string& image_p
 
     for (int i = 0; i < count; ++i) {
 
-        auto result = engine.Run(detector, integral, { 0, 0, (AWPSHORT)integral.width(), (AWPSHORT)integral.height() });
+        auto result = engine.Detect(integral);
 
         std::cout << "Detected " << result.size() << " items." << std::endl;
     }

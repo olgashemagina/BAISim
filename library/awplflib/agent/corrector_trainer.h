@@ -36,7 +36,7 @@ namespace agent {
 		}
 
 		// Process new samples for each batch in separate thread.
-		virtual void CollectSamples(ILFScanner* scanner, const TFeatures& feats, const TDetections& detections) override {
+		virtual void CollectSamples(const TFragments& fragments, const TFeatures& feats, const TDetections& detections) override {
 
 			ResizeIfNeeded(feats.layout());
 
@@ -44,7 +44,7 @@ namespace agent {
 				// Find frag indices that overlap proper detections
 				float overlap = 0;
 				for (const auto& det : detections) {
-					overlap = std::max<float>(overlap, float(det.RectOverlap(scanner->GetFragmentRect(frag))));
+					overlap = std::max<float>(overlap, float(det.RectOverlap(fragments.get(frag))));
 				}
 				GatherFeatures(feats, frag, overlap);
 			}

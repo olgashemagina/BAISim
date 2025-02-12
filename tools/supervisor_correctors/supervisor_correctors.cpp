@@ -27,13 +27,14 @@ void usage()
 {
     std::cout << "Supervisor correctiors v1.0" << std::endl <<
         "Usage:" << std::endl << "<supervisor_correctors.exe>  train|test " <<
-        "--det=<path_to_detector> or --agent=<path_to_agent> " <<
+        "--det=<path_to_detector>, --det_gpu=<path_to_detector> or --agent=<path_to_agent> " <<
         "--save_path=<path_to_save_agent> " <<
         "--db_folder=<path_to_img_directory> " << std::endl;
     std::cout << "\t--det\t\tPath to XML with detector (TLFDetectEngine)" << std::endl;
     std::cout << "\t--agent\t\tPath to XML with agent" << std::endl <<
         "\t--db_folder\t\tPath to directory with images" << std::endl;
     std::cout << "\t--save_path\t\tSave agent to XML path" << std::endl;
+    std::cout << "\t--overlap\t\tOverlap for precision/recall {0, 1}, default = 0.5" << std::endl;
     
 }
 
@@ -48,6 +49,8 @@ int main(int argc, char* argv[]) {
     TLFString agent_path;
     TLFString save_path;
     TLFString db_folder_path;
+    bool use_gpu = false;
+    float overlap = 0.5;
 
     for (int i = 2; i < argc; i++) {
         TLFString key(argv[i]);
@@ -67,6 +70,19 @@ int main(int argc, char* argv[]) {
                 return -4;
             }
             det_path = key.substr(6);
+        } else if (key.substr(0, 9) == "--det_gpu") {
+            if (key.length() < 11 || key[9] != '=') {
+                std::cerr << "Parsing error: use \"det_gpu=<path>\", no extra spaces" << std::endl;
+                usage();
+                return -3;
+            }
+            if (!det_path.empty()) {
+                std::cerr << "Engine file was already specified in parameters" << std::endl;
+                usage();
+                return -4;
+            }
+            det_path = key.substr(10);
+            use_gpu = true;
         }
         else if (key.substr(0, 11) == "--db_folder") {
             if (key.length() < 13 || key[11] != '=') {
@@ -110,6 +126,16 @@ int main(int argc, char* argv[]) {
             save_path = key.substr(12);
             std::cout << "Using database folder: " << save_path << std::endl;
         }
+        else if (key.substr(0, 9) == "--overlap") {
+            if (key.length() < 11 || key[9] != '=') {
+                std::cerr << "Parsing error: use \"overlap=0.5\", no extra spaces" << std::endl;
+                usage();
+                return -4;
+            }
+            
+            overlap = std::stof(key.substr(10));
+            std::cout << "Using overlap for statistics: " << overlap << std::endl;
+        }
         else {
             std::cerr << "Unknown key: " << key << std::endl;
             usage();
@@ -129,7 +155,7 @@ int main(int argc, char* argv[]) {
         assert(agent);
     }
     else if (!det_path.empty()) {
-        agent = LoadAgentFromEngine(det_path);
+        agent = LoadAgentFromEngine(det_path, use_gpu);
     }
     else {
         usage();
@@ -151,8 +177,7 @@ int main(int argc, char* argv[]) {
         return -10;
     }
 
-    float overlap = 0.4f;
-
+    
     // False Posititive, False Negative, True Positive
     int FP = 0, FN = 0, TP = 0;
 

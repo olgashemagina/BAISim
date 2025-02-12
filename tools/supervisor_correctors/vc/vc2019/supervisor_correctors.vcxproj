@@ -85,6 +85,7 @@
     <OutDir>$(SolutionDir)..\build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IncludePath>..\..\..\..\3rdparty\boost\include\boost-1_87;..\..\..\..\library\awpipl2\include\;..\..\..\..\3rdparty\TinyXML\src\;..\..\..\..\library\awplflib;..\..\..\..\library\awplflib\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>$(LOCALAPPDATA)\Programs\Python\Python311\libs;..\..\..\..\3rdparty\boost\lib;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>..\..\..\..\3rdparty\boost\lib;$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -143,6 +144,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y ..\..\..\..\library\awplflib\scripts\*.py $(ProjectDir)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

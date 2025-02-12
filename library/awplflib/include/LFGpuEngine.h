@@ -12,85 +12,113 @@
 
 class TGpuDetector {
 public:
-    TGpuDetector(ILFObjectDetector* source, accel_rects::DetectorView view) 
-    : detector_(source)
-    , view_(std::move(view)) {}
+    TGpuDetector() {}
 
-    TGpuDetector() : detector_(nullptr), view_(nullptr) {}
+    TGpuDetector(TGpuDetector&&) = default;
+    
 
-	ILFObjectDetector* detector() const { return detector_; }
+    bool Build(TSCObjectDetector* detector);
 
-	auto view() const { return view_; }
+    const auto& view() const { return view_; }
+    size_t features_count() const { return view_.detector().rects().size(); }
 
-    bool is_valid() const { return view_.is_valid(); }
 
 private:
-	//TODO: memory handler
-	ILFObjectDetector*				detector_;
-	accel_rects::DetectorView	    view_;
-	
+    accel_rects::DetectorView		                view_;
 };
 
 class TGpuIntegral {
 public:
-    TGpuIntegral(TLFImage* source, accel_rects::IntegralView view, std::vector<uint64_t>&& integral)
-        : image_(source)
-        , view_(std::move(view))
-        , integral_(std::move(integral)){}
+    TGpuIntegral() = default;
 
-    TGpuIntegral() : image_(nullptr), view_(nullptr) {}
+    TGpuIntegral(TGpuIntegral&&) = default;
 
-	TLFImage*		image() const { return image_; }
-	auto view() const { return view_; }
 
-    int     width() const { return view_.width(); }
-    int     height() const { return view_.height(); }
+    bool    Update(TLFImage* image);
 
-    bool is_valid() const { return view_.is_valid(); }
+	
+	const auto& view() const { return view_; }
+
+    int width() const { return width_; }
+    int height() const { return height_; }
+        
 
 private:
-
-	TLFImage*						image_;
-	accel_rects::IntegralView		view_;
-
-    //TODO: remove this
+    int                             width_ = 0;
+    int                             height_ = 0;
+            
     std::vector<uint64_t>           integral_;
+        
+    accel_rects::IntegralView		view_;
 };
 
-class TGpuEngine {
+
+class TGpuTransforms {
 public:
-	using TCallback = std::function<void(const awpRect& fragment, int triggered, int stages, const float* features)>;
-public:
+    TGpuTransforms() = default;
 
-    TGpuEngine(int num_threads = 4, int num_transforms = 2048, int min_stages = 3);
+    void    AddFragments(const std::vector<TLFRect>& rects, int base_width, int base_height);
+    void    AddFragments(ILFScanner* scanner);
 
-    TGpuDetector						CreateDetector(TSCObjectDetector* detector /*TODO: move ownership*/);
-    TGpuIntegral						CreateIntegral(TLFImage* image /*TODO: move ownership*/);
+    void    Clear() {
+        transforms_.clear();
+    }
 
+    bool    Update() {
+        view_ = accel_rects::GetDefault()->CreateTransforms(transforms_);
+        return view_.is_valid();
+    }
 
-	std::vector<TLFDetectedItem>		Run(TGpuDetector detector, TGpuIntegral image, awpRect in_rect, TCallback cb = nullptr);
+    const auto& view() const { return view_; }
 
-public:
-
+    int     size() const { return int(transforms_.size()); }
 
 private:
-    int                             num_transforms_ = 2048;
-    int                             num_threads_ = 8;
+    accel_rects::transforms_t                           transforms_;
+    accel_rects::TransformsView		                    view_;
+};
+
+
+class TGpuEngine{
+    friend class TGpuTransforms;
+    friend class TGpuDetector;
+    friend class TGpuIntegral;
+
+public:
+
+    TGpuEngine(int num_threads = 4, int num_workers = 4, int num_transforms = 16192, int min_stages = 3);
+
+    bool    Initialize(std::unique_ptr<TSCObjectDetector> detector);
+                    
+
+	std::vector<TLFDetectedItem>		Detect(const TGpuIntegral& image);
+    std::vector<TLFDetectedItem>		Detect(TLFImage* image) {
+        TGpuIntegral integral;
+
+        if (!integral.Update(image))
+            return {};
+
+        return Detect(integral);
+
+    }
+
+private:
+    std::unique_ptr<TSCObjectDetector>      object_detector_;
+    TGpuTransforms                          transforms_;
+    TGpuDetector                            detector_;
+
+    std::unique_ptr<pool::ObjectPool<accel_rects::WorkerView>>             pool_;
+
+    int                             num_threads_ = 4;
+    int                             num_transforms_ = 16192;
 
     int                             min_stages_ = 3;
 
-	accel_rects::Engine				engine_;
-
-    std::vector<std::unique_ptr<accel_rects::Worker>>        workers_;
 
     std::vector<std::pair<accel_rects::triggered_t, accel_rects::features_t>>        result_;
-
-
-
-    accel_rects::TransformsView                 transforms_;
-
-    //std::unique_ptr<pool::ObjectPool<accel_rects::Worker>>             pool_;
-
-private:
-    awpRect                         rect_;
+    
+    int                             trans_width_ = 0;
+    int                             trans_height_ = 0;
 };
+
+

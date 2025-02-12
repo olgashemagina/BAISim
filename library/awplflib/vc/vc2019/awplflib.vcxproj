@@ -221,6 +221,10 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>.\..\lib/awplflib.bsc</OutputFile>
     </Bscmake>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
@@ -261,12 +265,18 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>.\Release/awplflib.bsc</OutputFile>
     </Bscmake>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\accel_rects\accel_rects.cpp" />
     <ClCompile Include="..\..\agent\correctors.cpp" />
     <ClCompile Include="..\..\agent\corrector_collection.cpp" />
     <ClCompile Include="..\..\agent\corrector_trainer.cpp" />
+    <ClCompile Include="..\..\agent\detector_cpu.cpp" />
+    <ClCompile Include="..\..\agent\detector_gpu.cpp" />
     <ClCompile Include="..\..\agent\tests.cpp" />
     <ClCompile Include="..\..\src\LFAgent.cpp" />
     <ClCompile Include="..\..\src\LFAttrFilter.cpp" />

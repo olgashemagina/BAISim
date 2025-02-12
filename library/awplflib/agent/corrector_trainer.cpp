@@ -15,13 +15,44 @@ namespace np = boost::python::numpy;
 namespace fs = std::filesystem;
 using namespace agent;
 
+struct PyLockGIL
+{
+
+	PyLockGIL(): gstate(PyGILState_Ensure()) { }
+
+	~PyLockGIL() { PyGILState_Release(gstate); }
+
+	PyLockGIL(const PyLockGIL&) = delete;
+	PyLockGIL& operator=(const PyLockGIL&) = delete;
+
+	PyGILState_STATE gstate;
+};
+
+struct PyRelinquishGIL
+{
+	PyRelinquishGIL()
+		: _thread_state(PyEval_SaveThread()) {}
+
+	~PyRelinquishGIL() { PyEval_RestoreThread(_thread_state); }
+
+	PyRelinquishGIL(const PyLockGIL&) = delete;
+	PyRelinquishGIL& operator=(const PyLockGIL&) = delete;
+
+	PyThreadState* _thread_state;
+};
+
 class TBaselineCorrectorTrainer : public TCorrectorTrainerBase {
 
 public:
 
-	TBaselineCorrectorTrainer() {}
+	TBaselineCorrectorTrainer() {
+		Py_Initialize();
+		np::initialize();
+	}
 	~TBaselineCorrectorTrainer() {
-		//PyGILState_Ensure();
+		
+		main_ = {};
+		corrector_ = {};
 		Py_Finalize();
 	}
 	bool Initialize(const std::string& script_path, const std::string& state_path);
@@ -47,12 +78,9 @@ private:
 
 
 	bool TBaselineCorrectorTrainer::Initialize(const std::string& script_path, const std::string& state_path) {
-		
-		Py_Initialize();
-		np::initialize();
-		
-		// Initialize threading support
-		PyEval_InitThreads();
+	
+		// Acquire GIL before any Python operations
+		PyLockGIL  gil_locker;
 
 		state_path_ = state_path;
 						
@@ -60,18 +88,17 @@ private:
 
 		std::ifstream file(script_path);
 		if (!file.is_open())
-		{
 			return false;
-		}
+		
 		std::string script_content((std::istreambuf_iterator<char>(file)),
 			std::istreambuf_iterator<char>());
-
+				
 		bp::exec(script_content.c_str(), main_.attr("__dict__"));
 
 		corrector_ = main_.attr("BaselineCorrector")();
 
 		// Release GIL after initialization
-		PyEval_SaveThread();
+		//PyEval_SaveThread();
 		
 		return corrector_;
 	}
@@ -114,7 +141,7 @@ private:
 
 	bool	TBaselineCorrectorTrainer::TrainCorrector_fn(const TMatrix& fn, const TMatrix& tn) {
 		// Acquire GIL before any Python operations
-		PyGILState_STATE state = PyGILState_Ensure();
+		PyLockGIL  gil_locker;
 
 		np::ndarray fn_array = np::from_data(fn.GetRow(0), np::dtype::get_builtin<float>(),
 			bp::make_tuple(fn.rows(), fn.cols()),
@@ -142,13 +169,13 @@ private:
 
 		corrector_.attr("save_state")(state_path_fn_);
 
-		// Release GIL when done
-		PyGILState_Release(state);
-
 		return true;
 	}
 
 	bool	TBaselineCorrectorTrainer::TrainCorrector_fp(const TMatrix& fp, const TMatrix& tp) {
+		// Acquire GIL before any Python operations
+		PyLockGIL  gil_locker;
+
 		np::ndarray fp_array = np::from_data(fp.GetRow(0), np::dtype::get_builtin<float>(),
 			bp::make_tuple(fp.rows(), fp.cols()),
 			bp::make_tuple(fp.cols() * sizeof(float), sizeof(float)),

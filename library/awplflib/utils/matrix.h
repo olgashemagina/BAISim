@@ -160,6 +160,9 @@ public:
         ++rows_;
     }
 
+    std::vector<float>&      data() { return data_; }
+    const std::vector<float>&      data() const { return data_; }
+
 
     // Friend class for TMatrixView
     friend class TMatrixView;

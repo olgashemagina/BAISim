@@ -48,7 +48,7 @@ namespace pool {
             }
             // Create a new object if the pool is empty
             auto obj = creator_();
-            std::cout << "Create Object " << objects_.size() << std::endl;
+            std::cout << "Create Object " << object_index << std::endl;
             {
                 std::unique_lock<std::mutex> lock(mutex_);
                 // Create a new object if the pool is empty

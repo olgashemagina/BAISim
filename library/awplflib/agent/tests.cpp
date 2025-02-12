@@ -22,8 +22,14 @@ bool agent::TRandomDetector::Initialize() {
 	return true;
 }
 
-void agent::TRandomDetector::Detect(std::shared_ptr<TLFImage> img, TFeaturesBuilder& builder) {
 
+const TFragments& agent::TRandomDetector::Setup(std::shared_ptr<TLFImage> img, const std::vector<TLFRect>* rois) {
+	fragments_.Scan(scanner_.get(), img);
+	return fragments_;
+}
+
+bool agent::TRandomDetector::Detect(TFeaturesBuilder& builder) const
+{
 	builder.Reset(feature_count_list_);
 
 	float* data = builder.GetMutableData().GetRow(0);
@@ -56,12 +62,8 @@ void agent::TRandomDetector::Detect(std::shared_ptr<TLFImage> img, TFeaturesBuil
 		<< " frags_end=" << builder.frags_end()
 		<< " detected=" << detected << std::endl;
 
-	//(std::cout << ss.str()).flush();
+	return true;
 
-}
-
-std::unique_ptr<IWorker> TRandomDetector::CreateWorker() {
-	return std::make_unique<TRandomWorker>(this);
 }
 
 bool agent::TRandomDetector::LoadXML(TiXmlElement* node) {
@@ -124,10 +126,6 @@ void agent::TRandomDetector::SetRandData(float* data, size_t size) {
 	 return detections;
  }
 
- void agent::TRandomWorker::Detect(std::shared_ptr<TLFImage> img, TFeaturesBuilder& builder) {
-	 assert(detector_);
-	 detector_->Detect(img, builder);
- }
 
  namespace tests {
 	 std::unique_ptr<TLFAgent> build_random_agent() {

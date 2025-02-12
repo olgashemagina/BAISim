@@ -11,7 +11,7 @@ namespace agent {
 	// No correction marker
 	static constexpr int kNoCorrection = -1;
 
-	static const size_t	kNoTriggered = size_t(-1);
+	static const int	kNoTriggered = -1;
 
 	// Layout is vector of summing current stage count of features and all previous features;
 	using TLayout = std::vector<size_t>;
@@ -31,16 +31,16 @@ namespace agent {
 
 	public:
 
-		int GetDetectorResult(size_t fragment_index) const { return (triggered_[fragment_index - frags_begin_].first == kNoTriggered) ? 1 : 0; }
+		int GetDetectorResult(size_t fragment_index) const { return (triggered_[fragment_index - frags_begin_] == kNoTriggered) ? 1 : 0; }
 
 		int GetCorrectedResult(size_t fragment_index) const {
 			return (corrections_[fragment_index - frags_begin_] == kNoCorrection) ?
 				GetDetectorResult(fragment_index) : corrections_[fragment_index - frags_begin_];
 		}
 
-		size_t	GetTriggeredStage(size_t fragment_index) const { return triggered_.at(fragment_index - frags_begin_).first; }
+		int	GetTriggeredStage(size_t fragment_index) const { return triggered_.at(fragment_index - frags_begin_); }
 
-		float	GetScore(size_t fragment_index) const { return triggered_.at(fragment_index - frags_begin_).second; }
+		float	GetScore(size_t fragment_index) const { return scores_.at(fragment_index - frags_begin_); }
 
 
 		size_t frags_begin() const { return frags_begin_; }
@@ -74,9 +74,11 @@ namespace agent {
 		size_t								frags_begin_ = 0;
 		size_t								frags_end_ = 0;
 		
-		// Number triggered stage or -1 if none triggered and score of stage;
-		std::vector<std::pair<size_t, float>>					
-											triggered_;
+		// Number triggered stage or -1 if none triggered
+		std::vector<int>					triggered_;
+
+		// Scores of poor stage
+		std::vector<float>					scores_;
 
 		// TODO: move corrections to builder
 		std::vector<int>					corrections_;
@@ -111,7 +113,8 @@ namespace agent {
 			triggered_.clear();
 			corrections_.clear();
 
-			triggered_.resize(frags_count(), { kNoTriggered, 0.f });
+			triggered_.resize(frags_count(), kNoTriggered);
+			scores_.resize(frags_count(), 0.f);
 			corrections_.resize(frags_count(), kNoCorrection);
 
 		}
@@ -124,8 +127,12 @@ namespace agent {
 			return data_.GetRow(fragment_index - frags_begin_);
 		}
 
-		void SetTriggered(size_t fragment_index, size_t triggered, float score) {
-			triggered_[fragment_index - frags_begin_] = { triggered, score };
+		auto& triggered() { return triggered_; }
+		auto& scores() { return scores_; }
+
+		void SetTriggered(size_t fragment_index, int triggered, float score) {
+			triggered_[fragment_index - frags_begin_] = triggered;
+			scores_[fragment_index - frags_begin_] = score;
 		}
 
 

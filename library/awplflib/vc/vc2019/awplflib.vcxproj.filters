@@ -53,6 +53,12 @@
     <ClCompile Include="..\..\agent\corrector_trainer.cpp">
       <Filter>agent</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\agent\detector_cpu.cpp">
+      <Filter>agent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\agent\detector_gpu.cpp">
+      <Filter>agent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\LF.h" />

@@ -40,8 +40,6 @@ namespace agent {
 
 		bool Initialize();
 
-		void Detect(std::shared_ptr<TLFImage> img, TFeaturesBuilder& builder);
-
 		// Type of detected objects
 		virtual std::string_view GetType() const {
 			return "RandomObject";
@@ -52,11 +50,14 @@ namespace agent {
 			return "TRandomDetector";
 		}
 
-		virtual ILFScanner* GetScanner()  override {
-			return scanner_.get();
-		}
+		const TFragments& Setup(std::shared_ptr<TLFImage> img, const std::vector<TLFRect>* rois = nullptr) override;
 
-		std::unique_ptr<IWorker> CreateWorker() override;
+		// Run detector and fill features and result of detections for fragments in range [begin, end]
+		// Can be called in parallel for different fragments;
+		bool Detect(TFeaturesBuilder& builder) const override;
+
+		// Finalize processing image
+		void Release() override {}
 
 		virtual bool LoadXML(TiXmlElement* node);
 
@@ -67,22 +68,14 @@ namespace agent {
 		static void SetRandData(float* data, size_t size);
 
 	private:
+		TFragmentsBuilder				fragments_;
+
 		std::vector<size_t>				feature_count_list_;
 
 		std::unique_ptr<ILFScanner>		scanner_;
 
 	};
 
-
-	class TRandomWorker : public IWorker {
-	public:
-		TRandomWorker(TRandomDetector* detector) : detector_(detector) {}
-
-		virtual void Detect(std::shared_ptr<TLFImage> img, TFeaturesBuilder& builder) override;
-
-	private:
-		TRandomDetector* detector_ = nullptr;
-	};
 }
 
 
