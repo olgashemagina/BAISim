@@ -5,6 +5,7 @@
 #include <limits>
 
 #include "LF.h"
+#include "LFParameter.h"
 
 #include "utils/matrix.h"
 
@@ -35,9 +36,34 @@ namespace agent {
 
 	// Builder of fragments
 	class TFragmentsBuilder : public TFragments {
+
+		static const int kMinParamId = 2;
+
 	public:
-		
-		bool Scan(ILFScanner* scanner, std::shared_ptr<TLFImage> img, const std::vector<TLFRect>* rois = nullptr) {
+
+		bool Scan(ILFScanner* scanner, std::shared_ptr<TLFImage> img) {
+
+			bool scan_needed = false;
+
+			scan_needed = cached_width_ != img->width() || cached_height_ != img->height();
+			cached_width_ = img->width();
+			cached_height_ = img->height();
+
+			rois_.clear();
+			if (scan_needed) {
+				scanner->Scan(img->width(), img->height());
+				fragments_.resize(scanner->GetFragmentsCount());
+				for (int f = 0; f < scanner->GetFragmentsCount(); ++f) {
+					fragments_[f].SetRect(scanner->GetFragmentRect(f));
+				}
+			}
+						
+			return scan_needed;
+
+		}
+				
+
+		bool Scan(ILFScanner* scanner, std::shared_ptr<TLFImage> img, float min_size_factor, const std::vector<TLFRect>& rois) {
 
 			bool scan_needed = false;
 
@@ -45,21 +71,34 @@ namespace agent {
 			cached_width_ = img->width();
 			cached_height_ = img->height();
 						
-			if (rois) {
+			if (!rois.empty()) {
 
 				// TODO: compare rects;
 				//scan_needed = scan_needed || (rois_ == *rois);
 
-				rois_ = *rois;
+				rois_ = rois;
 				
 				if (scan_needed) {
 					fragments_.clear();
-					for (const auto& roi : *rois) {
+
+					double prev_min_value = 0;;
+
+					if (scanner->GetParamsCount() > kMinParamId) {
+						prev_min_value = scanner->GetParameter(kMinParamId)->GetValue();
+					}
+
+					for (const auto& roi : rois) {
+
+						float min_width = roi.Width() * min_size_factor;
+						float min_height = roi.Height() * min_size_factor;
+
+						if (scanner->GetParamsCount() > kMinParamId) {
+							auto min_value = std::min<double>(min_width / scanner->GetBaseWidth(), min_height / scanner->GetBaseHeight());
+							scanner->GetParameter(kMinParamId)->SetValue(std::max<double>(min_value, 1.0));
+						}
+
 						scanner->Scan(roi.Width(), roi.Height());
-
-						float min_width = roi.Width() * min_size_factor_;
-						float min_height = roi.Height() * min_size_factor_;
-
+												
 						fragments_.reserve(fragments_.size() + scanner->GetFragmentsCount());
 
 						for (int f = 0; f < scanner->GetFragmentsCount(); ++f) {
@@ -70,17 +109,13 @@ namespace agent {
 							}
 						}
 					}
-				}
-			} else {
-				rois_.clear();
-				if (scan_needed) {
-					scanner->Scan(img->width(), img->height());
-					fragments_.resize(scanner->GetFragmentsCount());
-					for (int f = 0; f < scanner->GetFragmentsCount(); ++f) {
-						fragments_[f].SetRect(scanner->GetFragmentRect(f));
+
+					if (scanner->GetParamsCount() > kMinParamId) {
+						scanner->GetParameter(kMinParamId)->SetValue(prev_min_value);
 					}
+
 				}
-			}
+			} 
 			return scan_needed;
 
 		}
@@ -88,10 +123,7 @@ namespace agent {
 		void Clear() { fragments_.clear(); }
 
 	private:
-		
-		float								min_size_factor_ = 0.5;
-		
-		
+	
 		std::vector<TLFRect>				rois_;
 
 

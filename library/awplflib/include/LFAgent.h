@@ -33,10 +33,17 @@ public:
 class TLFAgent {
 
 public:
-	TLFAgent();
+	TLFAgent() noexcept;
+
+	TLFAgent(const TLFAgent&) = delete;
+
+	TLFAgent(TLFAgent&& other) noexcept = default;
 	
 	virtual ~TLFAgent() = default;
 
+	const TLFAgent& operator=(const TLFAgent&) = delete;
+
+	TLFAgent& operator= (TLFAgent&&) noexcept = default;
 
 public:
 	void		Initialize(std::unique_ptr<agent::IDetector> detector,
@@ -46,13 +53,15 @@ public:
 
 	}
 
+	void	SetNmsThreshold(float threshold) { nms_threshold_ = threshold; }
+
 
 	virtual void SetSupervisor(std::shared_ptr<ILFSupervisor> sv) {
 		supervisor_ = sv;
 	}
 
 	// Detect objects on image using agent;
-	virtual std::vector<TLFDetectedItem> Detect(std::shared_ptr<TLFImage> img);
+	virtual std::vector<TLFDetectedItem> Detect(std::shared_ptr<TLFImage> img, const std::vector<TLFRect>* rois = nullptr);
 
 	// Advanced method that used rois  for fragments and supervised detections;
 	// If supervised is nullptr then do not using trainer for new correctors;\

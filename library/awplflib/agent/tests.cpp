@@ -2,19 +2,16 @@
 #include "agent.h"
 
 using namespace agent;
-
-static size_t GetRand(size_t low_dist, size_t high_dist) {
-	return low_dist + std::rand() % (high_dist + 1 - low_dist);
-}
+using namespace tests;
 
 
 bool agent::TRandomDetector::Initialize() {
 
 
-	size_t cascade_count = GetRand(3, 10);  // rand ot 3 do 10
+	size_t cascade_count = tests::GetRand(3, 10);  // rand ot 3 do 10
 	size_t count = 0;
 	for (auto i = 0; i < cascade_count; i++) {
-		size_t feature_count = GetRand(10, 100); // rand ot 10 do 100
+		size_t feature_count = tests::GetRand(10, 100); // rand ot 10 do 100
 		feature_count_list_.push_back(feature_count + count);
 		count = feature_count_list_.back();
 	}

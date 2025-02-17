@@ -15,6 +15,10 @@ namespace pool {
     public:
         using ObjectCreator = std::function<std::unique_ptr<T>()>;
 
+        ObjectPool(ObjectPool&&) = default;
+
+        ObjectPool& operator = (ObjectPool&&) = default;
+
         // Constructor takes a custom object creation function
         explicit ObjectPool(ObjectCreator creator, size_t limits = 0) 
             : creator_(std::move(creator))
@@ -48,7 +52,7 @@ namespace pool {
             }
             // Create a new object if the pool is empty
             auto obj = creator_();
-            std::cout << "Create Object " << object_index << std::endl;
+            //std::cout << "Create Object " << object_index << std::endl;
             {
                 std::unique_lock<std::mutex> lock(mutex_);
                 // Create a new object if the pool is empty

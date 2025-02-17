@@ -33,11 +33,11 @@ static std::vector<TLFDetectedItem> NonMaximumSuppression(
 
 ///////////////////////////////////////////////////////////////////////////////
 
-TLFAgent::TLFAgent() 
+TLFAgent::TLFAgent() noexcept
 	: pool_([this]() { return std::make_unique<agent::TFeaturesBuilder>(); }) {
 }
 
- std::vector<TLFDetectedItem> TLFAgent::Detect(std::shared_ptr<TLFImage> img) {
+ std::vector<TLFDetectedItem> TLFAgent::Detect(std::shared_ptr<TLFImage> img, const std::vector<TLFRect>* rois) {
 
 	agent::TDetections	gt_detections;
 
@@ -61,7 +61,7 @@ TLFAgent::TLFAgent()
 	prior_detections_.clear();
 
 	// Setup image for detector;
-	const auto& fragments = detector_->Setup(img);
+	const auto& fragments = detector_->Setup(img, rois);
 
 	auto fragments_count = fragments.count();
 

@@ -65,6 +65,8 @@ namespace agent {
         // Minimal stages count for processing;
         size_t                                              min_stages_ = 0;
 
+        float                                               min_fragment_factor_ = 0.7;
+
 	};
 
     std::unique_ptr<IDetector>      CreateGpuDetector(std::unique_ptr<TSCObjectDetector> detector, size_t min_stages);

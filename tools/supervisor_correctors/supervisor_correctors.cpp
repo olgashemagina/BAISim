@@ -8,20 +8,9 @@
 #include "agent/corrector_trainer.h"
 #include "agent/supervisors.h"
 #include "utils/xml.h"
+#include "utils/time.h"
 
-class TimeDiff
-{
-public:
-    TimeDiff() {}
 
-    int GetDiff() {
-        std::chrono::duration<double, std::milli> elapsed = std::chrono::high_resolution_clock::now() - start_;
-        return elapsed.count();
-        //std::cout << "Elapsed Time: " << elapsed.count() << " seconds" << std::endl;
-    }
-private:
-    std::chrono::steady_clock::time_point start_ = std::chrono::high_resolution_clock::now();
-};
 
 void usage()
 {
@@ -186,7 +175,7 @@ int main(int argc, char* argv[]) {
         std::shared_ptr<TLFImage> img = sv->LoadImg(i);
         TimeDiff td;
         auto dets = agent->Detect(img);
-        std::cout << "Detecting time " << td.GetDiff() << " milliseconds" << std::endl;
+        std::cout << "Detecting time " << td.GetDiffMs() << " milliseconds" << std::endl;
         
         auto gt = sv->Detect(img);
 

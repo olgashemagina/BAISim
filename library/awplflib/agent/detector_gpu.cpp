@@ -42,7 +42,17 @@ namespace agent {
 
     
         const TFragments& Setup(std::shared_ptr<TLFImage> img, const std::vector<TLFRect>* rois) {
-            if (fragments_.Scan(detector_->GetScanner(), img, rois)) {
+            bool update_needed = false;
+
+            if (rois && !rois->empty()) {
+                if (rois)
+                    update_needed = fragments_.Scan(detector_->GetScanner(), img, min_fragment_factor_, *rois);
+                else
+                    update_needed = fragments_.Scan(detector_->GetScanner(), img);
+            }
+
+
+            if (update_needed) {
                 gpu_transforms_.Clear();
                 gpu_transforms_.AddFragments(fragments_.rects(), 
                     detector_->GetScanner()->GetBaseWidth(), 
@@ -163,6 +173,8 @@ namespace agent {
 
         // Minimal stages count for processing;
         size_t                                              min_stages_ = 3;
+
+        float                                               min_fragment_factor_ = 0.7f;
 
         TFragmentsBuilder                                   fragments_;
 

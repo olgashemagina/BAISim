@@ -30,11 +30,26 @@ int main(int argc, char* argv[]) {
         std::cout << "Import test PASSED " << std::endl;
     }
     */
-    if(!tests::test_build_correctors("C:\\Users\\olgas\\Desktop\\python_mipt\\bsiiroko\\"))
+    /*if (!tests::test_build_correctors("C:\\Users\\olgas\\Desktop\\python_mipt\\bsiiroko\\"))
         std::cout << "Build corrector test ERROR " << std::endl;
     else {
         std::cout << "Build corrector test PASSED " << std::endl;
+    }*/
+
+    /*
+    if (!tests::test_agents_sequence())
+        std::cout << "Sequence test ERROR " << std::endl;
+    else {
+        std::cout << "Sequence test PASSED " << std::endl;
+    }*/
+
+
+    if (!tests::test_agents_tree())
+        std::cout << "Sequence test ERROR " << std::endl;
+    else {
+        std::cout << "Sequence test PASSED " << std::endl;
     }
+
     return 0;
 
 }

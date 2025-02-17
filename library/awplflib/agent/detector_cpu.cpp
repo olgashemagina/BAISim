@@ -60,7 +60,12 @@ namespace agent {
     }
 
     const TFragments& TStagesDetector::Setup(std::shared_ptr<TLFImage> img, const std::vector<TLFRect>* rois) {
-        fragments_.Scan(detector_->GetScanner(), img, rois);
+
+        if (rois && !rois->empty())
+            fragments_.Scan(detector_->GetScanner(), img, min_fragment_factor_, *rois);
+        else
+            fragments_.Scan(detector_->GetScanner(), img);
+
         img_ = img;
         return fragments_;
     }
@@ -78,13 +83,14 @@ namespace agent {
         for (size_t frag = builder.frags_begin(); frag < builder.frags_end(); ++frag) {
             float* features = builder.GetFeats(frag);
             size_t features_size = builder.feats_count();
-            awpRect rect = detector_->GetScanner()->GetFragmentRect(frag);
 
-            double scale_x = (rect.right - rect.left) / double(detector_->GetBaseWidth());
-            double scale_y = (rect.bottom - rect.top) / double(detector_->GetBaseHeight());
+            auto rect = fragments_.get(frag);
+            
+            double scale_x = (rect.Right() - rect.Left()) / double(detector_->GetBaseWidth());
+            double scale_y = (rect.Bottom() - rect.Top()) / double(detector_->GetBaseHeight());
             double scale = std::min<double>(scale_x, scale_y);
 
-            TLFAlignedTransform transform(scale, scale, rect.left, rect.top);
+            TLFAlignedTransform transform(scale, scale, rect.Left(), rect.Top());
             float score = FLT_MAX;
 
             TLFObjectList* strongs = detector_->GetStrongs();
@@ -98,13 +104,16 @@ namespace agent {
                 // TODO: improve it, set pointer to store features;
                 auto desc = strong->Classify(img_.get(), transform);
 
-                for (const auto& weak : desc.weaks) {
-                    if (features_size < weak.feature.features.size())
-                        throw std::out_of_range("Features memory size out of range");
+                if (min_stages_ > 0) {
 
-                    std::memcpy(features, weak.feature.features.data(), weak.feature.features.size() * sizeof(float));
-                    features_size -= weak.feature.features.size();
-                    features += weak.feature.features.size();
+                    for (const auto& weak : desc.weaks) {
+                        if (features_size < weak.feature.features.size())
+                            throw std::out_of_range("Features memory size out of range");
+
+                        std::memcpy(features, weak.feature.features.data(), weak.feature.features.size() * sizeof(float));
+                        features_size -= weak.feature.features.size();
+                        features += weak.feature.features.size();
+                    }
                 }
 
                 //Check If object detected;

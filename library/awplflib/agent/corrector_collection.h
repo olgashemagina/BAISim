@@ -14,6 +14,13 @@ namespace agent {
 
 	class TCorrectorCollection {
 	public:
+		TCorrectorCollection() = default;
+
+		TCorrectorCollection(TCorrectorCollection&&) = default;
+
+		TCorrectorCollection& operator = (TCorrectorCollection&&) = default;
+
+
 		bool LoadXML(TiXmlElement* collection_node) {
 			
 			for (TiXmlElement* child = collection_node->FirstChildElement(); child; child = child->NextSiblingElement()) {

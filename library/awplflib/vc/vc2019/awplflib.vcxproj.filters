@@ -137,6 +137,9 @@
     <ClInclude Include="..\..\agent\fragments.h">
       <Filter>agent</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\utils\time.h">
+      <Filter>utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="accel_rects">

@@ -83,6 +83,11 @@ public:
 	{
 		return m_Classifiacator[i];
 	}
+
+	void SetClassificator(int i, AWPBYTE value)
+	{
+		m_Classifiacator[i] = value;
+	}
     //
     TCSWeak& operator = (TCSWeak& Weak);
   //  TCSSensor* GetSensor()
