@@ -41,15 +41,6 @@ TLFAgent::TLFAgent() noexcept
 
 	agent::TDetections	gt_detections;
 
-// We can process objects without supervisor also
-	if (supervisor_ && trainer_) {
-		// Process image and get ground truth bounds
-		gt_detections = supervisor_->Detect(img);
-		auto correctors = trainer_->ConsumeCorrectors();
-		if (!correctors.empty())
-			correctors_.AddCorrectors(std::move(correctors));
-	}
-
 	
 	int threads = 1;
 
@@ -67,6 +58,19 @@ TLFAgent::TLFAgent() noexcept
 
 	if (fragments_count == 0)
 		return {};
+
+
+	// We can process objects without supervisor also
+	if (supervisor_ && trainer_) {
+		// Process image and get ground truth bounds
+		gt_detections = supervisor_->Detect(img);
+		auto correctors = trainer_->Consume();
+		if (!correctors.empty())
+			correctors_.AddCorrectors(std::move(correctors));
+
+		trainer_->Setup(fragments, gt_detections);
+	}
+
 
 	// Split on batches;
 	size_t batches_count = size_t(std::ceil(fragments_count / batch_size_));
@@ -103,7 +107,7 @@ TLFAgent::TLFAgent() noexcept
 		// No new correctors without supervisor
 		if (supervisor_ && trainer_) {
 			// Process features and check if we can train new corrector(s)
-			trainer_->CollectSamples(fragments, *features.get(), gt_detections);
+			trainer_->Collect(fragments, *features.get(), gt_detections);
 			
 		}
 		

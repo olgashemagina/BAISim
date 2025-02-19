@@ -30,38 +30,38 @@ namespace agent {
 		virtual ~ICorrector() = default;
 
 		// Correct result of detector using features.
-		virtual void Correct(const TFeatures& features, std::vector<int>& corrections) = 0;
-
+		virtual void Correct(const TFeatures& features, std::vector<int>& corrections) const = 0;
+		
 		// Serializing methods.
 		//virtual bool LoadXML(TiXmlElement* parent) = 0;
 		virtual TiXmlElement* SaveXML() = 0;
 	};
 
-	class ICorrectorTrainer
-	{
+	class ICorrectorTrainer	{
 	public:
 		virtual ~ICorrectorTrainer() = default;
 
+		virtual std::vector<std::unique_ptr<ICorrector>> Consume() = 0;
 
-		virtual std::vector<std::unique_ptr<ICorrector>> ConsumeCorrectors() = 0;
+		// Setup trainer internal state for start image processing
+		virtual void Setup(const TFragments& fragments, const TDetections& detections) = 0;
 		// Process new samples
-		virtual void CollectSamples(const TFragments& fragments, const TFeatures& feats, const TDetections&) = 0;
-		// Start training of samples if needed.
+		virtual void Collect(const TFragments& fragments, const TFeatures& feats, const TDetections& detections) = 0;
+		// Finish collecting samples and start training
 		virtual void Train() = 0;
+				
+		virtual void Finish() = 0;
 
 		// Serializing methods.
 		//virtual bool LoadXML(TiXmlElement* parent) = 0;
 		virtual TiXmlElement* SaveXML() = 0;
 	};
 
-	
 
 	// Interface of any Detector that can be corrected;
 	class IDetector {
 	public:
 		virtual ~IDetector() = default;
-
-
 		// Type of detected objects
 		virtual std::string_view GetType() const = 0;
 
@@ -70,8 +70,7 @@ namespace agent {
 				
 		// Initialize detector for the image
 		virtual const TFragments& Setup(std::shared_ptr<TLFImage> img, const std::vector<TLFRect>* rois = nullptr) = 0;
-					
-	
+			
 		// Run detector and fill features and result of detections for fragments in range [begin, end]
 		// Can be called in parallel for different fragments;
 		virtual bool Detect(TFeaturesBuilder& builder) const = 0;
@@ -82,7 +81,6 @@ namespace agent {
 		// Serializing methods.
 		//virtual bool LoadXML(TiXmlElement* parent) = 0;
 		virtual TiXmlElement* SaveXML() = 0;
-
 	};
 
 }

@@ -29,6 +29,7 @@ void usage()
 
 
 int main(int argc, char* argv[]) {
+    
     if (argc < 5) {
         usage();
         return -1;
@@ -94,12 +95,12 @@ int main(int argc, char* argv[]) {
                 return -4;
             }
             if (agent_path.length() > 0) {
-                std::cerr << "Database folder was already specified in parameters" << std::endl;
+                std::cerr << "Agent path was already specified in parameters" << std::endl;
                 usage();
                 return -4;
             }
             agent_path = key.substr(8);
-            std::cout << "Using database folder: " << agent_path << std::endl;
+            std::cout << "Using agent path: " << agent_path << std::endl;
         }
         else if (key.substr(0, 11) == "--save_path") {
             if (key.length() < 13 || key[11] != '=') {
@@ -108,12 +109,12 @@ int main(int argc, char* argv[]) {
                 return -4;
             }
             if (save_path.length() > 0) {
-                std::cerr << "Database folder was already specified in parameters" << std::endl;
+                std::cerr << "Save path was already specified in parameters" << std::endl;
                 usage();
                 return -4;
             }
             save_path = key.substr(12);
-            std::cout << "Using database folder: " << save_path << std::endl;
+            std::cout << "Using save path: " << save_path << std::endl;
         }
         else if (key.substr(0, 9) == "--overlap") {
             if (key.length() < 11 || key[9] != '=') {

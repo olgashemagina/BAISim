@@ -10,8 +10,73 @@
 #include "agent/features.h"
 
 #include "agent/agent.h"
+#include "agent/correctors.h"
 
 namespace agent {
+
+	class SamplesMap {
+	public:
+		void		Setup(size_t ids_count) {
+			is_stopped_.clear();
+			stop_ids_.clear();
+			is_stopped_.resize(ids_count, false);
+			
+			for (auto& queue : queues_) {
+				queue.clear();
+			}
+			queues_.resize(ids_count);
+		}
+
+		// Mark id is stopped for adding;
+		void			Stop(size_t id) {
+			if (!is_stopped_[id]) {
+				is_stopped_[id] = true;
+				stop_ids_.push_back(id);
+			}
+		}
+
+		bool			IsStopped(size_t id) const {
+			return is_stopped_[id];
+		}
+
+		// Add used place position for id;
+		void			Push(size_t id, size_t place) {
+			queues_[id].push_back(place);
+		}
+
+		// Check if there is a free place
+		size_t			Pop() {
+			if (stop_ids_.empty())
+				return -1;
+
+			size_t det_id = stop_ids_.back();
+			size_t place = queues_[det_id].back();
+			queues_[det_id].pop_back();
+			if (queues_[det_id].empty())
+				stop_ids_.pop_back();
+			return place;
+		}
+
+		// Get All stopped places
+		std::vector<size_t>	GetStopped() {
+			std::vector<size_t>		places;
+
+			for (auto id : stop_ids_) {
+				places.insert(places.end(), queues_[id].begin(), queues_[id].end());
+			}
+
+			return std::move(places);
+		}
+
+				
+	private:
+		// Places where detections ids are
+		std::vector<std::vector<size_t>>		queues_;
+
+		// Stop gathering detections with this id;
+		std::vector<bool>					is_stopped_;
+		std::vector<size_t>					stop_ids_;
+	};
 
 
 	class TCorrectorTrainerBase : public ICorrectorTrainer {
@@ -29,36 +94,55 @@ namespace agent {
 			}
 		}
 
-
-		virtual std::vector<std::unique_ptr<ICorrector>> ConsumeCorrectors() {
+		// Setup trainer internal state for start image processing
+		virtual void Setup(const TFragments& fragments, const TDetections& detections) override {
+			fn_map_.Setup(detections.size());
+		}
+		
+		virtual std::vector<std::unique_ptr<ICorrector>> Consume() override {
 			std::unique_lock<std::mutex> lock(mtx_);
 			return std::move(correctors_);
 		}
 
 		// Process new samples for each batch in separate thread.
-		virtual void CollectSamples(const TFragments& fragments, const TFeatures& feats, const TDetections& detections) override {
+		virtual void Collect(const TFragments& fragments, const TFeatures& feats, const TDetections& detections) override {
 
 			ResizeIfNeeded(feats.layout());
 
 			for (size_t frag = feats.frags_begin(); frag < feats.frags_end(); ++frag) {
 				// Find frag indices that overlap proper detections
-				float overlap = 0;
-				for (const auto& det : detections) {
-					overlap = std::max<float>(overlap, float(det.RectOverlap(fragments.get(frag))));
+				float best_overlap = 0;
+				size_t best_id = -1;
+				for (size_t id = 0; id < detections.size(); ++id) {
+
+					float overlap = float(detections[id].RectOverlap(fragments.get(frag)));
+					if (overlap > best_overlap) {
+						best_overlap = overlap;
+						best_id = id;
+					}
 				}
-				GatherFeatures(feats, frag, overlap);
+				GatherFeatures(feats, frag, best_id, best_overlap);
 			}
 
 		}
-		// Notify that image finished
+
+		// Finish collecting samples and start training
 		virtual void Train() override {
+			
+			auto places = fn_map_.GetStopped();
+			Erase(fn_, places);
 			cv_.notify_one();
 		}
 
+		virtual void Finish() override {
+			
+			cv_.notify_one();
+		}
+				
 		// Serializing methods.
 		virtual bool LoadXML(TiXmlElement* parent) {
-			parent->QueryFloatAttribute("positive_threshold", &positive_threshold_);
-			parent->QueryFloatAttribute("negative_threshold", &negative_threshold_);
+			parent->QueryFloatAttribute("hi_threshold", &hi_overlap_);
+			parent->QueryFloatAttribute("low_threshold", &low_overlap_);
 			parent->QueryFloatAttribute("tn_prob", &use_tn_prob_);
 			parent->QueryValueAttribute("min_stages", &min_features_stages_);
 
@@ -70,8 +154,8 @@ namespace agent {
 		virtual TiXmlElement* SaveXML() {
 			TiXmlElement* trainer_node = new TiXmlElement("TCorrectorTrainerBase");
 
-			trainer_node->SetDoubleAttribute("positive_threshold", positive_threshold_);
-			trainer_node->SetDoubleAttribute("negative_threshold", negative_threshold_);
+			trainer_node->SetDoubleAttribute("hi_threshold", hi_overlap_);
+			trainer_node->SetDoubleAttribute("low_threshold", low_overlap_);
 			trainer_node->SetDoubleAttribute("tn_prob", use_tn_prob_);
 			trainer_node->SetAttribute("min_stages", min_features_stages_);
 
@@ -98,23 +182,32 @@ namespace agent {
 						break;
 
 					// Move data for training
-					if (fn_.rows() >= min_fn_samples_) {
-						fn = std::move(fn_);
-						tn = std::move(tn_);
+					if (fn_.rows() >= min_fn_samples_ || flush_) {
+						fn = fn_;
+						tn = tn_;
+						fn_.Clear();
+						tn_.Clear();
 					}
 
-					if (fp_.rows() >= min_fp_samples_) {
-						fp = std::move(fp_);
-						tp = std::move(tp_);
+					if (fp_.rows() >= min_fp_samples_ || flush_) {
+						fp = fp_;
+						tp = tp_;
+						fp_.Clear();
+						tp_.Clear();
 					}
+					flush_ = false;
 				}
 
 
 				std::vector<std::unique_ptr<ICorrector>> correctors;
-				if (fn.rows() >= min_fn_samples_) {
+				if (fn.rows() > 0) {
 					// Run training of FN corrector;
 					auto result = TrainFnCorrector(fn, tn);
 					if (result) {
+						if (self_test_) {
+							SelfTestCorrector("FN", result.get(), fn, tn);
+						}
+
 						std::unique_lock<std::mutex> lock(mtx_);
 						correctors_.emplace_back(std::move(result));
 					}
@@ -122,10 +215,14 @@ namespace agent {
 					tn.Clear();
 				}
 
-				if (fp.rows() >= min_fp_samples_) {
+				if (fp.rows() > 0) {
 					// Run training of FP corrector;
 					auto result = TrainFpCorrector(fp, tp);
 					if (result) {
+						if (self_test_) {
+							SelfTestCorrector("FP", result.get(), fp, tp);
+						}
+
 						std::unique_lock<std::mutex> lock(mtx_);
 						correctors.emplace_back(std::move(result));
 					}
@@ -136,53 +233,86 @@ namespace agent {
 		}
 	public:
 		// Train False Negative Corrector;
-		virtual std::unique_ptr<ICorrector>	TrainFnCorrector(const TMatrix& fn, const TMatrix& tn) {
+		virtual std::unique_ptr<TCorrectorBase>	TrainFnCorrector(const TMatrix& fn, const TMatrix& tn) {
 			return nullptr;
 		}
 
 		// Train False Positive Corrector;
-		virtual std::unique_ptr<ICorrector>	TrainFpCorrector(const TMatrix& fp, const TMatrix& tp) {
+		virtual std::unique_ptr<TCorrectorBase>	TrainFpCorrector(const TMatrix& fp, const TMatrix& tp) {
 			return nullptr;
 		}
 
 	private:
-		void		GatherFeatures(const TFeatures& feats, size_t index, float gt_overlap) {
+		static void SelfTestCorrector(const std::string& type, TCorrectorBase* corrector, const TMatrix& false_features, const TMatrix& true_features) {
+			int frr_value = false_features.rows() - TestCorrector(corrector, false_features);
+			int far_value = TestCorrector(corrector, true_features);
+
+			std::stringstream ss;
+			ss << "Self test of " << type << " corrector: FRR=" << frr_value / float(false_features.rows()) << " FAR=" << far_value / float(true_features.rows()) << std::endl;
+			std::cout << ss.str();
+		}
+
+		static int	TestCorrector(TCorrectorBase* corrector, const TMatrix& mat) {
+			int corrections = 0;
+			for (int row = 0; row < mat.rows(); ++row) {
+				auto result = corrector->Process(mat.GetRow(row), mat.rows());
+				corrections += result;
+			}
+			return corrections;
+		}
+
+		// frag - index of fragment
+		// det_id - id of detection nearest to
+		void		GatherFeatures(const TFeatures& feats, size_t frag, size_t det_id, float gt_overlap) {
 			std::unique_lock<std::mutex> lock(mtx_);
 
-			if (feats.GetDetectorResult(index)) {
+			if (feats.GetDetectorResult(frag)) {
+			//if (0) {
 				// Object Detected
-				if (gt_overlap < positive_threshold_) {
+				if (gt_overlap < low_overlap_) {
 					// FP
 					// Add to training fp-corrector;
-					fp_.AddRow(feats.GetFeats(index), feats.feats_count());
+					fp_.AddRow(feats.GetFeats(frag), feats.feats_count());
 				}
 				else {
-					// TP
-					// 
-					// Add to training fn-corrector;
-					// Add to training fp-corrector;
-					tp_.AddRow(feats.GetFeats(index), feats.feats_count());
+
+					fn_map_.Stop(det_id);
+					
+					if (gt_overlap > hi_overlap_) {
+						// TP
+						tp_.AddRow(feats.GetFeats(frag), feats.feats_count());
+					}
 				}
 			}
 			else {
 				auto stage = min_features_stages_ - 1;
 				auto feats_count = feats.layout().at(stage);
 				// No object detected
-				if (gt_overlap >= positive_threshold_) {
+				if (gt_overlap >= hi_overlap_) {
 					// FN
 					// Add to training fn-corrector;
-					fn_.AddRow(feats.GetFeats(index), feats_count);
+					if (!fn_map_.IsStopped(det_id)) {
+						// Get place for fn;
+						
+						size_t place = std::min<size_t>(fn_map_.Pop(), fn_.rows());
+						fn_map_.Push(det_id, place);
+
+						if (place < fn_.rows()) {
+							fn_.CopyRow(place, feats.matrix(), feats.matrix_index(frag), feats_count);
+
+						} else
+							fn_.AddRow(feats.GetFeats(frag), feats_count);
+					}
 				}
-				else if (gt_overlap > std::min<float>(positive_threshold_, negative_threshold_)) {
+				else if (gt_overlap < low_overlap_) {
 					// TN
 					// Test probability to use it;
 					// TODO: make balancing algorithm that changing probability to reduce amount of TN rows.
-					if (use_tn_prob_ >= GetNormalProb())
-						tn_.AddRow(feats.GetFeats(index), feats_count);
+					auto prob = GetNormalProb();
+					if (use_tn_prob_ >= prob)
+						tn_.AddRow(feats.GetFeats(frag), feats_count);
 				}
-				else {
-					// Skip other TN
-				}
+				
 			}
 		}
 
@@ -211,18 +341,20 @@ namespace agent {
 			return float(std::rand() / double(RAND_MAX));
 		}
 
+		
 
 
 	private:
-		float								positive_threshold_ = 0.4f;
-		float								negative_threshold_ = 0.1f;
+	
+		float								hi_overlap_ = 0.75f;
+		float								low_overlap_ = 0.15f;
 
 		// Probability to add tn for futher usage;
-		float								use_tn_prob_ = 0.3f;
+		float								use_tn_prob_ = 0.01f;
 
 		size_t								min_features_stages_ = 3;
 
-		size_t								min_fn_samples_ = 1000;
+		size_t								min_fn_samples_ = 500;
 		size_t								min_fp_samples_ = 500;
 
 	private:
@@ -238,6 +370,10 @@ namespace agent {
 		TMatrix								tp_;
 
 	private:
+		SamplesMap							fn_map_;
+		
+		bool								self_test_ = true;
+	private:
 
 		std::mutex							mtx_;
 		std::condition_variable				cv_;
@@ -245,6 +381,9 @@ namespace agent {
 		std::thread							thread_;
 
 		std::atomic<bool>					cancel_ = false;
+
+		// Flash collected data;
+		std::atomic<bool>					flush_ = false;
 
 		std::vector<std::unique_ptr<ICorrector>>  correctors_;
 	};

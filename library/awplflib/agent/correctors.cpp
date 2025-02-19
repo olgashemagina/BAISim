@@ -5,52 +5,51 @@
 using namespace agent;
 
 
-void	TBaselineCorrector::Process(const TMatrix& data, std::vector<int>& corrections) {
+int	TBaselineCorrector::Process(const float* features, size_t size) const {
 	// Process corrections and push [0, 1] to corrections.
 	// 0 - No Corrections Needed
 	// 1 - Correct result
+		
+	if (size < pca_proj_.rows())
+		return -1;
 
-	// TODO: make multithreaded
-	projected_.Resize(1, pca_proj_.cols());
-	corrections.resize(data.rows());
-	for (size_t r = 0; r < data.rows(); ++r) {
-		const float* data_row = data.GetRow(r);
-		float* proj_row = projected_.GetRow(0);
+	std::vector<float> projected(pca_proj_.cols(), 0);
+	
 
-		// proj = (data - centre) * pca_proj;
-		for (size_t p = 0; p < pca_proj_.cols(); ++p) {
-			float proj_value = 0;
-			for (size_t f = 0; f < pca_proj_.rows(); ++f) {
-				const float* proj_row = pca_proj_.GetRow(f);
-				proj_value += (data_row[f] - center_[f]) * proj_row[p];
-			}
-			proj_row[p] = proj_value;
+	// proj = (data - centre) * pca_proj;
+	for (size_t p = 0; p < pca_proj_.cols(); ++p) {
+		float proj_value = 0;
+		for (size_t f = 0; f < pca_proj_.rows(); ++f) {
+			const float* proj_row = pca_proj_.GetRow(f);
+			proj_value += (features[f] - center_[f]) * proj_row[p];
 		}
-
-		// Distance to clusters;
-		size_t best_centroid = 0;
-		float best_dist = FLT_MAX;
-		for (size_t c = 0; c < centroids_.size(); ++c) {
-			const auto& centroid = centroids_[c];
-			float dist = 0;
-			for (size_t p = 0; p < pca_proj_.cols(); ++p) {
-				dist += std::powf(centroid[p] - proj_row[p], 2);
-			}
-
-			if (best_dist > dist) {
-				best_centroid = c;
-				best_dist = dist;
-			}
-		}
-
-		// Project threshold;
-		float thres_proj = 0;
-		for (size_t p = 0; p < pca_proj_.cols(); ++p) {
-			thres_proj += fisher_.GetRow(p)[best_centroid] * proj_row[p];
-		}
-
-		corrections[r] = (thres_[best_centroid] >= thres_proj) ? 1 : 0;
+		projected[p] = proj_value;
 	}
+
+	// Distance to clusters;
+	size_t best_centroid = 0;
+	float best_dist = FLT_MAX;
+	for (size_t c = 0; c < centroids_.size(); ++c) {
+		const auto& centroid = centroids_[c];
+		float dist = 0;
+		for (size_t p = 0; p < pca_proj_.cols(); ++p) {
+			dist += std::powf(centroid[p] - projected[p], 2);
+		}
+
+		if (best_dist > dist) {
+			best_centroid = c;
+			best_dist = dist;
+		}
+	}
+
+	// Project threshold;
+	float thres_proj = 0;
+	for (size_t p = 0; p < pca_proj_.cols(); ++p) {
+		thres_proj += fisher_.GetRow(p)[best_centroid] * projected[p];
+	}
+
+	return (thres_[best_centroid] >= thres_proj) ? 1 : 0;
+	
 
 }
 

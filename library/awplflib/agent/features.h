@@ -46,6 +46,8 @@ namespace agent {
 		size_t frags_begin() const { return frags_begin_; }
 		size_t frags_end() const { return frags_end_; }
 
+		size_t matrix_index(size_t ind) const { return ind - frags_begin_; }
+
 		size_t	frags_count() const { return frags_end_ - frags_begin_; }
 
 		size_t	feats_count() const { return data_.cols(); }
