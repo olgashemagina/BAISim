@@ -15,6 +15,9 @@ namespace np = boost::python::numpy;
 namespace fs = std::filesystem;
 using namespace agent;
 
+
+
+
 struct PyLockGIL
 {
 
@@ -41,24 +44,59 @@ struct PyRelinquishGIL
 	PyThreadState* _thread_state;
 };
 
+class PythonEnvironment {
+public:
+	PythonEnvironment() {
+		if (!Py_IsInitialized()) {
+			Py_Initialize();
+			// Initialize numpy array support
+			np::initialize();
+			// Initialize threading support
+			PyEval_InitThreads();
+			// Release GIL after initialization
+			thread_state_ = PyEval_SaveThread();
+		}
+	}
+
+	~PythonEnvironment() {
+		PyEval_RestoreThread(thread_state_);
+
+		if (Py_IsInitialized()) {
+			PyGILState_Ensure();
+			Py_Finalize();
+		}
+	}
+
+	PyThreadState* thread_state_;
+};
+
+static void InitializePython() {
+	static PythonEnvironment env;
+}
+
+
 class TBaselineCorrectorTrainer : public TCorrectorTrainerBase {
 
 public:
 
 	TBaselineCorrectorTrainer() {
-		Py_Initialize();
-		np::initialize();
+
+		InitializePython();
+		//Py_Initialize();
+		//np::initialize();
 		// Initialize threading support
-		PyEval_InitThreads();
+		//PyEval_InitThreads();
 		// Release GIL after initialization
-		PyEval_SaveThread();
+		//PyEval_SaveThread();
 	}
 	~TBaselineCorrectorTrainer() {
 		
+		PyLockGIL  gil_locker;
+
 		main_ = {};
 		corrector_ = {};
 				
-		Py_Finalize();
+		//Py_Finalize();
 	}
 	bool Initialize(const std::string& script_path, const std::string& state_path);
 

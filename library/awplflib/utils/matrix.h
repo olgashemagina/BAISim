@@ -211,13 +211,13 @@ public:
 
 
 // NOTE: Avoid duplicates in erase_rows
-inline void Erase(TMatrix& from, std::vector<size_t> erase_rows) {
+inline void Erase(TMatrix& from, std::vector<size_t>& erase_rows) {
     if (erase_rows.empty() || from.rows() == 0) return;
 
     std::sort(erase_rows.begin(), erase_rows.end());
 
-    size_t i = 0, j = erase_rows.size() - 1;
-    size_t source = from.rows() - 1;
+    int i = 0, j = erase_rows.size() - 1;
+    int source = from.rows() - 1;
 
     while (i <= j) {
         if (erase_rows[j] < source) {

@@ -11,72 +11,9 @@
 
 #include "agent/agent.h"
 #include "agent/correctors.h"
+#include "agent/samples_map.h"
 
 namespace agent {
-
-	class SamplesMap {
-	public:
-		void		Setup(size_t ids_count) {
-			is_stopped_.clear();
-			stop_ids_.clear();
-			is_stopped_.resize(ids_count, false);
-			
-			for (auto& queue : queues_) {
-				queue.clear();
-			}
-			queues_.resize(ids_count);
-		}
-
-		// Mark id is stopped for adding;
-		void			Stop(size_t id) {
-			if (!is_stopped_[id]) {
-				is_stopped_[id] = true;
-				stop_ids_.push_back(id);
-			}
-		}
-
-		bool			IsStopped(size_t id) const {
-			return is_stopped_[id];
-		}
-
-		// Add used place position for id;
-		void			Push(size_t id, size_t place) {
-			queues_[id].push_back(place);
-		}
-
-		// Check if there is a free place
-		size_t			Pop() {
-			if (stop_ids_.empty())
-				return -1;
-
-			size_t det_id = stop_ids_.back();
-			size_t place = queues_[det_id].back();
-			queues_[det_id].pop_back();
-			if (queues_[det_id].empty())
-				stop_ids_.pop_back();
-			return place;
-		}
-
-		// Get All stopped places
-		std::vector<size_t>	GetStopped() {
-			std::vector<size_t>		places;
-
-			for (auto id : stop_ids_) {
-				places.insert(places.end(), queues_[id].begin(), queues_[id].end());
-			}
-
-			return std::move(places);
-		}
-
-				
-	private:
-		// Places where detections ids are
-		std::vector<std::vector<size_t>>		queues_;
-
-		// Stop gathering detections with this id;
-		std::vector<bool>					is_stopped_;
-		std::vector<size_t>					stop_ids_;
-	};
 
 
 	class TCorrectorTrainerBase : public ICorrectorTrainer {
@@ -96,6 +33,7 @@ namespace agent {
 
 		// Setup trainer internal state for start image processing
 		virtual void Setup(const TFragments& fragments, const TDetections& detections) override {
+			std::unique_lock<std::mutex> lock(mtx_);
 			fn_map_.Setup(detections.size());
 		}
 		
@@ -128,9 +66,8 @@ namespace agent {
 
 		// Finish collecting samples and start training
 		virtual void Train() override {
-			
-			auto places = fn_map_.GetStopped();
-			Erase(fn_, places);
+			std::unique_lock<std::mutex> lock(mtx_);
+			Erase(fn_, fn_map_.GetFree());
 			cv_.notify_one();
 		}
 
@@ -264,6 +201,12 @@ namespace agent {
 		// frag - index of fragment
 		// det_id - id of detection nearest to
 		void		GatherFeatures(const TFeatures& feats, size_t frag, size_t det_id, float gt_overlap) {
+			// Gather samples for data.
+			// 1) There are 2 overlap threads hi and low. 
+			// 2) If detection overlap is < low threshold then it will be fp
+			// 3) If overlap is > hi threshold and no detections here then it ll be fn. 
+			// 4) All fn errors for detection will be removed if there is one or more detections.
+
 			std::unique_lock<std::mutex> lock(mtx_);
 
 			if (feats.GetDetectorResult(frag)) {
@@ -275,7 +218,7 @@ namespace agent {
 					fp_.AddRow(feats.GetFeats(frag), feats.feats_count());
 				}
 				else {
-
+					// Stop gathering data for fn corrector cos there is one detection for this id;
 					fn_map_.Stop(det_id);
 					
 					if (gt_overlap > hi_overlap_) {
