@@ -199,8 +199,12 @@ namespace tests {
 		for (int i = 0; i < vectors.size(); i++) {
 			data.AddRow(&(vectors[i][0]), vectors[i].size());
 		}
-		std::vector<int> corrections;
-		corrector->Process(data, corrections);
+		std::vector<int> corrections(vectors.size(), agent::kNoCorrection);
+
+		for (int i = 0; i < data.rows(); i++) {
+			corrections[i] = corrector->Process(data.GetRow(i), data.cols());
+		}
+		
 
 		std::ifstream file_prediction("../../test_corrector/prediction.txt");
 		if (!file_prediction) {

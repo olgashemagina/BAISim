@@ -51,7 +51,7 @@ namespace agent {
                 auto rect = feature->GetRect();
 
                 // 9 values + 1 of full rect;
-                features_count += 10;
+                features_count += 1;
             }
             layout_.push_back(features_count);
         }
@@ -107,12 +107,13 @@ namespace agent {
                 if (min_stages_ > 0) {
 
                     for (const auto& weak : desc.weaks) {
-                        if (features_size < weak.feature.features.size())
-                            throw std::out_of_range("Features memory size out of range");
+                        //if (features_size < weak.feature.features.size())
+                            //throw std::out_of_range("Features memory size out of range");
 
-                        std::memcpy(features, weak.feature.features.data(), weak.feature.features.size() * sizeof(float));
-                        features_size -= weak.feature.features.size();
-                        features += weak.feature.features.size();
+                        // Copy only total value from CS feature
+                        features[0] = weak.feature.features.back();
+                        features_size -= 1;
+                        features += 1;
                     }
                 }
 

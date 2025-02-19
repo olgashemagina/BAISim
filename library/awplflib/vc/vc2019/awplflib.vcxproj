@@ -325,6 +325,7 @@
     <ClInclude Include="..\..\agent\detectors.h" />
     <ClInclude Include="..\..\agent\features.h" />
     <ClInclude Include="..\..\agent\fragments.h" />
+    <ClInclude Include="..\..\agent\samples_map.h" />
     <ClInclude Include="..\..\agent\supervisors.h" />
     <ClInclude Include="..\..\agent\tests.h" />
     <ClInclude Include="..\..\include\LF.h" />

@@ -36,6 +36,13 @@ public:
         return *this;
     }
 
+    TMatrix& operator=(const TMatrix& other) {
+        data_ = other.data_;
+        rows_ = other.rows_;
+        cols_ = other.cols_;
+        return *this;
+    }
+
     TMatrix() = default;
 
     // Access element
@@ -62,7 +69,7 @@ public:
     // Resize matrix
     void Resize(size_t new_rows, size_t new_cols) {
 
-        if (rows_ != 0 && cols_ != 0) {
+        if (cols_ != new_cols && cols_ != 0) {
             std::vector<float> new_data(new_rows * new_cols, 0.0f);
 
             size_t min_rows = std::min<size_t>(rows_, new_rows);
@@ -85,6 +92,7 @@ public:
 
     void    Clear() {
         rows_ = cols_ = 0;
+        data_.clear();
     }
 
 
@@ -200,4 +208,52 @@ public:
     size_t cols() const { return view_cols_; }
 
 };
+
+
+// NOTE: Avoid duplicates in erase_rows
+inline void Erase(TMatrix& from, std::vector<size_t>& erase_rows) {
+    if (erase_rows.empty() || from.rows() == 0) return;
+
+    std::sort(erase_rows.begin(), erase_rows.end());
+
+    int i = 0, j = erase_rows.size() - 1;
+    int source = from.rows() - 1;
+
+    while (i <= j) {
+        if (erase_rows[j] < source) {
+            from.CopyRow(erase_rows[i], from, source, from.cols());
+            i++;
+            source--;
+            // Check dublicates i
+        }
+        else {
+            // Test on dublicates
+            if (erase_rows[j] == source)
+                source--;
+            j--;
+        }
+    }
+    from.Resize(source + 1, from.cols());
+}
+
+inline void TestErase() {
+    TMatrix  m;
+
+    m.Resize(100, 10);
+    // Init matrix
+    for (int i = 0; i < m.rows(); ++i) {
+        for (int j = 0; j < m.cols(); ++j)
+            m.GetRow(i)[j] = i;
+    }
+    std::vector<size_t> erase = { 4, 10, 98, 94, 97, 1, 7, 90, 21, 42 };
+
+    Erase(m, erase);
+
+    for (int i = 0; i < m.rows(); ++i) {
+        std::cout << m.GetRow(i)[0] << " ";
+    }
+
+    std::cout << std::endl;
+
+}
 

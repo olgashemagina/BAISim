@@ -15,6 +15,9 @@ namespace np = boost::python::numpy;
 namespace fs = std::filesystem;
 using namespace agent;
 
+
+
+
 struct PyLockGIL
 {
 
@@ -41,37 +44,75 @@ struct PyRelinquishGIL
 	PyThreadState* _thread_state;
 };
 
+class PythonEnvironment {
+public:
+	PythonEnvironment() {
+		if (!Py_IsInitialized()) {
+			Py_Initialize();
+			// Initialize numpy array support
+			np::initialize();
+			// Initialize threading support
+			PyEval_InitThreads();
+			// Release GIL after initialization
+			thread_state_ = PyEval_SaveThread();
+		}
+	}
+
+	~PythonEnvironment() {
+		PyEval_RestoreThread(thread_state_);
+
+		if (Py_IsInitialized()) {
+			PyGILState_Ensure();
+			Py_Finalize();
+		}
+	}
+
+	PyThreadState* thread_state_;
+};
+
+static void InitializePython() {
+	static PythonEnvironment env;
+}
+
+
 class TBaselineCorrectorTrainer : public TCorrectorTrainerBase {
 
 public:
 
 	TBaselineCorrectorTrainer() {
-		Py_Initialize();
-		np::initialize();
+
+		InitializePython();
+		//Py_Initialize();
+		//np::initialize();
+		// Initialize threading support
+		//PyEval_InitThreads();
+		// Release GIL after initialization
+		//PyEval_SaveThread();
 	}
 	~TBaselineCorrectorTrainer() {
 		
+		PyLockGIL  gil_locker;
+
 		main_ = {};
 		corrector_ = {};
-		Py_Finalize();
+				
+		//Py_Finalize();
 	}
 	bool Initialize(const std::string& script_path, const std::string& state_path);
 
 
-	virtual std::unique_ptr<ICorrector>	TrainFnCorrector(const TMatrix& fn, const TMatrix& tn);
+	virtual std::unique_ptr<TCorrectorBase>	TrainFnCorrector(const TMatrix& fn, const TMatrix& tn) override;
 
 	// Train False Positive Corrector;
-	virtual std::unique_ptr<ICorrector>	TrainFpCorrector(const TMatrix& fp, const TMatrix& tp);
+	virtual std::unique_ptr<TCorrectorBase>	TrainFpCorrector(const TMatrix& fp, const TMatrix& tp) override;
 
-	bool	TrainCorrector_fn(const TMatrix& fn, const TMatrix& tn);
 
-	bool	TrainCorrector_fp(const TMatrix& fp, const TMatrix& tp);
+	std::string	TrainCorrector(const std::string& type, const TMatrix& f_feats, const TMatrix& t_feats);
 
 
 private:
 	std::string			state_path_;
-	std::string			state_path_fn_;
-	std::string			state_path_fp_;
+	
 	bp::object			main_;
 	bp::object			corrector_;
 };
@@ -104,10 +145,10 @@ private:
 	}
 
 
-	std::unique_ptr<ICorrector>	TBaselineCorrectorTrainer::TrainFnCorrector(const TMatrix& fn, const TMatrix& tn) {
-
-		if (TrainCorrector_fn(fn, tn)) {
-			auto corrector = load_xml(state_path_fn_, [](TiXmlElement* node) {
+	std::unique_ptr<TCorrectorBase>	TBaselineCorrectorTrainer::TrainFnCorrector(const TMatrix& fn, const TMatrix& tn) {
+		auto path = TrainCorrector("FN", fn, tn);
+		if (!path.empty()) {
+			auto corrector = load_xml(path, [](TiXmlElement* node) {
 				auto  agent = std::make_unique<TBaselineCorrector>(kCorrectorType_FN);
 				if (node && agent->LoadXML(node))
 					return agent;
@@ -122,10 +163,11 @@ private:
 	}
 
 	// Train False Positive Corrector;
-	std::unique_ptr<ICorrector>	TBaselineCorrectorTrainer::TrainFpCorrector(const TMatrix& fp, const TMatrix& tp) {
-		if (TrainCorrector_fp(fp, tp)) {
+	std::unique_ptr<TCorrectorBase>	TBaselineCorrectorTrainer::TrainFpCorrector(const TMatrix& fp, const TMatrix& tp) {
+		auto path = TrainCorrector("FP", fp, tp);
+		if (!path.empty()) {
 
-			auto corrector = load_xml(state_path_fp_, [](TiXmlElement* node) {
+			auto corrector = load_xml(path, [](TiXmlElement* node) {
 				auto  agent = std::make_unique<TBaselineCorrector>(kCorrectorType_FP);
 				if (node && agent->LoadXML(node))
 					return agent;
@@ -139,69 +181,51 @@ private:
 		return nullptr;
 	}
 
-	bool	TBaselineCorrectorTrainer::TrainCorrector_fn(const TMatrix& fn, const TMatrix& tn) {
+	std::string	TBaselineCorrectorTrainer::TrainCorrector(const std::string& type, const TMatrix& f_feats, const TMatrix& t_feats) {
 		// Acquire GIL before any Python operations
 		PyLockGIL  gil_locker;
 
-		np::ndarray fn_array = np::from_data(fn.GetRow(0), np::dtype::get_builtin<float>(),
-			bp::make_tuple(fn.rows(), fn.cols()),
-			bp::make_tuple(fn.cols() * sizeof(float), sizeof(float)),
+		np::ndarray f_array = np::from_data(f_feats.GetRow(0), np::dtype::get_builtin<float>(),
+			bp::make_tuple(f_feats.rows(), f_feats.cols()),
+			bp::make_tuple(f_feats.cols() * sizeof(float), sizeof(float)),
 			bp::object());
 
 
-		np::ndarray tn_array = np::from_data(tn.GetRow(0), np::dtype::get_builtin<float>(),
-			bp::make_tuple(tn.rows(), tn.cols()),
-			bp::make_tuple(tn.cols() * sizeof(float), sizeof(float)),
+		np::ndarray t_array = np::from_data(t_feats.GetRow(0), np::dtype::get_builtin<float>(),
+			bp::make_tuple(t_feats.rows(), t_feats.cols()),
+			bp::make_tuple(t_feats.cols() * sizeof(float), sizeof(float)),
 			bp::object());
+						
 
-		//np::ndarray fn_array = vector_to_ndarray(fn.GetRow(0), fn.rows(), fn.cols());
-
-		corrector_.attr("fit")(fn_array, tn_array);
-
+		try {
+			auto callable = corrector_.attr("fit");
+			callable(t_array, f_array);
+		}
+		catch (bp::error_already_set const&) {
+			PyErr_Print();
+		}
+				
+		
 		int index = 1;
-		fs::path path = state_path_ + "corrector0_fn.xml";
+		fs::path path = state_path_ + "corrector0_" + type + ".xml";
 		while (fs::exists(path))
 		{
-			path = state_path_ + "corrector" + std::to_string(index) + "_fn.xml";
+			path = state_path_ + "corrector" + std::to_string(index) + "_" + type + ".xml";
 			index++;
 		}
-		state_path_fn_ = path.generic_string();
 
-		corrector_.attr("save_state")(state_path_fn_);
-
-		return true;
-	}
-
-	bool	TBaselineCorrectorTrainer::TrainCorrector_fp(const TMatrix& fp, const TMatrix& tp) {
-		// Acquire GIL before any Python operations
-		PyLockGIL  gil_locker;
-
-		np::ndarray fp_array = np::from_data(fp.GetRow(0), np::dtype::get_builtin<float>(),
-			bp::make_tuple(fp.rows(), fp.cols()),
-			bp::make_tuple(fp.cols() * sizeof(float), sizeof(float)),
-			bp::object());
-
-
-		np::ndarray tp_array = np::from_data(tp.GetRow(0), np::dtype::get_builtin<float>(),
-			bp::make_tuple(tp.rows(), tp.cols()),
-			bp::make_tuple(tp.cols() * sizeof(float), sizeof(float)),
-			bp::object());
-
-		corrector_.attr("fit")(fp_array, tp_array);
-
-		int index = 1;
-		fs::path path = state_path_ + "corrector0_fp.xml";
-		while (fs::exists(path))
-		{
-			path = state_path_ + "corrector" + std::to_string(index) + "_fp.xml";
-			index++;
+		
+		try {
+			corrector_.attr("save_state")(path.generic_string());
 		}
-		state_path_fp_ = path.generic_string();
+		catch (bp::error_already_set const&) {
+			PyErr_Print();
+		}
+		
 
-		corrector_.attr("save_state")(state_path_fp_);
-
-		return true;
+		return path.generic_string();
 	}
+
 
 	std::unique_ptr<TCorrectorTrainerBase> agent::CreateBaselineTrainer(const std::string& script_path, const std::string& state_path)
 	{

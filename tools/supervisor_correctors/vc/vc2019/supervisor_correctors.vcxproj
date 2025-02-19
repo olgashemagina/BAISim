@@ -145,7 +145,7 @@
       <AdditionalDependencies>Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y ..\..\..\..\library\awplflib\scripts\*.py $(ProjectDir)</Command>
+      <Command>xcopy /y ..\..\..\..\library\awplflib\scripts\*.py $(ProjectDir) </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

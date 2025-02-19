@@ -1,9 +1,16 @@
+#!/usr/bin/env python
+# coding: utf-8
+
 import numpy as np
 import scipy
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 import xml.etree.ElementTree as ET
+import struct
 
+import os
+
+os.environ['OMP_NUM_THREADS'] = '1'
 
 class BaselineCorrector:
     def __init__(self):
@@ -19,12 +26,14 @@ class BaselineCorrector:
 
 
     def fit(self, CRLS, WRLS, space='reduced', whitening=False, setPC=3, numPC=150, numClust=15, nBins = 100):
-        # Инициализация
+
         self.CRLS = CRLS
         self.WRLS = WRLS
+             
         self.numClust = numClust
 
-        # Расчет центра в зависимости от setPC
+        numPC = min(CRLS.shape[1], numPC)
+
         match setPC:
             case 1:
                 all = np.concatenate((CRLS, WRLS), axis=0)
@@ -39,9 +48,9 @@ class BaselineCorrector:
         self.centre = centre
         self.space = space
 
-        # Проверка на корректность значения space
+
         if space == "original":
-            # Центрирование данных
+
             CRLS = CRLS - self.centre
             WRLS = WRLS - self.centre
             
@@ -59,12 +68,11 @@ class BaselineCorrector:
 
             self.project = project
 
-            # Нормализация данных
+
             CRLSR = np.divide(CRLS, project, where=project!=0, out=np.zeros_like(CRLS))
             WRLSR = np.divide(WRLS, project, where=project!=0, out=np.zeros_like(WRLS))
 
         elif space == "reduced":
-            # PCA для уменьшения размерности
             pca = PCA(n_components=numPC, whiten=whitening)
             match setPC:
                 case 1:
@@ -80,7 +88,6 @@ class BaselineCorrector:
         else:
             raise ValueError("Invalid value for space. Valid options are: 'original' or 'reduced'.")
 
-        # Кластеризация
         kmeans = KMeans(n_clusters=numClust, random_state=0, n_init="auto").fit(WRLSR)
         self.centroids = kmeans.cluster_centers_
 
@@ -92,7 +99,7 @@ class BaselineCorrector:
 
         self.numClust = self.centroids.shape[0]
 
-        # Расчет дискриминантных векторов
+
         covCRLSR = np.cov(CRLSR.T)
         meanCRLSR = np.mean(CRLSR, axis=0)
         self.FD = np.zeros((numPC, self.numClust))

@@ -25,7 +25,7 @@ namespace agent {
 		virtual ~TCorrectorBase() {}
 
 		// Correct result of detector using features.
-		virtual void Correct(const TFeatures& features, std::vector<int>& corrections) override {
+		virtual void Correct(const TFeatures& features, std::vector<int>& corrections) const override {
 			if (type_ != kCorrectorType_Unknown) {
 
 				int expected_result = (type_ == kCorrectorType_FN) ? 1 : 0;
@@ -35,22 +35,22 @@ namespace agent {
 					return (expected_result != res) && (corrections.at(row) == kNoCorrection);
 				};
 
-				
-				//Filter rows to temporary matrix;
-				filtered_data_.CopyRowsIf(IsProcessNeeded, features.matrix());
-
-				corrections_.clear();
-				corrections_.resize(filtered_data_.rows(), 0);
-
-				Process(filtered_data_, corrections_);
-
+				if (corrections.size() < features.batch_size())
+					corrections.resize(features.batch_size(), kNoCorrection);
+											
 				// Copy Result
-				for (size_t row = 0, cur = 0; row < corrections.size(); ++row) {
+				for (size_t row = 0; row < corrections.size(); ++row) {
 					if (IsProcessNeeded(row)) {
-						if (corrections_[cur]) {
+
+						auto corr = Process(features.matrix().GetRow(row), features.feats_count());
+
+						if (corr > 0) {
 							corrections[row] = expected_result;
 						}
-						cur++;
+						else if (corr < 0) {
+							std::cout << "Error while trying to correct fragment " << row + features.frags_begin() << std::endl;
+						}
+						
 					}
 				}
 
@@ -58,10 +58,11 @@ namespace agent {
 
 		}
 
-		virtual void	Process(const TMatrix& data, std::vector<int>& corrections) {
+		virtual int	Process(const float* features, size_t size) const {
 			// Process corrections and push [0, 1] to corrections.
 			// 0 - No Corrections Needed
 			// 1 - Correct result
+			return 0;
 		}
 
 		// Serializing methods.
@@ -108,9 +109,7 @@ namespace agent {
 		TMatrix fisher_;	// shape (proj_size, c_num)
 		std::vector<float> thres_;		// shape (c_num, 1)
 
-		// Temporary
-		TMatrix	projected_;
-
+		
 
 	public:
 
@@ -119,7 +118,7 @@ namespace agent {
 		virtual ~TBaselineCorrector() {}
 	
 
-		virtual void	Process(const TMatrix& data, std::vector<int>& corrections);
+		virtual int	Process(const float* features, size_t size) const override;
 
 		// Serializing methods.
 		bool LoadXML(TiXmlElement* node);
