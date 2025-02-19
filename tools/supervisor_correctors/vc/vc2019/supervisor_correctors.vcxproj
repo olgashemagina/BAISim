@@ -84,14 +84,14 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)..\build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IncludePath>..\..\..\..\3rdparty\boost\include\boost-1_87;..\..\..\..\library\awpipl2\include\;..\..\..\..\3rdparty\TinyXML\src\;..\..\..\..\library\awplflib;..\..\..\..\library\awplflib\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>$(LOCALAPPDATA)\Programs\Python\Python311\libs;..\..\..\..\3rdparty\boost\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(LOCALAPPDATA)\Programs\Python\Python38\libs;$(LOCALAPPDATA)\Programs\Python\Python311\libs;..\..\..\..\3rdparty\boost\lib;$(LibraryPath)</LibraryPath>
     <ExecutablePath>..\..\..\..\3rdparty\boost\lib;$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)..\build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IncludePath>..\..\..\..\3rdparty\boost\include\boost-1_87;..\..\..\..\library\awpipl2\include\;..\..\..\..\3rdparty\TinyXML\src\;..\..\..\..\library\awplflib;..\..\..\..\library\awplflib\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>$(LOCALAPPDATA)\Programs\Python\Python311\libs;..\..\..\..\3rdparty\boost\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(LOCALAPPDATA)\Programs\Python\Python38\libs;$(LOCALAPPDATA)\Programs\Python\Python311\libs;..\..\..\..\3rdparty\boost\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
