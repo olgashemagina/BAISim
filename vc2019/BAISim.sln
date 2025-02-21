@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31402.337
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "awpcvvideo", "..\library\awpcvvideo\vc2019\awpcvvideo.vcxproj", "{8B0D0586-46EA-4F01-B391-150F2B2D9E48}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -33,6 +33,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "supervisor_correctors", "..\tools\supervisor_correctors\vc\vc2019\supervisor_correctors.vcxproj", "{73A0EC7F-0D0C-4DFB-AE00-CF744713DB27}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests_supervisor_correctors", "..\tools\tests_supervisor_correctors\vc\vc2019\tests_supervisor_correctors.vcxproj", "{53A0EC7F-0D0C-4DFB-AE00-CF744713DB27}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests_agent", "..\tools\tests_agent\vc\vc2019\tests_agent.vcxproj", "{20F93755-031A-475B-8757-14F2A8F8AC00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -96,6 +98,10 @@ Global
 		{53A0EC7F-0D0C-4DFB-AE00-CF744713DB27}.Debug|x64.Build.0 = Debug|x64
 		{53A0EC7F-0D0C-4DFB-AE00-CF744713DB27}.Release|x64.ActiveCfg = Release|x64
 		{53A0EC7F-0D0C-4DFB-AE00-CF744713DB27}.Release|x64.Build.0 = Release|x64
+		{20F93755-031A-475B-8757-14F2A8F8AC00}.Debug|x64.ActiveCfg = Debug|x64
+		{20F93755-031A-475B-8757-14F2A8F8AC00}.Debug|x64.Build.0 = Debug|x64
+		{20F93755-031A-475B-8757-14F2A8F8AC00}.Release|x64.ActiveCfg = Release|x64
+		{20F93755-031A-475B-8757-14F2A8F8AC00}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

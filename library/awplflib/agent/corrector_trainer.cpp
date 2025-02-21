@@ -7,6 +7,8 @@
 #include <vector>
 #include <filesystem>
 
+#include "utils/time.h"
+
 #include <boost/python.hpp>
 #include <boost/python/numpy.hpp>
 
@@ -198,8 +200,10 @@ private:
 						
 
 		try {
+			TimeDiff	td;
 			auto callable = corrector_.attr("fit");
 			callable(t_array, f_array);
+			std::cout << "Corrector train time: " << td.GetDiffMs() << " ms." << std::endl;
 		}
 		catch (bp::error_already_set const&) {
 			PyErr_Print();

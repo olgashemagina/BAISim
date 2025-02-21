@@ -2,27 +2,26 @@
 
 using namespace agent;
 namespace agent {
-   
+
+    // Detector of objects using CPU;
+    class TStagesDetector : public TStagesDetectorBase {
+
+    public:
+        TStagesDetector() {}
+
+        virtual ~TStagesDetector() = default;
+
+        // Run detector and fill features and result of detections for fragments in range [begin, end]
+        // Can be called in parallel for different fragments;
+        bool Detect(TFeaturesBuilder& builder) const override;
+        virtual TiXmlElement* SaveXML();
+
+    private:
+        // Load features count
+        bool            InitializeStructure();
 
 
-    // Supported only SC detector
-
-    bool TStagesDetector::Initialize(std::unique_ptr<ILFObjectDetector> detector, int min_stages) {
-
-        detector_ = std::move(detector);
-        min_stages_ = min_stages;
-        
-        if (InitializeStructure()) {
-            type_ = detector_->GetObjectType();
-            name_ = detector_->GetName();
-            return true;
-        }
-        else {
-            type_ = "unknown";
-            name_ = "none";
-        }
-        return false;
-    }
+    };
 
     // Load features count
     bool            TStagesDetector::InitializeStructure() {
@@ -57,17 +56,6 @@ namespace agent {
         }
 
         return true;
-    }
-
-    const TFragments& TStagesDetector::Setup(std::shared_ptr<TLFImage> img, const std::vector<TLFRect>* rois) {
-
-        if (rois && !rois->empty())
-            fragments_.Scan(detector_->GetScanner(), img, min_fragment_factor_, *rois);
-        else
-            fragments_.Scan(detector_->GetScanner(), img);
-
-        img_ = img;
-        return fragments_;
     }
 
     // Run detector and fill features and result of detections for fragments in range [begin, end]
@@ -138,47 +126,16 @@ namespace agent {
         return true;
     }
 
-    void TStagesDetector::Release() {
-        img_.reset();
+    inline TiXmlElement* TStagesDetector::SaveXML() {
+        auto node = TStagesDetectorBase::SaveXML();
+
+        node->SetValue("TStagesDetector");
+        return node;
     }
-
-    // Serializing methods.
-    bool TStagesDetector::LoadXML(TiXmlElement* stages_node) {
-        stages_node->QueryValueAttribute("min_stages", &min_stages_);
-
-        auto detector_node = stages_node->FirstChildElement();
-
-        decltype(detector_) det;
-
-        if (detector_node && detector_node->ValueStr() == "TSCObjectDetector") {
-
-            auto detector = std::make_unique<TSCObjectDetector>();
-            //TiXmlElement* e = elem->FirstChildElement();
-            if (!detector->LoadXML(detector_node))
-                return false;
-
-            det = std::move(detector);
-        }
-
-        return Initialize(std::move(det), min_stages_);
-
-    };
-
-
-    TiXmlElement* TStagesDetector::SaveXML() {
-        TiXmlElement* stages_node = new TiXmlElement("TStagesDetector");
-
-        stages_node->SetAttribute("min_stages", min_stages_);
-
-        if (detector_) {
-            stages_node->LinkEndChild(detector_->SaveXML());
-        }
-
-        return stages_node;
+     
+    std::unique_ptr<TStagesDetectorBase> agent::CreateCpuDetector() {
+        return std::make_unique<TStagesDetector>();
     }
-
- 
-
 
 }
 

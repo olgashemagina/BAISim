@@ -55,6 +55,9 @@ public:
 
 	void	SetNmsThreshold(float threshold) { nms_threshold_ = threshold; }
 
+	void	SetBatchSize(size_t size) { batch_size_ = size; }
+	void	SetMaxThreads(size_t size) { max_threads_ = size; }
+
 
 	virtual void SetSupervisor(std::shared_ptr<ILFSupervisor> sv) {
 		supervisor_ = sv;

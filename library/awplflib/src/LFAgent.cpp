@@ -73,7 +73,7 @@ TLFAgent::TLFAgent() noexcept
 
 
 	// Split on batches;
-	size_t batches_count = size_t(std::ceil(fragments_count / batch_size_));
+	size_t batches_count = size_t(std::ceil(fragments_count / double(batch_size_)));
 	
 #ifdef _OMP_
 #pragma omp parallel for num_threads(threads)
@@ -159,14 +159,22 @@ bool TLFAgent::LoadXML(TiXmlElement* agent_node) {
 	
 	if (detector_node->ValueStr() == "TStagesDetector") {
 
-		auto detector = std::make_unique<TStagesDetector>();
+		auto detector = agent::CreateCpuDetector();
 		
 		if (!detector->LoadXML(detector_node))
 			return false;
 
 		det = std::move(detector);
 	}
-	else if (detector_node->ValueStr() == "TRandomDetector") {
+	else if (detector_node->ValueStr() == "TAccelStagesDetector") {
+		auto detector = agent::CreateGpuDetector();
+
+		if (!detector->LoadXML(detector_node))
+			return false;
+
+		det = std::move(detector);
+
+	} else if (detector_node->ValueStr() == "TRandomDetector") {
 		auto detector = std::make_unique<TRandomDetector>();
 		
 		if (!detector->LoadXML(detector_node))
@@ -323,20 +331,23 @@ std::unique_ptr<TLFAgent>       LoadAgentFromEngine(const std::string& engine_pa
 
 	std::unique_ptr<TLFAgent>  agent = std::make_unique<TLFAgent>();
 
+	std::unique_ptr<TStagesDetectorBase>  detector;
 	if (use_gpu) {
-		auto detector = agent::CreateGpuDetector(std::move(internal_detector), 3);
-				
-		agent->Initialize(std::move(detector), std::move(trainer));
+		detector = agent::CreateGpuDetector();
 	}
 	else {
-		auto detector = std::make_unique<agent::TStagesDetector>();
-
-		if (!detector->Initialize(std::move(internal_detector))) {
-			std::cerr << "Cant initialize detector from file" <<
-				engine_path << std::endl;
-		}
-		agent->Initialize(std::move(detector), std::move(trainer));
+		detector = agent::CreateCpuDetector();
 	}
+
+	if (!detector->Initialize(std::move(internal_detector))) {
+		std::cerr << "Cant initialize detector from file" <<
+			engine_path << std::endl;
+		return nullptr;
+	}
+
+	detector->SetMinStages(3);
+
+	agent->Initialize(std::move(detector), std::move(trainer));
 
 	return agent;
 
