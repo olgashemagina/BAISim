@@ -75,7 +75,7 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 {
 	UUID id;
 	LF_NULL_UUID_CREATE(id);
-	m_pBaseObject = new TLFDetectedItem(NULL, 0, "is marked by a person", 0, 0,  10, 10, "", id);
+	m_pBaseObject = new TLFDetectedItem({0}, 0., "is marked by a person", 0, 0,  10, 10, "", id);
 	m_strFileName = "";
 	m_Selected = -1;
 	m_DrawOverlaps = false;
@@ -821,7 +821,7 @@ void __fastcall TForm1::ObjectDetectorHelper()
 					TLFDetectedItem* di = m_ObjectEngine.GetItem(i);
                     if (di)
                     {
-						awpRect rect = di->GetBounds()->GetRect();
+						awpRect rect = di->GetBounds().GetRect();
 						TRect*   r = new TRect(rect.left, rect.top, rect.right, rect.bottom);
 						m_objects->Add(r);
                     }
@@ -871,10 +871,10 @@ void __fastcall TForm1::DrawRois(TCanvas* cnv)
 
 	for (int i = 0; i < m_rois.GetItemsCount(); i++)
     {
-		  TLFRect* roi = m_rois.GetDetectedItem(i)->GetBounds();
-          if (roi != NULL)
-          {
-				awpRect r = roi->GetRect();
+		  awpRect r = m_rois.GetDetectedItem(i)->GetBounds().GetRect();
+          //if (r != NULL)
+          //{
+				//awpRect r = roi->GetRect();
 
 		   //     awpPoint le = r.p;
 		   //     awpPoint re = r.p1;
@@ -886,7 +886,7 @@ void __fastcall TForm1::DrawRois(TCanvas* cnv)
 		   //     Rect2 = PhImage2->GetScreenRect(rect);
 		   //     cnv->Rectangle(Rect2);
 
-		  }
+		  //}
 
     }
 
@@ -945,8 +945,8 @@ void __fastcall TForm1::DrawSemantic(TCanvas* cnv)
 	for (int i = 0; i < m_Descr.GetItemsCount(); i++)
 	{
 		TLFDetectedItem* di = m_Descr.GetDetectedItem(i);
-		TLFRect* rr = di->GetBounds();
-		awpRect  r  = rr->GetRect();
+		TLFRect rr = di->GetBounds();
+		awpRect  r  = rr.GetRect();
 		TRect  rect(r.left, r.top, r.right, r.bottom);
 		TRect  Rect2 = PhImage2->GetScreenRect(rect);
 		cnv->Pen->Width = 1;
@@ -974,8 +974,8 @@ void __fastcall TForm1::DrawFarthestOverlaps(TCanvas* cnv)
 	for (int i = 0; i < m_Descr.GetItemsCount(); i++)
 	{
 		TLFDetectedItem* di = m_Descr.GetDetectedItem(i);
-		TLFRect* rr = di->GetBounds();
-		awpRect  r  = rr->GetRect();
+		TLFRect rr = di->GetBounds();
+		awpRect  r  = rr.GetRect();
 		TRect  rect(r.left, r.top, r.right, r.bottom);
 		float ar = (float)di->GetBH()/(float)di->GetBW();
 		m_scanner.Scan(PhImage2->Bitmap->Width, PhImage2->Bitmap->Height);
@@ -984,7 +984,7 @@ void __fastcall TForm1::DrawFarthestOverlaps(TCanvas* cnv)
 			awpRect r1 = m_scanner.GetFragmentRect(j);
 			TLFRect dr;
 			dr.SetRect(r1);
-			float overlap = rr->RectOverlap(dr);
+			float overlap = rr.RectOverlap(dr);
 			if (overlap >= this->m_farthest_min_thr && overlap <= this->m_farthest_max_thr)
 			{
 				  cnv->Pen->Color = clTeal;
@@ -1007,8 +1007,8 @@ void __fastcall TForm1::DrawOverlaps(TCanvas* cnv)
 	{
 		TLFDetectedItem* di = m_Descr.GetDetectedItem(i);
 		std::string uuid = di->GetType();
-		TLFRect* rr = di->GetBounds();
-		awpRect  r  = rr->GetRect();
+		TLFRect rr = di->GetBounds();
+		awpRect  r  = rr.GetRect();
 		TRect  rect(r.left, r.top, r.right, r.bottom);
 		TLFDBLabeledImages* db = m_db.Data;
 		if (db != NULL)
@@ -1037,7 +1037,7 @@ void __fastcall TForm1::DrawOverlaps(TCanvas* cnv)
             awpRect r1 = m_scanner.GetFragmentRect(j);
             TLFRect dr;
             dr.SetRect(r1);
-            float overlap = rr->RectOverlap(dr);
+            float overlap = rr.RectOverlap(dr);
             if (overlap > m_overlaps_thr)
             {
                   cnv->Pen->Color = clYellow;
@@ -1058,7 +1058,7 @@ void __fastcall TForm1::DrawOverlaps(TCanvas* cnv)
             awpRect r1 = m_scanner.GetFragmentRect(j);
             TLFRect dr;
             dr.SetRect(r1);
-			float overlap = rr->RectOverlap(dr);
+			float overlap = rr.RectOverlap(dr);
             if (overlap > nearlest)
             {
               nearlest = overlap;

@@ -145,6 +145,7 @@ public:
     TLFRect(awpRect r);
 	TLFRect(int left, int top, int w, int h);
 	TLFRect(const TLFRect& r);
+    TLFRect& operator=(const TLFRect& r);
 	virtual ~TLFRect();
 	awpRect GetRect() const;
 	void SetRect(awpRect Rect);

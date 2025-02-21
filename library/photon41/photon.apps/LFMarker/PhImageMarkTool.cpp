@@ -58,7 +58,7 @@ bool   TPhImageMarkTool::_is_near_vertex(int X, int Y, int& idx1, int& idx2)
 			{
 				 if (z->GetZoneType() == ZTRect && m_mode == MTRect)
 				 {
-					TRect rect = awpRect2TRect(item->GetBounds()->GetRect());
+					TRect rect = awpRect2TRect(item->GetBounds().GetRect());
 					for (int j = 0; j < 4; j++)
 					{
 						TPoint vertex = GetRectPoint(j, rect);
@@ -109,7 +109,7 @@ bool   TPhImageMarkTool::_is_near_vertex(int X, int Y, int& idx1, int& idx2)
 			}
 			else
 			{
-				TRect rect = awpRect2TRect(item->GetBounds()->GetRect());
+				TRect rect = awpRect2TRect(item->GetBounds().GetRect());
 				for (int j = 0; j < 4; j++)
 				{
 					TPoint vertex = GetRectPoint(j, rect);
@@ -160,7 +160,7 @@ void __fastcall TPhImageMarkTool::SetVertex(int x, int y)
 	 TLFZone* z = item->GetZone();
 	 if (z == NULL || (z->GetZoneType() == ZTRect && m_mode == MTRect))
 	 {
-		 TRect rect = awpRect2TRect(item->GetBounds()->GetRect());
+		 TRect rect = awpRect2TRect(item->GetBounds().GetRect());
 		 if (m_sv == 0)
 		 {
 			rect.Left = p.x;
@@ -268,7 +268,7 @@ void TPhImageMarkTool::Draw(TCanvas* Canvas)
 		TEZoneTypes zt =  GetItemZoneType(item);
 		if (zt == ZTRect)
 		{
-			TRect rect = awpRect2TRect(item->GetBounds()->GetRect());
+			TRect rect = awpRect2TRect(item->GetBounds().GetRect());
 			TRect rect1 = this->m_pImage->GetScreenRect(rect);
 			Canvas->Brush->Color = color;
 

@@ -251,7 +251,6 @@ object Form1: TForm1
             Align = alClient
             ParentColor = False
             Visible = False
-            ExplicitHeight = 127
           end
           object DirectoryListBox1: TDirectoryListBox
             Left = 0
@@ -270,7 +269,6 @@ object Form1: TForm1
             Height = 27
             Align = alBottom
             TabOrder = 1
-            ExplicitTop = 364
             object DriveComboBox1: TDriveComboBox
               Left = 1
               Top = 1
@@ -303,7 +301,6 @@ object Form1: TForm1
             TabOrder = 3
             OnChange = FileListBox1Change
             OnKeyUp = FileListBox1KeyUp
-            ExplicitHeight = 127
           end
         end
         object TabSheet2: TTabSheet
@@ -498,6 +495,7 @@ object Form1: TForm1
             Align = alBottom
             Caption = 'Panel2'
             TabOrder = 2
+            ExplicitTop = 370
           end
         end
       end

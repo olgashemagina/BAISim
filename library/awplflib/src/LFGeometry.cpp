@@ -190,6 +190,11 @@ TLFRect::TLFRect(const TLFRect& r)
 {
 	m_Rect = r.GetRect();
 }
+TLFRect& TLFRect::operator=(const TLFRect& r){
+
+    m_Rect = r.GetRect();
+    return *this;
+}
 TLFRect::~TLFRect()
 {}
 

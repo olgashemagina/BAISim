@@ -567,6 +567,7 @@ void TLFDetectEngine::OverlapsFilter(TLFSemanticImageDescriptor* descriptor)
         }
         // objectDescr analysis
         awpPoint p; p.X = 0; p.Y = 0;
+        int xsum = 0, ysum = 0, wsum = 0, hsum = 0;
         AWPSHORT w = 0;
         AWPSHORT h = 0;
         double max_raiting = 0;
@@ -576,17 +577,17 @@ void TLFDetectEngine::OverlapsFilter(TLFSemanticImageDescriptor* descriptor)
         for (int i = 0; i < objectDescr.GetCount(); i++)
         {
              TLFDetectedItem* d =  (TLFDetectedItem*)objectDescr.Get(i);
-			 p.X += d->GetBounds().Center().X;
-             p.Y += d->GetBounds().Center().Y;
-             w += d->GetBounds().Width();
-             h +=  d->GetBounds().Height();
+			 xsum += d->GetBounds().Center().X;
+             ysum += d->GetBounds().Center().Y;
+             wsum += d->GetBounds().Width();
+             hsum +=  d->GetBounds().Height();
              if (max_raiting < d->GetRaiting())
                 max_raiting =  d->GetRaiting();
         }
-		p.X /= objectDescr.GetCount();
-        p.Y /= objectDescr.GetCount();
-        w /= objectDescr.GetCount();
-        h /= objectDescr.GetCount();
+		p.X = xsum/objectDescr.GetCount();
+        p.Y = ysum/objectDescr.GetCount();
+        w = wsum/objectDescr.GetCount();
+        h = hsum/objectDescr.GetCount();
         // Object attributes
         awpRect r;
         double raiting;
