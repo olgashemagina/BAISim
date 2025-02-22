@@ -65,9 +65,11 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\..\vc2019\BAISim.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\..\vc2019\BAISim.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -84,15 +86,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\..\..\..\library\awpipl2\include\;..\..\..\..\3rdparty\TinyXML\src\;..\..\..\..\3rdparty\opencv\include\;..\..\..\..\library\awpcvvideo\;..\..\..\..\library\awplflib\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\..\..\3rdparty\opencv\x64\vc12\lib\;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\..\..\library\awplflib;..\..\..\..\library\awpipl2\include\;..\..\..\..\3rdparty\TinyXML\src\;..\..\..\..\3rdparty\opencv\include\;..\..\..\..\library\awpcvvideo\;..\..\..\..\library\awplflib\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(PythonPath)\libs;$(BoostLib);..\..\..\..\3rdparty\opencv\x64\vc12\lib\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\build\bin\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)..\build\bin\$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>..\..\..\..\library\awpipl2\include\;..\..\..\..\3rdparty\TinyXML\src\;..\..\..\..\3rdparty\opencv\include\;..\..\..\..\library\awpcvvideo\;..\..\..\..\library\awplflib\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\..\..\3rdparty\opencv\x64\vc12\lib\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <IncludePath>..\..\..\..\library\awplflib;..\..\..\..\library\awpipl2\include\;..\..\..\..\3rdparty\TinyXML\src\;..\..\..\..\3rdparty\opencv\include\;..\..\..\..\library\awpcvvideo\;..\..\..\..\library\awplflib\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(PythonPath)\libs;$(BoostLib);..\..\..\..\3rdparty\opencv\x64\vc12\lib\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

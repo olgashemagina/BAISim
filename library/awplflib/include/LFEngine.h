@@ -50,6 +50,8 @@
 
 #include "LF.h"
 #include "LFThresholdProc.h"
+#include "LFAgent.h"
+
 #include <vector>
 #include <map>
 #include <string>
@@ -59,8 +61,10 @@
 
 class TLFTreeEngine : public TLFObject {
 	struct tree_t : public std::map<std::string, std::pair<std::shared_ptr<ILFObjectDetector>, tree_t>> {};
+	struct agent_tree_t : public std::map<std::string, std::pair<std::shared_ptr<TLFAgent>, agent_tree_t>> {};
 
 	using detectors_t = std::vector<std::shared_ptr<ILFObjectDetector>>;
+	using agents_t = std::vector<std::shared_ptr<TLFAgent>>;
 
 public:
 	/*Loading from-to xml files*/
@@ -71,11 +75,18 @@ public:
 	virtual bool LoadXML(TiXmlElement* parent);
 	virtual TiXmlElement* SaveXML();
 
+	virtual void SetAgentMode();
+
 private:
 	static TiXmlElement* SaveXML(const tree_t& tree, detectors_t& detectors);
 	static tree_t LoadXML(TiXmlElement* node, const detectors_t& detectors);
 
+	static TiXmlElement* SaveXML(const agent_tree_t& tree, agents_t& agents);
+	static agent_tree_t LoadXML(TiXmlElement* node, const agents_t& agents);
+	
+
 	static std::shared_ptr<ILFObjectDetector> LoadDetector(TiXmlElement* node);
+	static std::shared_ptr<TLFAgent> LoadAgent(TiXmlElement* node);
 
 
 public:
@@ -83,12 +94,20 @@ public:
 	std::optional<std::vector<detected_item_ptr>> Detect(TLFImage* pImage) {
 		return DetectInRect(tree_, pImage, nullptr);
 	}
+	std::optional<std::vector<detected_item_ptr>> Detect(std::shared_ptr<TLFImage> pImage) {
+		return DetectInRect(tree_, pImage.get(), nullptr);
+	}
 
 	//Set detector to the node specified by path;
 	bool		SetDetector(const std::string& path, std::shared_ptr<ILFObjectDetector> detector);
 
 	//Get detector specified by path;
 	std::shared_ptr<ILFObjectDetector>		GetDetector(const std::string& path) const;
+
+	//Set agent to the node specified by path;
+	bool SetAgent(const std::string& path, std::shared_ptr<TLFAgent> agent);
+	//Get agent specified by path;
+	std::shared_ptr<TLFAgent> GetAgent(const std::string& path) const;
 
 	virtual const char* GetName()
 	{
@@ -105,7 +124,8 @@ private:
 
 private:
 	tree_t				tree_;
-
+	agent_tree_t		agent_tree_;
+	bool				use_agent = false;
 };
 
 

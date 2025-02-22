@@ -16,6 +16,8 @@
 
 #include "tinyxml.h"
 
+#include "utils/xml.h"
+
 #include "LF.h"
 #include "LFEngine.h"
 #include "LFFileUtils.h"
@@ -55,16 +57,86 @@ void usage()
 		"Usage:" << std::endl << "<tree_builder.exe> " <<
 		"export|merge  " <<
 		"--tree=<path_to_tree_engine> " <<
-		"--det=<path_to_detector> " <<
+		"--det=<path_to_detector>|--agent=<path_to_agent> " <<
 		"--tree_path=<path_in_tree> [--tree_path=<path_in_tree> ...] " <<
 		std::endl;
 
 	std::cout << "\t--tree\t\tPath to XML with Tree Engine (TLFTreeEngine)" <<
 		std::endl << "\t--det\t\tPath to XML with Engine (TLFDetectEngine)" <<
+		std::endl << "\t--agent\t\tPath to XML with Agent (TLFAgent)" <<
 		std::endl << "\t--tree_path\t\tPath in Tree Engine as Name1.Name2..." <<
 		std::endl << std::endl;
 }
-	
+
+static EStatus merge_agent(const TLFString& tree_path, const TLFString& agent_path,
+	const std::vector<TLFString>& tree_path_det) {
+
+	TLFTreeEngine tree_engine;
+	tree_engine.SetAgentMode();
+	if (!tree_engine.Load(tree_path)) {
+		std::cerr << "Cant load Tree Engine. Creating empty one." << std::endl;
+	}
+
+	std::shared_ptr<TLFAgent> agent;
+	if (!agent_path.empty()) {
+		agent = std::make_shared<TLFAgent>();
+		agent = load_xml(agent_path, [](TiXmlElement* node) {
+			auto agent = std::make_shared<TLFAgent>();
+			if (node && agent->LoadXML(node))
+				return agent;
+			return std::shared_ptr<TLFAgent>{};
+			});
+		assert(agent);
+		if (!agent) {
+			std::cerr << "TLFAgent couldn't parse file" <<
+				agent_path << std::endl;
+			return kStatus_WrongPath;
+		}
+	}
+	else {
+		std::cerr << "agent path is empty" <<
+			agent_path << std::endl;
+		return kStatus_WrongPath;
+	}
+
+	for (const auto& path : tree_path_det) {
+		if (!tree_engine.SetAgent(path, agent))
+			return kStatus_WrongPath;
+	}
+
+	if (!tree_engine.Save(tree_path))
+		return kStatus_WrongPath;
+
+	return kStatus_Success;
+}
+
+static EStatus export_agent(const TLFString& tree_path, const TLFString& agent_path,
+	const TLFString& tree_path_det) {
+
+	auto tree_engine = std::make_unique<TLFTreeEngine>();
+	tree_engine->SetAgentMode();
+	if (!tree_engine->Load(tree_path))
+		return kStatus_WrongPath;
+
+
+	auto agent = tree_engine->GetAgent(tree_path_det);
+
+	if (!agent) {
+		std::cerr << "TLFTreeEngine cant find path in tree " <<
+			tree_path_det << std::endl;
+		return kStatus_WrongPath;
+	}
+
+	tree_engine.reset();
+
+	if (!save_xml(agent_path, agent->SaveXML())) {
+		std::cerr << "TLFAgent couldn't write file" <<
+			agent_path << std::endl;
+		return kStatus_WrongPath;
+	}
+
+	return kStatus_Success;
+}
 
 static EStatus merge_detector(const TLFString& tree_path, const TLFString& det_path,
 	const std::vector<TLFString>& tree_path_det) {
@@ -133,6 +205,8 @@ static EStatus export_detector(const TLFString& tree_path, const TLFString& det_
 int main(int argc, char* argv[])
 {
 	TLFString det_path;
+	TLFString agent_path;
+	bool use_agent = false;
 	TLFString tree_path;
 	std::vector<TLFString> tree_path_det;
 
@@ -156,6 +230,12 @@ int main(int argc, char* argv[])
 				usage();
 				return kStatus_WrongArgument;
 			}
+			if (!agent_path.empty()) {
+				std::cerr << "agent path was already specified "
+					"in parameters" << std::endl;
+				usage();
+				return kStatus_WrongArgument;
+			}
 			if (!det_path.empty()) {
 				std::cerr << "Engine file was already specified "
 					"in parameters" << std::endl;
@@ -163,6 +243,27 @@ int main(int argc, char* argv[])
 				return kStatus_WrongArgument;
 			}
 			det_path = key.substr(6);
+		} else if (key.substr(0, 8) == "--agent=") {
+			use_agent = true;
+			if (key.length() < 9 || key[7] != '=') {
+				std::cerr << "Parsing error: use \"agent=<path>\", "
+					"no extra spaces" << std::endl;
+				usage();
+				return kStatus_WrongArgument;
+			}
+			if (!det_path.empty()) {
+				std::cerr << "det path was already specified "
+					"in parameters" << std::endl;
+				usage();
+				return kStatus_WrongArgument;
+			}
+			if (!agent_path.empty()) {
+				std::cerr << "Engine file was already specified "
+					"in parameters" << std::endl;
+				usage();
+				return kStatus_WrongArgument;
+			}
+			agent_path = key.substr(8);
 		} else if (key.substr(0, 7) == "--tree=") {
 			if (key.length() < 8 || key[6] != '=') {
 				std::cerr << "Parsing error: use \"tree=<path>\", "
@@ -194,17 +295,37 @@ int main(int argc, char* argv[])
 			return kStatus_WrongArgument;
 		}
 	}
-	if (det_path.size() == 0) {
-		std::cerr << "No detector provided" << std::endl;
-		usage();
-		return kStatus_WrongArgument;
-	} else {
-		std::cout << "Using detector: " << det_path << std::endl;
+
+	if (use_agent) {
+		if (agent_path.size() == 0) {
+			std::cerr << "No agent provided" << std::endl;
+			usage();
+			return kStatus_WrongArgument;
+		}
+		else {
+			std::cout << "Using agent: " << agent_path << std::endl;
+		}
+	}
+	else {
+		if (det_path.size() == 0) {
+			std::cerr << "No detector provided" << std::endl;
+			usage();
+			return kStatus_WrongArgument;
+		}
+		else {
+			std::cout << "Using detector: " << det_path << std::endl;
+		}
 	}
 	
-	EStatus res =	(command == "merge") ? merge_detector(tree_path, det_path, tree_path_det) : 
-				(command == "export") ? export_detector(tree_path, det_path, tree_path_det[0]) : kStatus_WrongArgument;
-		
+	EStatus res = kStatus_Success;
+	if (use_agent) {
+		res = (command == "merge") ? merge_agent(tree_path, agent_path, tree_path_det) :
+			(command == "export") ? export_agent(tree_path, agent_path, tree_path_det[0]) : kStatus_WrongArgument;
+	}
+	else {
+		res = (command == "merge") ? merge_detector(tree_path, det_path, tree_path_det) :
+			(command == "export") ? export_detector(tree_path, det_path, tree_path_det[0]) : kStatus_WrongArgument;
+	}
 
 	if (res == kStatus_Success) {
 		std::cout << "Done" << std::endl;
