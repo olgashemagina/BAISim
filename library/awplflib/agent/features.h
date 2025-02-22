@@ -38,6 +38,10 @@ namespace agent {
 				GetDetectorResult(fragment_index) : corrections_[fragment_index - frags_begin_];
 		}
 
+		bool IsCorrected(size_t fragment_index) const {
+			return corrections_[fragment_index - frags_begin_] != kNoCorrection;
+		}
+
 		int	GetTriggeredStage(size_t fragment_index) const { return triggered_.at(fragment_index - frags_begin_); }
 
 		float	GetScore(size_t fragment_index) const { return scores_.at(fragment_index - frags_begin_); }

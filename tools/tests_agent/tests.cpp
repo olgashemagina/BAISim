@@ -164,7 +164,7 @@ static bool test_agents_sequence() {
 			detections.clear();
 
 			for (const auto& item : items) {
-				auto rect = item.GetBounds();
+				auto rect = item.detected.GetBounds();
 				// Increase size of rect;
 				//rect.Inflate(rect.Width() * 0.1, rect.Height() * 0.1);
 				detections.push_back(rect);
@@ -201,7 +201,7 @@ struct TNode {
 		if (items.size()) {
 
 			for (const auto& item : items) {
-				auto rect = item.GetBounds();
+				auto rect = item.detected.GetBounds();
 				// Increase size of rect;
 				//rect.Inflate(rect.Width() * 0.1, rect.Height() * 0.1);
 				detections.push_back(rect);
@@ -321,7 +321,7 @@ static bool test_cpu_gpu() {
 		TimeDiff	td;
 		const int tests = 10;
 
-		std::vector<TLFDetectedItem>	items;
+		std::vector<TLFAgent::item_t>	items;
 		for (int i = 0; i < tests; ++i)
 			items = gpu_agent.Detect(img);
 

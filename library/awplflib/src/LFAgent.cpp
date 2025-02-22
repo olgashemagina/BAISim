@@ -16,7 +16,7 @@
 using namespace agent;
 
 
-struct TItemAttributes {
+struct TLFAgent::TItemAttributes {
 	// Detected object type
 	std::string_view	type;
 	int					base_width = 24;
@@ -27,9 +27,6 @@ struct TItemAttributes {
 	std::string_view	name;
 };
 
-static std::vector<TLFDetectedItem> NonMaximumSuppression(
-	std::vector<std::pair<TLFRect, float>>& rects,
-	float overlap_threshold, const TItemAttributes& attrs);
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -37,7 +34,7 @@ TLFAgent::TLFAgent() noexcept
 	: pool_([this]() { return std::make_unique<agent::TFeaturesBuilder>(); }) {
 }
 
- std::vector<TLFDetectedItem> TLFAgent::Detect(std::shared_ptr<TLFImage> img, const std::vector<TLFRect>* rois) {
+ std::vector<TLFAgent::item_t> TLFAgent::Detect(std::shared_ptr<TLFImage> img, const std::vector<TLFRect>* rois) {
 
 	agent::TDetections	gt_detections;
 
@@ -118,8 +115,9 @@ TLFAgent::TLFAgent() noexcept
 #pragma omp critical 
 #endif
 				{
-					prior_detections_.emplace_back(	fragments.get(n), 
-													features->GetScore(n));
+					prior_detections_.emplace_back(TPrior{ fragments.get(n),
+													features->GetScore(n),
+													features->IsCorrected(n) });
 				}
 			}
 		}
@@ -136,7 +134,12 @@ TLFAgent::TLFAgent() noexcept
 								0, 0, 0, 
 								detector_->GetName() };
 
+	std::vector<int>	positions;
+
 	return NonMaximumSuppression(prior_detections_, nms_threshold_, attr);
+
+	// Set flag for item if it corrected or not;
+
 	//return {};
 }
 
@@ -248,19 +251,23 @@ inline TiXmlElement* TLFAgent::SaveXML() {
 
 
 // Filter detections
-static std::vector<TLFDetectedItem> NonMaximumSuppression(
-	std::vector<std::pair<TLFRect, float>>& rects, 
+std::vector<TLFAgent::item_t> TLFAgent::NonMaximumSuppression(
+	std::vector<TPrior>& rects, 
 	float overlap_threshold, const TItemAttributes& attrs ) {
 	
-	std::vector<TLFDetectedItem>	items;
+	std::vector<item_t>	items;
 
+	
 	// Sort by score
 	std::sort(rects.begin(), rects.end(), [](const auto& a, const auto& b) {
-			return a.second > b.second;
+			return a.score > b.score;
 	});
 
+	// Count of corrected items;
+	int corrected = 0;
+
 	for (int i = 0; i < rects.size(); ++i) {
-		const auto& [base_rect, base_score] = rects[i];
+		const auto& [base_rect, base_score, is_base_corrected] = rects[i];
 
 		if (base_score < 0)
 			continue;
@@ -271,9 +278,10 @@ static std::vector<TLFDetectedItem> NonMaximumSuppression(
 		float w = base_rect.Width(), h = base_rect.Height();
 
 		int similar_count = 1;
+		bool is_corrected = is_base_corrected;
 
 		for (size_t j = i + 1; j < rects.size(); ++j) {
-			auto& [rect, score] = rects[j];
+			auto& [rect, score, is_prior_corrected] = rects[j];
 
 			if (score >= 0 && rect.RectOverlap(base_rect) > overlap_threshold) {
 				x += rect.Center().X;
@@ -282,7 +290,8 @@ static std::vector<TLFDetectedItem> NonMaximumSuppression(
 				h += rect.Height();
 
 				similar_count++;
-
+				// Item is corrected if all priors are corrected;
+				is_corrected = is_corrected && is_prior_corrected;
 
 				// Skip from using in futher tests
 				score = -1.f;
@@ -302,13 +311,16 @@ static std::vector<TLFDetectedItem> NonMaximumSuppression(
 		// add object to result list
 
 		{
-			items.emplace_back(std::move(r), base_score, std::string(attrs.type),
+			TLFDetectedItem item(std::move(r), base_score, std::string(attrs.type),
 				attrs.angle, attrs.racurs, attrs.base_width, attrs.base_height, std::string(attrs.name), id);
+			items.push_back({ std::move(item), is_corrected });
 		}
+
+		corrected += is_corrected ? 1 : 0;
 
 	}
 
-	std::cout << "Detected objects: " << rects.size() << " NMS: " << items.size() << std::endl;
+	std::cout << "Detected objects: " << rects.size() << " NMS: " << items.size() << " corrs: " << corrected << std::endl;
 
 	return items;
 }
@@ -357,7 +369,7 @@ std::unique_ptr<TLFAgent>       LoadAgentFromEngine(const std::string& engine_pa
 
 // Compare ground truths (gt) and detections (dets)
 // Returns FP and FN pair
-std::pair<int, int>		CalcStat(const agent::TDetections& gt, const std::vector<TLFDetectedItem>& dets, float overlap) {
+std::pair<int, int>		CalcStat(const agent::TDetections& gt, const std::vector<TLFAgent::item_t>& dets, float overlap) {
 	//Calc overlap matrix 
 	int FP = dets.size();
 	int FN = gt.size();
@@ -368,7 +380,7 @@ std::pair<int, int>		CalcStat(const agent::TDetections& gt, const std::vector<TL
 		unsigned char det_found = 0;
 		
 		for (size_t r = 0; r < gt.size(); ++r) {
-			if (dets[d].GetBounds().RectOverlap(gt[r]) > overlap) {
+			if (dets[d].detected.GetBounds().RectOverlap(gt[r]) > overlap) {
 				det_found = 1;
 				gt_mask[r] = 1;
 			}

@@ -23,14 +23,18 @@ public:
 	virtual agent::TDetections Detect(std::shared_ptr<TLFImage> img) = 0;
 };
 
-// Contans CPU TLFImage and GPU accel_rect IntegralImage
-class TLFImageContainer {
-public:
-
-
-};
 
 class TLFAgent {
+
+public:
+
+	struct TItem {
+		TLFDetectedItem			detected;
+		bool					is_corrected = false;
+	};
+
+	using item_t = TItem;
+
 
 public:
 	TLFAgent() noexcept;
@@ -64,7 +68,7 @@ public:
 	}
 
 	// Detect objects on image using agent;
-	virtual std::vector<TLFDetectedItem> Detect(std::shared_ptr<TLFImage> img, const std::vector<TLFRect>* rois = nullptr);
+	virtual std::vector<item_t> Detect(std::shared_ptr<TLFImage> img, const std::vector<TLFRect>* rois = nullptr);
 
 	// Advanced method that used rois  for fragments and supervised detections;
 	// If supervised is nullptr then do not using trainer for new correctors;\
@@ -74,6 +78,23 @@ public:
 	virtual bool LoadXML(TiXmlElement* agent_node);
 
 	virtual TiXmlElement* SaveXML();
+
+private:
+	struct TPrior {
+		// Rect of prior
+		TLFRect			rect;
+		// Score of prior
+		float			score;
+		// Correceted flag
+		bool			is_corrected = false;
+	};
+
+	struct TItemAttributes;
+
+	static std::vector<item_t> NonMaximumSuppression(
+		std::vector<TPrior>& rects,
+		float overlap_threshold, const TItemAttributes& attrs);
+
 
 protected:
 	std::shared_ptr<ILFSupervisor>					supervisor_;
@@ -86,8 +107,10 @@ protected:
 
 	agent::TCorrectorCollection						correctors_;
 
+	
+
 	// Prior detections
-	std::vector<std::pair<TLFRect, float>>		    prior_detections_;
+	std::vector<TPrior>		    prior_detections_;
 
 	// Size of Batch of fragments
 	size_t		batch_size_ = 2048;
@@ -105,4 +128,4 @@ std::unique_ptr<TLFAgent>       LoadAgentFromEngine(const std::string& engine_pa
 
 // Compare ground truths (gt) and detections (dets)
 // Returns FP and FN pair
-std::pair<int, int>		CalcStat(const agent::TDetections& gt, const std::vector<TLFDetectedItem>& dets, float overlap);
+std::pair<int, int>		CalcStat(const agent::TDetections& gt, const std::vector<TLFAgent::item_t>& dets, float overlap);
