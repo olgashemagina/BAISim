@@ -1,5 +1,11 @@
-1) Install Python 3.11 
-2) Install numpy 3.12, sklearn 1.6.1
+1) Install Python 3.11 https://www.python.org/downloads/release/python-3110/ 
+2) Install numpy 1.26.4, sklearn 1.6.1   pip install numpy==1.26.4 scikit-learn==1.6.1 
 3) Setup path to Python in propery "PythonPath" in file ./vc2019/BAISim.props
-4) Build boost 1.87 to the folder ./3rdparty/boost (see ./3rdparty/read.me for command line to build)
-5) Setup Visual Stuidio Community 2019 and open solution in ./vc2019/BAISim.sln
+4) Setup Visual Stuidio Community 2019
+5) Build boost 1.87 to the folder ./3rdparty/boost (see ./3rdparty/read.me for command line to build)
+
+bootstrap.bat vc142
+b2 --build-type=complete --prefix="PATH_TO_BAISIM\3rdparty\boost" -a --reconfigure install
+
+
+6) Open solution  ./vc2019/BAISim.sln in Visual Studio 2019
