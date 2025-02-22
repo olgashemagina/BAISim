@@ -216,7 +216,7 @@ struct TNode {
 	}
 };
 
-static std::unique_ptr<TNode>	build_agents_tree(int levels, float activate_prob = 0.7f, int num_features = 10) {
+static std::unique_ptr<TNode>	build_agents_tree(int levels, float activate_prob = 0.65f, int num_features = 10) {
 	if (levels <= 0)
 		return nullptr;
 
@@ -262,7 +262,7 @@ static bool test_agents_tree() {
 
 	std::cout << "Input image size " << img->width() << "x" << img->height() << std::endl;
 
-	auto root = build_agents_tree(13);
+	auto root = build_agents_tree(13, 0.65);
 
 	std::cout << "### Agents count " << root->num_nodes << " ###" << std::endl;
 	std::cout << "### Agents size " << root->size_in_bytes / double(1024 * 1024) << " mb. ###" << std::endl;

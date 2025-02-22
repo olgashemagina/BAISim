@@ -22,7 +22,6 @@ void Usage()
 	printf("-i get information about detector in the <param.xml>\n");
 	printf("-a add strong classifier.\n");
 	printf("-b build new detector.\n");
-	printf("-u update detector.\n");
 }
 
 int main(int argc, char* argv[])
@@ -70,11 +69,6 @@ int main(int argc, char* argv[])
 	{
 		//do new detecor
 		Builder.Build();
-	}
-	else if (key == "-u")
-	{
-		//Update detector
-		Builder.PartialUpdate();
 	}
 	
 	else 
