@@ -12,6 +12,7 @@
 //#endif
 
 #include "stdio.h"
+#include "LFFileUtils.h"
 //#ifndef __BCPLUSPLUS__
 //#include <sys/stat.h>
 //#endif
@@ -46,26 +47,29 @@ std::string LFGetFileName(const std::string&  strFileName)
 //	return str.substr(0, len);
 
 }
-std::string LFChangeFileExt(std::string& strFileName, std::string strExt)
+std::string LFChangeFileExt(const std::string& strFileName, std::string strExt)
 {
     fs::path p(strFileName);
     return p.replace_extension(strExt).generic_string();
 //	int len = strFileName.find_last_of('.');
 //	return strFileName.substr(0, len) + strExt;
 }
-std::string LFMakeFileName(std::string& strPath, std::string strName, std::string strExt)
+std::string LFMakeFileName(const std::string& strPath, std::string strName, std::string strExt)
 {
 	if (strName.length() == 0)
 		return "";
-	if (strPath.find_last_of('\\') != strPath.length() - 1)
-		strPath += c_separator;
+
+	std::string path = strPath;
+
+	if (path.find_last_of('\\') != path.length() - 1)
+		path += c_separator;
 	if (strExt.find_first_of('.') != 0)
 	{
 		std::string tmp = ".";
 		tmp += strExt;
 		strExt = tmp;
 	}
-	return strPath + strName + strExt;
+	return path + strName + strExt;
 }
 //#endif
 
@@ -134,6 +138,18 @@ bool LFCreateDir(const char* lpPath)
 //	return false;
 //#endif
 }
+
+bool LFCreateDirs(const char* lpPath)
+{
+	try {
+		fs::create_directories(lpPath);
+		return true;
+	}
+	catch (...) {
+		return false;
+	}
+}
+
 bool LFDirExist(const char* lpPath)
 {
     fs::file_status s = fs::status(lpPath);

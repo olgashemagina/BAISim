@@ -134,14 +134,15 @@ extern "C"
 	std::string LFGetFilePath(const std::string& strPath);
 	std::string LFGetFileExt(const std::string&  strFileName);
 	std::string LFGetFileName(const std::string&  strFileName);
-	std::string LFChangeFileExt(std::string& strFileName, std::string strExt);
-	std::string LFMakeFileName(std::string& strPath, std::string strName, std::string strExt);
+	std::string LFChangeFileExt(const std::string& strFileName, std::string strExt);
+	std::string LFMakeFileName(const std::string& strPath, std::string strName, std::string strExt);
 //#endif
 //std::string LFUnicodeConvertToUtf8(const std::wstring& wstr);
 //std::wstring LFUtf8ConvertToUnicode(const std::string& str);
 std::wstring LFConcatPath(const std::wstring& parentPath, const std::wstring& path);
 //functions to work with file system
 bool LFCreateDir(const char* lpPath);
+bool LFCreateDirs(const char* lpPath);
 bool LFDirExist(const char* lpPath);
 bool LFRemoveDir(const char* lpPath);
 bool LFFileExists(const std::string& strFileName);

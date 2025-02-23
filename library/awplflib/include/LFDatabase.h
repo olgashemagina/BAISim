@@ -133,5 +133,23 @@ public:
 		return "TLFDBlabeledMedia";
 	}
 };
+
+
+class TLFDBLabeledImagesBuilder : public TLFDBLabeledImages
+{
+public:
+	bool		AddLabel(const std::string& label) {
+		TLFSemanticDictinaryItem* item = new TLFSemanticDictinaryItem(label.c_str());
+		return m_dictinary.AddWordToDictinary(item);
+	}
+
+	bool		AddImageDescriptor(TLFDBSemanticDescriptor* desc) {
+
+		m_dataFiles.Add(desc);
+	}
+
+};
+
+
 /** @} */ /*  end of LFDatabase group */
 #endif 

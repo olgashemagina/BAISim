@@ -3,6 +3,7 @@
 
 #include "LFAgent.h"
 #include "LFEngine.h"
+#include "LFFileUtils.h"
 
 #include "agent/detectors.h"
 #include "agent/corrector_trainer.h"
@@ -24,6 +25,7 @@ void usage()
         "\t--db_folder\t\tPath to directory with images" << std::endl;
     std::cout << "\t--save_path\t\tSave agent to XML path" << std::endl;
     std::cout << "\t--overlap\t\tOverlap for precision/recall {0, 1}, default = 0.5" << std::endl;
+    std::cout << "\t--corrs_folder\t\tDescriptions of corrections for each image." << std::endl;
     
 }
 
@@ -38,6 +40,7 @@ int main(int argc, char* argv[]) {
     TLFString det_path;
     TLFString agent_path;
     TLFString save_path;
+    TLFString corr_folder;
     TLFString db_folder_path;
     bool use_gpu = false;
     float overlap = 0.5;
@@ -60,6 +63,8 @@ int main(int argc, char* argv[]) {
                 return -4;
             }
             det_path = key.substr(6);
+
+            std::cout << "Using detector: " << det_path << std::endl;
         } else if (key.substr(0, 9) == "--det_gpu") {
             if (key.length() < 11 || key[9] != '=') {
                 std::cerr << "Parsing error: use \"det_gpu=<path>\", no extra spaces" << std::endl;
@@ -73,6 +78,7 @@ int main(int argc, char* argv[]) {
             }
             det_path = key.substr(10);
             use_gpu = true;
+            std::cout << "Using GPU detector: " << det_path << std::endl;
         }
         else if (key.substr(0, 11) == "--db_folder") {
             if (key.length() < 13 || key[11] != '=') {
@@ -125,6 +131,24 @@ int main(int argc, char* argv[]) {
             
             overlap = std::stof(key.substr(10));
             std::cout << "Using overlap for statistics: " << overlap << std::endl;
+        }
+        else if (key.substr(0, 14) == "--corrs_folder") {
+            if (key.length() < 16 || key[14] != '=') {
+                std::cerr << "Parsing error: use \"corrs_folder=<path>\", no extra spaces" << std::endl;
+                usage();
+                return -4;
+            }
+
+            corr_folder = key.substr(15);
+
+            if (LFCreateDirs(corr_folder.c_str())) {
+
+                std::cout << "Using corrs_folder: " << corr_folder << std::endl;
+            }
+            else {
+                std::cout << "Cant using corrs_folder: " << corr_folder << std::endl;
+                return -1;
+            }
         }
         else {
             std::cerr << "Unknown key: " << key << std::endl;
@@ -180,9 +204,23 @@ int main(int argc, char* argv[]) {
         std::shared_ptr<TLFImage> img = sv->LoadImg(i);
         TimeDiff td;
         auto dets = agent->Detect(img);
+
         std::cout << "Detecting time " << td.GetDiffMs() << " milliseconds" << std::endl;
         
         auto gt = sv->Detect(img);
+
+        if (!corr_folder.empty()) {
+            auto desc = CreateCorrectedDescription(dets, img->width(), img->height());
+
+            if (desc) {
+                auto file_name = LFGetFileName(sv->GetImageName(i));
+                auto path = LFMakeFileName(corr_folder, file_name, ".xml");
+                if (!save_xml(path, desc->SaveXML())) {
+                    std::cout << "Cant save description to " << path << std::endl;
+                }
+            
+            }
+        }
 
         auto [fp, fn] = CalcStat(gt, dets, overlap);
 

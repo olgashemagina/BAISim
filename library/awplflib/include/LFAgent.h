@@ -129,3 +129,5 @@ std::unique_ptr<TLFAgent>       LoadAgentFromEngine(const std::string& engine_pa
 // Compare ground truths (gt) and detections (dets)
 // Returns FP and FN pair
 std::pair<int, int>		CalcStat(const agent::TDetections& gt, const std::vector<TLFAgent::item_t>& dets, float overlap);
+
+TLFSemanticImageDescriptor* CreateCorrectedDescription(const std::vector<TLFAgent::item_t>& items, int width, int height);

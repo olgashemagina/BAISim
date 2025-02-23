@@ -398,3 +398,21 @@ std::pair<int, int>		CalcStat(const agent::TDetections& gt, const std::vector<TL
 	return { FP, FN };
 }
 
+TLFSemanticImageDescriptor* CreateCorrectedDescription(const std::vector<TLFAgent::item_t>& items, int width, int height) {
+	auto descriptor = std::make_unique<TLFSemanticImageDescriptor>(width, height);
+
+	for (const auto& item : items) {
+		//if (item.is_corrected) 
+		{
+			auto detected_item = new TLFDetectedItem((TLFDetectedItem&)item.detected);
+			descriptor->AddDetectedItem(detected_item);
+		}
+	}
+
+	if (descriptor->GetCount() == 0)
+		descriptor.reset();
+
+	return descriptor.release();
+
+}
+

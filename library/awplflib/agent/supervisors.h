@@ -34,6 +34,8 @@ namespace agent {
 			return img;
 		}
 
+		const std::string& GetImageName(size_t index) const { return img_files_[index].name; }
+
 		int LoadDB(const TLFString& db_folder) {
 
 			TLFStrings folder_files;
@@ -80,7 +82,7 @@ namespace agent {
 			return img_files_.size();
 		}
 	private:
-		std::vector<FileInfo> img_files_;
-		size_t cur_index_ = 0;
+		std::vector<FileInfo>	img_files_;
+		size_t					cur_index_ = 0;
 	};
 }
