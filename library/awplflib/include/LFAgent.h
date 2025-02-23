@@ -41,13 +41,13 @@ public:
 
 	TLFAgent(const TLFAgent&) = delete;
 
-	TLFAgent(TLFAgent&& other) noexcept = default;
+	TLFAgent(TLFAgent&& other) = default;
 	
 	virtual ~TLFAgent() = default;
 
 	const TLFAgent& operator=(const TLFAgent&) = delete;
 
-	TLFAgent& operator= (TLFAgent&&) noexcept = default;
+	TLFAgent& operator= (TLFAgent&&) = default;
 
 public:
 	void		Initialize(std::unique_ptr<agent::IDetector> detector,

@@ -147,7 +147,7 @@ class BaselineCorrector:
         # print((X - self.centre) @ self.project)
         
         error_prediction = []
-
+        count = 0
        
         for cluster_number in range(self.numClust):
             for elem in projection_test[cluster_number]:
@@ -155,10 +155,10 @@ class BaselineCorrector:
                     error_prediction.append('CR')
                 else:
                     error_prediction.append('WR')
-            count = 0
-            for i in error_prediction:
-                if i == "WR":
-                    count = count + 1
+            
+        for i in error_prediction:
+            if i == "WR":
+                count = count + 1
         return count
 
     
@@ -295,13 +295,11 @@ class BaselineCorrector:
                 nY = Neg - nY
             if(thresOptim == "far"):
                 far = (Pos-nX) / Pos
-                print(t, far)
                 if(far != 0):
-                    if(k==0):
-                        bestT = thr[k]
+                    if(k<=1):
+                        bestT = -100000
                     else:
-                        bestT = thr[k-1]
-                    print(bestT)
+                        bestT = thr[k-2]
                     break
                 else:
                     bestT = thr[k]
