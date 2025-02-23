@@ -517,8 +517,8 @@ void TLFDBLabeledImages::GetFarFrr(TLFDetectEngine& engine, double& Far, double&
 	printf("\n");
 	t = ptime / this->GetImagesCount();
 	FFar = Far / num_fragments;
-	Far /= GetItemsCount();
-	//Far /= num_founded;
+	//Far /= GetItemsCount();
+	Far /= num_founded;
 	Frr /= GetItemsCount();
     precision = double(TP)/(TP + FP);
     recall = double(TP)/(FN + TP);

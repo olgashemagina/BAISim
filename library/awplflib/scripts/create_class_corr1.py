@@ -6,6 +6,7 @@ import scipy
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 import xml.etree.ElementTree as ET
+
 import struct
 
 import os
@@ -26,14 +27,13 @@ class BaselineCorrector:
 
 
     def fit(self, CRLS, WRLS, space='reduced', whitening=False, setPC=3, numPC=150, numClust=15, nBins = 100):
-
+        # Инициализация
+        
         self.CRLS = CRLS
         self.WRLS = WRLS
-             
         self.numClust = numClust
-
         numPC = min(CRLS.shape[1], numPC)
-
+        # Расчет центра в зависимости от setPC
         match setPC:
             case 1:
                 all = np.concatenate((CRLS, WRLS), axis=0)
@@ -48,9 +48,9 @@ class BaselineCorrector:
         self.centre = centre
         self.space = space
 
-
+        # Проверка на корректность значения space
         if space == "original":
-
+            # Центрирование данных
             CRLS = CRLS - self.centre
             WRLS = WRLS - self.centre
             
@@ -68,11 +68,12 @@ class BaselineCorrector:
 
             self.project = project
 
-
+            # Нормализация данных
             CRLSR = np.divide(CRLS, project, where=project!=0, out=np.zeros_like(CRLS))
             WRLSR = np.divide(WRLS, project, where=project!=0, out=np.zeros_like(WRLS))
 
         elif space == "reduced":
+            # PCA для уменьшения размерности
             pca = PCA(n_components=numPC, whiten=whitening)
             match setPC:
                 case 1:
@@ -88,6 +89,7 @@ class BaselineCorrector:
         else:
             raise ValueError("Invalid value for space. Valid options are: 'original' or 'reduced'.")
 
+        # Кластеризация
         kmeans = KMeans(n_clusters=numClust, random_state=0, n_init="auto").fit(WRLSR)
         self.centroids = kmeans.cluster_centers_
 
@@ -99,7 +101,7 @@ class BaselineCorrector:
 
         self.numClust = self.centroids.shape[0]
 
-
+        # Расчет дискриминантных векторов
         covCRLSR = np.cov(CRLSR.T)
         meanCRLSR = np.mean(CRLSR, axis=0)
         self.FD = np.zeros((numPC, self.numClust))
@@ -130,11 +132,10 @@ class BaselineCorrector:
 
         for k in range(self.numClust):
             self.train_logs[k] = self.oneClusterGraph(projection_crls_train[k], projection_wrls_train[k], round(nBins / 10.),
-                    "Distribution of training set for cluster %03d" % k)
+                    "Distribution of training set for cluster %03d" % k, "far")
             self.treshs[k] = self.train_logs[k, 2]
 
         return None
-
 
     def correct(self, X):
         projection_test = self.splitToClusters(
@@ -154,8 +155,11 @@ class BaselineCorrector:
                     error_prediction.append('CR')
                 else:
                     error_prediction.append('WR')
-
-        return error_prediction
+            count = 0
+            for i in error_prediction:
+                if i == "WR":
+                    count = count + 1
+        return count
 
     
     @staticmethod
@@ -189,7 +193,7 @@ class BaselineCorrector:
     
     
     @staticmethod
-    def oneClusterGraph(x, y, nBins, name, prThres=None):
+    def oneClusterGraph(x, y, nBins, name, thresOptim, prThres=None):
     #%oneDClass applied classification with one input attribute by searching
     #%the best threshold.
     #%
@@ -199,7 +203,11 @@ class BaselineCorrector:
     #%   nBins is number of bins to use
     #%   name is string with title of axis
     #%   prThres is predefined threshold.
-    #%
+    #%   thresOptim - parameter responsible for threshold determination. In case of "basic" threshold'll be 
+    #%            optimal to minimize half of sencsitivity + specificity or 0.5*(TP/Pos+TN/Neg).
+    #%            In case of "far" threshold'll be set to make FPR = 0
+    #%            In case of "frr" threshold'll be set to make FNR = 0
+    #%   
     #% Outputs:
     #%   res is row vector with 6 values (9 if predefined threshold is
     #%       specified): 
@@ -269,7 +277,9 @@ class BaselineCorrector:
         
     #    % Define meaning of "class 1"
         xLt = np.mean(x) > np.mean(y)
-        
+        print("xLt = ", xLt)
+        print("X: ", x)
+        print("Y: ", y)
     #    % Define variabled to search
         bestAcc = 0
         bestT = -np.inf
@@ -283,7 +293,18 @@ class BaselineCorrector:
             if xLt:
                 nX = Pos - nX
                 nY = Neg - nY
-
+            if(thresOptim == "far"):
+                far = (Pos-nX) / Pos
+                print(t, far)
+                if(far != 0):
+                    if(k==0):
+                        bestT = thr[k]
+                    else:
+                        bestT = thr[k-1]
+                    print(bestT)
+                    break
+                else:
+                    bestT = thr[k]
             acc = (nX / Pos + nY / Neg) / 2
             if acc > bestAcc:
                 bestAcc = acc
@@ -291,8 +312,9 @@ class BaselineCorrector:
                 bestTPR = nX / Pos
                 bestTNR = nY / Neg
 
-            accs[k] = acc
 
+            accs[k] = acc
+        print(bestT, far)
         res[2] = bestT
         res[3] = bestTPR
         res[4] = bestTNR
