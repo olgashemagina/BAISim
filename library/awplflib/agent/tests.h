@@ -297,6 +297,33 @@ namespace tests {
 		corrector->TrainFpCorrector(fp_matrix, tp_matrix);
 	}
 
+	static bool test_detector_tree_builder() {
+		TLFTreeEngine tree_engine;
+		//std::string tree_path="d:/work/AI/test_tree_builder/rw_tree_num2.xml";
+		std::string tree_path = "d:/work/AI/test_tree_builder/base_rw_tree.xml";
+		if (!tree_engine.Load(tree_path)) {
+			std::cerr << "Cant load Tree Engine. Creating empty one." << std::endl;
+			return false;
+		}
+		std::string img_path = "d:/work/AI/test_tree_builder/vagon2.jpg";
+		//std::string img_path = "d:/work/AI/test_tree_builder/vagon7.jpg";
+		std::shared_ptr<TLFImage> img = std::make_shared<TLFImage>();
+		if (!img->LoadFromFile(img_path.c_str())) {
+			std::cerr << "LoadFromFile return false for " << img_path << std::endl;
+			return false;
+		}
+		auto opt_detected_items = tree_engine.Detect(img);
+		if (!opt_detected_items) {
+			std::cerr << "tree_engine return false for " << img_path << std::endl;
+			return false;
+		}
+		auto vec = opt_detected_items.value();
+		for (auto item:vec) {
+			std::cout << "item=" << item->GetName() << std::endl;
+		}
+		
+	}
+
 
 
 	
