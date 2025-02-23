@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<TLFTreeEngine>
+    <TLFTree>
+        <TLFTreeNode name="RandomAgent" agent_id="0">
+            <TLFTree>
+                <TLFTreeNode name="Agent2" agent_id="1">
+                    <TLFTree />
+                </TLFTreeNode>
+                <TLFTreeNode name="Agent3" agent_id="2">
+                    <TLFTree />
+                </TLFTreeNode>
+            </TLFTree>
+        </TLFTreeNode>
+    </TLFTree>
+    <TLFAgents>
+        <TLFAgent batch_size="2048" max_threads="32" nms_threshold="0.100000">
+            <IDetector>
+                <TRandomDetector>74 91 36 78</TRandomDetector>
+            </IDetector>
+            <ICorrectorTrainer>
+                <TCorrectorTrainerBase hi_threshold="0.750000" low_threshold="0.150000" tn_prob="0.010000" min_stages="3" min_fn_samples="500" min_fp_samples="500" />
+            </ICorrectorTrainer>
+            <TCorrectorCollection />
+        </TLFAgent>
+        <TLFAgent batch_size="2048" max_threads="32" nms_threshold="0.100000">
+            <IDetector>
+                <TRandomDetector>11 86 90 47</TRandomDetector>
+            </IDetector>
+            <ICorrectorTrainer>
+                <TCorrectorTrainerBase hi_threshold="0.750000" low_threshold="0.150000" tn_prob="0.010000" min_stages="3" min_fn_samples="500" min_fp_samples="500" />
+            </ICorrectorTrainer>
+            <TCorrectorCollection />
+        </TLFAgent>
+        <TLFAgent batch_size="2048" max_threads="32" nms_threshold="0.100000">
+            <IDetector>
+                <TRandomDetector>31 86 95 57</TRandomDetector>
+            </IDetector>
+            <ICorrectorTrainer>
+                <TCorrectorTrainerBase hi_threshold="0.750000" low_threshold="0.150000" tn_prob="0.010000" min_stages="3" min_fn_samples="500" min_fp_samples="500" />
+            </ICorrectorTrainer>
+            <TCorrectorCollection />
+        </TLFAgent>
+    </TLFAgents>
+</TLFTreeEngine>

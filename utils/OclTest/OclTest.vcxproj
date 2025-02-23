@@ -76,11 +76,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(ThirdParty)\OpenCL\include;..\..\library\awplflib;..\..\library\awpipl2\include\;$(ThirdParty)\TinyXML\src\;..\..\library\awplflib\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>$(ThirdParty)\OpenCL\lib\x64;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(PythonPath)\libs;$(BoostLib);$(ThirdParty)\OpenCL\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(ThirdParty)\OpenCL\include;..\..\library\awplflib;..\..\library\awpipl2\include\;$(ThirdParty)\TinyXML\src\;..\..\library\awplflib\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>$(ThirdParty)\OpenCL\lib\x64;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(PythonPath)\libs;$(BoostLib);$(ThirdParty)\OpenCL\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

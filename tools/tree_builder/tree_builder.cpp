@@ -42,6 +42,12 @@
   //merge --tree="../../../../models/railway/rw_tree.xml" --det="../../../../models/railway/Rtank_Num_Digits/8_075_v3.xml" --tree_path="RailwayTank.Numbers.Digit8"
   //merge --tree="../../../../models/railway/rw_tree.xml" --det="../../../../models/railway/Rtank_Num_Digits/9_075_v3.xml" --tree_path="RailwayTank.Numbers.Digit9"
 
+// test agent
+//merge --tree="../../../../models/agent/agent_tree.xml" --agent="../../../../models/agent/random_agent.xml" --tree_path="RandomAgent"
+//merge --tree="../../../../models/agent/agent_tree.xml" --agent="../../../../models/agent/random_agent2.xml" --tree_path="RandomAgent.Agent2"
+//merge --tree="../../../../models/agent/agent_tree.xml" --agent="../../../../models/agent/random_agent3.xml" --tree_path="RandomAgent.Agent3"
+//export --tree="../../../../models/agent/agent_tree.xml" --agent="../../../../models/agent/agent2_exported.xml" --tree_path="RandomAgent.Agent2"
+//export --tree="../../../../models/agent/agent_tree.xml" --agent="../../../../models/agent/agent3_exported.xml" --tree_path="RandomAgent.Agent3"
 
 enum EStatus {
 	kStatus_Success = 0,

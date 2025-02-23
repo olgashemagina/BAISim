@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<TLFAgent batch_size="2048" max_threads="32" nms_threshold="0.100000">
+    <IDetector>
+        <TRandomDetector>31 86 95 57</TRandomDetector>
+    </IDetector>
+    <ICorrectorTrainer>
+        <TCorrectorTrainerBase hi_threshold="0.750000" low_threshold="0.150000" tn_prob="0.010000" min_stages="3" min_fn_samples="500" min_fp_samples="500" />
+    </ICorrectorTrainer>
+    <TCorrectorCollection />
+</TLFAgent>
