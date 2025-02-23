@@ -191,6 +191,7 @@
     <ClCompile Include="..\..\src\LFStrong.cpp" />
     <ClCompile Include="..\..\src\LFStrongImpl.cpp" />
     <ClCompile Include="..\..\src\LFThresholdProc.cpp" />
+    <ClCompile Include="..\..\src\LFTree.cpp" />
     <ClCompile Include="..\..\src\LFUtils.cpp" />
     <ClCompile Include="..\..\src\LFVector.cpp" />
     <ClCompile Include="..\..\src\LFWeak.cpp" />
@@ -240,6 +241,7 @@
     <ClInclude Include="..\..\include\LFSemantic.h" />
     <ClInclude Include="..\..\include\LFStrong.h" />
     <ClInclude Include="..\..\include\LFThresholdProc.h" />
+    <ClInclude Include="..\..\include\LFTree.h" />
     <ClInclude Include="..\..\include\LFUtils.h" />
     <ClInclude Include="..\..\include\LFVector.h" />
     <ClInclude Include="..\..\include\LFWeak.h" />

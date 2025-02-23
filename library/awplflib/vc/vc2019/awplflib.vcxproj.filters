@@ -59,6 +59,7 @@
     <ClCompile Include="..\..\agent\detector_gpu.cpp">
       <Filter>agent</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\LFTree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\LF.h" />
@@ -143,6 +144,7 @@
     <ClInclude Include="..\..\agent\samples_map.h">
       <Filter>agent</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\LFTree.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="accel_rects">
