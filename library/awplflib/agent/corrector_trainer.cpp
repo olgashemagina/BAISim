@@ -197,13 +197,42 @@ private:
 			bp::make_tuple(t_feats.rows(), t_feats.cols()),
 			bp::make_tuple(t_feats.cols() * sizeof(float), sizeof(float)),
 			bp::object());
-						
+		/*/-------------------DEBUG------------------------------------
+		std::ofstream outFile_fn("fn.bin", std::ios::binary);
+		if (!outFile_fn) {
+			std::cerr << "Error opening file for writing!" << std::endl;
+		}
+		// Write the vector's raw binary data to the file
+		int rows = f_feats.rows();
+		int cols = f_feats.cols();
+		outFile_fn.write(reinterpret_cast<const char*>(&rows), sizeof(rows));
+		outFile_fn.write(reinterpret_cast<const char*>(&cols), sizeof(cols));
+		outFile_fn.write(reinterpret_cast<const char*>(f_feats.GetRow(0)), f_feats.cols() * f_feats.rows() * sizeof(float));
+		outFile_fn.close();
+
+		std::ofstream outFile_tn("tn.bin", std::ios::binary);
+		if (!outFile_tn) {
+			std::cerr << "Error opening file for writing!" << std::endl;
+		}
+		// Write the vector's raw binary data to the file
+		int tnrows = t_feats.rows();
+		int tncols = t_feats.cols();
+		outFile_tn.write(reinterpret_cast<const char*>(&tnrows), sizeof(tnrows));
+		outFile_tn.write(reinterpret_cast<const char*>(&tncols), sizeof(tncols));
+		outFile_tn.write(reinterpret_cast<const char*>(t_feats.GetRow(0)), t_feats.cols() * t_feats.rows() * sizeof(float));
+		outFile_tn.close();
+		//------------------------------------------------------------*/						
 
 		try {
 			TimeDiff	td;
 			auto callable = corrector_.attr("fit");
 			callable(t_array, f_array);
 			std::cout << "Corrector train time: " << td.GetDiffMs() << " ms." << std::endl;
+			auto callable_correct = corrector_.attr("correct");
+
+			int value_far = bp::extract<int>(callable_correct(t_array));
+			int value_frr = bp::extract<int>(callable_correct(f_array));
+			std::cout << "Self python test for " << type << " corrector: FAR = " << value_far / (float)t_feats.rows() << "   FRR = " << 1 - (value_frr / (float)f_feats.rows()) << std::endl;
 		}
 		catch (bp::error_already_set const&) {
 			PyErr_Print();

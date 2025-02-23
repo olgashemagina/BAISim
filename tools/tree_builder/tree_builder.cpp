@@ -20,6 +20,7 @@
 
 #include "LF.h"
 #include "LFEngine.h"
+#include "LFTree.h"
 #include "LFFileUtils.h"
 
 #include <memory>

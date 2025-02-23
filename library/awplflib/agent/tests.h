@@ -170,13 +170,13 @@ namespace tests {
 	}
 
 	static bool test_baseline_corrector() {
-		auto corrector = load_xml("../../test_corrector/data.xml", [](TiXmlElement* node) {
+		auto corrector = load_xml("../../../test_corrector/data.xml", [](TiXmlElement* node) {
 			auto corrector = std::make_unique<agent::TBaselineCorrector>();
 			if (node && corrector->LoadXML(node))
 				return corrector;
 			return std::unique_ptr<agent::TBaselineCorrector>{};
 			});
-		std::ifstream file("../../test_corrector/features.txt");
+		std::ifstream file("../../../test_corrector/features.txt");
 		if (!file) {
 			return false;
 		}

@@ -30,7 +30,7 @@ void usage()
 
 int main(int argc, char* argv[]) {
     
-    if (argc < 5) {
+    if (argc < 4) {
         usage();
         return -1;
     }
@@ -142,7 +142,11 @@ int main(int argc, char* argv[]) {
                 return agent;
             return std::unique_ptr<TLFAgent>{};
             });
-        assert(agent);
+        
+        if (!agent) {
+            std::cout << "Cant load agent " << agent_path << std::endl;
+            return -9;
+        }
     }
     else if (!det_path.empty()) {
         agent = LoadAgentFromEngine(det_path, use_gpu);

@@ -4,7 +4,7 @@
 #include <memory>
 #include <mutex>
 #include <shared_mutex>
-
+#include <iterator>
 #include "agent/agent.h"
 
 
@@ -32,7 +32,9 @@ namespace agent {
 				correctors_.emplace_back(std::move(corrector));
 			}
 
-			return false;
+			std::cout << "Collection loaded " << correctors_.size() << " correctors." << std::endl;
+
+			return true;
 		}
 
 		std::unique_ptr<ICorrector> LoadCorrector(TiXmlElement* corrector_node);

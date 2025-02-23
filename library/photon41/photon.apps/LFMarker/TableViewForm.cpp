@@ -162,8 +162,8 @@ void __fastcall TTableForm::AddNewItem(TLFDetectedItem* di)
 	ListItem->SubItems->Add(RacursToStringHepler(di->GetRacurs()));
 	ListItem->SubItems->Add(IntToStr(di->GetAngle()));
 
-	TLFRect* rr = di->GetBounds();
-	awpRect r = rr->GetRect();
+	TLFRect rr = di->GetBounds();
+	awpRect r = rr.GetRect();
 	ListItem->SubItems->Add(IntToStr(r.left));
 	ListItem->SubItems->Add(IntToStr(r.top));
 	ListItem->SubItems->Add(IntToStr(r.right - r.left));
@@ -206,8 +206,8 @@ void __fastcall TTableForm::UpdateTable()
 	  ListItem->SubItems->Add(str_label.c_str());
 	  ListItem->SubItems->Add(RacursToStringHepler(di->GetRacurs()));
 	  ListItem->SubItems->Add(IntToStr(di->GetAngle()));
-	  TLFRect* rr = di->GetBounds();
-	  awpRect r = rr->GetRect();
+	  TLFRect rr = di->GetBounds();
+	  awpRect r = rr.GetRect();
 
 	  ListItem->SubItems->Add(IntToStr(r.left));
 	  ListItem->SubItems->Add(IntToStr(r.top));

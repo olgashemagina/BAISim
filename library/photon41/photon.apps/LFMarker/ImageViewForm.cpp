@@ -30,8 +30,8 @@ void __fastcall TFragmentForm::DrawSelected()
 		PhImage1->Paint();
 		return;
 	}
-	TLFRect* rr = di->GetBounds();
-	awpRect  r  = rr->GetRect();
+	TLFRect rr = di->GetBounds();
+	awpRect  r  = rr.GetRect();
 
 	awpImage* pImage = NULL;
 	awpImage* pFragment = NULL;
@@ -55,13 +55,13 @@ void __fastcall TFragmentForm::DrawSelected()
 
  		float maxOverlap = 0;
 		TLFRect maxRect;
-		TLFRect* bounds = di->GetBounds();
+		TLFRect bounds = di->GetBounds();
 
 		for (int j = 0; j < scanner.GetFragmentsCount(); j++)
 		{
 		  awpRect r = scanner.GetFragmentRect(j);
 		  TLFRect scanBox; scanBox.SetRect(r);
-		  float overlap = bounds->RectOverlap(scanBox);
+		  float overlap = bounds.RectOverlap(scanBox);
 		  if (overlap > maxOverlap)
 		  {
 			  maxOverlap = overlap;

@@ -349,8 +349,8 @@ void __fastcall TDbLabeledImages::ExportFragments(SDbExportOptions& options)
 			if (options.ClassLabels->IndexOf(strClassLabel) < 0)
 				continue;
 			   AnsiString _ansi = strClassLabel;
-			TLFRect* bounds = di->GetBounds();
-			awpRect r = bounds->GetRect();
+			TLFRect bounds = di->GetBounds();
+			awpRect r = bounds.GetRect();
 			if (options.useScanner)
 			{
 			  TLFScanner scanner;
@@ -368,11 +368,11 @@ void __fastcall TDbLabeledImages::ExportFragments(SDbExportOptions& options)
 				{
 				  awpRect r = scanner.GetFragmentRect(j);
 				  TLFRect scanBox; scanBox.SetRect(r);
-				  if (options.exportCovered && !scanBox.IsCover(*bounds))
+				  if (options.exportCovered && !scanBox.IsCover(bounds))
 				  {
                       continue;
 				  }
-				  if (bounds->RectOverlap(scanBox) > options.scannerThreshold)
+				  if (bounds.RectOverlap(scanBox) > options.scannerThreshold)
 				  {
 					  count++;
 					  SaveFragment(img, options, count, scanBox, /*rd,*/ _ansi.c_str());
@@ -387,7 +387,7 @@ void __fastcall TDbLabeledImages::ExportFragments(SDbExportOptions& options)
 				{
 				  awpRect r = scanner.GetFragmentRect(j);
 				  TLFRect scanBox; scanBox.SetRect(r);
-				  float overlap = bounds->RectOverlap(scanBox);
+				  float overlap = bounds.RectOverlap(scanBox);
 				  if (overlap > maxOverlap)
 				  {
 					  maxOverlap = overlap;
@@ -839,7 +839,7 @@ awpImage* __fastcall TDbLabeledImages::MakeSemanticThumbinals(int thmbWidth, int
 						TLFDetectedItem* item = descr.GetDetectedItem(i);
 						if (item)
 						{
-							awpRect item_rect = item->GetBounds()->GetRect();
+							awpRect item_rect = item->GetBounds().GetRect();
 							awpImage* image1 = NULL;
 							awpCopyRect(img, &image1, &item_rect);
 							if (image1)
