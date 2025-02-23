@@ -51,12 +51,10 @@ namespace agent {
 				}
 			}
 			folder_files.clear();
-			std::cout << "Found " << img_files_.size() << " images" << std::endl;
+			std::cout << "Found " << img_files_.size() << " images. Loading... ";
 
 			for (int i = 0; i < img_files_.size(); i++) {
-				std::cout << "Processing " << i + 1 << " out of " <<
-					img_files_.size() << std::endl;
-							
+						
 
 				std::unique_ptr<TLFSemanticImageDescriptor> image_descriptor = std::make_unique<TLFSemanticImageDescriptor>();
 
@@ -77,6 +75,8 @@ namespace agent {
 					}					
 				}
 			}
+			std::cout << "Done." << std::endl;
+
 			return img_files_.size();
 		}
 	private:

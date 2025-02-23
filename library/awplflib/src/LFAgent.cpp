@@ -209,7 +209,7 @@ bool TLFAgent::LoadXML(TiXmlElement* agent_node) {
 
 	Initialize(std::move(det), std::move(tr));
 
-	auto correctors_node = agent_node->FirstChildElement("TCorrectorsCollection");
+	auto correctors_node = agent_node->FirstChildElement("TCorrectorCollection");
 
 	if (correctors_node && !correctors_.LoadXML(correctors_node) ) {
 		return false;
