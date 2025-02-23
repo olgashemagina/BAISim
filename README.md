@@ -3,6 +3,16 @@
 
 This document provides step-by-step instructions for installing and setting up BAISim on your system.
 
+## Minimum System Requirements
+
+To ensure stable performance, your system should meet the following minimum requirements:
+
+- **Operating System:** Windows 10 or Windows 11 (64-bit)  
+- **Processor:** 8-core CPU  
+- **Memory (RAM):** 16 GB  
+- **Graphics Card:** NVIDIA GPU, no lower than **RTX 2080 Ti** with 8gb GRAM
+- **Storage:** At least **30 GB of free disk space**  
+
 ## Prerequisites
 
 Before you begin, ensure the following software is installed on your system:
@@ -18,12 +28,12 @@ Before you begin, ensure the following software is installed on your system:
 - Download Python 3.11 from the official website:  
   [Python 3.11 Download](https://www.python.org/downloads/release/python-3110/)
 
-### 2. Install Dependencies (NumPy and scikit-learn)
+### 2. Install Dependencies
 
 - Install the required Python dependencies using `pip`:
 
   ```bash
-  pip install numpy==1.26.4 scikit-learn==1.6.1
+  pip install -r requirements.txt
 
 ### 3. Set Python Path in `BAISim.props`
 
