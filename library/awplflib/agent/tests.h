@@ -20,6 +20,7 @@
 #include "LFImage.h"
 #include "LFDetector.h"
 #include "LFStrong.h"
+#include "LFTree.h"
 
 namespace agent {
 
