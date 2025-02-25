@@ -107,8 +107,8 @@ Public Member Functions</h2></td></tr>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a2d9f105a96888d3866270b40a671f999"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcreate__class__corr1_1_1_baseline_corrector.html#a2d9f105a96888d3866270b40a671f999">splitToClusters</a> (data, <a class="el" href="classcreate__class__corr1_1_1_baseline_corrector.html#aafaf3527ffeebd09f78847239a3ad2aa">centroids</a>, <a class="el" href="classcreate__class__corr1_1_1_baseline_corrector.html#a0c99f2368c6084fe5c1b09bcada831e0">FD</a>)</td></tr>
 <tr class="separator:a2d9f105a96888d3866270b40a671f999"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b38594d36c6b47a223412570d000b1b"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcreate__class__corr1_1_1_baseline_corrector.html#a9b38594d36c6b47a223412570d000b1b">oneClusterGraph</a> (x, y, nBins, name, prThres=None)</td></tr>
-<tr class="separator:a9b38594d36c6b47a223412570d000b1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a458fe978bf6e3ab4ca52da6f9c87823b"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcreate__class__corr1_1_1_baseline_corrector.html#a458fe978bf6e3ab4ca52da6f9c87823b">oneClusterGraph</a> (x, y, nBins, name, thresOptim, prThres=None)</td></tr>
+<tr class="separator:a458fe978bf6e3ab4ca52da6f9c87823b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -175,6 +175,10 @@ Static Public Attributes</h2></td></tr>
 <tr class="separator:afc829845f56bd0f29d90d292b9ce5263"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a181667123f8565a6563c412f5f21f6e4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcreate__class__corr1_1_1_baseline_corrector.html#a181667123f8565a6563c412f5f21f6e4">nY</a> = np.sum(y &gt;= <a class="el" href="classcreate__class__corr1_1_1_baseline_corrector.html#ae41f1eb96f7e2588772a2b17454afc4f">t</a>)</td></tr>
 <tr class="separator:a181667123f8565a6563c412f5f21f6e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a596460a46457ec602d332d9b2b9a6d75"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcreate__class__corr1_1_1_baseline_corrector.html#a596460a46457ec602d332d9b2b9a6d75">far</a> = (<a class="el" href="classcreate__class__corr1_1_1_baseline_corrector.html#ae20fab13baf341ff3c650ebe7220a637">Pos</a>-<a class="el" href="classcreate__class__corr1_1_1_baseline_corrector.html#afc829845f56bd0f29d90d292b9ce5263">nX</a>) / <a class="el" href="classcreate__class__corr1_1_1_baseline_corrector.html#ae20fab13baf341ff3c650ebe7220a637">Pos</a></td></tr>
+<tr class="separator:a596460a46457ec602d332d9b2b9a6d75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f2420b08731e378d3da22ba13a9a816"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcreate__class__corr1_1_1_baseline_corrector.html#a8f2420b08731e378d3da22ba13a9a816">bestT</a> = -100000</td></tr>
+<tr class="separator:a8f2420b08731e378d3da22ba13a9a816"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe53c39c85d476b73efc24be737ccfec"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcreate__class__corr1_1_1_baseline_corrector.html#abe53c39c85d476b73efc24be737ccfec">acc</a> = (<a class="el" href="classcreate__class__corr1_1_1_baseline_corrector.html#afc829845f56bd0f29d90d292b9ce5263">nX</a> / <a class="el" href="classcreate__class__corr1_1_1_baseline_corrector.html#ae20fab13baf341ff3c650ebe7220a637">Pos</a> + <a class="el" href="classcreate__class__corr1_1_1_baseline_corrector.html#a181667123f8565a6563c412f5f21f6e4">nY</a> / <a class="el" href="classcreate__class__corr1_1_1_baseline_corrector.html#aefeb5e22a24f3df10e411e75647ea6ad">Neg</a>) / 2</td></tr>
 <tr class="separator:abe53c39c85d476b73efc24be737ccfec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d17cd50e53187a2142bb2d15c10bfd2"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcreate__class__corr1_1_1_baseline_corrector.html#a5d17cd50e53187a2142bb2d15c10bfd2">bestAcc</a> = <a class="el" href="classcreate__class__corr1_1_1_baseline_corrector.html#abe53c39c85d476b73efc24be737ccfec">acc</a></td></tr>
@@ -186,7 +190,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00008">8</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00016">16</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a866cb449868727634fdd69c83e50a04c" name="a866cb449868727634fdd69c83e50a04c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a866cb449868727634fdd69c83e50a04c">&#9670;&nbsp;</a></span>__init__()</h2>
@@ -204,7 +208,7 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00009">9</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00017">17</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -235,7 +239,7 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00132">132</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00140">140</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -307,12 +311,12 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00021">21</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00029">29</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
-<a id="a9b38594d36c6b47a223412570d000b1b" name="a9b38594d36c6b47a223412570d000b1b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b38594d36c6b47a223412570d000b1b">&#9670;&nbsp;</a></span>oneClusterGraph()</h2>
+<a id="a458fe978bf6e3ab4ca52da6f9c87823b" name="a458fe978bf6e3ab4ca52da6f9c87823b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a458fe978bf6e3ab4ca52da6f9c87823b">&#9670;&nbsp;</a></span>oneClusterGraph()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -348,6 +352,12 @@ Static Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>thresOptim</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
           <td class="paramname"><em>prThres</em> = <code>None</code>&#160;</td>
         </tr>
         <tr>
@@ -363,7 +373,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00185">185</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00196">196</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -393,7 +403,7 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00308">308</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00335">335</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -437,7 +447,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00155">155</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00166">166</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -462,7 +472,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00280">280</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00306">306</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -486,7 +496,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00261">261</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00276">276</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -510,7 +520,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00267">267</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00284">284</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -534,12 +544,12 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00282">282</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00308">308</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
 <a id="a169a1476b92f50c1b9e3e1d86de70e24" name="a169a1476b92f50c1b9e3e1d86de70e24"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a169a1476b92f50c1b9e3e1d86de70e24">&#9670;&nbsp;</a></span>bestT</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a169a1476b92f50c1b9e3e1d86de70e24">&#9670;&nbsp;</a></span>bestT <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -558,7 +568,31 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00268">268</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00285">285</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+
+</div>
+</div>
+<a id="a8f2420b08731e378d3da22ba13a9a816" name="a8f2420b08731e378d3da22ba13a9a816"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f2420b08731e378d3da22ba13a9a816">&#9670;&nbsp;</a></span>bestT <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int create_class_corr1.BaselineCorrector.bestT = -100000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00300">300</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -582,7 +616,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00270">270</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00287">287</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -606,7 +640,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00285">285</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00311">311</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -630,7 +664,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00269">269</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00286">286</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -654,7 +688,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00284">284</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00310">310</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -670,7 +704,7 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00039">39</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00048">48</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -686,7 +720,7 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00085">85</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00094">94</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -702,7 +736,7 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00023">23</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00032">32</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -726,7 +760,31 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00170">170</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00181">181</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+
+</div>
+</div>
+<a id="a596460a46457ec602d332d9b2b9a6d75" name="a596460a46457ec602d332d9b2b9a6d75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a596460a46457ec602d332d9b2b9a6d75">&#9670;&nbsp;</a></span>far</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">tuple create_class_corr1.BaselineCorrector.far = (<a class="el" href="classcreate__class__corr1_1_1_baseline_corrector.html#ae20fab13baf341ff3c650ebe7220a637">Pos</a>-<a class="el" href="classcreate__class__corr1_1_1_baseline_corrector.html#afc829845f56bd0f29d90d292b9ce5263">nX</a>) / <a class="el" href="classcreate__class__corr1_1_1_baseline_corrector.html#ae20fab13baf341ff3c650ebe7220a637">Pos</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00297">297</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -742,7 +800,7 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00098">98</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00107">107</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -766,7 +824,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00175">175</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00186">186</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -790,7 +848,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00167">167</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00178">178</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -814,7 +872,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00226">226</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00241">241</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -830,7 +888,7 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00025">25</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00034">34</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -854,7 +912,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00274">274</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00291">291</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -878,7 +936,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00275">275</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00292">292</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -902,7 +960,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00225">225</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00240">240</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -926,7 +984,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00179">179</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00190">190</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -942,7 +1000,7 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00060">60</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00069">69</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -966,7 +1024,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00168">168</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00179">179</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -990,7 +1048,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00220">220</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00235">235</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -1006,7 +1064,7 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00040">40</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00049">49</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -1030,7 +1088,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00273">273</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00290">290</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -1054,7 +1112,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00254">254</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00269">269</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -1078,7 +1136,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00260">260</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00275">275</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -1102,7 +1160,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00257">257</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00272">272</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -1118,7 +1176,7 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00121">121</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00130">130</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -1134,7 +1192,7 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00122">122</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00131">131</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -1150,7 +1208,7 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00024">24</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00033">33</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>
@@ -1174,7 +1232,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00264">264</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="create__class__corr1_8py_source.html#l00279">279</a> of file <a class="el" href="create__class__corr1_8py_source.html">create_class_corr1.py</a>.</p>
 
 </div>
 </div>

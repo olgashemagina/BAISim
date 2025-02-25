@@ -1,3 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classaccel__rects_1_1_stages_data.html" title="StagesData" alt="" coords="5,5,170,33"/>
+<area shape="rect" id="node1" href="$classagent_1_1_i_detector.html" title=" " alt="" coords="5,32,119,60"/>
+<area shape="rect" id="node2" href="$classagent_1_1_t_random_detector.html" title=" " alt="" coords="178,5,344,33"/>
+<area shape="rect" id="node3" href="$classagent_1_1_t_stages_detector_base.html" title=" " alt="" coords="167,57,355,85"/>
+<area shape="rect" id="node4" href="$classagent_1_1_t_accel_stages_detector.html" title=" " alt="" coords="403,31,594,59"/>
+<area shape="rect" id="node5" href="$classagent_1_1_t_stages_detector.html" title=" " alt="" coords="420,83,578,111"/>
 </map>

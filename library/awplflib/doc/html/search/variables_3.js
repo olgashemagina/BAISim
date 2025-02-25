@@ -1,12 +1,21 @@
 var searchData=
 [
-  ['data_5f_0',['data_',['../classagent_1_1_t_features.html#aacc004da2ce81d42c916fcd223b205d2',1,'agent::TFeatures']]],
-  ['desc_5fcallback_5f_1',['desc_callback_',['../class_i_l_f_object_detector.html#ab21d7b3c9ff411e482785d697e221e4a',1,'ILFObjectDetector']]],
-  ['descs_2',['descs',['../struct_i_l_f_object_detector_1_1_t_description.html#abaa3b8d223e97ab30948c493be538148',1,'ILFObjectDetector::TDescription']]],
-  ['detections_3',['detections',['../structagent_1_1_t_d_b_supervisor_1_1_file_info.html#ac5ac5d045d050c44a6da69582eb588e7',1,'agent::TDBSupervisor::FileInfo']]],
-  ['detector_5f_4',['detector_',['../class_t_l_f_agent.html#ab86898196a13f4b180a7aee57ec57b76',1,'TLFAgent']]],
-  ['dimension_5',['dimension',['../class_map_geometry_1_1_map_geometry.html#a6403900b635a5584432038a3e6becbba',1,'MapGeometry::MapGeometry']]],
-  ['discrete_6',['discrete',['../struct_i_l_f_feature_1_1_t_result.html#aebc6732ca15cf80e9ca031135984e0dc',1,'ILFFeature::TResult']]],
-  ['disp_7',['disp',['../class_map_geometry_1_1_map_geometry.html#a79b1456a503273cae06da7e5def54201',1,'MapGeometry::MapGeometry']]],
-  ['dist_8',['dist',['../classcreate__class__corr1_1_1_baseline_corrector.html#a6191d7a7776a5de82aabbfa3c1c30cdc',1,'create_class_corr1::BaselineCorrector']]]
+  ['c_5ffcorrthr_0',['c_fCorrThr',['../_l_f_eye_8cpp.html#a614da9e44621b6c13ed31f9a312d49c6',1,'LFEye.cpp']]],
+  ['c_5fneyehalfh_1',['c_nEyeHalfH',['../_l_f_eye_8cpp.html#aecda569513727fdc2eb85baae781ddb3',1,'LFEye.cpp']]],
+  ['c_5fneyehalfw_2',['c_nEyeHalfW',['../_l_f_eye_8cpp.html#ae2ccb26d0b914506544b2360d7e76ec4',1,'LFEye.cpp']]],
+  ['c_5fneyeheight_3',['c_nEyeHeight',['../_l_f_eye_8cpp.html#a426fdf4fb3cce2de932ae418146c2f37',1,'LFEye.cpp']]],
+  ['c_5fneyesize_4',['c_nEyeSize',['../_l_f_eye_8cpp.html#ac7889a0c5526f0d98f50648408e5c261',1,'LFEye.cpp']]],
+  ['c_5fneyesize2_5',['c_nEyeSize2',['../_l_f_eye_8cpp.html#ad3146f534a9e2c469fd3ad7430353e1d',1,'LFEye.cpp']]],
+  ['c_5fneyewidth_6',['c_nEyeWidth',['../_l_f_eye_8cpp.html#acd473e0e67a9d88658b189d86be0b00f',1,'LFEye.cpp']]],
+  ['c_5fuuidzero_7',['c_uuidZero',['../group___l_f_file_utils.html#ga2560ff9c71466245f7506ddae09f1dbf',1,'LFFileUtils.h']]],
+  ['centre_8',['centre',['../classcreate__class__corr1_1_1_baseline_corrector.html#a8231f7eadfffb51ba8f43439681b075a',1,'create_class_corr1::BaselineCorrector']]],
+  ['centroids_9',['centroids',['../classcreate__class__corr1_1_1_baseline_corrector.html#aafaf3527ffeebd09f78847239a3ad2aa',1,'create_class_corr1::BaselineCorrector']]],
+  ['classes_10',['classes',['../classcreate__class__corr2_1_1_elastic_map_corrector.html#aeca0df5591099ee9bb330f6d57b6d7b6',1,'create_class_corr2::ElasticMapCorrector']]],
+  ['cluster_5fid_11',['cluster_id',['../structtag_s_cluster_descr.html#a032a065107eb348fa2ac5dfdedcc4d59',1,'tagSClusterDescr']]],
+  ['color_12',['color',['../structtag_binary_blob.html#a8e4488e2b16a81f933a6580e3cec9487',1,'tagBinaryBlob']]],
+  ['corrections_5f_13',['corrections_',['../classagent_1_1_t_features.html#aa2e846810a8d95b6f072da29cd14033e',1,'agent::TFeatures']]],
+  ['correctors_5f_14',['correctors_',['../class_t_l_f_agent.html#a37cda87be78ec243c17348be22d6b95a',1,'TLFAgent']]],
+  ['crls_15',['CRLS',['../classcreate__class__corr1_1_1_baseline_corrector.html#aeb137abee1f39298e24964a8ef4ddfc0',1,'create_class_corr1::BaselineCorrector']]],
+  ['cx_16',['cx',['../structtag_binary_blob.html#aa8e030a163e4c3ca0bae77aeed499ffd',1,'tagBinaryBlob::cx()'],['../structtag_s_l_f_binary_moments.html#a0a4f2ed15392ceb41ce95e6cd97c2d52',1,'tagSLFBinaryMoments::cx()']]],
+  ['cy_17',['cy',['../structtag_binary_blob.html#a737e75e26cf7c045c06d34d357f939d1',1,'tagBinaryBlob::cy()'],['../structtag_s_l_f_binary_moments.html#a4e50c7481cda5307e033989918ae886e',1,'tagSLFBinaryMoments::cy()']]]
 ];

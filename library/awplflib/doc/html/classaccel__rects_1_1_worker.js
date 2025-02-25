@@ -1,8 +1,8 @@
 var classaccel__rects_1_1_worker =
 [
-    [ "Worker", "classaccel__rects_1_1_worker.html#aaa563677380899ca6223b435ee5537f6", null ],
-    [ "Worker", "classaccel__rects_1_1_worker.html#a894fcf6231ff03355fefd287acd2b781", null ],
-    [ "~Worker", "classaccel__rects_1_1_worker.html#a281e5d9b280f8cbe927dc1076433b851", null ],
-    [ "Enqueue", "classaccel__rects_1_1_worker.html#ab2f60b5c47234488cda6cf6baf6deffd", null ],
-    [ "Enqueue", "classaccel__rects_1_1_worker.html#a6ab145905ef3b96b6d57d445b8428ab7", null ]
+    [ "TStageInfo", "structaccel__rects_1_1_worker_1_1_t_stage_info.html", "structaccel__rects_1_1_worker_1_1_t_stage_info" ],
+    [ "Worker", "classaccel__rects_1_1_worker.html#aa4c88777b7b55ec45fba47b75b74ee57", null ],
+    [ "~Worker", "classaccel__rects_1_1_worker.html#a751db61a25713f89d03b4190cdd99921", null ],
+    [ "Initialize", "classaccel__rects_1_1_worker.html#ad862763da6d2f787a208bce3170ca68f", null ],
+    [ "Run", "classaccel__rects_1_1_worker.html#a59e2b671d38baf409f6798e550428f82", null ]
 ];

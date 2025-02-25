@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['pool_0',['Pool',['../classaccel__rects_1_1_pool.html',1,'accel_rects']]],
-  ['pool_3c_20accel_5frects_3a_3atask_20_3e_1',['Pool&lt; accel_rects::Task &gt;',['../classaccel__rects_1_1_pool.html',1,'accel_rects']]],
-  ['progressmeter_2',['ProgressMeter',['../class_progress_meter.html',1,'']]]
+  ['rect2dmap_0',['rect2DMap',['../classrect2_d_map_1_1rect2_d_map.html',1,'rect2DMap']]],
+  ['roc_5fentry_1',['roc_entry',['../structroc__entry.html',1,'']]]
 ];

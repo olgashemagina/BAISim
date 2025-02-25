@@ -11,6 +11,7 @@ var group___l_f_weaks =
       [ "LoadXML", "class_t_c_s_weak.html#afdae347b97ccfbc95ed964b5c1df0988", null ],
       [ "operator=", "class_t_c_s_weak.html#a5349e538f681b5cb8e537d194435216f", null ],
       [ "SaveXML", "class_t_c_s_weak.html#ac3edd599412cb832c28b2f64fcb19588", null ],
+      [ "SetClassificator", "class_t_c_s_weak.html#aac351b6231b1ed8195c3e64eaf4eadc3", null ],
       [ "m_Classifiacator", "class_t_c_s_weak.html#a03cde64dfe9bd03c8bec961db54ec4df", null ]
     ] ],
     [ "TCSWeakTraining", "class_t_c_s_weak_training.html", [

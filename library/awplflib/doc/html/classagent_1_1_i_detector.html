@@ -95,9 +95,11 @@ Inheritance diagram for agent::IDetector:</div>
 <div class="dyncontent">
 <div class="center"><img src="classagent_1_1_i_detector__inherit__graph.png" border="0" usemap="#aagent_1_1_i_detector_inherit__map" alt="Inheritance graph"/></div>
 <map name="aagent_1_1_i_detector_inherit__map" id="aagent_1_1_i_detector_inherit__map">
-<area shape="rect" title=" " alt="" coords="123,5,237,33"/>
+<area shape="rect" title=" " alt="" coords="131,5,245,33"/>
 <area shape="rect" href="classagent_1_1_t_random_detector.html" title=" " alt="" coords="5,81,171,109"/>
-<area shape="rect" href="classagent_1_1_t_stages_detector.html" title=" " alt="" coords="194,81,353,109"/>
+<area shape="rect" href="classagent_1_1_t_stages_detector_base.html" title=" " alt="" coords="195,81,384,109"/>
+<area shape="rect" href="classagent_1_1_t_accel_stages_detector.html" title=" " alt="" coords="94,157,285,185"/>
+<area shape="rect" href="classagent_1_1_t_stages_detector.html" title=" " alt="" coords="309,157,467,185"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -109,16 +111,18 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab1b60259a3ff6440a3de65493e963582"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d7a29d65737d3897fd200fb52cc9fb2"><td class="memItemLeft" align="right" valign="top">virtual std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_detector.html#a7d7a29d65737d3897fd200fb52cc9fb2">GetName</a> () const =0</td></tr>
 <tr class="separator:a7d7a29d65737d3897fd200fb52cc9fb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58ef697d165b8c9e2f4e6324c68dc0d1"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_i_l_f_scanner.html">ILFScanner</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_detector.html#a58ef697d165b8c9e2f4e6324c68dc0d1">GetScanner</a> ()=0</td></tr>
-<tr class="separator:a58ef697d165b8c9e2f4e6324c68dc0d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2891c95f0e09b0374936a858e100152"><td class="memItemLeft" align="right" valign="top">virtual std::unique_ptr&lt; <a class="el" href="classagent_1_1_i_worker.html">IWorker</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_detector.html#af2891c95f0e09b0374936a858e100152">CreateWorker</a> ()=0</td></tr>
-<tr class="separator:af2891c95f0e09b0374936a858e100152"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1c223433d945d8337bbf77714776bfc"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="classagent_1_1_t_fragments.html">TFragments</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_detector.html#ad1c223433d945d8337bbf77714776bfc">Setup</a> (std::shared_ptr&lt; <a class="el" href="class_t_l_f_image.html">TLFImage</a> &gt; img, const std::vector&lt; <a class="el" href="class_t_l_f_rect.html">TLFRect</a> &gt; *rois=nullptr)=0</td></tr>
+<tr class="separator:ad1c223433d945d8337bbf77714776bfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab541726e4e2de3a7b885c39b4d668f83"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_detector.html#ab541726e4e2de3a7b885c39b4d668f83">Detect</a> (<a class="el" href="classagent_1_1_t_features_builder.html">TFeaturesBuilder</a> &amp;builder) const =0</td></tr>
+<tr class="separator:ab541726e4e2de3a7b885c39b4d668f83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b251d7b32dabfbb9ee17ab4a4ec4691"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_detector.html#a9b251d7b32dabfbb9ee17ab4a4ec4691">Release</a> ()=0</td></tr>
+<tr class="separator:a9b251d7b32dabfbb9ee17ab4a4ec4691"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac3a6f2db6a9e32caecda55380bf49f1f"><td class="memItemLeft" align="right" valign="top">virtual TiXmlElement *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_detector.html#ac3a6f2db6a9e32caecda55380bf49f1f">SaveXML</a> ()=0</td></tr>
 <tr class="separator:ac3a6f2db6a9e32caecda55380bf49f1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="agent_8h_source.html#l00068">68</a> of file <a class="el" href="agent_8h_source.html">agent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="agent_8h_source.html#l00062">62</a> of file <a class="el" href="agent_8h_source.html">agent.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="af0f46d842753d31a52d8dcebce3f310f" name="af0f46d842753d31a52d8dcebce3f310f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af0f46d842753d31a52d8dcebce3f310f">&#9670;&nbsp;</a></span>~IDetector()</h2>
@@ -146,8 +150,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="af2891c95f0e09b0374936a858e100152" name="af2891c95f0e09b0374936a858e100152"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af2891c95f0e09b0374936a858e100152">&#9670;&nbsp;</a></span>CreateWorker()</h2>
+<a id="ab541726e4e2de3a7b885c39b4d668f83" name="ab541726e4e2de3a7b885c39b4d668f83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab541726e4e2de3a7b885c39b4d668f83">&#9670;&nbsp;</a></span>Detect()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -156,10 +160,11 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual std::unique_ptr&lt; <a class="el" href="classagent_1_1_i_worker.html">IWorker</a> &gt; agent::IDetector::CreateWorker </td>
+          <td class="memname">virtual bool agent::IDetector::Detect </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="paramtype"><a class="el" href="classagent_1_1_t_features_builder.html">TFeaturesBuilder</a> &amp;&#160;</td>
+          <td class="paramname"><em>builder</em></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -169,7 +174,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="classagent_1_1_t_stages_detector.html#a61cca19b7564c1aa36c9b604b57de87f">agent::TStagesDetector</a>, and <a class="el" href="classagent_1_1_t_random_detector.html#a489b846a3557b96294ad875de4a516c7">agent::TRandomDetector</a>.</p>
+<p>Implemented in <a class="el" href="classagent_1_1_t_stages_detector.html#a4fc96fb2a67569b91842d3bf12c1fb23">agent::TStagesDetector</a>, <a class="el" href="classagent_1_1_t_accel_stages_detector.html#a499d94f873aa01e1d80b29e319fb3c2c">agent::TAccelStagesDetector</a>, and <a class="el" href="classagent_1_1_t_random_detector.html#ac4c71cbd84a9c7fc972058bd7521c6ae">agent::TRandomDetector</a>.</p>
 
 </div>
 </div>
@@ -196,34 +201,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="classagent_1_1_t_stages_detector.html#a2fea274b6fc6312385f9639eb671e6b1">agent::TStagesDetector</a>, and <a class="el" href="classagent_1_1_t_random_detector.html#ac106ab121fe761542921eb332d2f88fc">agent::TRandomDetector</a>.</p>
-
-</div>
-</div>
-<a id="a58ef697d165b8c9e2f4e6324c68dc0d1" name="a58ef697d165b8c9e2f4e6324c68dc0d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a58ef697d165b8c9e2f4e6324c68dc0d1">&#9670;&nbsp;</a></span>GetScanner()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual <a class="el" href="class_i_l_f_scanner.html">ILFScanner</a> * agent::IDetector::GetScanner </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="classagent_1_1_t_stages_detector.html#a8095905666e43f7aab294b01be152315">agent::TStagesDetector</a>, and <a class="el" href="classagent_1_1_t_random_detector.html#a8c104090bedfdbd163788b786519d901">agent::TRandomDetector</a>.</p>
+<p>Implemented in <a class="el" href="classagent_1_1_t_stages_detector_base.html#a6d8e6cc04de66041a163826a23042eab">agent::TStagesDetectorBase</a>, and <a class="el" href="classagent_1_1_t_random_detector.html#ac106ab121fe761542921eb332d2f88fc">agent::TRandomDetector</a>.</p>
 
 </div>
 </div>
@@ -250,7 +228,34 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="classagent_1_1_t_stages_detector.html#ad362daee97a5a96fb23d9f82628e1b48">agent::TStagesDetector</a>, and <a class="el" href="classagent_1_1_t_random_detector.html#a6e3c6ad386068072c40fe9260734d5aa">agent::TRandomDetector</a>.</p>
+<p>Implemented in <a class="el" href="classagent_1_1_t_stages_detector_base.html#af18bb6bdf6f52b4e73a7f27a96f021ec">agent::TStagesDetectorBase</a>, and <a class="el" href="classagent_1_1_t_random_detector.html#a6e3c6ad386068072c40fe9260734d5aa">agent::TRandomDetector</a>.</p>
+
+</div>
+</div>
+<a id="a9b251d7b32dabfbb9ee17ab4a4ec4691" name="a9b251d7b32dabfbb9ee17ab4a4ec4691"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b251d7b32dabfbb9ee17ab4a4ec4691">&#9670;&nbsp;</a></span>Release()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void agent::IDetector::Release </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classagent_1_1_t_stages_detector_base.html#a53151c65d6825ae6eaa599a625f6cff9">agent::TStagesDetectorBase</a>, and <a class="el" href="classagent_1_1_t_random_detector.html#a4e1748af93729effa4acf543bc37039d">agent::TRandomDetector</a>.</p>
 
 </div>
 </div>
@@ -277,7 +282,45 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="classagent_1_1_t_stages_detector.html#a791e50876337e599c752bca2fb291099">agent::TStagesDetector</a>, and <a class="el" href="classagent_1_1_t_random_detector.html#ad9ead8fe8545cac836f16e5fb79a4d8c">agent::TRandomDetector</a>.</p>
+<p>Implemented in <a class="el" href="classagent_1_1_t_stages_detector.html#a473d13fad1af8f9e12506cfcbb265eef">agent::TStagesDetector</a>, <a class="el" href="classagent_1_1_t_accel_stages_detector.html#a4bb1da2873fa764f054973d517604240">agent::TAccelStagesDetector</a>, <a class="el" href="classagent_1_1_t_stages_detector_base.html#a3c54776ebd0b09c57aaf93d2ace3b0db">agent::TStagesDetectorBase</a>, and <a class="el" href="classagent_1_1_t_random_detector.html#ad9ead8fe8545cac836f16e5fb79a4d8c">agent::TRandomDetector</a>.</p>
+
+</div>
+</div>
+<a id="ad1c223433d945d8337bbf77714776bfc" name="ad1c223433d945d8337bbf77714776bfc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1c223433d945d8337bbf77714776bfc">&#9670;&nbsp;</a></span>Setup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const <a class="el" href="classagent_1_1_t_fragments.html">TFragments</a> &amp; agent::IDetector::Setup </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_t_l_f_image.html">TLFImage</a> &gt;&#160;</td>
+          <td class="paramname"><em>img</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="class_t_l_f_rect.html">TLFRect</a> &gt; *&#160;</td>
+          <td class="paramname"><em>rois</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classagent_1_1_t_stages_detector_base.html#ad8ed4adc552d2dc36c2d36b1f70bf9f9">agent::TStagesDetectorBase</a>, and <a class="el" href="classagent_1_1_t_random_detector.html#a4143d4464c8b6eabd84844710d7794ae">agent::TRandomDetector</a>.</p>
 
 </div>
 </div>

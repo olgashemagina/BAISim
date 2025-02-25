@@ -123,10 +123,12 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="_l_f_agent_8h__dep__incl.png" border="0" usemap="#a_c_1_2work_2_b_a_i_sim_2library_2awplflib_2include_2_l_f_agent_8hdep" alt=""/></div>
 <map name="a_c_1_2work_2_b_a_i_sim_2library_2awplflib_2include_2_l_f_agent_8hdep" id="a_c_1_2work_2_b_a_i_sim_2library_2awplflib_2include_2_l_f_agent_8hdep">
-<area shape="rect" title=" " alt="" coords="129,5,305,49"/>
-<area shape="rect" href="tests_8h.html" title=" " alt="" coords="85,97,237,141"/>
-<area shape="rect" href="_l_f_agent_8cpp.html" title=" " alt="" coords="190,189,358,233"/>
-<area shape="rect" href="tests_8cpp.html" title=" " alt="" coords="5,189,167,233"/>
+<area shape="rect" title=" " alt="" coords="82,5,259,49"/>
+<area shape="rect" href="tests_8h.html" title=" " alt="" coords="126,189,279,233"/>
+<area shape="rect" href="_l_f_agent_8cpp.html" title=" " alt="" coords="5,281,173,325"/>
+<area shape="rect" href="_l_f_tree_8h.html" title=" " alt="" coords="208,97,375,141"/>
+<area shape="rect" href="tests_8cpp.html" title=" " alt="" coords="196,281,358,325"/>
+<area shape="rect" href="_l_f_tree_8cpp.html" title=" " alt="" coords="303,189,462,233"/>
 </map>
 </div>
 </div>
@@ -138,15 +140,93 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_l_f_agent.html">TLFAgent</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_t_l_f_agent_1_1_t_item.html">TLFAgent::TItem</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ad4fd1e3fce854c68f41d4778c9917755"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_t_l_f_agent.html">TLFAgent</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_l_f_agent_8h.html#ad4fd1e3fce854c68f41d4778c9917755">LoadAgentFromEngine</a> (const std::string &amp;engine_path)</td></tr>
-<tr class="separator:ad4fd1e3fce854c68f41d4778c9917755"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d2723ef21efbc16da428a8a10b0fc4d"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_t_l_f_agent.html">TLFAgent</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_l_f_agent_8h.html#a6d2723ef21efbc16da428a8a10b0fc4d">LoadAgentFromEngine</a> (const std::string &amp;engine_path, bool use_gpu=false)</td></tr>
+<tr class="separator:a6d2723ef21efbc16da428a8a10b0fc4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af808145c5b0738bd9e039733197585f3"><td class="memItemLeft" align="right" valign="top">std::pair&lt; int, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_l_f_agent_8h.html#af808145c5b0738bd9e039733197585f3">CalcStat</a> (const <a class="el" href="namespaceagent.html#a28b2e0e298f6f3c7aeb276395c83ec48">agent::TDetections</a> &amp;gt, const std::vector&lt; <a class="el" href="class_t_l_f_agent.html#a6d139d5aedb66cebb333282b50b646bf">TLFAgent::item_t</a> &gt; &amp;dets, float overlap)</td></tr>
+<tr class="separator:af808145c5b0738bd9e039733197585f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1134559489cdfc2c4bd8be9370ecb249"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_t_l_f_semantic_image_descriptor.html">TLFSemanticImageDescriptor</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_l_f_agent_8h.html#a1134559489cdfc2c4bd8be9370ecb249">CreateCorrectedDescription</a> (const std::vector&lt; <a class="el" href="class_t_l_f_agent.html#a6d139d5aedb66cebb333282b50b646bf">TLFAgent::item_t</a> &gt; &amp;items, int width, int height)</td></tr>
+<tr class="separator:a1134559489cdfc2c4bd8be9370ecb249"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ad4fd1e3fce854c68f41d4778c9917755" name="ad4fd1e3fce854c68f41d4778c9917755"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad4fd1e3fce854c68f41d4778c9917755">&#9670;&nbsp;</a></span>LoadAgentFromEngine()</h2>
+<a id="af808145c5b0738bd9e039733197585f3" name="af808145c5b0738bd9e039733197585f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af808145c5b0738bd9e039733197585f3">&#9670;&nbsp;</a></span>CalcStat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::pair&lt; int, int &gt; CalcStat </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceagent.html#a28b2e0e298f6f3c7aeb276395c83ec48">agent::TDetections</a> &amp;&#160;</td>
+          <td class="paramname"><em>gt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="class_t_l_f_agent.html#a6d139d5aedb66cebb333282b50b646bf">TLFAgent::item_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>dets</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>overlap</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_l_f_agent_8cpp_source.html#l00372">372</a> of file <a class="el" href="_l_f_agent_8cpp_source.html">LFAgent.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a1134559489cdfc2c4bd8be9370ecb249" name="a1134559489cdfc2c4bd8be9370ecb249"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1134559489cdfc2c4bd8be9370ecb249">&#9670;&nbsp;</a></span>CreateCorrectedDescription()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_t_l_f_semantic_image_descriptor.html">TLFSemanticImageDescriptor</a> * CreateCorrectedDescription </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="class_t_l_f_agent.html#a6d139d5aedb66cebb333282b50b646bf">TLFAgent::item_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>items</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_l_f_agent_8cpp_source.html#l00401">401</a> of file <a class="el" href="_l_f_agent_8cpp_source.html">LFAgent.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a6d2723ef21efbc16da428a8a10b0fc4d" name="a6d2723ef21efbc16da428a8a10b0fc4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d2723ef21efbc16da428a8a10b0fc4d">&#9670;&nbsp;</a></span>LoadAgentFromEngine()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -155,13 +235,23 @@ Functions</h2></td></tr>
           <td class="memname">std::unique_ptr&lt; <a class="el" href="class_t_l_f_agent.html">TLFAgent</a> &gt; LoadAgentFromEngine </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>engine_path</em></td><td>)</td>
+          <td class="paramname"><em>engine_path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>use_gpu</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_l_f_agent_8cpp_source.html#l00310">310</a> of file <a class="el" href="_l_f_agent_8cpp_source.html">LFAgent.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_l_f_agent_8cpp_source.html#l00328">328</a> of file <a class="el" href="_l_f_agent_8cpp_source.html">LFAgent.cpp</a>.</p>
 
 </div>
 </div>

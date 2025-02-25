@@ -83,8 +83,8 @@ $(document).ready(function(){initNavTree('class_t_gpu_engine.html',''); initResi
 
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="class_t_gpu_engine-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">TGpuEngine Class Reference</div></div>
 </div><!--header-->
@@ -92,45 +92,95 @@ $(document).ready(function(){initNavTree('class_t_gpu_engine.html',''); initResi
 
 <p><code>#include &lt;<a class="el" href="_l_f_gpu_engine_8h_source.html">LFGpuEngine.h</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a69a22446eeb626dc3228d96ad76c8924"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_gpu_engine.html#a69a22446eeb626dc3228d96ad76c8924">TCallback</a> = std::function&lt; void(const awpRect &amp;fragment, const uint8_t *stages, const uint16_t *features)&gt;</td></tr>
-<tr class="separator:a69a22446eeb626dc3228d96ad76c8924"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5f0c166faf5ba6763adbcbda87680293"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_gpu_engine.html#a5f0c166faf5ba6763adbcbda87680293">TGpuEngine</a> ()</td></tr>
-<tr class="separator:a5f0c166faf5ba6763adbcbda87680293"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92ad9d27019172dd52f87b03a314a994"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_t_gpu_detector.html">TGpuDetector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_gpu_engine.html#a92ad9d27019172dd52f87b03a314a994">CreateDetector</a> (<a class="el" href="class_t_s_c_object_detector.html">TSCObjectDetector</a> *detector)</td></tr>
-<tr class="separator:a92ad9d27019172dd52f87b03a314a994"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e3a8b4f7bfdb43f7188c323bcf9aacf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_t_gpu_integral.html">TGpuIntegral</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_gpu_engine.html#a0e3a8b4f7bfdb43f7188c323bcf9aacf">CreateIntegral</a> (<a class="el" href="class_t_l_f_image.html">TLFImage</a> *image)</td></tr>
-<tr class="separator:a0e3a8b4f7bfdb43f7188c323bcf9aacf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a594a53539c0296eeca4b80007b33e3"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="class_t_l_f_detected_item.html">TLFDetectedItem</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_gpu_engine.html#a1a594a53539c0296eeca4b80007b33e3">Run</a> (<a class="el" href="class_t_gpu_detector.html">TGpuDetector</a> detector, <a class="el" href="class_t_gpu_integral.html">TGpuIntegral</a> image, awpRect in_rect, <a class="el" href="class_t_gpu_engine.html#a69a22446eeb626dc3228d96ad76c8924">TCallback</a> cb=nullptr)</td></tr>
-<tr class="separator:a1a594a53539c0296eeca4b80007b33e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad35c199495bdc8a6f388dee949a73a7d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_gpu_engine.html#ad35c199495bdc8a6f388dee949a73a7d">TGpuEngine</a> (int num_threads=4, int num_workers=4, int num_transforms=16192, int min_stages=3)</td></tr>
+<tr class="separator:ad35c199495bdc8a6f388dee949a73a7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acaa4549d78acf9f7aa9bfdce7b812ac6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_gpu_engine.html#acaa4549d78acf9f7aa9bfdce7b812ac6">Initialize</a> (std::unique_ptr&lt; <a class="el" href="class_t_s_c_object_detector.html">TSCObjectDetector</a> &gt; detector)</td></tr>
+<tr class="separator:acaa4549d78acf9f7aa9bfdce7b812ac6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5d0c207c7b42e4a609b3ee2183471a9"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="class_t_l_f_detected_item.html">TLFDetectedItem</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_gpu_engine.html#af5d0c207c7b42e4a609b3ee2183471a9">Detect</a> (const <a class="el" href="class_t_gpu_integral.html">TGpuIntegral</a> &amp;image)</td></tr>
+<tr class="separator:af5d0c207c7b42e4a609b3ee2183471a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af435f522457dee9da93d8a3431bc6180"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="class_t_l_f_detected_item.html">TLFDetectedItem</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_gpu_engine.html#af435f522457dee9da93d8a3431bc6180">Detect</a> (<a class="el" href="class_t_l_f_image.html">TLFImage</a> *image)</td></tr>
+<tr class="separator:af435f522457dee9da93d8a3431bc6180"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:abdc3e7d635091555c9c0bd3807368713"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_gpu_engine.html#abdc3e7d635091555c9c0bd3807368713">TGpuTransforms</a></td></tr>
+<tr class="separator:abdc3e7d635091555c9c0bd3807368713"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69b0ce7cb119d440c91818fdc854d7a8"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_gpu_engine.html#a69b0ce7cb119d440c91818fdc854d7a8">TGpuDetector</a></td></tr>
+<tr class="separator:a69b0ce7cb119d440c91818fdc854d7a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a380d42db494daaa3a5d0b800aafcd10c"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_gpu_engine.html#a380d42db494daaa3a5d0b800aafcd10c">TGpuIntegral</a></td></tr>
+<tr class="separator:a380d42db494daaa3a5d0b800aafcd10c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_l_f_gpu_engine_8h_source.html#l00057">57</a> of file <a class="el" href="_l_f_gpu_engine_8h_source.html">LFGpuEngine.h</a>.</p>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a69a22446eeb626dc3228d96ad76c8924" name="a69a22446eeb626dc3228d96ad76c8924"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a69a22446eeb626dc3228d96ad76c8924">&#9670;&nbsp;</a></span>TCallback</h2>
+<p class="definition">Definition at line <a class="el" href="_l_f_gpu_engine_8h_source.html#l00082">82</a> of file <a class="el" href="_l_f_gpu_engine_8h_source.html">LFGpuEngine.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ad35c199495bdc8a6f388dee949a73a7d" name="ad35c199495bdc8a6f388dee949a73a7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad35c199495bdc8a6f388dee949a73a7d">&#9670;&nbsp;</a></span>TGpuEngine()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="class_t_gpu_engine.html#a69a22446eeb626dc3228d96ad76c8924">TGpuEngine::TCallback</a> =  std::function&lt;void(const awpRect&amp; fragment, const uint8_t* stages, const uint16_t* features)&gt;</td>
+          <td class="memname">TGpuEngine::TGpuEngine </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>num_threads</em> = <code>4</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>num_workers</em> = <code>4</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>num_transforms</em> = <code>16192</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>min_stages</em> = <code>3</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_l_f_gpu_engine_8h_source.html#l00059">59</a> of file <a class="el" href="_l_f_gpu_engine_8h_source.html">LFGpuEngine.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_l_f_gpu_engine_8cpp_source.html#l00008">8</a> of file <a class="el" href="_l_f_gpu_engine_8cpp_source.html">LFGpuEngine.cpp</a>.</p>
 
 </div>
 </div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a5f0c166faf5ba6763adbcbda87680293" name="a5f0c166faf5ba6763adbcbda87680293"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f0c166faf5ba6763adbcbda87680293">&#9670;&nbsp;</a></span>TGpuEngine()</h2>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="af5d0c207c7b42e4a609b3ee2183471a9" name="af5d0c207c7b42e4a609b3ee2183471a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5d0c207c7b42e4a609b3ee2183471a9">&#9670;&nbsp;</a></span>Detect() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="class_t_l_f_detected_item.html">TLFDetectedItem</a> &gt; TGpuEngine::Detect </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_t_gpu_integral.html">TGpuIntegral</a> &amp;&#160;</td>
+          <td class="paramname"><em>image</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_l_f_gpu_engine_8cpp_source.html#l00030">30</a> of file <a class="el" href="_l_f_gpu_engine_8cpp_source.html">LFGpuEngine.cpp</a>.</p>
+
+</div>
+</div>
+<a id="af435f522457dee9da93d8a3431bc6180" name="af435f522457dee9da93d8a3431bc6180"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af435f522457dee9da93d8a3431bc6180">&#9670;&nbsp;</a></span>Detect() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -139,9 +189,10 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">TGpuEngine::TGpuEngine </td>
+          <td class="memname">std::vector&lt; <a class="el" href="class_t_l_f_detected_item.html">TLFDetectedItem</a> &gt; TGpuEngine::Detect </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_t_l_f_image.html">TLFImage</a> *&#160;</td>
+          <td class="paramname"><em>image</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -152,90 +203,100 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_l_f_gpu_engine_8h_source.html#l00062">62</a> of file <a class="el" href="_l_f_gpu_engine_8h_source.html">LFGpuEngine.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_l_f_gpu_engine_8h_source.html#l00095">95</a> of file <a class="el" href="_l_f_gpu_engine_8h_source.html">LFGpuEngine.h</a>.</p>
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a92ad9d27019172dd52f87b03a314a994" name="a92ad9d27019172dd52f87b03a314a994"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92ad9d27019172dd52f87b03a314a994">&#9670;&nbsp;</a></span>CreateDetector()</h2>
+<a id="acaa4549d78acf9f7aa9bfdce7b812ac6" name="acaa4549d78acf9f7aa9bfdce7b812ac6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acaa4549d78acf9f7aa9bfdce7b812ac6">&#9670;&nbsp;</a></span>Initialize()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_t_gpu_detector.html">TGpuDetector</a> TGpuEngine::CreateDetector </td>
+          <td class="memname">bool TGpuEngine::Initialize </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_t_s_c_object_detector.html">TSCObjectDetector</a> *&#160;</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="class_t_s_c_object_detector.html">TSCObjectDetector</a> &gt;&#160;</td>
           <td class="paramname"><em>detector</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_l_f_gpu_engine_8cpp_source.html#l00008">8</a> of file <a class="el" href="_l_f_gpu_engine_8cpp_source.html">LFGpuEngine.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_l_f_gpu_engine_8cpp_source.html#l00021">21</a> of file <a class="el" href="_l_f_gpu_engine_8cpp_source.html">LFGpuEngine.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a0e3a8b4f7bfdb43f7188c323bcf9aacf" name="a0e3a8b4f7bfdb43f7188c323bcf9aacf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e3a8b4f7bfdb43f7188c323bcf9aacf">&#9670;&nbsp;</a></span>CreateIntegral()</h2>
+<h2 class="groupheader">Friends And Related Function Documentation</h2>
+<a id="a69b0ce7cb119d440c91818fdc854d7a8" name="a69b0ce7cb119d440c91818fdc854d7a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69b0ce7cb119d440c91818fdc854d7a8">&#9670;&nbsp;</a></span>TGpuDetector</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_t_gpu_integral.html">TGpuIntegral</a> TGpuEngine::CreateIntegral </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_t_l_f_image.html">TLFImage</a> *&#160;</td>
-          <td class="paramname"><em>image</em></td><td>)</td>
-          <td></td>
+          <td class="memname">friend class <a class="el" href="class_t_gpu_detector.html">TGpuDetector</a></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_l_f_gpu_engine_8cpp_source.html#l00055">55</a> of file <a class="el" href="_l_f_gpu_engine_8cpp_source.html">LFGpuEngine.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_l_f_gpu_engine_8h_source.html#l00084">84</a> of file <a class="el" href="_l_f_gpu_engine_8h_source.html">LFGpuEngine.h</a>.</p>
 
 </div>
 </div>
-<a id="a1a594a53539c0296eeca4b80007b33e3" name="a1a594a53539c0296eeca4b80007b33e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a594a53539c0296eeca4b80007b33e3">&#9670;&nbsp;</a></span>Run()</h2>
+<a id="a380d42db494daaa3a5d0b800aafcd10c" name="a380d42db494daaa3a5d0b800aafcd10c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a380d42db494daaa3a5d0b800aafcd10c">&#9670;&nbsp;</a></span>TGpuIntegral</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="class_t_l_f_detected_item.html">TLFDetectedItem</a> &gt; TGpuEngine::Run </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_t_gpu_detector.html">TGpuDetector</a>&#160;</td>
-          <td class="paramname"><em>detector</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_t_gpu_integral.html">TGpuIntegral</a>&#160;</td>
-          <td class="paramname"><em>image</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">awpRect&#160;</td>
-          <td class="paramname"><em>in_rect</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_t_gpu_engine.html#a69a22446eeb626dc3228d96ad76c8924">TCallback</a>&#160;</td>
-          <td class="paramname"><em>cb</em> = <code>nullptr</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname">friend class <a class="el" href="class_t_gpu_integral.html">TGpuIntegral</a></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_l_f_gpu_engine_8cpp_source.html#l00070">70</a> of file <a class="el" href="_l_f_gpu_engine_8cpp_source.html">LFGpuEngine.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_l_f_gpu_engine_8h_source.html#l00085">85</a> of file <a class="el" href="_l_f_gpu_engine_8h_source.html">LFGpuEngine.h</a>.</p>
+
+</div>
+</div>
+<a id="abdc3e7d635091555c9c0bd3807368713" name="abdc3e7d635091555c9c0bd3807368713"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdc3e7d635091555c9c0bd3807368713">&#9670;&nbsp;</a></span>TGpuTransforms</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="class_t_gpu_transforms.html">TGpuTransforms</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_l_f_gpu_engine_8h_source.html#l00083">83</a> of file <a class="el" href="_l_f_gpu_engine_8h_source.html">LFGpuEngine.h</a>.</p>
 
 </div>
 </div>

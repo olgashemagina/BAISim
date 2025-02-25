@@ -1,6 +1,6 @@
 var detectors_8h =
 [
-    [ "agent::TStagesDetectorImpl", "classagent_1_1_t_stages_detector_impl.html", "classagent_1_1_t_stages_detector_impl" ],
-    [ "agent::TStagesWorker", "classagent_1_1_t_stages_worker.html", "classagent_1_1_t_stages_worker" ],
-    [ "agent::TStagesDetector", "classagent_1_1_t_stages_detector.html", "classagent_1_1_t_stages_detector" ]
+    [ "agent::TStagesDetectorBase", "classagent_1_1_t_stages_detector_base.html", "classagent_1_1_t_stages_detector_base" ],
+    [ "CreateCpuDetector", "detectors_8h.html#a6ae38c009ff8b7f2373b0648ec045276", null ],
+    [ "CreateGpuDetector", "detectors_8h.html#a919ab97f30eae0116c4831f75eaac4eb", null ]
 ];

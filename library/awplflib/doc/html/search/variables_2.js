@@ -1,22 +1,13 @@
 var searchData=
 [
-  ['c_5ffcorrthr_0',['c_fCorrThr',['../_l_f_eye_8cpp.html#a614da9e44621b6c13ed31f9a312d49c6',1,'LFEye.cpp']]],
-  ['c_5fneyehalfh_1',['c_nEyeHalfH',['../_l_f_eye_8cpp.html#aecda569513727fdc2eb85baae781ddb3',1,'LFEye.cpp']]],
-  ['c_5fneyehalfw_2',['c_nEyeHalfW',['../_l_f_eye_8cpp.html#ae2ccb26d0b914506544b2360d7e76ec4',1,'LFEye.cpp']]],
-  ['c_5fneyeheight_3',['c_nEyeHeight',['../_l_f_eye_8cpp.html#a426fdf4fb3cce2de932ae418146c2f37',1,'LFEye.cpp']]],
-  ['c_5fneyesize_4',['c_nEyeSize',['../_l_f_eye_8cpp.html#ac7889a0c5526f0d98f50648408e5c261',1,'LFEye.cpp']]],
-  ['c_5fneyesize2_5',['c_nEyeSize2',['../_l_f_eye_8cpp.html#ad3146f534a9e2c469fd3ad7430353e1d',1,'LFEye.cpp']]],
-  ['c_5fneyewidth_6',['c_nEyeWidth',['../_l_f_eye_8cpp.html#acd473e0e67a9d88658b189d86be0b00f',1,'LFEye.cpp']]],
-  ['c_5fuuidzero_7',['c_uuidZero',['../group___l_f_file_utils.html#ga2560ff9c71466245f7506ddae09f1dbf',1,'LFFileUtils.h']]],
-  ['centre_8',['centre',['../classcreate__class__corr1_1_1_baseline_corrector.html#a8231f7eadfffb51ba8f43439681b075a',1,'create_class_corr1::BaselineCorrector']]],
-  ['centroids_9',['centroids',['../classcreate__class__corr1_1_1_baseline_corrector.html#aafaf3527ffeebd09f78847239a3ad2aa',1,'create_class_corr1::BaselineCorrector']]],
-  ['classes_10',['classes',['../classcreate__class__corr2_1_1_elastic_map_corrector.html#aeca0df5591099ee9bb330f6d57b6d7b6',1,'create_class_corr2::ElasticMapCorrector']]],
-  ['cluster_5fid_11',['cluster_id',['../structtag_s_cluster_descr.html#a032a065107eb348fa2ac5dfdedcc4d59',1,'tagSClusterDescr']]],
-  ['color_12',['color',['../structtag_binary_blob.html#a8e4488e2b16a81f933a6580e3cec9487',1,'tagBinaryBlob']]],
-  ['corrections_5f_13',['corrections_',['../classagent_1_1_t_features.html#aa2e846810a8d95b6f072da29cd14033e',1,'agent::TFeatures']]],
-  ['correctors_5f_14',['correctors_',['../class_t_l_f_agent.html#a37cda87be78ec243c17348be22d6b95a',1,'TLFAgent']]],
-  ['count_5f_15',['count_',['../classaccel__rects_1_1_features.html#ac517637db99c0ccfce08580b3bd439d5',1,'accel_rects::Features']]],
-  ['crls_16',['CRLS',['../classcreate__class__corr1_1_1_baseline_corrector.html#aeb137abee1f39298e24964a8ef4ddfc0',1,'create_class_corr1::BaselineCorrector']]],
-  ['cx_17',['cx',['../structtag_binary_blob.html#aa8e030a163e4c3ca0bae77aeed499ffd',1,'tagBinaryBlob::cx()'],['../structtag_s_l_f_binary_moments.html#a0a4f2ed15392ceb41ce95e6cd97c2d52',1,'tagSLFBinaryMoments::cx()']]],
-  ['cy_18',['cy',['../structtag_binary_blob.html#a737e75e26cf7c045c06d34d357f939d1',1,'tagBinaryBlob::cy()'],['../structtag_s_l_f_binary_moments.html#a4e50c7481cda5307e033989918ae886e',1,'tagSLFBinaryMoments::cy()']]]
+  ['base_5fheight_0',['base_height',['../struct_t_l_f_agent_1_1_t_item_attributes.html#a9f32524c812362d2e587942a728b2669',1,'TLFAgent::TItemAttributes']]],
+  ['base_5fwidth_1',['base_width',['../struct_t_l_f_agent_1_1_t_item_attributes.html#a6088e2e47e2485ca2abe1f168dd0613d',1,'TLFAgent::TItemAttributes']]],
+  ['batch_5fsize_5f_2',['batch_size_',['../class_t_l_f_agent.html#a2537ab498175fb6764353de6b1c9240f',1,'TLFAgent']]],
+  ['bestacc_3',['bestAcc',['../classcreate__class__corr1_1_1_baseline_corrector.html#ae4d53c559210c3d9d5968b8cc9948b0a',1,'create_class_corr1.BaselineCorrector.bestAcc()'],['../classcreate__class__corr1_1_1_baseline_corrector.html#a5d17cd50e53187a2142bb2d15c10bfd2',1,'create_class_corr1.BaselineCorrector.bestAcc()']]],
+  ['bestt_4',['bestT',['../classcreate__class__corr1_1_1_baseline_corrector.html#a169a1476b92f50c1b9e3e1d86de70e24',1,'create_class_corr1.BaselineCorrector.bestT()'],['../classcreate__class__corr1_1_1_baseline_corrector.html#a8f2420b08731e378d3da22ba13a9a816',1,'create_class_corr1.BaselineCorrector.bestT()']]],
+  ['besttnr_5',['bestTNR',['../classcreate__class__corr1_1_1_baseline_corrector.html#aa74a366e5d743b8f68e626a48f40506e',1,'create_class_corr1.BaselineCorrector.bestTNR()'],['../classcreate__class__corr1_1_1_baseline_corrector.html#a17682c03a79b207594ee16bae8869a63',1,'create_class_corr1.BaselineCorrector.bestTNR()']]],
+  ['besttpr_6',['bestTPR',['../classcreate__class__corr1_1_1_baseline_corrector.html#a60fc6b2aad71e7fd861e2cbfa665db92',1,'create_class_corr1.BaselineCorrector.bestTPR()'],['../classcreate__class__corr1_1_1_baseline_corrector.html#a323ed108f22c8528afe2f71f49f133a1',1,'create_class_corr1.BaselineCorrector.bestTPR()']]],
+  ['bit_5fmask_7',['bit_mask',['../_l_f_weak_8cpp.html#a45992abc6a47beb2cba7a40903984054',1,'LFWeak.cpp']]],
+  ['blob_5fidx_8',['blob_idx',['../structtag_s_cluster_descr.html#a81da77e5288e0a0e16bfbd85c6df5d75',1,'tagSClusterDescr']]],
+  ['buf_5fsize_9',['buf_size',['../class_t_l_f_acc_weak.html#a134301af836f1c4aab774064d7433764',1,'TLFAccWeak']]]
 ];

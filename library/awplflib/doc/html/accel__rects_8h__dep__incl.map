@@ -1,6 +1,7 @@
 <map id="C:/work/BAISim/library/awplflib/accel_rects/accel_rects.h" name="C:/work/BAISim/library/awplflib/accel_rects/accel_rects.h">
-<area shape="rect" id="node1" title=" " alt="" coords="107,5,259,65"/>
+<area shape="rect" id="node1" title=" " alt="" coords="119,5,271,65"/>
 <area shape="rect" id="node2" href="$accel__rects_8cpp.html" title=" " alt="" coords="5,113,158,173"/>
-<area shape="rect" id="node3" href="$_l_f_gpu_engine_8h.html" title=" " alt="" coords="182,121,389,165"/>
-<area shape="rect" id="node4" href="$_l_f_gpu_engine_8cpp.html" title=" " alt="" coords="187,221,384,265"/>
+<area shape="rect" id="node3" href="$detector__gpu_8cpp.html" title=" " alt="" coords="118,221,272,281"/>
+<area shape="rect" id="node4" href="$_l_f_gpu_engine_8h.html" title=" " alt="" coords="232,121,438,165"/>
+<area shape="rect" id="node5" href="$_l_f_gpu_engine_8cpp.html" title=" " alt="" coords="296,229,494,273"/>
 </map>

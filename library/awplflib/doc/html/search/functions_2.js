@@ -9,10 +9,11 @@ var searchData=
   ['bordercases_6',['borderCases',['../class_map_geometry_1_1_map_geometry.html#aad761f46fd888fe9e84607bbd7a0368d',1,'MapGeometry::MapGeometry']]],
   ['bottom_7',['Bottom',['../class_t_l_f_rect.html#ac9f09b01b42fe98937cf45d39722de2b',1,'TLFRect']]],
   ['bottom_8',['bottom',['../class_t_l_f2_d_rect.html#af3ee5ded132dd662ee5184384aa22321',1,'TLF2DRect']]],
-  ['build_9',['Build',['../class_t_c_s_build_detector.html#a8e4236f10361b9aed1d783b819794193',1,'TCSBuildDetector::Build()'],['../class_t_l_f_builder.html#a4a5b8898a5665fda04a95e5f5e557c27',1,'TLFBuilder::Build()']]],
-  ['build_5frandom_5fagent_10',['build_random_agent',['../namespacetests.html#a67a54a0d332df39dcda36565314df4eb',1,'tests']]],
-  ['buildbackground_11',['BuildBackground',['../class_t_l_f_builder.html#a2e4c8eea3bfa2d30b07fe942e7834e88',1,'TLFBuilder']]],
-  ['buildbkground_12',['BuildBkground',['../class_t_c_s_build_detector.html#a4251a7a1b8cceaaf5c426d4836f38f16',1,'TCSBuildDetector']]],
-  ['builddefaultbkground_13',['BuildDefaultBkGround',['../class_t_c_s_build_detector.html#a5b1e57dcef95e5fc05c61f581b5301a9',1,'TCSBuildDetector']]],
-  ['buildforeground_14',['BuildForeground',['../class_t_l_f_f_g_engine.html#a37ff0b81be18f97b64e1992ac9137900',1,'TLFFGEngine::BuildForeground()'],['../class_t_l_f_motion_engine.html#a8c4dbf305917257dd3be5b07a0497325',1,'TLFMotionEngine::BuildForeground()']]]
+  ['buffer_9',['buffer',['../classaccel__rects_1_1_transforms_data.html#a97b20cbd9506b62c5842367c78f5fb7a',1,'accel_rects::TransformsData']]],
+  ['build_10',['Build',['../class_t_c_s_build_detector.html#a8e4236f10361b9aed1d783b819794193',1,'TCSBuildDetector::Build()'],['../class_t_l_f_builder.html#a4a5b8898a5665fda04a95e5f5e557c27',1,'TLFBuilder::Build()'],['../class_t_gpu_detector.html#a691c5eef57c0fc128f338212493a1cb6',1,'TGpuDetector::Build()']]],
+  ['build_5frandom_5fagent_11',['build_random_agent',['../namespacetests.html#a67a54a0d332df39dcda36565314df4eb',1,'tests']]],
+  ['buildbackground_12',['BuildBackground',['../class_t_l_f_builder.html#a2e4c8eea3bfa2d30b07fe942e7834e88',1,'TLFBuilder']]],
+  ['buildbkground_13',['BuildBkground',['../class_t_c_s_build_detector.html#a4251a7a1b8cceaaf5c426d4836f38f16',1,'TCSBuildDetector']]],
+  ['builddefaultbkground_14',['BuildDefaultBkGround',['../class_t_c_s_build_detector.html#a5b1e57dcef95e5fc05c61f581b5301a9',1,'TCSBuildDetector']]],
+  ['buildforeground_15',['BuildForeground',['../class_t_l_f_f_g_engine.html#a37ff0b81be18f97b64e1992ac9137900',1,'TLFFGEngine::BuildForeground()'],['../class_t_l_f_motion_engine.html#a8c4dbf305917257dd3be5b07a0497325',1,'TLFMotionEngine::BuildForeground()']]]
 ];

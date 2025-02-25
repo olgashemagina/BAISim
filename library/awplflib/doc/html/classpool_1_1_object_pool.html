@@ -99,10 +99,18 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae31386a6f66beef7cb2a73683ecddef3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpool_1_1_object_pool.html#ae31386a6f66beef7cb2a73683ecddef3">ObjectPool</a> (<a class="el" href="classpool_1_1_object_pool.html#a0e13002dcf728699f543dd2a316152c8">ObjectCreator</a> creator)</td></tr>
-<tr class="separator:ae31386a6f66beef7cb2a73683ecddef3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14a36ca7f30e34e11185770c7e0e9e93"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpool_1_1_object_pool.html#a14a36ca7f30e34e11185770c7e0e9e93">GetObject</a> ()</td></tr>
-<tr class="separator:a14a36ca7f30e34e11185770c7e0e9e93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96e874a6b1bb7ade4b22ae674ae496e4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpool_1_1_object_pool.html#a96e874a6b1bb7ade4b22ae674ae496e4">ObjectPool</a> (<a class="el" href="classpool_1_1_object_pool.html">ObjectPool</a> &amp;&amp;)=default</td></tr>
+<tr class="separator:a96e874a6b1bb7ade4b22ae674ae496e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0463f4a8ffcc0ef400c3d3b2e853c991"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classpool_1_1_object_pool.html">ObjectPool</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpool_1_1_object_pool.html#a0463f4a8ffcc0ef400c3d3b2e853c991">operator=</a> (<a class="el" href="classpool_1_1_object_pool.html">ObjectPool</a> &amp;&amp;)=default</td></tr>
+<tr class="separator:a0463f4a8ffcc0ef400c3d3b2e853c991"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b9b7c4504254c3247de0485a45030da"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpool_1_1_object_pool.html#a8b9b7c4504254c3247de0485a45030da">ObjectPool</a> (<a class="el" href="classpool_1_1_object_pool.html#a0e13002dcf728699f543dd2a316152c8">ObjectCreator</a> creator, size_t limits=0)</td></tr>
+<tr class="separator:a8b9b7c4504254c3247de0485a45030da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87a2f2fd0eb7618022682b45ec4674c1"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpool_1_1_object_pool.html#a87a2f2fd0eb7618022682b45ec4674c1">Get</a> ()</td></tr>
+<tr class="separator:a87a2f2fd0eb7618022682b45ec4674c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9967849c27a33192cfe4585df485ba7c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpool_1_1_object_pool.html#a9967849c27a33192cfe4585df485ba7c">WaitTask</a> ()</td></tr>
+<tr class="separator:a9967849c27a33192cfe4585df485ba7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a176332c5d831b8d4cb2dccfa831a70a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpool_1_1_object_pool.html#a176332c5d831b8d4cb2dccfa831a70a6">WaitAllTasks</a> ()</td></tr>
+<tr class="separator:a176332c5d831b8d4cb2dccfa831a70a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
@@ -128,8 +136,36 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ae31386a6f66beef7cb2a73683ecddef3" name="ae31386a6f66beef7cb2a73683ecddef3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae31386a6f66beef7cb2a73683ecddef3">&#9670;&nbsp;</a></span>ObjectPool()</h2>
+<a id="a96e874a6b1bb7ade4b22ae674ae496e4" name="a96e874a6b1bb7ade4b22ae674ae496e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96e874a6b1bb7ade4b22ae674ae496e4">&#9670;&nbsp;</a></span>ObjectPool() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classpool_1_1_object_pool.html">pool::ObjectPool</a>&lt; T &gt;::ObjectPool </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classpool_1_1_object_pool.html">ObjectPool</a>&lt; T &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8b9b7c4504254c3247de0485a45030da" name="a8b9b7c4504254c3247de0485a45030da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b9b7c4504254c3247de0485a45030da">&#9670;&nbsp;</a></span>ObjectPool() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -143,8 +179,18 @@ template&lt;typename T &gt; </div>
           <td class="memname"><a class="el" href="classpool_1_1_object_pool.html">pool::ObjectPool</a>&lt; T &gt;::ObjectPool </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classpool_1_1_object_pool.html#a0e13002dcf728699f543dd2a316152c8">ObjectCreator</a>&#160;</td>
-          <td class="paramname"><em>creator</em></td><td>)</td>
+          <td class="paramname"><em>creator</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>limits</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -154,13 +200,13 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="object__pool_8h_source.html#l00019">19</a> of file <a class="el" href="object__pool_8h_source.html">object_pool.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="object__pool_8h_source.html#l00023">23</a> of file <a class="el" href="object__pool_8h_source.html">object_pool.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a14a36ca7f30e34e11185770c7e0e9e93" name="a14a36ca7f30e34e11185770c7e0e9e93"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a14a36ca7f30e34e11185770c7e0e9e93">&#9670;&nbsp;</a></span>GetObject()</h2>
+<a id="a87a2f2fd0eb7618022682b45ec4674c1" name="a87a2f2fd0eb7618022682b45ec4674c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87a2f2fd0eb7618022682b45ec4674c1">&#9670;&nbsp;</a></span>Get()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -171,7 +217,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt; T &gt; <a class="el" href="classpool_1_1_object_pool.html">pool::ObjectPool</a>&lt; T &gt;::GetObject </td>
+          <td class="memname">std::shared_ptr&lt; T &gt; <a class="el" href="classpool_1_1_object_pool.html">pool::ObjectPool</a>&lt; T &gt;::Get </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -184,7 +230,93 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="object__pool_8h_source.html#l00022">22</a> of file <a class="el" href="object__pool_8h_source.html">object_pool.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="object__pool_8h_source.html#l00028">28</a> of file <a class="el" href="object__pool_8h_source.html">object_pool.h</a>.</p>
+
+</div>
+</div>
+<a id="a0463f4a8ffcc0ef400c3d3b2e853c991" name="a0463f4a8ffcc0ef400c3d3b2e853c991"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0463f4a8ffcc0ef400c3d3b2e853c991">&#9670;&nbsp;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classpool_1_1_object_pool.html">ObjectPool</a> &amp; <a class="el" href="classpool_1_1_object_pool.html">pool::ObjectPool</a>&lt; T &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classpool_1_1_object_pool.html">ObjectPool</a>&lt; T &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a176332c5d831b8d4cb2dccfa831a70a6" name="a176332c5d831b8d4cb2dccfa831a70a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a176332c5d831b8d4cb2dccfa831a70a6">&#9670;&nbsp;</a></span>WaitAllTasks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classpool_1_1_object_pool.html">pool::ObjectPool</a>&lt; T &gt;::WaitAllTasks </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="object__pool_8h_source.html#l00075">75</a> of file <a class="el" href="object__pool_8h_source.html">object_pool.h</a>.</p>
+
+</div>
+</div>
+<a id="a9967849c27a33192cfe4585df485ba7c" name="a9967849c27a33192cfe4585df485ba7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9967849c27a33192cfe4585df485ba7c">&#9670;&nbsp;</a></span>WaitTask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classpool_1_1_object_pool.html">pool::ObjectPool</a>&lt; T &gt;::WaitTask </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="object__pool_8h_source.html#l00067">67</a> of file <a class="el" href="object__pool_8h_source.html">object_pool.h</a>.</p>
 
 </div>
 </div>

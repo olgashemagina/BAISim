@@ -54,6 +54,7 @@ var group___l_f_geometry =
       [ "IsEmpty", "class_t_l_f_rect.html#a8dcc34557c212298b3a109cbc1749fe6", null ],
       [ "Left", "class_t_l_f_rect.html#ab74f9ed069ae268c59735b06bc23cd12", null ],
       [ "LoadXML", "class_t_l_f_rect.html#af83378ceaa89cf2e76981e39ce67994c", null ],
+      [ "operator=", "class_t_l_f_rect.html#a13d9637101583d2cfa63cd21c1d78a18", null ],
       [ "RectOverlap", "class_t_l_f_rect.html#a271049721512fab1c0aab095585d2382", null ],
       [ "RectOverlap", "class_t_l_f_rect.html#a5f7d8be00f4da793cd68105f82fb7a27", null ],
       [ "Right", "class_t_l_f_rect.html#a33b84bbc80e015a9f08ffa8dad16908f", null ],

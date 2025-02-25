@@ -8,19 +8,19 @@ var hierarchy =
     [ "_LFPoint", "struct___l_f_point.html", null ],
     [ "_LFRect", "struct___l_f_rect.html", null ],
     [ "create_class_corr1.BaselineCorrector", "classcreate__class__corr1_1_1_baseline_corrector.html", null ],
+    [ "accel_rects::Detector", "classaccel__rects_1_1_detector.html", [
+      [ "accel_rects::DetectorBuilder", "classaccel__rects_1_1_detector_builder.html", null ]
+    ] ],
     [ "accel_rects::DetectorData", "classaccel__rects_1_1_detector_data.html", null ],
     [ "accel_rects::DetectorView", "classaccel__rects_1_1_detector_view.html", null ],
     [ "create_class_corr2.ElasticMapCorrector", "classcreate__class__corr2_1_1_elastic_map_corrector.html", null ],
     [ "std::enable_shared_from_this", null, [
       [ "accel_rects::Core", "classaccel__rects_1_1_core.html", null ]
     ] ],
-    [ "accel_rects::Engine", "classaccel__rects_1_1_engine.html", null ],
-    [ "tasks::Executor< T >", "classtasks_1_1_executor.html", null ],
-    [ "accel_rects::Features", "classaccel__rects_1_1_features.html", [
-      [ "accel_rects::FeaturesBuilder", "classaccel__rects_1_1_features_builder.html", null ]
+    [ "accel_rects::Engine", "classaccel__rects_1_1_engine.html", [
+      [ "accel_rects::Core", "classaccel__rects_1_1_core.html", null ]
     ] ],
-    [ "accel_rects::FeaturesData", "classaccel__rects_1_1_features_data.html", null ],
-    [ "accel_rects::FeaturesView", "classaccel__rects_1_1_features_view.html", null ],
+    [ "tasks::Executor< T >", "classtasks_1_1_executor.html", null ],
     [ "agent::TDBSupervisor::FileInfo", "structagent_1_1_t_d_b_supervisor_1_1_file_info.html", null ],
     [ "agent::ICorrector", "classagent_1_1_i_corrector.html", [
       [ "agent::TCorrectorBase", "classagent_1_1_t_corrector_base.html", [
@@ -34,7 +34,10 @@ var hierarchy =
     ] ],
     [ "agent::IDetector", "classagent_1_1_i_detector.html", [
       [ "agent::TRandomDetector", "classagent_1_1_t_random_detector.html", null ],
-      [ "agent::TStagesDetector", "classagent_1_1_t_stages_detector.html", null ]
+      [ "agent::TStagesDetectorBase", "classagent_1_1_t_stages_detector_base.html", [
+        [ "agent::TAccelStagesDetector", "classagent_1_1_t_accel_stages_detector.html", null ],
+        [ "agent::TStagesDetector", "classagent_1_1_t_stages_detector.html", null ]
+      ] ]
     ] ],
     [ "ILFDataset", "class_i_l_f_dataset.html", null ],
     [ "ILFDescriptor", "class_i_l_f_descriptor.html", null ],
@@ -68,32 +71,24 @@ var hierarchy =
     [ "ILFZones", "class_i_l_f_zones.html", null ],
     [ "accel_rects::IntegralData", "classaccel__rects_1_1_integral_data.html", null ],
     [ "accel_rects::IntegralView", "classaccel__rects_1_1_integral_view.html", null ],
-    [ "agent::IWorker", "classagent_1_1_i_worker.html", [
-      [ "agent::TRandomWorker", "classagent_1_1_t_random_worker.html", null ],
-      [ "agent::TStagesWorker", "classagent_1_1_t_stages_worker.html", null ]
-    ] ],
-    [ "accel_rects::Kernels", "classaccel__rects_1_1_kernels.html", null ],
     [ "MapGeometry.MapGeometry", "class_map_geometry_1_1_map_geometry.html", null ],
     [ "pool::ObjectPool< T >", "classpool_1_1_object_pool.html", null ],
     [ "pool::ObjectPool< agent::TFeaturesBuilder >", "classpool_1_1_object_pool.html", null ],
-    [ "accel_rects::Pool< T >", "classaccel__rects_1_1_pool.html", null ],
-    [ "accel_rects::Pool< accel_rects::Task >", "classaccel__rects_1_1_pool.html", null ],
     [ "ProgressMeter", "class_progress_meter.html", null ],
+    [ "PyLockGIL", "struct_py_lock_g_i_l.html", null ],
+    [ "PyRelinquishGIL", "struct_py_relinquish_g_i_l.html", null ],
+    [ "PythonEnvironment", "class_python_environment.html", null ],
     [ "roc_entry", "structroc__entry.html", null ],
+    [ "SamplesMap", "class_samples_map.html", null ],
     [ "sc_table_t", null, [
       [ "accel_rects::ScTable", "structaccel__rects_1_1_sc_table.html", null ]
     ] ],
     [ "SLFAttrResult", "struct_s_l_f_attr_result.html", null ],
     [ "SLFTriangle", "struct_s_l_f_triangle.html", null ],
-    [ "accel_rects::Stages", "classaccel__rects_1_1_stages.html", [
-      [ "accel_rects::DetectorBuilder", "classaccel__rects_1_1_detector_builder.html", null ]
-    ] ],
-    [ "accel_rects::StagesData", "classaccel__rects_1_1_stages_data.html", null ],
     [ "SZoneVertex", "struct_s_zone_vertex.html", null ],
     [ "tagBinaryBlob", "structtag_binary_blob.html", null ],
     [ "tagSClusterDescr", "structtag_s_cluster_descr.html", null ],
     [ "tagSLFBinaryMoments", "structtag_s_l_f_binary_moments.html", null ],
-    [ "accel_rects::Task", "classaccel__rects_1_1_task.html", null ],
     [ "agent::TCorrectorCollection", "classagent_1_1_t_corrector_collection.html", null ],
     [ "TCSAdaBoost", "class_t_c_s_ada_boost.html", null ],
     [ "TCSAdaBoostSign", "class_t_c_s_ada_boost_sign.html", null ],
@@ -102,11 +97,17 @@ var hierarchy =
     [ "agent::TFeatures", "classagent_1_1_t_features.html", [
       [ "agent::TFeaturesBuilder", "classagent_1_1_t_features_builder.html", null ]
     ] ],
+    [ "agent::TFragments", "classagent_1_1_t_fragments.html", [
+      [ "agent::TFragmentsBuilder", "classagent_1_1_t_fragments_builder.html", null ]
+    ] ],
     [ "TGpuDetector", "class_t_gpu_detector.html", null ],
     [ "TGpuEngine", "class_t_gpu_engine.html", null ],
     [ "TGpuIntegral", "class_t_gpu_integral.html", null ],
+    [ "TGpuTransforms", "class_t_gpu_transforms.html", null ],
     [ "TIEFSAdaBoost", "class_t_i_e_f_s_ada_boost.html", null ],
-    [ "TItemAttributes", "struct_t_item_attributes.html", null ],
+    [ "TimeDiff", "class_time_diff.html", null ],
+    [ "TLFAgent::TItem", "struct_t_l_f_agent_1_1_t_item.html", null ],
+    [ "TLFAgent::TItemAttributes", "struct_t_l_f_agent_1_1_t_item_attributes.html", null ],
     [ "TLFAgent", "class_t_l_f_agent.html", null ],
     [ "TLFBounds", "struct_t_l_f_bounds.html", null ],
     [ "TLFBuilder", "class_t_l_f_builder.html", null ],
@@ -208,7 +209,9 @@ var hierarchy =
         [ "TLFClusterTrack", "class_t_l_f_cluster_track.html", null ]
       ] ],
       [ "TLFContour", "class_t_l_f_contour.html", null ],
-      [ "TLFDBLabeledImages", "class_t_l_f_d_b_labeled_images.html", null ],
+      [ "TLFDBLabeledImages", "class_t_l_f_d_b_labeled_images.html", [
+        [ "TLFDBLabeledImagesBuilder", "class_t_l_f_d_b_labeled_images_builder.html", null ]
+      ] ],
       [ "TLFDBLandmarks", "class_t_l_f_d_b_landmarks.html", null ],
       [ "TLFDBlabeledMedia", "class_t_l_f_d_blabeled_media.html", null ],
       [ "TLFDetectedItem", "class_t_l_f_detected_item.html", null ],
@@ -265,12 +268,15 @@ var hierarchy =
     [ "transforms_t", null, [
       [ "accel_rects::TransformsBuilder", "classaccel__rects_1_1_transforms_builder.html", null ]
     ] ],
+    [ "accel_rects::TransformsData", "classaccel__rects_1_1_transforms_data.html", null ],
+    [ "accel_rects::TransformsView", "classaccel__rects_1_1_transforms_view.html", null ],
     [ "ILFFeature::TResult", "struct_i_l_f_feature_1_1_t_result.html", null ],
     [ "ILFStrong::TResult", "struct_i_l_f_strong_1_1_t_result.html", null ],
     [ "ILFWeak::TResult", "struct_i_l_f_weak_1_1_t_result.html", null ],
-    [ "agent::TStagesDetectorImpl", "classagent_1_1_t_stages_detector_impl.html", null ],
+    [ "accel_rects::Worker::TStageInfo", "structaccel__rects_1_1_worker_1_1_t_stage_info.html", null ],
     [ "TWclErrInfo", "struct_t_wcl_err_info.html", null ],
     [ "accel_rects::Worker", "classaccel__rects_1_1_worker.html", null ],
+    [ "accel_rects::WorkerView", "classaccel__rects_1_1_worker_view.html", null ],
     [ "MapGeometry", null, [
       [ "rect2DMap.rect2DMap", "classrect2_d_map_1_1rect2_d_map.html", null ]
     ] ],

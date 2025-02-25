@@ -1,6 +1,8 @@
 <map id="C:/work/BAISim/library/awplflib/include" name="C:/work/BAISim/library/awplflib/include">
-<area shape="rect" id="node3" href="dir_47e4eb885f89e28b4798a2ae84431fb5.html" title="accel_rects" alt="" coords="19,123,107,171"/>
-<area shape="rect" id="edge1-headlabel" href="dir_000003_000000.html" title="1" alt="" coords="68,96,75,112"/>
-<area shape="rect" id="node2" href="dir_f1f26ad121a3f275b81b0d15bcc08eb5.html" title="trash" alt="" coords="123,27,195,75"/>
-<area shape="rect" id="clust1" href="dir_d44c64559bbebec7f509842c48db8b23.html" alt="" coords="16,16,205,85"/>
+<area shape="rect" id="node3" href="dir_47e4eb885f89e28b4798a2ae84431fb5.html" title="accel_rects" alt="" coords="5,123,94,171"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000003_000000.html" title="1" alt="" coords="75,103,82,119"/>
+<area shape="rect" id="node4" href="dir_cbdb8362360e11eafe2fa3bc74cf0ffd.html" title="utils" alt="" coords="118,123,190,171"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000003_000011.html" title="1" alt="" coords="136,94,143,110"/>
+<area shape="rect" id="node2" href="dir_f1f26ad121a3f275b81b0d15bcc08eb5.html" title="trash" alt="" coords="162,27,234,75"/>
+<area shape="rect" id="clust1" href="dir_d44c64559bbebec7f509842c48db8b23.html" alt="" coords="55,16,244,85"/>
 </map>

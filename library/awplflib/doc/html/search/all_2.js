@@ -1,8 +1,8 @@
 var searchData=
 [
   ['banner_5fscseparate_0',['BANNER_SCSEPARATE',['../_l_f_attr_filter_8cpp.html#a9bda6e2619eb6ab5ff4d3c027f79bd50',1,'LFAttrFilter.cpp']]],
-  ['base_5fheight_1',['base_height',['../struct_t_item_attributes.html#af4afc9de6ff18167f62113823778c472',1,'TItemAttributes']]],
-  ['base_5fwidth_2',['base_width',['../struct_t_item_attributes.html#a1ca7c9867401e80fe23c51eac378b27f',1,'TItemAttributes']]],
+  ['base_5fheight_1',['base_height',['../struct_t_l_f_agent_1_1_t_item_attributes.html#a9f32524c812362d2e587942a728b2669',1,'TLFAgent::TItemAttributes']]],
+  ['base_5fwidth_2',['base_width',['../struct_t_l_f_agent_1_1_t_item_attributes.html#a6088e2e47e2485ca2abe1f168dd0613d',1,'TLFAgent::TItemAttributes']]],
   ['baselinecorrector_3',['BaselineCorrector',['../classcreate__class__corr1_1_1_baseline_corrector.html',1,'create_class_corr1']]],
   ['baserect_4',['baseRect',['../class_t_c_s_sensor.html#a57366913e15091c7827fbabe92944a07',1,'TCSSensor::baseRect()'],['../class___i_l_f_feature.html#a043d0fd6c1fa65b2818f273f14332337',1,'_ILFFeature::baseRect()']]],
   ['baseunit_5',['baseUnit',['../class_t_c_s_sensor.html#a359035541490d6117a46791709b39e9c',1,'TCSSensor::baseUnit()'],['../class___i_l_f_feature.html#a902d71ba4fb65d58abc3407c44dd7bda',1,'_ILFFeature::baseUnit()']]],
@@ -11,7 +11,7 @@ var searchData=
   ['begin_8',['Begin',['../classaccel__rects_1_1_detector_builder.html#a9be9d3fee860aa5b5d95a410c5d3dc85',1,'accel_rects::DetectorBuilder']]],
   ['beginstage_9',['BeginStage',['../classaccel__rects_1_1_detector_builder.html#aa7e95a4ad71ecfa91c8e455477085a68',1,'accel_rects::DetectorBuilder']]],
   ['bestacc_10',['bestAcc',['../classcreate__class__corr1_1_1_baseline_corrector.html#ae4d53c559210c3d9d5968b8cc9948b0a',1,'create_class_corr1.BaselineCorrector.bestAcc()'],['../classcreate__class__corr1_1_1_baseline_corrector.html#a5d17cd50e53187a2142bb2d15c10bfd2',1,'create_class_corr1.BaselineCorrector.bestAcc()']]],
-  ['bestt_11',['bestT',['../classcreate__class__corr1_1_1_baseline_corrector.html#a169a1476b92f50c1b9e3e1d86de70e24',1,'create_class_corr1::BaselineCorrector']]],
+  ['bestt_11',['bestT',['../classcreate__class__corr1_1_1_baseline_corrector.html#a169a1476b92f50c1b9e3e1d86de70e24',1,'create_class_corr1.BaselineCorrector.bestT()'],['../classcreate__class__corr1_1_1_baseline_corrector.html#a8f2420b08731e378d3da22ba13a9a816',1,'create_class_corr1.BaselineCorrector.bestT()']]],
   ['besttnr_12',['bestTNR',['../classcreate__class__corr1_1_1_baseline_corrector.html#aa74a366e5d743b8f68e626a48f40506e',1,'create_class_corr1.BaselineCorrector.bestTNR()'],['../classcreate__class__corr1_1_1_baseline_corrector.html#a17682c03a79b207594ee16bae8869a63',1,'create_class_corr1.BaselineCorrector.bestTNR()']]],
   ['besttpr_13',['bestTPR',['../classcreate__class__corr1_1_1_baseline_corrector.html#a60fc6b2aad71e7fd861e2cbfa665db92',1,'create_class_corr1.BaselineCorrector.bestTPR()'],['../classcreate__class__corr1_1_1_baseline_corrector.html#a323ed108f22c8528afe2f71f49f133a1',1,'create_class_corr1.BaselineCorrector.bestTPR()']]],
   ['bit_5fmask_14',['bit_mask',['../_l_f_weak_8cpp.html#a45992abc6a47beb2cba7a40903984054',1,'LFWeak.cpp']]],
@@ -21,11 +21,12 @@ var searchData=
   ['bottom_18',['bottom',['../class_t_l_f2_d_rect.html#af3ee5ded132dd662ee5184384aa22321',1,'TLF2DRect']]],
   ['bottom_19',['Bottom',['../class_t_l_f_rect.html#ac9f09b01b42fe98937cf45d39722de2b',1,'TLFRect']]],
   ['buf_5fsize_20',['buf_size',['../class_t_l_f_acc_weak.html#a134301af836f1c4aab774064d7433764',1,'TLFAccWeak']]],
-  ['buffer_5fsize_21',['BUFFER_SIZE',['../_l_f_engine_8cpp.html#a6b20d41d6252e9871430c242cb1a56e7',1,'LFEngine.cpp']]],
-  ['build_22',['Build',['../class_t_c_s_build_detector.html#a8e4236f10361b9aed1d783b819794193',1,'TCSBuildDetector::Build()'],['../class_t_l_f_builder.html#a4a5b8898a5665fda04a95e5f5e557c27',1,'TLFBuilder::Build()']]],
-  ['build_5frandom_5fagent_23',['build_random_agent',['../namespacetests.html#a67a54a0d332df39dcda36565314df4eb',1,'tests']]],
-  ['buildbackground_24',['BuildBackground',['../class_t_l_f_builder.html#a2e4c8eea3bfa2d30b07fe942e7834e88',1,'TLFBuilder']]],
-  ['buildbkground_25',['BuildBkground',['../class_t_c_s_build_detector.html#a4251a7a1b8cceaaf5c426d4836f38f16',1,'TCSBuildDetector']]],
-  ['builddefaultbkground_26',['BuildDefaultBkGround',['../class_t_c_s_build_detector.html#a5b1e57dcef95e5fc05c61f581b5301a9',1,'TCSBuildDetector']]],
-  ['buildforeground_27',['BuildForeground',['../class_t_l_f_f_g_engine.html#a37ff0b81be18f97b64e1992ac9137900',1,'TLFFGEngine::BuildForeground()'],['../class_t_l_f_motion_engine.html#a8c4dbf305917257dd3be5b07a0497325',1,'TLFMotionEngine::BuildForeground()']]]
+  ['buffer_21',['buffer',['../classaccel__rects_1_1_transforms_data.html#a97b20cbd9506b62c5842367c78f5fb7a',1,'accel_rects::TransformsData']]],
+  ['buffer_5fsize_22',['BUFFER_SIZE',['../_l_f_engine_8cpp.html#a6b20d41d6252e9871430c242cb1a56e7',1,'BUFFER_SIZE():&#160;LFEngine.cpp'],['../_l_f_tree_8cpp.html#a6b20d41d6252e9871430c242cb1a56e7',1,'BUFFER_SIZE():&#160;LFTree.cpp']]],
+  ['build_23',['Build',['../class_t_c_s_build_detector.html#a8e4236f10361b9aed1d783b819794193',1,'TCSBuildDetector::Build()'],['../class_t_l_f_builder.html#a4a5b8898a5665fda04a95e5f5e557c27',1,'TLFBuilder::Build()'],['../class_t_gpu_detector.html#a691c5eef57c0fc128f338212493a1cb6',1,'TGpuDetector::Build()']]],
+  ['build_5frandom_5fagent_24',['build_random_agent',['../namespacetests.html#a67a54a0d332df39dcda36565314df4eb',1,'tests']]],
+  ['buildbackground_25',['BuildBackground',['../class_t_l_f_builder.html#a2e4c8eea3bfa2d30b07fe942e7834e88',1,'TLFBuilder']]],
+  ['buildbkground_26',['BuildBkground',['../class_t_c_s_build_detector.html#a4251a7a1b8cceaaf5c426d4836f38f16',1,'TCSBuildDetector']]],
+  ['builddefaultbkground_27',['BuildDefaultBkGround',['../class_t_c_s_build_detector.html#a5b1e57dcef95e5fc05c61f581b5301a9',1,'TCSBuildDetector']]],
+  ['buildforeground_28',['BuildForeground',['../class_t_l_f_f_g_engine.html#a37ff0b81be18f97b64e1992ac9137900',1,'TLFFGEngine::BuildForeground()'],['../class_t_l_f_motion_engine.html#a8c4dbf305917257dd3be5b07a0497325',1,'TLFMotionEngine::BuildForeground()']]]
 ];

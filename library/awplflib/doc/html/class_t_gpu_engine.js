@@ -1,8 +1,10 @@
 var class_t_gpu_engine =
 [
-    [ "TCallback", "class_t_gpu_engine.html#a69a22446eeb626dc3228d96ad76c8924", null ],
-    [ "TGpuEngine", "class_t_gpu_engine.html#a5f0c166faf5ba6763adbcbda87680293", null ],
-    [ "CreateDetector", "class_t_gpu_engine.html#a92ad9d27019172dd52f87b03a314a994", null ],
-    [ "CreateIntegral", "class_t_gpu_engine.html#a0e3a8b4f7bfdb43f7188c323bcf9aacf", null ],
-    [ "Run", "class_t_gpu_engine.html#a1a594a53539c0296eeca4b80007b33e3", null ]
+    [ "TGpuEngine", "class_t_gpu_engine.html#ad35c199495bdc8a6f388dee949a73a7d", null ],
+    [ "Detect", "class_t_gpu_engine.html#af5d0c207c7b42e4a609b3ee2183471a9", null ],
+    [ "Detect", "class_t_gpu_engine.html#af435f522457dee9da93d8a3431bc6180", null ],
+    [ "Initialize", "class_t_gpu_engine.html#acaa4549d78acf9f7aa9bfdce7b812ac6", null ],
+    [ "TGpuDetector", "class_t_gpu_engine.html#a69b0ce7cb119d440c91818fdc854d7a8", null ],
+    [ "TGpuIntegral", "class_t_gpu_engine.html#a380d42db494daaa3a5d0b800aafcd10c", null ],
+    [ "TGpuTransforms", "class_t_gpu_engine.html#abdc3e7d635091555c9c0bd3807368713", null ]
 ];

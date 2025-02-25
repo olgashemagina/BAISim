@@ -89,170 +89,165 @@ $(document).ready(function(){initNavTree('tests_8cpp_source.html',''); initResiz
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;<a class="code" href="agent_8h.html">agent.h</a>&quot;</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">using namespace </span><a class="code hl_namespace" href="namespaceagent.html">agent</a>;</div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">static</span> <span class="keywordtype">size_t</span> GetRand(<span class="keywordtype">size_t</span> low_dist, <span class="keywordtype">size_t</span> high_dist) {</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    <span class="keywordflow">return</span> low_dist + std::rand() % (high_dist + 1 - low_dist);</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>}</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">using namespace </span><a class="code hl_namespace" href="namespacetests.html">tests</a>;</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="classagent_1_1_t_random_detector.html#acd56cf6a43d1d0694c1420d0b24e8ae8">    8</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classagent_1_1_t_random_detector.html#acd56cf6a43d1d0694c1420d0b24e8ae8">agent::TRandomDetector::Initialize</a>() {</div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="classagent_1_1_t_random_detector.html#acd56cf6a43d1d0694c1420d0b24e8ae8">   11</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classagent_1_1_t_random_detector.html#acd56cf6a43d1d0694c1420d0b24e8ae8">agent::TRandomDetector::Initialize</a>() {</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="keywordtype">size_t</span> cascade_count = GetRand(3, 10);  <span class="comment">// rand ot 3 do 10</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="keywordtype">size_t</span> count = 0;</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> i = 0; i &lt; cascade_count; i++) {</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <span class="keywordtype">size_t</span> feature_count = GetRand(10, 100); <span class="comment">// rand ot 10 do 100</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        feature_count_list_.push_back(feature_count + count);</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        count = feature_count_list_.back();</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    }</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <span class="keywordtype">size_t</span> cascade_count = tests::GetRand(3, 10);  <span class="comment">// rand ot 3 do 10</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="keywordtype">size_t</span> count = 0;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> i = 0; i &lt; cascade_count; i++) {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <span class="keywordtype">size_t</span> feature_count = tests::GetRand(10, 100); <span class="comment">// rand ot 10 do 100</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        feature_count_list_.push_back(feature_count + count);</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        count = feature_count_list_.back();</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    }</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>}</div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>}</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="classagent_1_1_t_random_detector.html#a7f67f012c39cfc2141d0221742593da2">   25</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classagent_1_1_t_random_detector.html#a7f67f012c39cfc2141d0221742593da2">agent::TRandomDetector::Detect</a>(std::shared_ptr&lt;TLFImage&gt; img, <a class="code hl_class" href="classagent_1_1_t_features_builder.html">TFeaturesBuilder</a>&amp; builder) {</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    builder.<a class="code hl_function" href="classagent_1_1_t_features_builder.html#afc778bb281d414521ca3b9efc17f0d90">Reset</a>(feature_count_list_);</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordtype">float</span>* data = builder.<a class="code hl_function" href="classagent_1_1_t_features_builder.html#afdab0cbe309fa94252cafcb719a6f31f">GetMutableData</a>().<a class="code hl_function" href="class_t_matrix.html#af2ce5e4e430a1371e7367c5a8213d5f4">GetRow</a>(0);</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordtype">size_t</span> stride = builder.<a class="code hl_function" href="classagent_1_1_t_features.html#a45eefa2d30dc17c02df8fb2836b8466d">feats_count</a>();</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="classagent_1_1_t_random_detector.html#a4143d4464c8b6eabd84844710d7794ae">   23</a></span><span class="keyword">const</span> <a class="code hl_class" href="classagent_1_1_t_fragments.html">TFragments</a>&amp; <a class="code hl_function" href="classagent_1_1_t_random_detector.html#a4143d4464c8b6eabd84844710d7794ae">agent::TRandomDetector::Setup</a>(std::shared_ptr&lt;TLFImage&gt; img, <span class="keyword">const</span> std::vector&lt;TLFRect&gt;* rois) {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    fragments_.Scan(scanner_.get(), img);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordflow">return</span> fragments_;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>}</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="classagent_1_1_t_random_detector.html#ac4c71cbd84a9c7fc972058bd7521c6ae">   28</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classagent_1_1_t_random_detector.html#ac4c71cbd84a9c7fc972058bd7521c6ae">agent::TRandomDetector::Detect</a>(<a class="code hl_class" href="classagent_1_1_t_features_builder.html">TFeaturesBuilder</a>&amp; builder)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="keyword"></span>{</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    builder.<a class="code hl_function" href="classagent_1_1_t_features_builder.html#afc778bb281d414521ca3b9efc17f0d90">Reset</a>(feature_count_list_);</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordtype">size_t</span> detected = 0;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> frag = builder.<a class="code hl_function" href="classagent_1_1_t_features.html#aa5ad42cda1430d56346788e31614f815">frags_begin</a>(); frag &lt; builder.<a class="code hl_function" href="classagent_1_1_t_features.html#a04c2c22a10a4fb7e13f965cee2b35fa2">frags_end</a>(); ++frag) {</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="keyword">auto</span> row_data = builder.<a class="code hl_function" href="classagent_1_1_t_features_builder.html#a0228593f1cc5b5c7b936e40e99ce5bb9">GetFeats</a>(frag);</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="comment">// With probability 0.99 it is negative result</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keywordflow">if</span> (GetRand(0, 100) &gt; 1) {</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            <span class="keywordtype">size_t</span> cascade_number = GetRand(0, feature_count_list_.size() - 1);</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>            builder.<a class="code hl_function" href="classagent_1_1_t_features_builder.html#ae5569cf1c08446dda4dc0d36206066bf">SetTriggered</a>(frag, cascade_number, 1);</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            SetRandData(row_data, feature_count_list_.at(cascade_number));</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        }</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="keywordflow">else</span> { <span class="comment">// fill all cascade</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            SetRandData(row_data, stride);</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            detected++;</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        }</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    }</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    std::thread::id this_id = std::this_thread::get_id();</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    std::stringstream ss;</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    ss &lt;&lt; <span class="stringliteral">&quot;Detection thread &quot;</span> &lt;&lt; this_id</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        &lt;&lt; <span class="stringliteral">&quot; frags_begin=&quot;</span> &lt;&lt; builder.<a class="code hl_function" href="classagent_1_1_t_features.html#aa5ad42cda1430d56346788e31614f815">frags_begin</a>()</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        &lt;&lt; <span class="stringliteral">&quot; frags_end=&quot;</span> &lt;&lt; builder.<a class="code hl_function" href="classagent_1_1_t_features.html#a04c2c22a10a4fb7e13f965cee2b35fa2">frags_end</a>()</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        &lt;&lt; <span class="stringliteral">&quot; detected=&quot;</span> &lt;&lt; detected &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="comment">//(std::cout &lt;&lt; ss.str()).flush();</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>}</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="classagent_1_1_t_random_detector.html#a489b846a3557b96294ad875de4a516c7">   63</a></span>std::unique_ptr&lt;IWorker&gt; <a class="code hl_function" href="classagent_1_1_t_random_detector.html#a489b846a3557b96294ad875de4a516c7">TRandomDetector::CreateWorker</a>() {</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keywordflow">return</span> std::make_unique&lt;TRandomWorker&gt;(<span class="keyword">this</span>);</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>}</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classagent_1_1_t_random_detector.html#af713a0ecf489e64de32c68d2981ba8cf">   67</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classagent_1_1_t_random_detector.html#af713a0ecf489e64de32c68d2981ba8cf">agent::TRandomDetector::LoadXML</a>(TiXmlElement* node) {</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keyword">auto</span> features = node-&gt;GetText();</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keywordflow">if</span> (features) {</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        std::istringstream ss(features);</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keywordtype">size_t</span> value = 0;</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        <span class="keywordtype">size_t</span> count = 0;</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keywordflow">while</span> (ss &gt;&gt; value) {</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            count += value;</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>            feature_count_list_.push_back(count);</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        }</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    }</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordflow">return</span> !feature_count_list_.empty();</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>}</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="classagent_1_1_t_random_detector.html#ad9ead8fe8545cac836f16e5fb79a4d8c">   83</a></span>TiXmlElement* <a class="code hl_function" href="classagent_1_1_t_random_detector.html#ad9ead8fe8545cac836f16e5fb79a4d8c">agent::TRandomDetector::SaveXML</a>() {</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    TiXmlElement* node = <span class="keyword">new</span> TiXmlElement(<span class="stringliteral">&quot;TRandomDetector&quot;</span>);</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    std::stringstream ss;</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordtype">size_t</span> prev = 0;</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; feature_count_list_.size() - 1; ++i) {</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        ss &lt;&lt; feature_count_list_[i] - prev &lt;&lt; <span class="charliteral">&#39; &#39;</span>;</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        prev = feature_count_list_[i];</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    }</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    ss &lt;&lt; feature_count_list_.back() - prev;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordtype">float</span>* data = builder.<a class="code hl_function" href="classagent_1_1_t_features_builder.html#afdab0cbe309fa94252cafcb719a6f31f">GetMutableData</a>().<a class="code hl_function" href="class_t_matrix.html#af2ce5e4e430a1371e7367c5a8213d5f4">GetRow</a>(0);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordtype">size_t</span> stride = builder.<a class="code hl_function" href="classagent_1_1_t_features.html#a45eefa2d30dc17c02df8fb2836b8466d">feats_count</a>();</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keywordtype">size_t</span> detected = 0;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> frag = builder.<a class="code hl_function" href="classagent_1_1_t_features.html#aa5ad42cda1430d56346788e31614f815">frags_begin</a>(); frag &lt; builder.<a class="code hl_function" href="classagent_1_1_t_features.html#a04c2c22a10a4fb7e13f965cee2b35fa2">frags_end</a>(); ++frag) {</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <span class="keyword">auto</span> row_data = builder.<a class="code hl_function" href="classagent_1_1_t_features_builder.html#a0228593f1cc5b5c7b936e40e99ce5bb9">GetFeats</a>(frag);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="comment">// With probability 0.99 it is negative result</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="keywordflow">if</span> (GetRand(0, 100) &gt; 1) {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            <span class="keywordtype">size_t</span> cascade_number = GetRand(0, feature_count_list_.size() - 1);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            builder.<a class="code hl_function" href="classagent_1_1_t_features_builder.html#a39ecd3f78b14193fe907242777341915">SetTriggered</a>(frag, cascade_number, 1);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            SetRandData(row_data, feature_count_list_.at(cascade_number));</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        }</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keywordflow">else</span> { <span class="comment">// fill all cascade</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            SetRandData(row_data, stride);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>            detected++;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        }</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    }</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    std::thread::id this_id = std::this_thread::get_id();</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    std::stringstream ss;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    ss &lt;&lt; <span class="stringliteral">&quot;Detection thread &quot;</span> &lt;&lt; this_id</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        &lt;&lt; <span class="stringliteral">&quot; frags_begin=&quot;</span> &lt;&lt; builder.<a class="code hl_function" href="classagent_1_1_t_features.html#aa5ad42cda1430d56346788e31614f815">frags_begin</a>()</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        &lt;&lt; <span class="stringliteral">&quot; frags_end=&quot;</span> &lt;&lt; builder.<a class="code hl_function" href="classagent_1_1_t_features.html#a04c2c22a10a4fb7e13f965cee2b35fa2">frags_end</a>()</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        &lt;&lt; <span class="stringliteral">&quot; detected=&quot;</span> &lt;&lt; detected &lt;&lt; std::endl;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>}</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="classagent_1_1_t_random_detector.html#af713a0ecf489e64de32c68d2981ba8cf">   66</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classagent_1_1_t_random_detector.html#af713a0ecf489e64de32c68d2981ba8cf">agent::TRandomDetector::LoadXML</a>(TiXmlElement* node) {</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keyword">auto</span> features = node-&gt;GetText();</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keywordflow">if</span> (features) {</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        std::istringstream ss(features);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="keywordtype">size_t</span> value = 0;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keywordtype">size_t</span> count = 0;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        <span class="keywordflow">while</span> (ss &gt;&gt; value) {</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>            count += value;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            feature_count_list_.push_back(count);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        }</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    }</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keywordflow">return</span> !feature_count_list_.empty();</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>}</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="classagent_1_1_t_random_detector.html#ad9ead8fe8545cac836f16e5fb79a4d8c">   82</a></span>TiXmlElement* <a class="code hl_function" href="classagent_1_1_t_random_detector.html#ad9ead8fe8545cac836f16e5fb79a4d8c">agent::TRandomDetector::SaveXML</a>() {</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    TiXmlElement* node = <span class="keyword">new</span> TiXmlElement(<span class="stringliteral">&quot;TRandomDetector&quot;</span>);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    std::stringstream ss;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="keywordtype">size_t</span> prev = 0;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; feature_count_list_.size() - 1; ++i) {</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        ss &lt;&lt; feature_count_list_[i] - prev &lt;&lt; <span class="charliteral">&#39; &#39;</span>;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        prev = feature_count_list_[i];</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    }</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    ss &lt;&lt; feature_count_list_.back() - prev;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    node-&gt;LinkEndChild(<span class="keyword">new</span> TiXmlText(ss.str()));</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keywordflow">return</span> node;</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>}</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="keywordtype">void</span> agent::TRandomDetector::SetRandData(<span class="keywordtype">float</span>* data, <span class="keywordtype">size_t</span> size) {</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; size; i++)</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        data[i] = <span class="keywordtype">float</span>(GetRand(1, 100));</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>}</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    node-&gt;LinkEndChild(<span class="keyword">new</span> TiXmlText(ss.str()));</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="keywordflow">return</span> node;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>}</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="keywordtype">void</span> agent::TRandomDetector::SetRandData(<span class="keywordtype">float</span>* data, <span class="keywordtype">size_t</span> size) {</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; size; i++)</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        data[i] = <span class="keywordtype">float</span>(GetRand(1, 100));</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>}</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
 <div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno"><a class="line" href="classagent_1_1_t_random_supervisor.html#a3930c240694481917a7772a6e98f6d67">  109</a></span> <a class="code hl_typedef" href="namespaceagent.html#a28b2e0e298f6f3c7aeb276395c83ec48">TDetections</a> <a class="code hl_function" href="classagent_1_1_t_random_supervisor.html#a3930c240694481917a7772a6e98f6d67">agent::TRandomSupervisor::Detect</a>(std::shared_ptr&lt;TLFImage&gt; img) {</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>     <span class="keyword">auto</span> width = img-&gt;GetImage()-&gt;sSizeX;</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>     <span class="keyword">auto</span> height = img-&gt;GetImage()-&gt;sSizeY;</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>     <a class="code hl_typedef" href="namespaceagent.html#a28b2e0e298f6f3c7aeb276395c83ec48">TDetections</a> detections;</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>     <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; 10; i++) {</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>         awpRect rect;</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>         rect.left = GetRand(0, width - 5);</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>         rect.right = GetRand(rect.left, width);</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>         rect.top = GetRand(0, height - 5);</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>         rect.bottom = GetRand(rect.top, height);</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>         detections.push_back(rect);</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>     }</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>     <span class="keywordflow">return</span> detections;</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> }</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="classagent_1_1_t_random_supervisor.html#a3930c240694481917a7772a6e98f6d67">  108</a></span> <a class="code hl_typedef" href="namespaceagent.html#a28b2e0e298f6f3c7aeb276395c83ec48">TDetections</a> <a class="code hl_function" href="classagent_1_1_t_random_supervisor.html#a3930c240694481917a7772a6e98f6d67">agent::TRandomSupervisor::Detect</a>(std::shared_ptr&lt;TLFImage&gt; img) {</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>     <span class="keyword">auto</span> width = img-&gt;GetImage()-&gt;sSizeX;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>     <span class="keyword">auto</span> height = img-&gt;GetImage()-&gt;sSizeY;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>     <a class="code hl_typedef" href="namespaceagent.html#a28b2e0e298f6f3c7aeb276395c83ec48">TDetections</a> detections;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>     <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; 10; i++) {</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>         awpRect rect;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>         rect.left = GetRand(0, width - 5);</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>         rect.right = GetRand(rect.left, width);</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>         rect.top = GetRand(0, height - 5);</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>         rect.bottom = GetRand(rect.top, height);</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>         detections.push_back(rect);</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>     }</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>     <span class="keywordflow">return</span> detections;</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> }</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="classagent_1_1_t_random_worker.html#a9116a640ec65db23b75d1f5dad3aa762">  127</a></span> <span class="keywordtype">void</span> <a class="code hl_function" href="classagent_1_1_t_random_worker.html#a9116a640ec65db23b75d1f5dad3aa762">agent::TRandomWorker::Detect</a>(std::shared_ptr&lt;TLFImage&gt; img, <a class="code hl_class" href="classagent_1_1_t_features_builder.html">TFeaturesBuilder</a>&amp; builder) {</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>     assert(detector_);</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>     detector_-&gt;Detect(img, builder);</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> }</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno"><a class="line" href="namespacetests.html">  132</a></span> <span class="keyword">namespace </span><a class="code hl_namespace" href="namespacetests.html">tests</a> {</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="namespacetests.html#a67a54a0d332df39dcda36565314df4eb">  133</a></span>     std::unique_ptr&lt;TLFAgent&gt; <a class="code hl_function" href="namespacetests.html#a67a54a0d332df39dcda36565314df4eb">build_random_agent</a>() {</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>         <span class="keyword">auto</span> detector = std::make_unique&lt;TRandomDetector&gt;();</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>         detector-&gt;Initialize();</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>         <span class="keyword">auto</span> trainer = std::make_unique&lt;agent::TCorrectorTrainerBase&gt;();</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>         <span class="keyword">auto</span> sv = std::make_shared&lt;TRandomSupervisor&gt;();</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>         std::unique_ptr&lt;TLFAgent&gt;  <a class="code hl_namespace" href="namespaceagent.html">agent</a> = std::make_unique&lt;TLFAgent&gt;();</div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>         <a class="code hl_namespace" href="namespaceagent.html">agent</a>-&gt;Initialize(std::move(detector), std::move(trainer));</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>         <a class="code hl_namespace" href="namespaceagent.html">agent</a>-&gt;SetSupervisor(sv);</div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>         <span class="keywordflow">return</span> std::move(<a class="code hl_namespace" href="namespaceagent.html">agent</a>);</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>     }</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> }</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="namespacetests.html">  127</a></span> <span class="keyword">namespace </span><a class="code hl_namespace" href="namespacetests.html">tests</a> {</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno"><a class="line" href="namespacetests.html#a67a54a0d332df39dcda36565314df4eb">  128</a></span>     std::unique_ptr&lt;TLFAgent&gt; <a class="code hl_function" href="namespacetests.html#a67a54a0d332df39dcda36565314df4eb">build_random_agent</a>() {</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>         <span class="keyword">auto</span> detector = std::make_unique&lt;TRandomDetector&gt;();</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>         detector-&gt;Initialize();</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>         <span class="keyword">auto</span> trainer = std::make_unique&lt;agent::TCorrectorTrainerBase&gt;();</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>         <span class="keyword">auto</span> sv = std::make_shared&lt;TRandomSupervisor&gt;();</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>         std::unique_ptr&lt;TLFAgent&gt;  <a class="code hl_namespace" href="namespaceagent.html">agent</a> = std::make_unique&lt;TLFAgent&gt;();</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>         <a class="code hl_namespace" href="namespaceagent.html">agent</a>-&gt;Initialize(std::move(detector), std::move(trainer));</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>         <a class="code hl_namespace" href="namespaceagent.html">agent</a>-&gt;SetSupervisor(sv);</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>         <span class="keywordflow">return</span> std::move(<a class="code hl_namespace" href="namespaceagent.html">agent</a>);</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>     }</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> }</div>
 <div class="ttc" id="aagent_8h_html"><div class="ttname"><a href="agent_8h.html">agent.h</a></div></div>
-<div class="ttc" id="aclass_t_matrix_html_af2ce5e4e430a1371e7367c5a8213d5f4"><div class="ttname"><a href="class_t_matrix.html#af2ce5e4e430a1371e7367c5a8213d5f4">TMatrix::GetRow</a></div><div class="ttdeci">float * GetRow(size_t row_index)</div><div class="ttdef"><b>Definition:</b> <a href="matrix_8h_source.html#l00131">matrix.h:131</a></div></div>
-<div class="ttc" id="aclassagent_1_1_t_features_builder_html"><div class="ttname"><a href="classagent_1_1_t_features_builder.html">agent::TFeaturesBuilder</a></div><div class="ttdef"><b>Definition:</b> <a href="features_8h_source.html#l00087">features.h:87</a></div></div>
-<div class="ttc" id="aclassagent_1_1_t_features_builder_html_a0228593f1cc5b5c7b936e40e99ce5bb9"><div class="ttname"><a href="classagent_1_1_t_features_builder.html#a0228593f1cc5b5c7b936e40e99ce5bb9">agent::TFeaturesBuilder::GetFeats</a></div><div class="ttdeci">float * GetFeats(size_t fragment_index)</div><div class="ttdef"><b>Definition:</b> <a href="features_8h_source.html#l00123">features.h:123</a></div></div>
-<div class="ttc" id="aclassagent_1_1_t_features_builder_html_ae5569cf1c08446dda4dc0d36206066bf"><div class="ttname"><a href="classagent_1_1_t_features_builder.html#ae5569cf1c08446dda4dc0d36206066bf">agent::TFeaturesBuilder::SetTriggered</a></div><div class="ttdeci">void SetTriggered(size_t fragment_index, size_t triggered, float score)</div><div class="ttdef"><b>Definition:</b> <a href="features_8h_source.html#l00127">features.h:127</a></div></div>
-<div class="ttc" id="aclassagent_1_1_t_features_builder_html_afc778bb281d414521ca3b9efc17f0d90"><div class="ttname"><a href="classagent_1_1_t_features_builder.html#afc778bb281d414521ca3b9efc17f0d90">agent::TFeaturesBuilder::Reset</a></div><div class="ttdeci">void Reset(const TLayout &amp;layout)</div><div class="ttdef"><b>Definition:</b> <a href="features_8h_source.html#l00098">features.h:98</a></div></div>
-<div class="ttc" id="aclassagent_1_1_t_features_builder_html_afdab0cbe309fa94252cafcb719a6f31f"><div class="ttname"><a href="classagent_1_1_t_features_builder.html#afdab0cbe309fa94252cafcb719a6f31f">agent::TFeaturesBuilder::GetMutableData</a></div><div class="ttdeci">TMatrix &amp; GetMutableData()</div><div class="ttdef"><b>Definition:</b> <a href="features_8h_source.html#l00121">features.h:121</a></div></div>
-<div class="ttc" id="aclassagent_1_1_t_features_html_a04c2c22a10a4fb7e13f965cee2b35fa2"><div class="ttname"><a href="classagent_1_1_t_features.html#a04c2c22a10a4fb7e13f965cee2b35fa2">agent::TFeatures::frags_end</a></div><div class="ttdeci">size_t frags_end() const</div><div class="ttdef"><b>Definition:</b> <a href="features_8h_source.html#l00047">features.h:47</a></div></div>
-<div class="ttc" id="aclassagent_1_1_t_features_html_a45eefa2d30dc17c02df8fb2836b8466d"><div class="ttname"><a href="classagent_1_1_t_features.html#a45eefa2d30dc17c02df8fb2836b8466d">agent::TFeatures::feats_count</a></div><div class="ttdeci">size_t feats_count() const</div><div class="ttdef"><b>Definition:</b> <a href="features_8h_source.html#l00051">features.h:51</a></div></div>
-<div class="ttc" id="aclassagent_1_1_t_features_html_aa5ad42cda1430d56346788e31614f815"><div class="ttname"><a href="classagent_1_1_t_features.html#aa5ad42cda1430d56346788e31614f815">agent::TFeatures::frags_begin</a></div><div class="ttdeci">size_t frags_begin() const</div><div class="ttdef"><b>Definition:</b> <a href="features_8h_source.html#l00046">features.h:46</a></div></div>
-<div class="ttc" id="aclassagent_1_1_t_random_detector_html_a489b846a3557b96294ad875de4a516c7"><div class="ttname"><a href="classagent_1_1_t_random_detector.html#a489b846a3557b96294ad875de4a516c7">agent::TRandomDetector::CreateWorker</a></div><div class="ttdeci">std::unique_ptr&lt; IWorker &gt; CreateWorker() override</div><div class="ttdef"><b>Definition:</b> <a href="tests_8cpp_source.html#l00063">tests.cpp:63</a></div></div>
-<div class="ttc" id="aclassagent_1_1_t_random_detector_html_a7f67f012c39cfc2141d0221742593da2"><div class="ttname"><a href="classagent_1_1_t_random_detector.html#a7f67f012c39cfc2141d0221742593da2">agent::TRandomDetector::Detect</a></div><div class="ttdeci">void Detect(std::shared_ptr&lt; TLFImage &gt; img, TFeaturesBuilder &amp;builder)</div><div class="ttdef"><b>Definition:</b> <a href="tests_8cpp_source.html#l00025">tests.cpp:25</a></div></div>
-<div class="ttc" id="aclassagent_1_1_t_random_detector_html_acd56cf6a43d1d0694c1420d0b24e8ae8"><div class="ttname"><a href="classagent_1_1_t_random_detector.html#acd56cf6a43d1d0694c1420d0b24e8ae8">agent::TRandomDetector::Initialize</a></div><div class="ttdeci">bool Initialize()</div><div class="ttdef"><b>Definition:</b> <a href="tests_8cpp_source.html#l00011">tests.cpp:11</a></div></div>
-<div class="ttc" id="aclassagent_1_1_t_random_detector_html_ad9ead8fe8545cac836f16e5fb79a4d8c"><div class="ttname"><a href="classagent_1_1_t_random_detector.html#ad9ead8fe8545cac836f16e5fb79a4d8c">agent::TRandomDetector::SaveXML</a></div><div class="ttdeci">virtual TiXmlElement * SaveXML() override</div><div class="ttdef"><b>Definition:</b> <a href="tests_8cpp_source.html#l00083">tests.cpp:83</a></div></div>
-<div class="ttc" id="aclassagent_1_1_t_random_detector_html_af713a0ecf489e64de32c68d2981ba8cf"><div class="ttname"><a href="classagent_1_1_t_random_detector.html#af713a0ecf489e64de32c68d2981ba8cf">agent::TRandomDetector::LoadXML</a></div><div class="ttdeci">virtual bool LoadXML(TiXmlElement *node)</div><div class="ttdef"><b>Definition:</b> <a href="tests_8cpp_source.html#l00067">tests.cpp:67</a></div></div>
-<div class="ttc" id="aclassagent_1_1_t_random_supervisor_html_a3930c240694481917a7772a6e98f6d67"><div class="ttname"><a href="classagent_1_1_t_random_supervisor.html#a3930c240694481917a7772a6e98f6d67">agent::TRandomSupervisor::Detect</a></div><div class="ttdeci">virtual TDetections Detect(std::shared_ptr&lt; TLFImage &gt; img) override</div><div class="ttdef"><b>Definition:</b> <a href="tests_8cpp_source.html#l00109">tests.cpp:109</a></div></div>
-<div class="ttc" id="aclassagent_1_1_t_random_worker_html_a9116a640ec65db23b75d1f5dad3aa762"><div class="ttname"><a href="classagent_1_1_t_random_worker.html#a9116a640ec65db23b75d1f5dad3aa762">agent::TRandomWorker::Detect</a></div><div class="ttdeci">virtual void Detect(std::shared_ptr&lt; TLFImage &gt; img, TFeaturesBuilder &amp;builder) override</div><div class="ttdef"><b>Definition:</b> <a href="tests_8cpp_source.html#l00127">tests.cpp:127</a></div></div>
-<div class="ttc" id="anamespaceagent_html"><div class="ttname"><a href="namespaceagent.html">agent</a></div><div class="ttdef"><b>Definition:</b> <a href="agent_8h_source.html#l00020">agent.h:20</a></div></div>
-<div class="ttc" id="anamespaceagent_html_a28b2e0e298f6f3c7aeb276395c83ec48"><div class="ttname"><a href="namespaceagent.html#a28b2e0e298f6f3c7aeb276395c83ec48">agent::TDetections</a></div><div class="ttdeci">std::vector&lt; TLFRect &gt; TDetections</div><div class="ttdef"><b>Definition:</b> <a href="agent_8h_source.html#l00023">agent.h:23</a></div></div>
-<div class="ttc" id="anamespacetests_html"><div class="ttname"><a href="namespacetests.html">tests</a></div><div class="ttdef"><b>Definition:</b> <a href="tests_8cpp_source.html#l00132">tests.cpp:132</a></div></div>
-<div class="ttc" id="anamespacetests_html_a67a54a0d332df39dcda36565314df4eb"><div class="ttname"><a href="namespacetests.html#a67a54a0d332df39dcda36565314df4eb">tests::build_random_agent</a></div><div class="ttdeci">std::unique_ptr&lt; TLFAgent &gt; build_random_agent()</div><div class="ttdef"><b>Definition:</b> <a href="tests_8cpp_source.html#l00133">tests.cpp:133</a></div></div>
+<div class="ttc" id="aclass_t_matrix_html_af2ce5e4e430a1371e7367c5a8213d5f4"><div class="ttname"><a href="class_t_matrix.html#af2ce5e4e430a1371e7367c5a8213d5f4">TMatrix::GetRow</a></div><div class="ttdeci">float * GetRow(size_t row_index)</div><div class="ttdef"><b>Definition:</b> <a href="matrix_8h_source.html#l00142">matrix.h:142</a></div></div>
+<div class="ttc" id="aclassagent_1_1_t_features_builder_html"><div class="ttname"><a href="classagent_1_1_t_features_builder.html">agent::TFeaturesBuilder</a></div><div class="ttdef"><b>Definition:</b> <a href="features_8h_source.html#l00095">features.h:95</a></div></div>
+<div class="ttc" id="aclassagent_1_1_t_features_builder_html_a0228593f1cc5b5c7b936e40e99ce5bb9"><div class="ttname"><a href="classagent_1_1_t_features_builder.html#a0228593f1cc5b5c7b936e40e99ce5bb9">agent::TFeaturesBuilder::GetFeats</a></div><div class="ttdeci">float * GetFeats(size_t fragment_index)</div><div class="ttdef"><b>Definition:</b> <a href="features_8h_source.html#l00132">features.h:132</a></div></div>
+<div class="ttc" id="aclassagent_1_1_t_features_builder_html_a39ecd3f78b14193fe907242777341915"><div class="ttname"><a href="classagent_1_1_t_features_builder.html#a39ecd3f78b14193fe907242777341915">agent::TFeaturesBuilder::SetTriggered</a></div><div class="ttdeci">void SetTriggered(size_t fragment_index, int triggered, float score)</div><div class="ttdef"><b>Definition:</b> <a href="features_8h_source.html#l00139">features.h:139</a></div></div>
+<div class="ttc" id="aclassagent_1_1_t_features_builder_html_afc778bb281d414521ca3b9efc17f0d90"><div class="ttname"><a href="classagent_1_1_t_features_builder.html#afc778bb281d414521ca3b9efc17f0d90">agent::TFeaturesBuilder::Reset</a></div><div class="ttdeci">void Reset(const TLayout &amp;layout)</div><div class="ttdef"><b>Definition:</b> <a href="features_8h_source.html#l00106">features.h:106</a></div></div>
+<div class="ttc" id="aclassagent_1_1_t_features_builder_html_afdab0cbe309fa94252cafcb719a6f31f"><div class="ttname"><a href="classagent_1_1_t_features_builder.html#afdab0cbe309fa94252cafcb719a6f31f">agent::TFeaturesBuilder::GetMutableData</a></div><div class="ttdeci">TMatrix &amp; GetMutableData()</div><div class="ttdef"><b>Definition:</b> <a href="features_8h_source.html#l00130">features.h:130</a></div></div>
+<div class="ttc" id="aclassagent_1_1_t_features_html_a04c2c22a10a4fb7e13f965cee2b35fa2"><div class="ttname"><a href="classagent_1_1_t_features.html#a04c2c22a10a4fb7e13f965cee2b35fa2">agent::TFeatures::frags_end</a></div><div class="ttdeci">size_t frags_end() const</div><div class="ttdef"><b>Definition:</b> <a href="features_8h_source.html#l00051">features.h:51</a></div></div>
+<div class="ttc" id="aclassagent_1_1_t_features_html_a45eefa2d30dc17c02df8fb2836b8466d"><div class="ttname"><a href="classagent_1_1_t_features.html#a45eefa2d30dc17c02df8fb2836b8466d">agent::TFeatures::feats_count</a></div><div class="ttdeci">size_t feats_count() const</div><div class="ttdef"><b>Definition:</b> <a href="features_8h_source.html#l00057">features.h:57</a></div></div>
+<div class="ttc" id="aclassagent_1_1_t_features_html_aa5ad42cda1430d56346788e31614f815"><div class="ttname"><a href="classagent_1_1_t_features.html#aa5ad42cda1430d56346788e31614f815">agent::TFeatures::frags_begin</a></div><div class="ttdeci">size_t frags_begin() const</div><div class="ttdef"><b>Definition:</b> <a href="features_8h_source.html#l00050">features.h:50</a></div></div>
+<div class="ttc" id="aclassagent_1_1_t_fragments_html"><div class="ttname"><a href="classagent_1_1_t_fragments.html">agent::TFragments</a></div><div class="ttdef"><b>Definition:</b> <a href="fragments_8h_source.html#l00015">fragments.h:15</a></div></div>
+<div class="ttc" id="aclassagent_1_1_t_random_detector_html_a4143d4464c8b6eabd84844710d7794ae"><div class="ttname"><a href="classagent_1_1_t_random_detector.html#a4143d4464c8b6eabd84844710d7794ae">agent::TRandomDetector::Setup</a></div><div class="ttdeci">const TFragments &amp; Setup(std::shared_ptr&lt; TLFImage &gt; img, const std::vector&lt; TLFRect &gt; *rois=nullptr) override</div><div class="ttdef"><b>Definition:</b> <a href="tests_8cpp_source.html#l00023">tests.cpp:23</a></div></div>
+<div class="ttc" id="aclassagent_1_1_t_random_detector_html_ac4c71cbd84a9c7fc972058bd7521c6ae"><div class="ttname"><a href="classagent_1_1_t_random_detector.html#ac4c71cbd84a9c7fc972058bd7521c6ae">agent::TRandomDetector::Detect</a></div><div class="ttdeci">bool Detect(TFeaturesBuilder &amp;builder) const override</div><div class="ttdef"><b>Definition:</b> <a href="tests_8cpp_source.html#l00028">tests.cpp:28</a></div></div>
+<div class="ttc" id="aclassagent_1_1_t_random_detector_html_acd56cf6a43d1d0694c1420d0b24e8ae8"><div class="ttname"><a href="classagent_1_1_t_random_detector.html#acd56cf6a43d1d0694c1420d0b24e8ae8">agent::TRandomDetector::Initialize</a></div><div class="ttdeci">bool Initialize()</div><div class="ttdef"><b>Definition:</b> <a href="tests_8cpp_source.html#l00008">tests.cpp:8</a></div></div>
+<div class="ttc" id="aclassagent_1_1_t_random_detector_html_ad9ead8fe8545cac836f16e5fb79a4d8c"><div class="ttname"><a href="classagent_1_1_t_random_detector.html#ad9ead8fe8545cac836f16e5fb79a4d8c">agent::TRandomDetector::SaveXML</a></div><div class="ttdeci">virtual TiXmlElement * SaveXML() override</div><div class="ttdef"><b>Definition:</b> <a href="tests_8cpp_source.html#l00082">tests.cpp:82</a></div></div>
+<div class="ttc" id="aclassagent_1_1_t_random_detector_html_af713a0ecf489e64de32c68d2981ba8cf"><div class="ttname"><a href="classagent_1_1_t_random_detector.html#af713a0ecf489e64de32c68d2981ba8cf">agent::TRandomDetector::LoadXML</a></div><div class="ttdeci">virtual bool LoadXML(TiXmlElement *node)</div><div class="ttdef"><b>Definition:</b> <a href="tests_8cpp_source.html#l00066">tests.cpp:66</a></div></div>
+<div class="ttc" id="aclassagent_1_1_t_random_supervisor_html_a3930c240694481917a7772a6e98f6d67"><div class="ttname"><a href="classagent_1_1_t_random_supervisor.html#a3930c240694481917a7772a6e98f6d67">agent::TRandomSupervisor::Detect</a></div><div class="ttdeci">virtual TDetections Detect(std::shared_ptr&lt; TLFImage &gt; img) override</div><div class="ttdef"><b>Definition:</b> <a href="tests_8cpp_source.html#l00108">tests.cpp:108</a></div></div>
+<div class="ttc" id="anamespaceagent_html"><div class="ttname"><a href="namespaceagent.html">agent</a></div><div class="ttdef"><b>Definition:</b> <a href="agent_8h_source.html#l00021">agent.h:21</a></div></div>
+<div class="ttc" id="anamespaceagent_html_a28b2e0e298f6f3c7aeb276395c83ec48"><div class="ttname"><a href="namespaceagent.html#a28b2e0e298f6f3c7aeb276395c83ec48">agent::TDetections</a></div><div class="ttdeci">std::vector&lt; TLFRect &gt; TDetections</div><div class="ttdef"><b>Definition:</b> <a href="agent_8h_source.html#l00024">agent.h:24</a></div></div>
+<div class="ttc" id="anamespacetests_html"><div class="ttname"><a href="namespacetests.html">tests</a></div><div class="ttdef"><b>Definition:</b> <a href="tests_8cpp_source.html#l00127">tests.cpp:127</a></div></div>
+<div class="ttc" id="anamespacetests_html_a67a54a0d332df39dcda36565314df4eb"><div class="ttname"><a href="namespacetests.html#a67a54a0d332df39dcda36565314df4eb">tests::build_random_agent</a></div><div class="ttdeci">std::unique_ptr&lt; TLFAgent &gt; build_random_agent()</div><div class="ttdef"><b>Definition:</b> <a href="tests_8cpp_source.html#l00128">tests.cpp:128</a></div></div>
 <div class="ttc" id="atests_8h_html"><div class="ttname"><a href="tests_8h.html">tests.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

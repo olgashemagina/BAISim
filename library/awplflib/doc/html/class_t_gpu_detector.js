@@ -1,8 +1,8 @@
 var class_t_gpu_detector =
 [
-    [ "TGpuDetector", "class_t_gpu_detector.html#ad55bc24ea4a995ae8ac54ba14947c4a8", null ],
     [ "TGpuDetector", "class_t_gpu_detector.html#a0080513a2f28159ff3b7a03049ea40a9", null ],
-    [ "detector", "class_t_gpu_detector.html#af013de234f8d668ac3e9a6e57d6b9024", null ],
-    [ "is_valid", "class_t_gpu_detector.html#a3d02644284ba60b2174b5994b8da1f75", null ],
-    [ "view", "class_t_gpu_detector.html#a70c09a1337d4edab237667cea37b21f8", null ]
+    [ "TGpuDetector", "class_t_gpu_detector.html#ab989c57126a7e0a8a3ebc0e3ee85f853", null ],
+    [ "Build", "class_t_gpu_detector.html#a691c5eef57c0fc128f338212493a1cb6", null ],
+    [ "features_count", "class_t_gpu_detector.html#a64269048bcc2cb0da943a51af84e635d", null ],
+    [ "view", "class_t_gpu_detector.html#a751458b26f4eb2c075a54296b8c695ca", null ]
 ];

@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['x_0',['x',['../struct___l_f_point.html#abd2b5929656b5d16e37005e8ae3dd518',1,'_LFPoint::x()'],['../struct___l_f_rect.html#af1b405eeb7352558a1d4b9c46c6761c7',1,'_LFRect::x()']]],
-  ['x_5ftest_1',['X_test',['../classcreate__class__corr2_1_1_elastic_map_corrector.html#ae26147da6e1104861e83b3b737437a91',1,'create_class_corr2.ElasticMapCorrector.X_test()'],['../classcreate__class__corr3_1_1_s_o_m_corrector.html#a6da160caf90f295186a353578c322a00',1,'create_class_corr3.SOMCorrector.X_test()']]],
-  ['x_5ftrain_2',['X_train',['../classcreate__class__corr2_1_1_elastic_map_corrector.html#a1c545f32d7f2c2be670236c81f3efc40',1,'create_class_corr2.ElasticMapCorrector.X_train()'],['../classcreate__class__corr3_1_1_s_o_m_corrector.html#a3d3d4ee287c0630ee9989e0fcd8fec51',1,'create_class_corr3.SOMCorrector.X_train()']]],
-  ['xlt_3',['xLt',['../classcreate__class__corr1_1_1_baseline_corrector.html#a65bdc42830354b4608a9869c35af4fde',1,'create_class_corr1::BaselineCorrector']]]
+  ['w_0',['w',['../structtag_binary_blob.html#a4e1f75d5757fc54ca98767ebbea1e7cb',1,'tagBinaryBlob::w()'],['../struct___l_f_rect.html#a72b8e42e72955c3c97689b7cfbc7dde6',1,'_LFRect::w()']]],
+  ['wait_1',['wait',['../structtag_binary_blob.html#aaaf490be1c3bf0935fe0f201efd2295b',1,'tagBinaryBlob']]],
+  ['weaks_2',['weaks',['../struct_i_l_f_strong_1_1_t_result.html#a52e7dcf865541056bd89a569d718757a',1,'ILFStrong::TResult']]],
+  ['weights_5f_3',['weights_',['../classaccel__rects_1_1_detector.html#a1b649c054fcda5b008524c71016b8071',1,'accel_rects::Detector']]],
+  ['wieghts_4',['wieghts',['../classcreate__class__corr3_1_1_s_o_m_corrector.html#a361dfda7ccdc7855794c1c40dded7cba',1,'create_class_corr3::SOMCorrector']]],
+  ['winmap_5',['winmap',['../classcreate__class__corr2_1_1_elastic_map_corrector.html#abc1082fc81c985d6e13fccaba309efef',1,'create_class_corr2.ElasticMapCorrector.winmap()'],['../classcreate__class__corr3_1_1_s_o_m_corrector.html#ab96d058a9a8052a2c904f7f7499a777b',1,'create_class_corr3.SOMCorrector.winmap()']]],
+  ['wrls_6',['WRLS',['../classcreate__class__corr1_1_1_baseline_corrector.html#a107cbf66cb16aeabfb35ac060aa13129',1,'create_class_corr1::BaselineCorrector']]]
 ];

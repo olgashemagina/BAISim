@@ -12,13 +12,16 @@ var classagent_1_1_t_features =
     [ "GetDetectorResult", "classagent_1_1_t_features.html#a91bc2bb154fbd7a472ef0d254fced637", null ],
     [ "GetFeats", "classagent_1_1_t_features.html#a8c8ac4655a265367de98e9b427adc634", null ],
     [ "GetScore", "classagent_1_1_t_features.html#a32714a08409780ef8e3dcdfb6798623d", null ],
-    [ "GetTriggeredStage", "classagent_1_1_t_features.html#a9217964d412e2acee3162474b88b4874", null ],
+    [ "GetTriggeredStage", "classagent_1_1_t_features.html#aece2355ab2ba656c6dbacc4df48f406b", null ],
+    [ "IsCorrected", "classagent_1_1_t_features.html#a2673008741a13ffb749ddeacf6b0deec", null ],
     [ "layout", "classagent_1_1_t_features.html#af39aa30eecdefac35ec7d8298ec986be", null ],
     [ "matrix", "classagent_1_1_t_features.html#abe59facebc5cf1fd05caf9c9bb3a06f5", null ],
+    [ "matrix_index", "classagent_1_1_t_features.html#ac49a7c565c95dc7ca9e916b0dd2ef4ac", null ],
     [ "corrections_", "classagent_1_1_t_features.html#aa2e846810a8d95b6f072da29cd14033e", null ],
     [ "data_", "classagent_1_1_t_features.html#aacc004da2ce81d42c916fcd223b205d2", null ],
     [ "frags_begin_", "classagent_1_1_t_features.html#a90073041e634c88f2eedba23f0c29e68", null ],
     [ "frags_end_", "classagent_1_1_t_features.html#a82851cdcf33bba23d6e445dcce7dd693", null ],
     [ "layout_", "classagent_1_1_t_features.html#a7ad2ef7506f27ea1848ee5a038c0624f", null ],
-    [ "triggered_", "classagent_1_1_t_features.html#afef8f8979fc6cddc34768f36ae27bd21", null ]
+    [ "scores_", "classagent_1_1_t_features.html#a3001e02efa45a627efb1b9468b08a5fd", null ],
+    [ "triggered_", "classagent_1_1_t_features.html#a9b9661358b3cd885e8ad6e9be0ee4d1b", null ]
 ];

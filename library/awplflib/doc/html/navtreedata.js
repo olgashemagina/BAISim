@@ -69,21 +69,21 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "___l_f_media_source_8cpp.html",
-"_l_f_motion_8cpp.html",
-"class_i_l_f_detect_engine.html#a7d02dd1454a712b89748cd0f9ac549c4",
-"class_i_l_f_word_attribute.html",
-"class_t_c_s_soft_sample.html#a708a0c3fc16a55fc40837e635c27a668",
-"class_t_l_f2_d_point.html#ab857df4ef98eafd718166ceededafff5",
-"class_t_l_f_cluster_track.html#aeecbed3a0f9fe399ae5c0aa5a81efa2c",
-"class_t_l_f_f_g_engine.html#a16688dd6c2fae94694f3c8475be774e8",
-"class_t_l_f_l2_distance.html#a420dc06e820eda749dc53262ea401437",
-"class_t_l_f_motion_engine.html#af3ed30e5b3cdacd144928c4800965048",
-"class_t_l_f_semantic_image_descriptor.html#a0cfde51473360fbc7154b3a9c75f3be7",
-"classaccel__rects_1_1_core.html#aa4d0b47b4b779bec09667be56db8eacb",
-"classagent_1_1_i_corrector_trainer.html",
-"classcreate__class__corr1_1_1_baseline_corrector.html#a8231f7eadfffb51ba8f43439681b075a",
-"functions_vars_s.html",
-"struct_i_l_f_strong_1_1_t_result.html#a52e7dcf865541056bd89a569d718757a"
+"_l_f_landmarks_8h.html",
+"class_i_l_f_detect_engine.html#a4071a6c36f03a30673799f7e60536e6a",
+"class_i_l_f_weak.html#a5009223ee74d943ba5967db117549790",
+"class_t_c_s_sample.html#af76853905f4bede3b408f89039c3919a",
+"class_t_l_f2_d_contour.html#ae5ca70dfb7be043bbb9517dacfd7968c",
+"class_t_l_f_cluster_maker.html#a7e188b42ac364a4b29061ffa80513b5f",
+"class_t_l_f_dynamic_weak.html#a5ee584530920ebec80b597c2b3442292",
+"class_t_l_f_image.html#af8a210592fd1aadd745f86522a337ff5",
+"class_t_l_f_mosaic.html#aa768306206ff35d9ef36ad4eb84b0050",
+"class_t_l_f_scanner.html#ae32e4d3c3185f48687adbabc31df2238",
+"class_t_matrix.html#a883e88b990b216c74e4745c2fefbc3be",
+"classaccel__rects_1_1_worker_view.html#a1a3c3c24791e1bd490c435f8489b0351",
+"classagent_1_1_t_random_detector.html#a6e3c6ad386068072c40fe9260734d5aa",
+"dir_53e6fa9553ac22a5646d2a2b2d7b97a1.html",
+"group___l_f_zones.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

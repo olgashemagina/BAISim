@@ -1,4 +1,7 @@
 <map id="agent::TStagesDetector" name="agent::TStagesDetector">
-<area shape="rect" id="node1" title=" " alt="" coords="5,81,164,109"/>
-<area shape="rect" id="node2" href="$classagent_1_1_i_detector.html" title=" " alt="" coords="28,5,141,33"/>
+<area shape="rect" id="node1" title=" " alt="" coords="35,252,193,280"/>
+<area shape="rect" id="node2" href="$classagent_1_1_t_stages_detector_base.html" title=" " alt="" coords="20,175,208,203"/>
+<area shape="rect" id="node3" href="$classagent_1_1_i_detector.html" title=" " alt="" coords="5,83,119,111"/>
+<area shape="rect" id="node4" href="$classagent_1_1_t_fragments_builder.html" title=" " alt="" coords="142,83,313,111"/>
+<area shape="rect" id="node5" href="$classagent_1_1_t_fragments.html" title=" " alt="" coords="162,5,293,33"/>
 </map>

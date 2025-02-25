@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['y_0',['y',['../struct___l_f_point.html#acd4ad4f9293bd217ccc5354b00fac929',1,'_LFPoint::y()'],['../struct___l_f_rect.html#a296e63035a7aa4d4c53176508d22282f',1,'_LFRect::y()']]],
-  ['y_5ftest_1',['y_test',['../classcreate__class__corr2_1_1_elastic_map_corrector.html#a1c4abdc9fdf10d5b1a90e2d45b6975f3',1,'create_class_corr2.ElasticMapCorrector.y_test()'],['../classcreate__class__corr3_1_1_s_o_m_corrector.html#aacfa088b4bfa039ae074e529700f800c',1,'create_class_corr3.SOMCorrector.y_test()']]],
-  ['y_5ftrain_2',['y_train',['../classcreate__class__corr2_1_1_elastic_map_corrector.html#a94fe3abfda75ce164d0b3d4ba706d135',1,'create_class_corr2.ElasticMapCorrector.y_train()'],['../classcreate__class__corr3_1_1_s_o_m_corrector.html#aaa6441bd9589189962ea83c32597e3b3',1,'create_class_corr3.SOMCorrector.y_train()']]]
+  ['x_0',['x',['../struct___l_f_point.html#abd2b5929656b5d16e37005e8ae3dd518',1,'_LFPoint::x()'],['../struct___l_f_rect.html#af1b405eeb7352558a1d4b9c46c6761c7',1,'_LFRect::x()']]],
+  ['x_5ftest_1',['X_test',['../classcreate__class__corr2_1_1_elastic_map_corrector.html#ae26147da6e1104861e83b3b737437a91',1,'create_class_corr2.ElasticMapCorrector.X_test()'],['../classcreate__class__corr3_1_1_s_o_m_corrector.html#a6da160caf90f295186a353578c322a00',1,'create_class_corr3.SOMCorrector.X_test()']]],
+  ['x_5ftrain_2',['X_train',['../classcreate__class__corr2_1_1_elastic_map_corrector.html#a1c545f32d7f2c2be670236c81f3efc40',1,'create_class_corr2.ElasticMapCorrector.X_train()'],['../classcreate__class__corr3_1_1_s_o_m_corrector.html#a3d3d4ee287c0630ee9989e0fcd8fec51',1,'create_class_corr3.SOMCorrector.X_train()']]],
+  ['xlt_3',['xLt',['../classcreate__class__corr1_1_1_baseline_corrector.html#a65bdc42830354b4608a9869c35af4fde',1,'create_class_corr1::BaselineCorrector']]]
 ];

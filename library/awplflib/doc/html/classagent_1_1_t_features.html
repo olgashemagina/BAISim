@@ -120,14 +120,18 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a91bc2bb154fbd7a472ef0d254fced637"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a101b6c0f1eec172030afade4b453f8b8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_features.html#a101b6c0f1eec172030afade4b453f8b8">GetCorrectedResult</a> (size_t fragment_index) const</td></tr>
 <tr class="separator:a101b6c0f1eec172030afade4b453f8b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9217964d412e2acee3162474b88b4874"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_features.html#a9217964d412e2acee3162474b88b4874">GetTriggeredStage</a> (size_t fragment_index) const</td></tr>
-<tr class="separator:a9217964d412e2acee3162474b88b4874"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2673008741a13ffb749ddeacf6b0deec"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_features.html#a2673008741a13ffb749ddeacf6b0deec">IsCorrected</a> (size_t fragment_index) const</td></tr>
+<tr class="separator:a2673008741a13ffb749ddeacf6b0deec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aece2355ab2ba656c6dbacc4df48f406b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_features.html#aece2355ab2ba656c6dbacc4df48f406b">GetTriggeredStage</a> (size_t fragment_index) const</td></tr>
+<tr class="separator:aece2355ab2ba656c6dbacc4df48f406b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32714a08409780ef8e3dcdfb6798623d"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_features.html#a32714a08409780ef8e3dcdfb6798623d">GetScore</a> (size_t fragment_index) const</td></tr>
 <tr class="separator:a32714a08409780ef8e3dcdfb6798623d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5ad42cda1430d56346788e31614f815"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_features.html#aa5ad42cda1430d56346788e31614f815">frags_begin</a> () const</td></tr>
 <tr class="separator:aa5ad42cda1430d56346788e31614f815"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04c2c22a10a4fb7e13f965cee2b35fa2"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_features.html#a04c2c22a10a4fb7e13f965cee2b35fa2">frags_end</a> () const</td></tr>
 <tr class="separator:a04c2c22a10a4fb7e13f965cee2b35fa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac49a7c565c95dc7ca9e916b0dd2ef4ac"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_features.html#ac49a7c565c95dc7ca9e916b0dd2ef4ac">matrix_index</a> (size_t ind) const</td></tr>
+<tr class="separator:ac49a7c565c95dc7ca9e916b0dd2ef4ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b07c90cca1cd9b9eceeec207f1108ff"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_features.html#a2b07c90cca1cd9b9eceeec207f1108ff">frags_count</a> () const</td></tr>
 <tr class="separator:a2b07c90cca1cd9b9eceeec207f1108ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45eefa2d30dc17c02df8fb2836b8466d"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_features.html#a45eefa2d30dc17c02df8fb2836b8466d">feats_count</a> () const</td></tr>
@@ -153,8 +157,10 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a90073041e634c88f2eedba23f0c29e68"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82851cdcf33bba23d6e445dcce7dd693"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_features.html#a82851cdcf33bba23d6e445dcce7dd693">frags_end_</a> = 0</td></tr>
 <tr class="separator:a82851cdcf33bba23d6e445dcce7dd693"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afef8f8979fc6cddc34768f36ae27bd21"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::pair&lt; size_t, float &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_features.html#afef8f8979fc6cddc34768f36ae27bd21">triggered_</a></td></tr>
-<tr class="separator:afef8f8979fc6cddc34768f36ae27bd21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b9661358b3cd885e8ad6e9be0ee4d1b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_features.html#a9b9661358b3cd885e8ad6e9be0ee4d1b">triggered_</a></td></tr>
+<tr class="separator:a9b9661358b3cd885e8ad6e9be0ee4d1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3001e02efa45a627efb1b9468b08a5fd"><td class="memItemLeft" align="right" valign="top">std::vector&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_features.html#a3001e02efa45a627efb1b9468b08a5fd">scores_</a></td></tr>
+<tr class="separator:a3001e02efa45a627efb1b9468b08a5fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2e846810a8d95b6f072da29cd14033e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_features.html#aa2e846810a8d95b6f072da29cd14033e">corrections_</a></td></tr>
 <tr class="separator:aa2e846810a8d95b6f072da29cd14033e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -240,7 +246,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00053">53</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00059">59</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
 
 </div>
 </div>
@@ -267,7 +273,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00055">55</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00061">61</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
 
 </div>
 </div>
@@ -294,7 +300,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00051">51</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00057">57</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
 
 </div>
 </div>
@@ -321,7 +327,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00046">46</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00050">50</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
 
 </div>
 </div>
@@ -348,7 +354,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00049">49</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00055">55</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
 
 </div>
 </div>
@@ -375,7 +381,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00047">47</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00051">51</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
 
 </div>
 </div>
@@ -459,7 +465,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00059">59</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00065">65</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
 
 </div>
 </div>
@@ -487,12 +493,12 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00043">43</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00047">47</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
 
 </div>
 </div>
-<a id="a9217964d412e2acee3162474b88b4874" name="a9217964d412e2acee3162474b88b4874"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9217964d412e2acee3162474b88b4874">&#9670;&nbsp;</a></span>GetTriggeredStage()</h2>
+<a id="aece2355ab2ba656c6dbacc4df48f406b" name="aece2355ab2ba656c6dbacc4df48f406b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aece2355ab2ba656c6dbacc4df48f406b">&#9670;&nbsp;</a></span>GetTriggeredStage()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -501,7 +507,35 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t agent::TFeatures::GetTriggeredStage </td>
+          <td class="memname">int agent::TFeatures::GetTriggeredStage </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>fragment_index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00045">45</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
+
+</div>
+</div>
+<a id="a2673008741a13ffb749ddeacf6b0deec" name="a2673008741a13ffb749ddeacf6b0deec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2673008741a13ffb749ddeacf6b0deec">&#9670;&nbsp;</a></span>IsCorrected()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool agent::TFeatures::IsCorrected </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>fragment_index</em></td><td>)</td>
@@ -542,7 +576,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00057">57</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00063">63</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
 
 </div>
 </div>
@@ -569,7 +603,35 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00063">63</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00069">69</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
+
+</div>
+</div>
+<a id="ac49a7c565c95dc7ca9e916b0dd2ef4ac" name="ac49a7c565c95dc7ca9e916b0dd2ef4ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac49a7c565c95dc7ca9e916b0dd2ef4ac">&#9670;&nbsp;</a></span>matrix_index()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t agent::TFeatures::matrix_index </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>ind</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00053">53</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
 
 </div>
 </div>
@@ -594,7 +656,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00082">82</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00090">90</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
 
 </div>
 </div>
@@ -618,7 +680,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00068">68</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00074">74</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
 
 </div>
 </div>
@@ -642,7 +704,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00074">74</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00080">80</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
 
 </div>
 </div>
@@ -666,7 +728,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00075">75</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00081">81</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
 
 </div>
 </div>
@@ -690,12 +752,12 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00071">71</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00077">77</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
 
 </div>
 </div>
-<a id="afef8f8979fc6cddc34768f36ae27bd21" name="afef8f8979fc6cddc34768f36ae27bd21"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afef8f8979fc6cddc34768f36ae27bd21">&#9670;&nbsp;</a></span>triggered_</h2>
+<a id="a3001e02efa45a627efb1b9468b08a5fd" name="a3001e02efa45a627efb1b9468b08a5fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3001e02efa45a627efb1b9468b08a5fd">&#9670;&nbsp;</a></span>scores_</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -704,7 +766,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;std::pair&lt;size_t, float&gt; &gt; agent::TFeatures::triggered_</td>
+          <td class="memname">std::vector&lt;float&gt; agent::TFeatures::scores_</td>
         </tr>
       </table>
   </td>
@@ -714,7 +776,31 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00079">79</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00087">87</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
+
+</div>
+</div>
+<a id="a9b9661358b3cd885e8ad6e9be0ee4d1b" name="a9b9661358b3cd885e8ad6e9be0ee4d1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b9661358b3cd885e8ad6e9be0ee4d1b">&#9670;&nbsp;</a></span>triggered_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;int&gt; agent::TFeatures::triggered_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="features_8h_source.html#l00084">84</a> of file <a class="el" href="features_8h_source.html">features.h</a>.</p>
 
 </div>
 </div>

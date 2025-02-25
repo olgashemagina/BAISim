@@ -105,14 +105,14 @@ Inheritance diagram for agent::ICorrector:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a93c8d8826c380c03bd05aaa3166ae8c6"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_corrector.html#a93c8d8826c380c03bd05aaa3166ae8c6">~ICorrector</a> ()=default</td></tr>
 <tr class="separator:a93c8d8826c380c03bd05aaa3166ae8c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19d2e5a7efaabe9c69c5c9cc08d2a3e5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_corrector.html#a19d2e5a7efaabe9c69c5c9cc08d2a3e5">Correct</a> (const <a class="el" href="classagent_1_1_t_features.html">TFeatures</a> &amp;features, std::vector&lt; int &gt; &amp;corrections)=0</td></tr>
-<tr class="separator:a19d2e5a7efaabe9c69c5c9cc08d2a3e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a177ecd79ca729a050dce4d5fdcdda0a3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_corrector.html#a177ecd79ca729a050dce4d5fdcdda0a3">Correct</a> (const <a class="el" href="classagent_1_1_t_features.html">TFeatures</a> &amp;features, std::vector&lt; int &gt; &amp;corrections) const =0</td></tr>
+<tr class="separator:a177ecd79ca729a050dce4d5fdcdda0a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4f5040fedd25ff2f3ff04e85488dae2"><td class="memItemLeft" align="right" valign="top">virtual TiXmlElement *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_corrector.html#ae4f5040fedd25ff2f3ff04e85488dae2">SaveXML</a> ()=0</td></tr>
 <tr class="separator:ae4f5040fedd25ff2f3ff04e85488dae2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="agent_8h_source.html#l00026">26</a> of file <a class="el" href="agent_8h_source.html">agent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="agent_8h_source.html#l00027">27</a> of file <a class="el" href="agent_8h_source.html">agent.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a93c8d8826c380c03bd05aaa3166ae8c6" name="a93c8d8826c380c03bd05aaa3166ae8c6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a93c8d8826c380c03bd05aaa3166ae8c6">&#9670;&nbsp;</a></span>~ICorrector()</h2>
@@ -140,8 +140,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a19d2e5a7efaabe9c69c5c9cc08d2a3e5" name="a19d2e5a7efaabe9c69c5c9cc08d2a3e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19d2e5a7efaabe9c69c5c9cc08d2a3e5">&#9670;&nbsp;</a></span>Correct()</h2>
+<a id="a177ecd79ca729a050dce4d5fdcdda0a3" name="a177ecd79ca729a050dce4d5fdcdda0a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a177ecd79ca729a050dce4d5fdcdda0a3">&#9670;&nbsp;</a></span>Correct()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -164,7 +164,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> const</td>
         </tr>
       </table>
   </td>
@@ -174,7 +174,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="classagent_1_1_t_corrector_base.html#a268b2495c9e932a9037713058ee9861a">agent::TCorrectorBase</a>.</p>
+<p>Implemented in <a class="el" href="classagent_1_1_t_corrector_base.html#a93630f8a900eb651cd6b9c15707a69c4">agent::TCorrectorBase</a>.</p>
 
 </div>
 </div>

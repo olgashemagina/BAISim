@@ -1,11 +1,11 @@
 var classaccel__rects_1_1_detector_data =
 [
-    [ "DetectorData", "classaccel__rects_1_1_detector_data.html#a480bad31e58881fffef7b2fe2b7247b8", null ],
-    [ "features", "classaccel__rects_1_1_detector_data.html#a7e363c305d87edcaea1d0ad0aa5a8116", null ],
-    [ "features_data", "classaccel__rects_1_1_detector_data.html#ac266f0fa24ba0cab1b779555c84b6b6a", null ],
-    [ "features_data", "classaccel__rects_1_1_detector_data.html#a7598b11c1f2788066c472d935f12122b", null ],
+    [ "DetectorData", "classaccel__rects_1_1_detector_data.html#aaf65b25bd70c95d83b3374e0422862ec", null ],
+    [ "detector", "classaccel__rects_1_1_detector_data.html#aadfd830f4a6f055f7300428c6002e4bd", null ],
     [ "is_valid", "classaccel__rects_1_1_detector_data.html#a43b541afc312876e7e4ff667a2008b21", null ],
-    [ "stages", "classaccel__rects_1_1_detector_data.html#a232a4bb4601649529fbfc2a469b636bf", null ],
-    [ "stages_data", "classaccel__rects_1_1_detector_data.html#a9365d0fd27dce9088a84c5f1613fdf38", null ],
-    [ "stages_data", "classaccel__rects_1_1_detector_data.html#ad11dd697fa8d1af779c56d36f6332113", null ]
+    [ "positions", "classaccel__rects_1_1_detector_data.html#a560b318f0c1b23db0636deb5ecdec573", null ],
+    [ "rects", "classaccel__rects_1_1_detector_data.html#a2e2aa3155bc9fd225dae9d2b0a9b2d15", null ],
+    [ "responses", "classaccel__rects_1_1_detector_data.html#a6498c018dc835214b3b0f20c58534c86", null ],
+    [ "thresholds", "classaccel__rects_1_1_detector_data.html#a49150992abc92cd75f03cdc5ff115229", null ],
+    [ "weights", "classaccel__rects_1_1_detector_data.html#a67afd64d49cfb4ba9656060750a26d44", null ]
 ];

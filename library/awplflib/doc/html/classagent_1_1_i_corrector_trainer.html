@@ -105,18 +105,22 @@ Inheritance diagram for agent::ICorrectorTrainer:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a88f03b3e4aefa81fadbb80250d674cb7"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_corrector_trainer.html#a88f03b3e4aefa81fadbb80250d674cb7">~ICorrectorTrainer</a> ()=default</td></tr>
 <tr class="separator:a88f03b3e4aefa81fadbb80250d674cb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeedd628ac1ce60735a629216d403c99b"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; std::unique_ptr&lt; <a class="el" href="classagent_1_1_i_corrector.html">ICorrector</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_corrector_trainer.html#aeedd628ac1ce60735a629216d403c99b">ConsumeCorrectors</a> ()=0</td></tr>
-<tr class="separator:aeedd628ac1ce60735a629216d403c99b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30d1f50f5fbb88812a2fad47f557eca6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_corrector_trainer.html#a30d1f50f5fbb88812a2fad47f557eca6">CollectSamples</a> (<a class="el" href="class_i_l_f_scanner.html">ILFScanner</a> *scanner, const <a class="el" href="classagent_1_1_t_features.html">TFeatures</a> &amp;feats, const <a class="el" href="namespaceagent.html#a28b2e0e298f6f3c7aeb276395c83ec48">TDetections</a> &amp;)=0</td></tr>
-<tr class="separator:a30d1f50f5fbb88812a2fad47f557eca6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9651e01dc59326e3a7face9e34c4b6a1"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; std::unique_ptr&lt; <a class="el" href="classagent_1_1_i_corrector.html">ICorrector</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_corrector_trainer.html#a9651e01dc59326e3a7face9e34c4b6a1">Consume</a> ()=0</td></tr>
+<tr class="separator:a9651e01dc59326e3a7face9e34c4b6a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcf7f1dc13dc5c30054a5b5ba0620ed4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_corrector_trainer.html#abcf7f1dc13dc5c30054a5b5ba0620ed4">Setup</a> (const <a class="el" href="classagent_1_1_t_fragments.html">TFragments</a> &amp;fragments, const <a class="el" href="namespaceagent.html#a28b2e0e298f6f3c7aeb276395c83ec48">TDetections</a> &amp;detections)=0</td></tr>
+<tr class="separator:abcf7f1dc13dc5c30054a5b5ba0620ed4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7fe697bc7470711540bb0efa33caec0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_corrector_trainer.html#ab7fe697bc7470711540bb0efa33caec0">Collect</a> (const <a class="el" href="classagent_1_1_t_fragments.html">TFragments</a> &amp;fragments, const <a class="el" href="classagent_1_1_t_features.html">TFeatures</a> &amp;feats, const <a class="el" href="namespaceagent.html#a28b2e0e298f6f3c7aeb276395c83ec48">TDetections</a> &amp;detections)=0</td></tr>
+<tr class="separator:ab7fe697bc7470711540bb0efa33caec0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1bd8c2a12aa371151b88217de386291"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_corrector_trainer.html#ac1bd8c2a12aa371151b88217de386291">Train</a> ()=0</td></tr>
 <tr class="separator:ac1bd8c2a12aa371151b88217de386291"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b055f2ce14a2a9cf4e83f5ceced158d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_corrector_trainer.html#a0b055f2ce14a2a9cf4e83f5ceced158d">Finish</a> ()=0</td></tr>
+<tr class="separator:a0b055f2ce14a2a9cf4e83f5ceced158d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a630deba7c4028c11f818eac0c74d866c"><td class="memItemLeft" align="right" valign="top">virtual TiXmlElement *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_corrector_trainer.html#a630deba7c4028c11f818eac0c74d866c">SaveXML</a> ()=0</td></tr>
 <tr class="separator:a630deba7c4028c11f818eac0c74d866c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="agent_8h_source.html#l00039">39</a> of file <a class="el" href="agent_8h_source.html">agent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="agent_8h_source.html#l00040">40</a> of file <a class="el" href="agent_8h_source.html">agent.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a88f03b3e4aefa81fadbb80250d674cb7" name="a88f03b3e4aefa81fadbb80250d674cb7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a88f03b3e4aefa81fadbb80250d674cb7">&#9670;&nbsp;</a></span>~ICorrectorTrainer()</h2>
@@ -144,8 +148,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a30d1f50f5fbb88812a2fad47f557eca6" name="a30d1f50f5fbb88812a2fad47f557eca6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a30d1f50f5fbb88812a2fad47f557eca6">&#9670;&nbsp;</a></span>CollectSamples()</h2>
+<a id="ab7fe697bc7470711540bb0efa33caec0" name="ab7fe697bc7470711540bb0efa33caec0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7fe697bc7470711540bb0efa33caec0">&#9670;&nbsp;</a></span>Collect()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -154,10 +158,10 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void agent::ICorrectorTrainer::CollectSamples </td>
+          <td class="memname">virtual void agent::ICorrectorTrainer::Collect </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_i_l_f_scanner.html">ILFScanner</a> *&#160;</td>
-          <td class="paramname"><em>scanner</em>, </td>
+          <td class="paramtype">const <a class="el" href="classagent_1_1_t_fragments.html">TFragments</a> &amp;&#160;</td>
+          <td class="paramname"><em>fragments</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -169,7 +173,7 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="namespaceagent.html#a28b2e0e298f6f3c7aeb276395c83ec48">TDetections</a> &amp;&#160;</td>
-          <td class="paramname">&#160;</td>
+          <td class="paramname"><em>detections</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -184,12 +188,12 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="classagent_1_1_t_corrector_trainer_base.html#ab86399333d28cababdd1c1d95ed61b9b">agent::TCorrectorTrainerBase</a>.</p>
+<p>Implemented in <a class="el" href="classagent_1_1_t_corrector_trainer_base.html#af4c868df73392b6a3a9277be867b7aca">agent::TCorrectorTrainerBase</a>.</p>
 
 </div>
 </div>
-<a id="aeedd628ac1ce60735a629216d403c99b" name="aeedd628ac1ce60735a629216d403c99b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeedd628ac1ce60735a629216d403c99b">&#9670;&nbsp;</a></span>ConsumeCorrectors()</h2>
+<a id="a9651e01dc59326e3a7face9e34c4b6a1" name="a9651e01dc59326e3a7face9e34c4b6a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9651e01dc59326e3a7face9e34c4b6a1">&#9670;&nbsp;</a></span>Consume()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -198,7 +202,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual std::vector&lt; std::unique_ptr&lt; <a class="el" href="classagent_1_1_i_corrector.html">ICorrector</a> &gt; &gt; agent::ICorrectorTrainer::ConsumeCorrectors </td>
+          <td class="memname">virtual std::vector&lt; std::unique_ptr&lt; <a class="el" href="classagent_1_1_i_corrector.html">ICorrector</a> &gt; &gt; agent::ICorrectorTrainer::Consume </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -211,7 +215,34 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="classagent_1_1_t_corrector_trainer_base.html#ae7e84c49af7bc6b981eaa628128129f7">agent::TCorrectorTrainerBase</a>.</p>
+<p>Implemented in <a class="el" href="classagent_1_1_t_corrector_trainer_base.html#a02786001c406cf173453405f1e41d080">agent::TCorrectorTrainerBase</a>.</p>
+
+</div>
+</div>
+<a id="a0b055f2ce14a2a9cf4e83f5ceced158d" name="a0b055f2ce14a2a9cf4e83f5ceced158d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b055f2ce14a2a9cf4e83f5ceced158d">&#9670;&nbsp;</a></span>Finish()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void agent::ICorrectorTrainer::Finish </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classagent_1_1_t_corrector_trainer_base.html#a6121f1e5b2915066bf18a03e3e2183b3">agent::TCorrectorTrainerBase</a>.</p>
 
 </div>
 </div>
@@ -239,6 +270,44 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Implemented in <a class="el" href="classagent_1_1_t_corrector_trainer_base.html#a86997ff71431cb3ac2f422267259d014">agent::TCorrectorTrainerBase</a>.</p>
+
+</div>
+</div>
+<a id="abcf7f1dc13dc5c30054a5b5ba0620ed4" name="abcf7f1dc13dc5c30054a5b5ba0620ed4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abcf7f1dc13dc5c30054a5b5ba0620ed4">&#9670;&nbsp;</a></span>Setup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void agent::ICorrectorTrainer::Setup </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classagent_1_1_t_fragments.html">TFragments</a> &amp;&#160;</td>
+          <td class="paramname"><em>fragments</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespaceagent.html#a28b2e0e298f6f3c7aeb276395c83ec48">TDetections</a> &amp;&#160;</td>
+          <td class="paramname"><em>detections</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classagent_1_1_t_corrector_trainer_base.html#a76706aedb237448b39d9839072cd8332">agent::TCorrectorTrainerBase</a>.</p>
 
 </div>
 </div>

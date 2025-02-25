@@ -44,5 +44,9 @@ var group___l_f_database =
       [ "m_dataFiles", "class_t_l_f_d_blabeled_media.html#a28c385002d4198d5975639b5fd2dc1f9", null ],
       [ "m_dictinary", "class_t_l_f_d_blabeled_media.html#acfa4b556d7d09a06a0bbb1c92bf3aa64", null ],
       [ "m_strPath", "class_t_l_f_d_blabeled_media.html#a847b60da69d80efee348098ffee83412", null ]
+    ] ],
+    [ "TLFDBLabeledImagesBuilder", "class_t_l_f_d_b_labeled_images_builder.html", [
+      [ "AddImageDescriptor", "class_t_l_f_d_b_labeled_images_builder.html#a3bfff742c88cd5644f3ee83ef334b656", null ],
+      [ "AddLabel", "class_t_l_f_d_b_labeled_images_builder.html#ada0a465f2c7993dbfc949ed2504d25e5", null ]
     ] ]
 ];

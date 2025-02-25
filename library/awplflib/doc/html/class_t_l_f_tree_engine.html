@@ -91,7 +91,7 @@ $(document).ready(function(){initNavTree('class_t_l_f_tree_engine.html',''); ini
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="_l_f_engine_8h_source.html">LFEngine.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="_l_f_tree_8h_source.html">LFTree.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for TLFTreeEngine:</div>
 <div class="dyncontent">
@@ -121,12 +121,20 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a3b04f5cef57e304a784af9cebd669741"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9366184d0958d76f2c4f783d84ee0216"><td class="memItemLeft" align="right" valign="top">virtual TiXmlElement *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_l_f_tree_engine.html#a9366184d0958d76f2c4f783d84ee0216">SaveXML</a> ()</td></tr>
 <tr class="separator:a9366184d0958d76f2c4f783d84ee0216"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a908a670c77be8b0f97925212fdf4ab20"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_l_f_tree_engine.html#a908a670c77be8b0f97925212fdf4ab20">SetAgentMode</a> ()</td></tr>
+<tr class="separator:a908a670c77be8b0f97925212fdf4ab20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1af875fab8b8282355b89d417ed6d1f4"><td class="memItemLeft" align="right" valign="top">std::optional&lt; std::vector&lt; <a class="el" href="group___l_f_descriptors.html#ga8062f13b5be5953ff8e3832133f284c7">detected_item_ptr</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_l_f_tree_engine.html#a1af875fab8b8282355b89d417ed6d1f4">Detect</a> (<a class="el" href="class_t_l_f_image.html">TLFImage</a> *pImage)</td></tr>
 <tr class="separator:a1af875fab8b8282355b89d417ed6d1f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50ea38a662fe7150e65e768db59c96b9"><td class="memItemLeft" align="right" valign="top">std::optional&lt; std::vector&lt; <a class="el" href="group___l_f_descriptors.html#ga8062f13b5be5953ff8e3832133f284c7">detected_item_ptr</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_l_f_tree_engine.html#a50ea38a662fe7150e65e768db59c96b9">Detect</a> (std::shared_ptr&lt; <a class="el" href="class_t_l_f_image.html">TLFImage</a> &gt; pImage)</td></tr>
+<tr class="separator:a50ea38a662fe7150e65e768db59c96b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af81cdba94435c986193915008e6eff45"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_l_f_tree_engine.html#af81cdba94435c986193915008e6eff45">SetDetector</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_i_l_f_object_detector.html">ILFObjectDetector</a> &gt; detector)</td></tr>
 <tr class="separator:af81cdba94435c986193915008e6eff45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e39fcfbd5e559b62426f670a6258078"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_i_l_f_object_detector.html">ILFObjectDetector</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_l_f_tree_engine.html#a2e39fcfbd5e559b62426f670a6258078">GetDetector</a> (const std::string &amp;path) const</td></tr>
 <tr class="separator:a2e39fcfbd5e559b62426f670a6258078"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4e02f06110f5673b98c3e2361a0c748"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_l_f_tree_engine.html#ab4e02f06110f5673b98c3e2361a0c748">SetAgent</a> (const std::string &amp;path, std::shared_ptr&lt; <a class="el" href="class_t_l_f_agent.html">TLFAgent</a> &gt; agent)</td></tr>
+<tr class="separator:ab4e02f06110f5673b98c3e2361a0c748"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abeb091f5b440d78ad3b7ef5d15f760b7"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_t_l_f_agent.html">TLFAgent</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_l_f_tree_engine.html#abeb091f5b440d78ad3b7ef5d15f760b7">GetAgent</a> (const std::string &amp;path) const</td></tr>
+<tr class="separator:abeb091f5b440d78ad3b7ef5d15f760b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf2f4ea5a030b086dd7e8e03bde94fef"><td class="memItemLeft" align="right" valign="top">virtual const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_l_f_tree_engine.html#adf2f4ea5a030b086dd7e8e03bde94fef">GetName</a> ()</td></tr>
 <tr class="separator:adf2f4ea5a030b086dd7e8e03bde94fef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_t_l_f_object"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_t_l_f_object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_t_l_f_object.html">TLFObject</a></td></tr>
@@ -144,10 +152,38 @@ Static Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_l_f_engine_8h_source.html#l00060">60</a> of file <a class="el" href="_l_f_engine_8h_source.html">LFEngine.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_l_f_tree_8h_source.html#l00061">61</a> of file <a class="el" href="_l_f_tree_8h_source.html">LFTree.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a50ea38a662fe7150e65e768db59c96b9" name="a50ea38a662fe7150e65e768db59c96b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50ea38a662fe7150e65e768db59c96b9">&#9670;&nbsp;</a></span>Detect() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; std::vector&lt; <a class="el" href="group___l_f_descriptors.html#ga8062f13b5be5953ff8e3832133f284c7">detected_item_ptr</a> &gt; &gt; TLFTreeEngine::Detect </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_t_l_f_image.html">TLFImage</a> &gt;&#160;</td>
+          <td class="paramname"><em>pImage</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_l_f_tree_8h_source.html#l00096">96</a> of file <a class="el" href="_l_f_tree_8h_source.html">LFTree.h</a>.</p>
+
+</div>
+</div>
 <a id="a1af875fab8b8282355b89d417ed6d1f4" name="a1af875fab8b8282355b89d417ed6d1f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1af875fab8b8282355b89d417ed6d1f4">&#9670;&nbsp;</a></span>Detect()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1af875fab8b8282355b89d417ed6d1f4">&#9670;&nbsp;</a></span>Detect() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -170,7 +206,27 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_l_f_engine_8h_source.html#l00083">83</a> of file <a class="el" href="_l_f_engine_8h_source.html">LFEngine.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_l_f_tree_8h_source.html#l00093">93</a> of file <a class="el" href="_l_f_tree_8h_source.html">LFTree.h</a>.</p>
+
+</div>
+</div>
+<a id="abeb091f5b440d78ad3b7ef5d15f760b7" name="abeb091f5b440d78ad3b7ef5d15f760b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abeb091f5b440d78ad3b7ef5d15f760b7">&#9670;&nbsp;</a></span>GetAgent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="class_t_l_f_agent.html">TLFAgent</a> &gt; TLFTreeEngine::GetAgent </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_l_f_tree_8cpp_source.html#l00069">69</a> of file <a class="el" href="_l_f_tree_8cpp_source.html">LFTree.cpp</a>.</p>
 
 </div>
 </div>
@@ -190,7 +246,7 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_l_f_engine_8cpp_source.html#l00985">985</a> of file <a class="el" href="_l_f_engine_8cpp_source.html">LFEngine.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_l_f_tree_8cpp_source.html#l00113">113</a> of file <a class="el" href="_l_f_tree_8cpp_source.html">LFTree.cpp</a>.</p>
 
 </div>
 </div>
@@ -219,7 +275,7 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_t_l_f_object.html#acbec3f18a2ed7088a224d7ae0d4e5f3d">TLFObject</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_l_f_engine_8h_source.html#l00093">93</a> of file <a class="el" href="_l_f_engine_8h_source.html">LFEngine.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_l_f_tree_8h_source.html#l00111">111</a> of file <a class="el" href="_l_f_tree_8h_source.html">LFTree.h</a>.</p>
 
 </div>
 </div>
@@ -247,7 +303,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_l_f_engine_8cpp_source.html#l01060">1060</a> of file <a class="el" href="_l_f_engine_8cpp_source.html">LFEngine.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_l_f_tree_8cpp_source.html#l00188">188</a> of file <a class="el" href="_l_f_tree_8cpp_source.html">LFTree.cpp</a>.</p>
 
 </div>
 </div>
@@ -275,7 +331,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_l_f_engine_8cpp_source.html#l01164">1164</a> of file <a class="el" href="_l_f_engine_8cpp_source.html">LFEngine.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_l_f_tree_8cpp_source.html#l00350">350</a> of file <a class="el" href="_l_f_tree_8cpp_source.html">LFTree.cpp</a>.</p>
 
 </div>
 </div>
@@ -303,7 +359,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_l_f_engine_8cpp_source.html#l01083">1083</a> of file <a class="el" href="_l_f_engine_8cpp_source.html">LFEngine.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_l_f_tree_8cpp_source.html#l00211">211</a> of file <a class="el" href="_l_f_tree_8cpp_source.html">LFTree.cpp</a>.</p>
 
 </div>
 </div>
@@ -330,7 +386,64 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_l_f_engine_8cpp_source.html#l01212">1212</a> of file <a class="el" href="_l_f_engine_8cpp_source.html">LFEngine.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_l_f_tree_8cpp_source.html#l00422">422</a> of file <a class="el" href="_l_f_tree_8cpp_source.html">LFTree.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ab4e02f06110f5673b98c3e2361a0c748" name="ab4e02f06110f5673b98c3e2361a0c748"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4e02f06110f5673b98c3e2361a0c748">&#9670;&nbsp;</a></span>SetAgent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool TLFTreeEngine::SetAgent </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_t_l_f_agent.html">TLFAgent</a> &gt;&#160;</td>
+          <td class="paramname"><em>agent</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_l_f_tree_8cpp_source.html#l00047">47</a> of file <a class="el" href="_l_f_tree_8cpp_source.html">LFTree.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a908a670c77be8b0f97925212fdf4ab20" name="a908a670c77be8b0f97925212fdf4ab20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a908a670c77be8b0f97925212fdf4ab20">&#9670;&nbsp;</a></span>SetAgentMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void TLFTreeEngine::SetAgentMode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_l_f_tree_8cpp_source.html#l00453">453</a> of file <a class="el" href="_l_f_tree_8cpp_source.html">LFTree.cpp</a>.</p>
 
 </div>
 </div>
@@ -360,7 +473,7 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_l_f_engine_8cpp_source.html#l00963">963</a> of file <a class="el" href="_l_f_engine_8cpp_source.html">LFEngine.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_l_f_tree_8cpp_source.html#l00091">91</a> of file <a class="el" href="_l_f_tree_8cpp_source.html">LFTree.cpp</a>.</p>
 
 </div>
 </div>
@@ -388,13 +501,13 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_l_f_engine_8cpp_source.html#l01006">1006</a> of file <a class="el" href="_l_f_engine_8cpp_source.html">LFEngine.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_l_f_tree_8cpp_source.html#l00134">134</a> of file <a class="el" href="_l_f_tree_8cpp_source.html">LFTree.cpp</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>C:/work/BAISim/library/awplflib/include/<a class="el" href="_l_f_engine_8h_source.html">LFEngine.h</a></li>
-<li>C:/work/BAISim/library/awplflib/src/<a class="el" href="_l_f_engine_8cpp_source.html">LFEngine.cpp</a></li>
+<li>C:/work/BAISim/library/awplflib/include/<a class="el" href="_l_f_tree_8h_source.html">LFTree.h</a></li>
+<li>C:/work/BAISim/library/awplflib/src/<a class="el" href="_l_f_tree_8cpp_source.html">LFTree.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

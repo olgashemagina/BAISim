@@ -1,12 +1,12 @@
 <map id="TLFClusterTrack" name="TLFClusterTrack">
-<area shape="rect" id="node1" title=" " alt="" coords="49,468,165,496"/>
-<area shape="rect" id="node2" href="$class_t_l_f_cluster_recursive.html" title=" " alt="" coords="201,391,341,419"/>
-<area shape="rect" id="node3" href="$class_t_l_f_object.html" title="Base class for all objects whithing library." alt="" coords="389,5,471,33"/>
-<area shape="rect" id="node5" href="$class_i_l_f_object_detector.html" title=" " alt="" coords="261,299,388,327"/>
-<area shape="rect" id="node6" href="$class_t_l_f_image.html" title="Raster data in the awpImage format Supports Load, Save, LoadDump, SaveDump IntegralImage for each cha..." alt="" coords="459,83,537,111"/>
-<area shape="rect" id="node8" href="$class_i_l_f_scanner.html" title=" " alt="" coords="362,189,450,217"/>
-<area shape="rect" id="node9" href="$class_t_l_f_object_list.html" title="List of LFObjects." alt="" coords="191,83,293,111"/>
-<area shape="rect" id="node10" href="$class_t_l_f_cluster_descr.html" title=" " alt="" coords="523,135,641,163"/>
-<area shape="rect" id="node4" href="$structtag_binary_blob.html" title=" " alt="" coords="5,299,108,327"/>
-<area shape="rect" id="node7" href="$class_i_l_f_image.html" title=" " alt="" coords="659,5,734,33"/>
+<area shape="rect" id="node1" title=" " alt="" coords="17,468,133,496"/>
+<area shape="rect" id="node2" href="$class_t_l_f_cluster_recursive.html" title=" " alt="" coords="169,391,309,419"/>
+<area shape="rect" id="node3" href="$class_t_l_f_object.html" title="Base class for all objects whithing library." alt="" coords="357,5,439,33"/>
+<area shape="rect" id="node5" href="$class_i_l_f_object_detector.html" title=" " alt="" coords="229,299,356,327"/>
+<area shape="rect" id="node6" href="$class_t_l_f_image.html" title="Raster data in the awpImage format Supports Load, Save, LoadDump, SaveDump IntegralImage for each cha..." alt="" coords="427,83,505,111"/>
+<area shape="rect" id="node8" href="$class_i_l_f_scanner.html" title=" " alt="" coords="330,189,418,217"/>
+<area shape="rect" id="node9" href="$class_t_l_f_object_list.html" title="List of LFObjects." alt="" coords="159,83,261,111"/>
+<area shape="rect" id="node10" href="$class_t_l_f_cluster_descr.html" title=" " alt="" coords="491,135,609,163"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,299,60,327"/>
+<area shape="rect" id="node7" href="$class_i_l_f_image.html" title=" " alt="" coords="627,5,702,33"/>
 </map>

@@ -32,6 +32,5 @@ var searchData=
   ['ilfzone_29',['ILFZone',['../class_i_l_f_zone.html',1,'']]],
   ['ilfzones_30',['ILFZones',['../class_i_l_f_zones.html',1,'']]],
   ['integraldata_31',['IntegralData',['../classaccel__rects_1_1_integral_data.html',1,'accel_rects']]],
-  ['integralview_32',['IntegralView',['../classaccel__rects_1_1_integral_view.html',1,'accel_rects']]],
-  ['iworker_33',['IWorker',['../classagent_1_1_i_worker.html',1,'agent']]]
+  ['integralview_32',['IntegralView',['../classaccel__rects_1_1_integral_view.html',1,'accel_rects']]]
 ];

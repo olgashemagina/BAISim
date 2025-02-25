@@ -117,8 +117,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aba36991d70e7f60b28bd18d0d7724bc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec25e88c6401f592524e46639e5ad833"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_baseline_corrector.html#aec25e88c6401f592524e46639e5ad833">~TBaselineCorrector</a> ()</td></tr>
 <tr class="separator:aec25e88c6401f592524e46639e5ad833"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab4e62561f85acbc786581c93c2fdb1d7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_baseline_corrector.html#ab4e62561f85acbc786581c93c2fdb1d7">Process</a> (const <a class="el" href="class_t_matrix.html">TMatrix</a> &amp;data, std::vector&lt; int &gt; &amp;corrections)</td></tr>
-<tr class="separator:ab4e62561f85acbc786581c93c2fdb1d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42f594a567185cb8ae21c1cbfcb0bb12"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_baseline_corrector.html#a42f594a567185cb8ae21c1cbfcb0bb12">Process</a> (const float *features, size_t size) const override</td></tr>
+<tr class="separator:a42f594a567185cb8ae21c1cbfcb0bb12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a253610548fb57a815d690fefee3605b7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_baseline_corrector.html#a253610548fb57a815d690fefee3605b7">LoadXML</a> (TiXmlElement *node)</td></tr>
 <tr class="separator:a253610548fb57a815d690fefee3605b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6bae6349d029c4e4c5a4a8881f02ff9e"><td class="memItemLeft" align="right" valign="top">TiXmlElement *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_baseline_corrector.html#a6bae6349d029c4e4c5a4a8881f02ff9e">SaveXML</a> () override</td></tr>
@@ -128,10 +128,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a2adb3f5fab87d9dc2d44eed512ba6d97 inherit pub_methods_classagent_1_1_t_corrector_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa91411eb9dedc7ad8ac2961f7b215478 inherit pub_methods_classagent_1_1_t_corrector_base"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_corrector_base.html#aa91411eb9dedc7ad8ac2961f7b215478">~TCorrectorBase</a> ()</td></tr>
 <tr class="separator:aa91411eb9dedc7ad8ac2961f7b215478 inherit pub_methods_classagent_1_1_t_corrector_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a268b2495c9e932a9037713058ee9861a inherit pub_methods_classagent_1_1_t_corrector_base"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_corrector_base.html#a268b2495c9e932a9037713058ee9861a">Correct</a> (const <a class="el" href="classagent_1_1_t_features.html">TFeatures</a> &amp;features, std::vector&lt; int &gt; &amp;corrections) override</td></tr>
-<tr class="separator:a268b2495c9e932a9037713058ee9861a inherit pub_methods_classagent_1_1_t_corrector_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7513a6623b15e20ee8350def474c5d1 inherit pub_methods_classagent_1_1_t_corrector_base"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_corrector_base.html#aa7513a6623b15e20ee8350def474c5d1">Process</a> (const <a class="el" href="class_t_matrix.html">TMatrix</a> &amp;data, std::vector&lt; int &gt; &amp;corrections)</td></tr>
-<tr class="separator:aa7513a6623b15e20ee8350def474c5d1 inherit pub_methods_classagent_1_1_t_corrector_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93630f8a900eb651cd6b9c15707a69c4 inherit pub_methods_classagent_1_1_t_corrector_base"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_corrector_base.html#a93630f8a900eb651cd6b9c15707a69c4">Correct</a> (const <a class="el" href="classagent_1_1_t_features.html">TFeatures</a> &amp;features, std::vector&lt; int &gt; &amp;corrections) const override</td></tr>
+<tr class="separator:a93630f8a900eb651cd6b9c15707a69c4 inherit pub_methods_classagent_1_1_t_corrector_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96e8b010bf12070686e0c9bb14b73dd2 inherit pub_methods_classagent_1_1_t_corrector_base"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_corrector_base.html#a96e8b010bf12070686e0c9bb14b73dd2">Process</a> (const float *features, size_t size) const</td></tr>
+<tr class="separator:a96e8b010bf12070686e0c9bb14b73dd2 inherit pub_methods_classagent_1_1_t_corrector_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8839f3b2e5aa3e01cc941e9db2e72c4c inherit pub_methods_classagent_1_1_t_corrector_base"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_corrector_base.html#a8839f3b2e5aa3e01cc941e9db2e72c4c">LoadXML</a> (TiXmlElement *node)</td></tr>
 <tr class="separator:a8839f3b2e5aa3e01cc941e9db2e72c4c inherit pub_methods_classagent_1_1_t_corrector_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af62f733540663ffbd62cf969705c8f0d inherit pub_methods_classagent_1_1_t_corrector_base"><td class="memItemLeft" align="right" valign="top">virtual TiXmlElement *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_t_corrector_base.html#af62f733540663ffbd62cf969705c8f0d">SaveXML</a> ()</td></tr>
@@ -139,14 +139,14 @@ Public Member Functions</h2></td></tr>
 <tr class="inherit_header pub_methods_classagent_1_1_i_corrector"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classagent_1_1_i_corrector')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classagent_1_1_i_corrector.html">agent::ICorrector</a></td></tr>
 <tr class="memitem:a93c8d8826c380c03bd05aaa3166ae8c6 inherit pub_methods_classagent_1_1_i_corrector"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_corrector.html#a93c8d8826c380c03bd05aaa3166ae8c6">~ICorrector</a> ()=default</td></tr>
 <tr class="separator:a93c8d8826c380c03bd05aaa3166ae8c6 inherit pub_methods_classagent_1_1_i_corrector"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19d2e5a7efaabe9c69c5c9cc08d2a3e5 inherit pub_methods_classagent_1_1_i_corrector"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_corrector.html#a19d2e5a7efaabe9c69c5c9cc08d2a3e5">Correct</a> (const <a class="el" href="classagent_1_1_t_features.html">TFeatures</a> &amp;features, std::vector&lt; int &gt; &amp;corrections)=0</td></tr>
-<tr class="separator:a19d2e5a7efaabe9c69c5c9cc08d2a3e5 inherit pub_methods_classagent_1_1_i_corrector"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a177ecd79ca729a050dce4d5fdcdda0a3 inherit pub_methods_classagent_1_1_i_corrector"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_corrector.html#a177ecd79ca729a050dce4d5fdcdda0a3">Correct</a> (const <a class="el" href="classagent_1_1_t_features.html">TFeatures</a> &amp;features, std::vector&lt; int &gt; &amp;corrections) const =0</td></tr>
+<tr class="separator:a177ecd79ca729a050dce4d5fdcdda0a3 inherit pub_methods_classagent_1_1_i_corrector"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4f5040fedd25ff2f3ff04e85488dae2 inherit pub_methods_classagent_1_1_i_corrector"><td class="memItemLeft" align="right" valign="top">virtual TiXmlElement *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classagent_1_1_i_corrector.html#ae4f5040fedd25ff2f3ff04e85488dae2">SaveXML</a> ()=0</td></tr>
 <tr class="separator:ae4f5040fedd25ff2f3ff04e85488dae2 inherit pub_methods_classagent_1_1_i_corrector"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="correctors_8h_source.html#l00097">97</a> of file <a class="el" href="correctors_8h_source.html">correctors.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="correctors_8h_source.html#l00101">101</a> of file <a class="el" href="correctors_8h_source.html">correctors.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aba36991d70e7f60b28bd18d0d7724bc2" name="aba36991d70e7f60b28bd18d0d7724bc2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aba36991d70e7f60b28bd18d0d7724bc2">&#9670;&nbsp;</a></span>TBaselineCorrector()</h2>
@@ -172,7 +172,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="correctors_8h_source.html#l00114">114</a> of file <a class="el" href="correctors_8h_source.html">correctors.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="correctors_8h_source.html#l00116">116</a> of file <a class="el" href="correctors_8h_source.html">correctors.h</a>.</p>
 
 </div>
 </div>
@@ -199,7 +199,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="correctors_8h_source.html#l00116">116</a> of file <a class="el" href="correctors_8h_source.html">correctors.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="correctors_8h_source.html#l00118">118</a> of file <a class="el" href="correctors_8h_source.html">correctors.h</a>.</p>
 
 </div>
 </div>
@@ -220,12 +220,12 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="correctors_8cpp_source.html#l00055">55</a> of file <a class="el" href="correctors_8cpp_source.html">correctors.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="correctors_8cpp_source.html#l00056">56</a> of file <a class="el" href="correctors_8cpp_source.html">correctors.cpp</a>.</p>
 
 </div>
 </div>
-<a id="ab4e62561f85acbc786581c93c2fdb1d7" name="ab4e62561f85acbc786581c93c2fdb1d7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab4e62561f85acbc786581c93c2fdb1d7">&#9670;&nbsp;</a></span>Process()</h2>
+<a id="a42f594a567185cb8ae21c1cbfcb0bb12" name="a42f594a567185cb8ae21c1cbfcb0bb12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42f594a567185cb8ae21c1cbfcb0bb12">&#9670;&nbsp;</a></span>Process()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -234,33 +234,33 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void TBaselineCorrector::Process </td>
+          <td class="memname">int TBaselineCorrector::Process </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_t_matrix.html">TMatrix</a> &amp;&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
+          <td class="paramtype">const float *&#160;</td>
+          <td class="paramname"><em>features</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>corrections</em>&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> const</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented from <a class="el" href="classagent_1_1_t_corrector_base.html#aa7513a6623b15e20ee8350def474c5d1">agent::TCorrectorBase</a>.</p>
+<p>Reimplemented from <a class="el" href="classagent_1_1_t_corrector_base.html#a96e8b010bf12070686e0c9bb14b73dd2">agent::TCorrectorBase</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="correctors_8cpp_source.html#l00006">6</a> of file <a class="el" href="correctors_8cpp_source.html">correctors.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="correctors_8cpp_source.html#l00008">8</a> of file <a class="el" href="correctors_8cpp_source.html">correctors.cpp</a>.</p>
 
 </div>
 </div>
@@ -289,7 +289,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classagent_1_1_t_corrector_base.html#af62f733540663ffbd62cf969705c8f0d">agent::TCorrectorBase</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="correctors_8cpp_source.html#l00133">133</a> of file <a class="el" href="correctors_8cpp_source.html">correctors.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="correctors_8cpp_source.html#l00134">134</a> of file <a class="el" href="correctors_8cpp_source.html">correctors.cpp</a>.</p>
 
 </div>
 </div>
