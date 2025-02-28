@@ -187,6 +187,11 @@ private:
 		// Acquire GIL before any Python operations
 		PyLockGIL  gil_locker;
 
+		if (f_feats.rows() == 0 || t_feats.rows() == 0) {
+			std::cout << "Error in size input matrix for " << type << " corrector: f_size=" << f_feats.rows() << ", t_size=" << t_feats.rows() << std::endl;
+			return {};
+		}
+
 		np::ndarray f_array = np::from_data(f_feats.GetRow(0), np::dtype::get_builtin<float>(),
 			bp::make_tuple(f_feats.rows(), f_feats.cols()),
 			bp::make_tuple(f_feats.cols() * sizeof(float), sizeof(float)),

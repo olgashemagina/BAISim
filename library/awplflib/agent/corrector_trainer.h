@@ -119,14 +119,16 @@ namespace agent {
 						break;
 
 					// Move data for training
-					if (fn_.rows() >= min_fn_samples_ || flush_) {
+					if (fn_.rows() > 0 && tn_.rows() > 0 && 
+						(fn_.rows() >= min_fn_samples_ || flush_)) {
 						fn = fn_;
 						tn = tn_;
 						fn_.Clear();
 						tn_.Clear();
 					}
 
-					if (fp_.rows() >= min_fp_samples_ || flush_) {
+					if (fp_.rows() > 0 && tp_.rows() > 0 &&
+						(fp_.rows() >= min_fp_samples_ || flush_)) {
 						fp = fp_;
 						tp = tp_;
 						fp_.Clear();
@@ -134,9 +136,7 @@ namespace agent {
 					}
 					flush_ = false;
 				}
-
-
-				std::vector<std::unique_ptr<ICorrector>> correctors;
+												
 				if (fn.rows() > 0) {
 					// Run training of FN corrector;
 					auto result = TrainFnCorrector(fn, tn);
@@ -161,7 +161,7 @@ namespace agent {
 						}
 
 						std::unique_lock<std::mutex> lock(mtx_);
-						correctors.emplace_back(std::move(result));
+						correctors_.emplace_back(std::move(result));
 					}
 					fp.Clear();
 					tp.Clear();
