@@ -3,6 +3,8 @@
 using namespace agent;
 namespace agent {
 
+    static const int kFeaturesCount = 1;
+
     // Detector of objects using CPU;
     class TStagesDetector : public TStagesDetectorBase {
 
@@ -50,7 +52,7 @@ namespace agent {
                 auto rect = feature->GetRect();
 
                 // 9 values + 1 of full rect;
-                features_count += 1;
+                features_count += kFeaturesCount;
             }
             layout_.push_back(features_count);
         }
@@ -100,8 +102,11 @@ namespace agent {
 
                         // Copy only total value from CS feature
                         features[0] = weak.feature.features.back();
-                        features_size -= 1;
-                        features += 1;
+
+                        //std::memcpy(features, weak.feature.features.data(), sizeof(float) * kFeaturesCount);
+
+                        features_size -= kFeaturesCount;
+                        features += kFeaturesCount;
                     }
                 }
 

@@ -26,8 +26,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "semantic_desc", "..\tools\s
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Player", "..\utils\!Player\vc\vc2019\Player.vcxproj", "{C48DF8E0-F07E-48D5-AEB4-997CCEB7F44C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OclTest", "..\utils\OclTest\OclTest.vcxproj", "{6C4254C3-98A0-400C-9A33-8370D95D101F}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tree_builder", "..\tools\tree_builder\vc\vc2019\tree_builder.vcxproj", "{8ED6E748-1C42-429C-9103-DD6274A8346F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "supervisor_correctors", "..\tools\supervisor_correctors\vc\vc2019\supervisor_correctors.vcxproj", "{73A0EC7F-0D0C-4DFB-AE00-CF744713DB27}"
@@ -35,6 +33,11 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests_supervisor_correctors", "..\tools\tests_supervisor_correctors\vc\vc2019\tests_supervisor_correctors.vcxproj", "{53A0EC7F-0D0C-4DFB-AE00-CF744713DB27}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests_agent", "..\tools\tests_agent\vc\vc2019\tests_agent.vcxproj", "{20F93755-031A-475B-8757-14F2A8F8AC00}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0B9D7BA2-EF91-4FA3-B558-8847AA4843C7}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -82,10 +85,6 @@ Global
 		{C48DF8E0-F07E-48D5-AEB4-997CCEB7F44C}.Debug|x64.Build.0 = Debug|x64
 		{C48DF8E0-F07E-48D5-AEB4-997CCEB7F44C}.Release|x64.ActiveCfg = Release|x64
 		{C48DF8E0-F07E-48D5-AEB4-997CCEB7F44C}.Release|x64.Build.0 = Release|x64
-		{6C4254C3-98A0-400C-9A33-8370D95D101F}.Debug|x64.ActiveCfg = Debug|x64
-		{6C4254C3-98A0-400C-9A33-8370D95D101F}.Debug|x64.Build.0 = Debug|x64
-		{6C4254C3-98A0-400C-9A33-8370D95D101F}.Release|x64.ActiveCfg = Release|x64
-		{6C4254C3-98A0-400C-9A33-8370D95D101F}.Release|x64.Build.0 = Release|x64
 		{8ED6E748-1C42-429C-9103-DD6274A8346F}.Debug|x64.ActiveCfg = Debug|x64
 		{8ED6E748-1C42-429C-9103-DD6274A8346F}.Debug|x64.Build.0 = Debug|x64
 		{8ED6E748-1C42-429C-9103-DD6274A8346F}.Release|x64.ActiveCfg = Release|x64

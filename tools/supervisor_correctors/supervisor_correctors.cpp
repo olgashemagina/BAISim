@@ -159,7 +159,6 @@ int main(int argc, char* argv[]) {
 
     std::unique_ptr<TLFAgent> agent;
     if (!agent_path.empty()) {
-        agent = std::make_unique<TLFAgent>();
         agent = load_xml(agent_path, [](TiXmlElement* node) {
             auto  agent = std::make_unique<TLFAgent>();
             if (node && agent->LoadXML(node))

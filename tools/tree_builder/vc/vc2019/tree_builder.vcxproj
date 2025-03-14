@@ -94,6 +94,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y ..\..\..\..\library\awplflib\scripts\*.py ..\..\..\..\examples</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\3rdparty\jpeg-6b\vc\vc2019\JPEGLIB.vcxproj">
