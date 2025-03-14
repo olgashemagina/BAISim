@@ -26,12 +26,14 @@ class BaselineCorrector:
         self.train_logs: np.ndarray = []
 
 
-    def fit(self, CRLS, WRLS, space='reduced', whitening=False, setPC=3, numPC=150, numClust=15, nBins = 100):
+    def fit(self, CRLS, WRLS, numPC, numClust, space='reduced', whitening=False, setPC=3, nBins = 100):
         # Инициализация
         
         self.CRLS = CRLS
         self.WRLS = WRLS
         self.numClust = numClust
+        
+        
         numPC = min(CRLS.shape[1], numPC)
         # Расчет центра в зависимости от setPC
         match setPC:
@@ -277,9 +279,6 @@ class BaselineCorrector:
         
     #    % Define meaning of "class 1"
         xLt = np.mean(x) > np.mean(y)
-        print("xLt = ", xLt)
-        print("X: ", x)
-        print("Y: ", y)
     #    % Define variabled to search
         bestAcc = 0
         bestT = -np.inf
@@ -297,7 +296,7 @@ class BaselineCorrector:
                 far = (Pos-nX) / Pos
                 if(far != 0):
                     if(k<=1):
-                        bestT = -100000
+                        bestT = thr[0]
                     else:
                         bestT = thr[k-2]
                     break
@@ -312,7 +311,7 @@ class BaselineCorrector:
 
 
             accs[k] = acc
-        print(bestT, far)
+        
         res[2] = bestT
         res[3] = bestTPR
         res[4] = bestTNR

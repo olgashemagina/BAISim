@@ -101,7 +101,9 @@ public:
 		//Py_Finalize();
 	}
 	bool Initialize(const std::string& script_path, const std::string& state_path);
-
+	
+	bool LoadXML(TiXmlElement* parent);
+	TiXmlElement* TBaselineCorrectorTrainer::SaveXML();
 
 	virtual std::unique_ptr<TCorrectorBase>	TrainFnCorrector(const TMatrix& fn, const TMatrix& tn) override;
 
@@ -112,17 +114,22 @@ public:
 	std::string	TrainCorrector(const std::string& type, const TMatrix& f_feats, const TMatrix& t_feats);
 
 
+
 private:
 	std::string			state_path_;
 	
 	bp::object			main_;
 	bp::object			corrector_;
+	int					numPCA_;
+	int					numClusters_;
 };
 
 
 	bool TBaselineCorrectorTrainer::Initialize(const std::string& script_path, const std::string& state_path) {
 	
 		// Acquire GIL before any Python operations
+		numPCA_ = 100;
+		numClusters_ = 10;
 		PyLockGIL  gil_locker;
 
 		state_path_ = state_path;
@@ -146,6 +153,29 @@ private:
 		return corrector_;
 	}
 
+	bool TBaselineCorrectorTrainer::LoadXML(TiXmlElement* parent) {
+		if (TCorrectorTrainerBase::LoadXML(parent))
+		{
+			auto trainer_node = parent->FirstChildElement("TBaselineCorrectorTrainer");
+			if (!trainer_node) {
+				return false;
+			}
+			trainer_node->QueryValueAttribute("numPCA", &numPCA_);
+			trainer_node->QueryValueAttribute("numClusters", &numClusters_);
+		}	
+
+		return true;
+	}
+	TiXmlElement* TBaselineCorrectorTrainer::SaveXML() {
+		
+		TiXmlElement* trainer_node = TCorrectorTrainerBase::SaveXML();
+		trainer_node->SetValue("TBaselineCorrectorTrainer");
+
+		trainer_node->SetAttribute("numPCA", numPCA_);
+		trainer_node->SetAttribute("numClusters", numClusters_);
+
+		return trainer_node;
+	}
 
 	std::unique_ptr<TCorrectorBase>	TBaselineCorrectorTrainer::TrainFnCorrector(const TMatrix& fn, const TMatrix& tn) {
 		auto path = TrainCorrector("FN", fn, tn);
@@ -231,7 +261,7 @@ private:
 		try {
 			TimeDiff	td;
 			auto callable = corrector_.attr("fit");
-			callable(t_array, f_array);
+			callable(t_array, f_array, numPCA_, numClusters_);
 			std::cout << "Corrector train time: " << td.GetDiffMs() << " ms." << std::endl;
 			auto callable_correct = corrector_.attr("correct");
 
