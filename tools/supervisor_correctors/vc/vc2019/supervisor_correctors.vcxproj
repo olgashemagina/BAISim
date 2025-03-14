@@ -73,7 +73,8 @@
       <AdditionalDependencies>Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y ..\..\..\..\library\awplflib\scripts\*.py $(ProjectDir) </Command>
+      <Command>xcopy /y ..\..\..\..\library\awplflib\scripts\*.py $(ProjectDir) 
+xcopy /y ..\..\..\..\library\awplflib\scripts\*.py $(TargetDir) </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -96,7 +97,8 @@
       <AdditionalDependencies>Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y ..\..\..\..\library\awplflib\scripts\*.py $(ProjectDir) </Command>
+      <Command>xcopy /y ..\..\..\..\library\awplflib\scripts\*.py $(ProjectDir) 
+xcopy /y ..\..\..\..\library\awplflib\scripts\*.py ..\..\..\..\examples</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

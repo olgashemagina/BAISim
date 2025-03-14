@@ -8,7 +8,7 @@
 #include "agent/supervisors.h"
 
 
-
+// Создает случайный детектор объектов с заданными параметрами активации, количеством признаков и этапов.
 static std::unique_ptr<TSCObjectDetector>			build_random_detector(float activate_prob = 0.1f, int num_features = 10, int num_stages = 1, int base_width = 24, int base_height = 24) {
 	auto detector = std::make_unique<TSCObjectDetector>();
 
@@ -63,6 +63,7 @@ static std::unique_ptr<TSCObjectDetector>			build_random_detector(float activate
 	return detector;
 }
 
+// Рассчитывает размер памяти, занимаемый детектором объектов, включая все его внутренние компоненты.
 // Calculate size of description of detector in memory
 static size_t calc_detector_size(TSCObjectDetector* detector) {
 	size_t total = sizeof(TSCObjectDetector);
@@ -86,7 +87,7 @@ static size_t calc_detector_size(TSCObjectDetector* detector) {
 	return total;
 }
 
-// Calculate size of description of detector in memory
+// Создает полную копию существующего детектора объектов, включая копирование всех внутренних параметров и признаков.
 static std::unique_ptr<TSCObjectDetector> copy_detector(TSCObjectDetector* other) {
 
 	auto detector = std::make_unique<TSCObjectDetector>();
@@ -125,6 +126,7 @@ static std::unique_ptr<TSCObjectDetector> copy_detector(TSCObjectDetector* other
 	return detector;
 }
 
+// Тестирует последовательное выполнение множества агентов с детекторами на случайно созданном изображении и выводит результаты детекции и время выполнения.
 static bool test_agents_sequence() {
 	// Make random HD image
 	auto img = tests::create_empty_image(1280, 720, true);
@@ -189,7 +191,7 @@ struct TNode {
 	std::unique_ptr<TNode>	left;
 	std::unique_ptr<TNode>	right;
 
-
+	// Рекурсивно применяет детекцию текущего агента и его дочерних узлов к заданному изображению, передавая области интереса (ROI) следующим уровням дерева.
 	void Detect(std::shared_ptr<TLFImage> img, const std::vector<TLFRect>* rois = nullptr) {
 		TimeDiff	td;
 		agent::TDetections		detections;
@@ -216,6 +218,8 @@ struct TNode {
 	}
 };
 
+
+// Строит бинарное дерево агентов с заданным числом уровней, где каждый агент содержит случайный детектор; возвращает корневой узел построенного дерева.
 static std::unique_ptr<TNode>	build_agents_tree(int levels, float activate_prob = 0.65f, int num_features = 10) {
 	if (levels <= 0)
 		return nullptr;
@@ -254,7 +258,7 @@ static std::unique_ptr<TNode>	build_agents_tree(int levels, float activate_prob 
 	return std::move(root);
 }
 
-
+// Тестирует дерево агентов на случайно созданном изображении, выводит общую информацию о дереве и результаты детекции каждого узла с итоговым временем выполнения.
 static bool test_agents_tree() {
 	// Make random HD image
 	auto img = tests::create_empty_image(1280, 720, true);
@@ -276,6 +280,7 @@ static bool test_agents_tree() {
 	return true;
 }
 
+// Сравнивает производительность CPU и GPU агентов с одинаковыми детекторами на случайно созданном изображении, замеряя и выводя время работы и количество найденных объектов.
 static bool test_cpu_gpu() {
 	// Make random HD image
 	auto img = tests::create_empty_image(1280, 720, true);
@@ -331,7 +336,7 @@ static bool test_cpu_gpu() {
 	return true;
 }
 
-
+// Тестирует тренировку корректировщика ложных срабатываний на случайных данных с использованием внешнего Python-скрипта и выводит среднее время выполнения.
 static bool test_trainer() {
 
 	int rows = 100;
@@ -348,14 +353,19 @@ static bool test_trainer() {
 			fp_matrix.GetRow(i)[j] = tests::GetRand(0, 256);
 		}
 	}
-
-
+	
 	auto corrector = agent::CreateBaselineTrainer("create_class_corr1.py", "");
 
+	if (!corrector) {
+		std::cout << "Cant create corrector trainer!" << std::endl;
+		return false;
+	}
+		
 	TimeDiff	td;
 	int count = 10;
-	for (int i = 0; i < count; i++)
+	for (int i = 0; i < count; i++) {
 		corrector->TrainFpCorrector(fp_matrix, tp_matrix);
+	}
 	std::cout << "### Corrector full time " << td.GetDiffMs() / count << " ms. ###" << std::endl;
 	return true;
 }
@@ -363,7 +373,7 @@ static bool test_trainer() {
 
 int main(int argc, char* argv[]) {
 
-    
+	//Пример 1: тестирование агентов, объединенных в дерево, для опредления времени их работы и количества занимаемой ОЗУ памяти.
     // Using maximum agents for time/memory consuming
     std::cout << "[1] Agents time/memory usage test... " << std::endl;
 	std::cout << "================================================================================" << std::endl << std::endl;
@@ -375,6 +385,7 @@ int main(int argc, char* argv[]) {
 
     std::cout << std::endl;
 
+	// Пример 2: использование GPU/CPU детектора и демонстрация времени его работы.
     // GPU/CPU usage
     std::cout << "[2] GPU/CPU time usage test... " << std::endl;
 	std::cout << "================================================================================" << std::endl << std::endl;
@@ -386,6 +397,7 @@ int main(int argc, char* argv[]) {
 
     std::cout << std::endl;
 
+	// Пример 3: демонстрация скорости работы алгоритма построения детектора.
     // Correctors building
     std::cout << "[3] Corrector building test for 100 samples... " << std::endl;
 	std::cout << "================================================================================" << std::endl << std::endl;

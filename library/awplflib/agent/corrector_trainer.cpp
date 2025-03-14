@@ -137,8 +137,10 @@ private:
 		main_ = bp::import("__main__");
 
 		std::ifstream file(script_path);
-		if (!file.is_open())
+		if (!file.is_open()) {
+			std::cout << "Cant open file " << script_path << std::endl;
 			return false;
+		}
 		
 		std::string script_content((std::istreambuf_iterator<char>(file)),
 			std::istreambuf_iterator<char>());
@@ -216,7 +218,7 @@ private:
 	std::string	TBaselineCorrectorTrainer::TrainCorrector(const std::string& type, const TMatrix& f_feats, const TMatrix& t_feats) {
 		// Acquire GIL before any Python operations
 		PyLockGIL  gil_locker;
-
+				
 		if (f_feats.rows() == 0 || t_feats.rows() == 0) {
 			std::cout << "Error in size input matrix for " << type << " corrector: f_size=" << f_feats.rows() << ", t_size=" << t_feats.rows() << std::endl;
 			return {};
