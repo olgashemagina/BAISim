@@ -95,7 +95,8 @@
       <AdditionalDependencies>Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y ..\..\..\..\library\awplflib\scripts\*.py ..\..\..\..\examples</Command>
+      <Command>xcopy /y ..\..\..\..\library\awplflib\scripts\*.py ..\..\..\..\examples
+xcopy /y ..\..\..\..\library\awplflib\scripts\*.py $(TargetDir) </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
