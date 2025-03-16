@@ -1,4 +1,4 @@
-#include "LFAgent.h"
+﻿#include "LFAgent.h"
 #include "LFEngine.h"
 #include "agent/detectors.h"
 #include "agent/corrector_trainer.h"
