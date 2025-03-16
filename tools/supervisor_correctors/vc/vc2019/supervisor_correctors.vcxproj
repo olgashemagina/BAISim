@@ -98,6 +98,7 @@ xcopy /y ..\..\..\..\library\awplflib\scripts\*.py $(TargetDir) </Command>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y ..\..\..\..\library\awplflib\scripts\*.py $(ProjectDir) 
+xcopy /y ..\..\..\..\library\awplflib\scripts\*.py $(TargetDir) 
 xcopy /y ..\..\..\..\library\awplflib\scripts\*.py ..\..\..\..\examples</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
