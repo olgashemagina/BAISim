@@ -300,14 +300,12 @@ namespace tests {
 
 	static bool test_detector_tree_builder() {
 		TLFTreeEngine tree_engine;
-		//std::string tree_path="d:/work/AI/test_tree_builder/rw_tree_num2.xml";
 		std::string tree_path = "../../../../models/railway/rw_tree_numbers_num3.xml";
 		if (!tree_engine.Load(tree_path)) {
 			std::cerr << "Cant load Tree Engine. Creating empty one." << std::endl;
 			return false;
 		}
 		std::string img_path = "../../../../images/vagon3.jpg";
-		//std::string img_path = "d:/work/AI/test_tree_builder/vagon7.jpg";
 		std::shared_ptr<TLFImage> img = std::make_shared<TLFImage>();
 		if (!img->LoadFromFile(img_path.c_str())) {
 			std::cerr << "LoadFromFile return false for " << img_path << std::endl;
