@@ -257,9 +257,10 @@ bool LFRemoveDir(const char* lpPath)
 bool LFRemoveFilesInDir(const char* lpPath)
 {
 	const fs::path cur_dir{ lpPath };
-
+	if (!fs::exists(cur_dir))
+		return true;
 	if (fs::is_empty(cur_dir))
-		return false;
+		return true;
 	else
 	{
 		for (const auto& f : fs::directory_iterator(cur_dir))

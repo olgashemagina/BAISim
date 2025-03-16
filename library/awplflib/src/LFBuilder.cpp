@@ -653,7 +653,8 @@ bool TCSBuildDetector::CreateDetector(const char* lpDetectorName)
 		TSCObjectDetector* d = new TSCObjectDetector();
 		d->SetBaseHeight(m_AdaBoost.HeightBase());
 		d->SetBaseWidht(m_AdaBoost.WidthBase());
-		d->SetScanner(m_AdaBoost.GetScanner());
+		if(m_AdaBoost.GetScanner()!=NULL)
+			d->SetScanner(m_AdaBoost.GetScanner());
 		m_Engine.AddDetector(d);
 	}
 	return m_Engine.Save(lpDetectorName);
