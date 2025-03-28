@@ -265,11 +265,11 @@ private:
 			auto callable = corrector_.attr("fit");
 			callable(t_array, f_array, numPCA_, numClusters_);
 			std::cout << "Corrector train time: " << td.GetDiffMs() << " ms." << std::endl;
-			auto callable_correct = corrector_.attr("correct");
+			//auto callable_correct = corrector_.attr("correct");
 
-			int value_far = bp::extract<int>(callable_correct(t_array));
-			int value_frr = bp::extract<int>(callable_correct(f_array));
-			std::cout << "Self python test for " << type << " corrector: FAR = " << value_far / (float)t_feats.rows() << "   FRR = " << 1 - (value_frr / (float)f_feats.rows()) << std::endl;
+			//int value_far = bp::extract<int>(callable_correct(t_array));
+			//int value_frr = bp::extract<int>(callable_correct(f_array));
+			//std::cout << "Self python test for " << type << " corrector: FAR = " << value_far / (float)t_feats.rows() << "   FRR = " << 1 - (value_frr / (float)f_feats.rows()) << std::endl;
 		}
 		catch (bp::error_already_set const&) {
 			PyErr_Print();
