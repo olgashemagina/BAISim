@@ -366,7 +366,7 @@ static bool test_trainer() {
 	for (int i = 0; i < count; i++) {
 		corrector->TrainFpCorrector(fp_matrix, tp_matrix);
 	}
-	std::cout << "### Corrector full time " << td.GetDiffMs() / count << " ms. ###" << std::endl;
+	std::cout << "### Agent full time " << td.GetDiffMs() / count << " ms. ###" << std::endl;
 	return true;
 }
 
@@ -397,14 +397,14 @@ int main(int argc, char* argv[]) {
 
     std::cout << std::endl;
 
-	// Пример 3: демонстрация скорости работы алгоритма построения детектора.
-    // Correctors building
-    std::cout << "[3] Corrector building test for 100 samples... " << std::endl;
+	// Пример 3: демонстрация скорости работы алгоритма построения агента.
+    // Agent building
+    std::cout << "[3] Agent building test for 100 samples... " << std::endl;
 	std::cout << "================================================================================" << std::endl << std::endl;
     if (!test_trainer())
-        std::cout << "Corrector test NOT PASSED " << std::endl;
+        std::cout << "Agent test NOT PASSED " << std::endl;
     else {
-        std::cout << "Corrector test PASSED " << std::endl;
+        std::cout << "Agent test PASSED " << std::endl;
     }
 
     std::cout << std::endl;

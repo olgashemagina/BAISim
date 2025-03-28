@@ -51,21 +51,7 @@ int main(int argc, char* argv[]) {
             usage();
             return 0;
         }
-        if (key.substr(0, 5) == "--det") {
-            if (key.length() < 7 || key[5] != '=') {
-                std::cerr << "Parsing error: use \"det=<path>\", no extra spaces" << std::endl;
-                usage();
-                return -3;
-            }
-            if (!det_path.empty()) {
-                std::cerr << "Engine file was already specified in parameters" << std::endl;
-                usage();
-                return -4;
-            }
-            det_path = key.substr(6);
-
-            std::cout << "Using detector: " << det_path << std::endl;
-        } else if (key.substr(0, 9) == "--det_gpu") {
+        if (key.substr(0, 9) == "--det_gpu") {
             if (key.length() < 11 || key[9] != '=') {
                 std::cerr << "Parsing error: use \"det_gpu=<path>\", no extra spaces" << std::endl;
                 usage();
@@ -79,6 +65,20 @@ int main(int argc, char* argv[]) {
             det_path = key.substr(10);
             use_gpu = true;
             std::cout << "Using GPU detector: " << det_path << std::endl;
+        } else if (key.substr(0, 5) == "--det") {
+            if (key.length() < 7 || key[5] != '=') {
+                std::cerr << "Parsing error: use \"det=<path>\", no extra spaces" << std::endl;
+                usage();
+                return -3;
+            }
+            if (!det_path.empty()) {
+                std::cerr << "Engine file was already specified in parameters" << std::endl;
+                usage();
+                return -4;
+            }
+            det_path = key.substr(6);
+
+            std::cout << "Using detector: " << det_path << std::endl;
         }
         else if (key.substr(0, 11) == "--db_folder") {
             if (key.length() < 13 || key[11] != '=') {
