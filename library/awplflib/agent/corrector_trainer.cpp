@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <filesystem>
+#include <cstdlib>
 
 #include "utils/time.h"
 
@@ -135,8 +136,17 @@ private:
 		state_path_ = state_path;
 						
 		main_ = bp::import("__main__");
+		std::ifstream file;
+		const char* temp = std::getenv("pyscript_path");
+		if (temp != NULL)
+		{
+			std::string env_path(temp);
 
-		std::ifstream file(script_path);
+			file.open(env_path + "\\" + script_path);
+		}
+		else
+			file.open(script_path);
+		
 		if (!file.is_open()) {
 			std::cout << "Cant open file " << script_path << std::endl;
 			return false;
@@ -144,8 +154,14 @@ private:
 		
 		std::string script_content((std::istreambuf_iterator<char>(file)),
 			std::istreambuf_iterator<char>());
-				
-		bp::exec(script_content.c_str(), main_.attr("__dict__"));
+	
+
+		try {
+			bp::exec(script_content.c_str(), main_.attr("__dict__"));
+		}
+		catch (bp::error_already_set const&) {
+			PyErr_Print();
+		}
 
 		corrector_ = main_.attr("BaselineCorrector")();
 

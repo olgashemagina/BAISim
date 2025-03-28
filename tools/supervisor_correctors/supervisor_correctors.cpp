@@ -178,9 +178,10 @@ int main(int argc, char* argv[]) {
         usage();
         return -20;
     }
-
     auto sv = std::make_shared<agent::TDBSupervisor>();
+
     int count = sv->LoadDB(db_folder_path);
+    
     if (count <= 0) {
         std::cerr << "LoadDB return ERROR: " << count << std::endl;
         return count;

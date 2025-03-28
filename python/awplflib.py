@@ -12,15 +12,15 @@ class SupervisorCorrectors:
 
     def train(self, overlap=0.5, gpu=False):
         return not os.system('..\\build\\bin\\x64\\Release\\supervisor_correctors train ' + 
-                  (f'--det="{self.detector_path}" ' if not gpu else f'--det="{self.detector_gpu_path}" ') +
-                  (f'--save_path="{self.save_path}"' if self.save_path else '') + ' --db_folder="{self.db_path}" ' + 
+                  (f'--det={self.detector_path} ' if not gpu else f'--det={self.detector_gpu_path} ') +
+                  (f'--save_path={self.save_path}' if self.save_path else '') + f' --db_folder={self.db_path} ' + 
                   f'--overlap={overlap}' + 
-                  (' --corrs_path="{self.corrs_path}"' if self.corrs_path else ''))
+                  (f' --corrs_path={self.corrs_path}' if self.corrs_path else ''))
 
     def test(self, overlap=0.5):
-        return not os.system(f'..\\build\\bin\\x64\\Release\\supervisor_correctors test --agent="{self.agent_path}" ' +
-                  f'--db_folder="{self.db_path}" --overlap={overlap}' +
-                  (' --corrs_path="{self.corrs_path}"' if self.corrs_path else ''))
+        return not os.system(f'..\\build\\bin\\x64\\Release\\supervisor_correctors test --agent={self.agent_path} ' +
+                  f'--db_folder={self.db_path} --overlap={overlap}' +
+                  (f' --corrs_path={self.corrs_path}' if self.corrs_path else ''))
 
 
 class TreeBuilder:
