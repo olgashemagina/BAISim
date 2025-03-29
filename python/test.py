@@ -65,7 +65,7 @@ if(b.export()):
 
 # Создание и модификация детектора 
 # Creating and modifying a detector
-c = builder("..\\models\\face\\csbuild_face_ms1000_ff0p1.xml")
+c = builder("..\\models\\face\\csbuild_face_ms1000_ff0p2.xml")
 
 # Создание детектора
 # Creating a detector

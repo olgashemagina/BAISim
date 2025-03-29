@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<BuildDetector finish_far="0.1" num_negative="2500" max_stages="5000" detector_name="face_ms5000_ff0p1.xml" base_width="32" base_height="32" min_negative="200" num_samples_per_image="2000" positive_examples="..\..\dataset\face\dbexport\face" negative_examples="..\..\dataset\face\dbexport\negative" bkground_base="..\..\dataset\face\dbexport\bg" log_name="adabust.txt">
+<BuildDetector finish_far="0.1" num_negative="2500" max_stages="5000" detector_name="face_ms5000_ff0p1.xml" base_width="32" base_height="32" min_negative="200" num_samples_per_image="2000" positive_examples="..\..\dataset\face\dbexport\" negative_examples="..\..\dataset\face\dbexport\negative" bkground_base="..\..\dataset\bg" log_name="adabust.txt">
   <Features TLFHFeature="0" TLFDAFeature="0" TLFHAFeature="0" TLFCAFeature="0" TLFVAFeature="0" CSFeature="1" TLFVFeature="0" TLFCFeature="0" TLFLBPFeature="0" />
   <ILFScanner type="TLFScanner" ApertureWidth="32" ApertureHeight="32">
     <TLFParameter type="TLFParameter" m_Value="10" m_MaxValue="100" m_MinValue="1" m_Name="step" m_Descr="step space as a percentage of baseline resolution" />
