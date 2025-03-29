@@ -40,9 +40,9 @@ class TreeBuilder:
                   f'--tree_path={self.tree_paths[0]}')
 
     def merge(self, use_agent=True):
-        return not os.system(f'..\\build\\bin\\x64\\Release\\tree_builder merge ' +
+        return not os.system(f'..\\build\\bin\\x64\\Release\\tree_builder merge ' + 
                   f'--tree={self.tree_engine_path} ' + 
-                  (f'--agent={self.agent_path} ' if use_agent else f'--det={self.detector_path} ') +
+                  (f'--agent={self.agent_path} ' if use_agent else f'--det={self.detector_path} ') + 
                   ' '.join(f'--tree_path={x}' for x in self.tree_paths))
 
 class CSBuilder:
