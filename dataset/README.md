@@ -61,3 +61,70 @@ BAISim может быть использован с разными датасе
 
 В случае ручной разметки при помощи Image Marker файл разметки формируется автоматически при выделении объекта на изображении (подробнее описано в инструкции к [Image Marker](https://github.com/olgashemagina/BAISim/tree/main/Documentation/IM_pr_description_user_manual.docx)).
 
+
+---
+
+# Used Datasets
+
+BAISim can be used with different datasets, provided they are prepared in a supported format. The `dataset` folder at the root of the repository serves as the base for storing datasets. Below is a brief description and links to prepared datasets that can be unpacked into this folder for further use.
+
+- **Face_Test:** A test dataset containing exported face fragments to demonstrate detector training capabilities.
+  - [Link to Face_Test](https://www.kaggle.com/datasets/nuidelirina/face-test)
+  - [License](https://opendatacommons.org/licenses/dbcl/1-0/)
+
+- **Face_Test_100images:** A subset of 100 fragments from the Face_Test dataset. Demonstrates the ability to build a detector from 100 examples.
+  - [Link to Face_Test_100images](https://www.kaggle.com/datasets/nuidelirina/face-test-100images)
+  - [License](https://opendatacommons.org/licenses/dbcl/1-0/)
+
+- **Background:** A dataset of negative examples needed for building detectors.
+  - [Link to Background](https://www.kaggle.com/datasets/nuidelirina/background)
+  - [License](https://opendatacommons.org/licenses/dbcl/1-0/)
+
+- **Railway_rtank_test:** A dataset of tank car images with markup. Demonstrates the capabilities of building agents with correctors and testing them.
+  - [Link to Railway_rtank_test](https://kaggle.com/datasets/3266611f5a350adf9309967982d67b51a9a3027449ef524ec1e2c8833143a1a4)
+  - [License](https://cdla.dev/permissive-1-0/)
+
+- **Railway:** A dataset with data related to various railway objects (numbers on railcars, digits 0 to 9 from car numbers, a train of several cars, a freight car, a tank car).
+  - [Link to Railway](https://kaggle.com/datasets/fbfe48ad425a0d4ef55a30aaf5f5997fca2d8d34b43cba94943ce4a88c3e3026)
+  - [License](https://cdla.dev/permissive-1-0/)
+
+- **Road types:** A dataset with roads of three types: asphalt roads, dirt roads, snowy roads.
+  - [Link to Road types](https://www.kaggle.com/datasets/nuidelirina/road-types)
+  - [License](https://opendatacommons.org/licenses/dbcl/1-0/)
+
+- **Landing Pad:** A dataset with images of two types of landing pads for an unmanned aerial vehicle of the helicopter type: an “H”-shaped pad traditionally used; and a landing pad proposed by the developers, whose image is invariant to rotation.
+  - [Link to Landing Pad](https://www.kaggle.com/datasets/nuidelirina/landing-pad)
+  - [License](https://opendatacommons.org/licenses/dbcl/1-0/)
+
+- **Face recognition:** A dataset with images of faces.
+  - [Link to Face recognition](https://www.kaggle.com/datasets/nuidelirina/face-recognition)
+  - [License](https://opendatacommons.org/licenses/dbcl/1-0/)
+
+---
+
+All datasets except `Face`, `Face_100`, and `Railway_rtank_test` contain the directories `correct`, `test`, `train` (inside which is the `dbexport` directory with exported fragments for building a detector). Images and XML files (markup) with the same name are located in the same folder. Images can be in jpg or awp formats supported by BAISim. The markup file contains information about the labeled objects.
+
+## Data Format
+
+The supervisor expects images and markup files in the dataset folder to be organized in a specific way. For each image, there should be an XML file in the same folder and with the same name, containing object coordinates. Below is the markup file format:
+
+```xml
+<?xml version="1.0" ?>
+<TLFSemanticImageDescriptor ImageWidth="640" ImageHeight="640">
+  <TLFDetectedItem DetectorName="Human marked" Raiting="0" Type="741be8a0-0538-40ff-8be3-b0023aa14c65" zoneType="1" Angle="0" Racurs="0" left="0" top="0" right="93" bottom="127" Comment="" />
+</TLFSemanticImageDescriptor>
+```
+
+The `TLFSemanticImageDescriptor` block contains image size information and information about all labeled objects in `TLFDetectedItem` blocks.
+
+The number of `TLFDetectedItem` blocks corresponds to the number of labeled objects in the image. Each block contains information about:
+- the source of the labeling – manual or automatic using a detector.
+- the `Raiting` field is filled in case of automatic labeling and corresponds to the detector's confidence level.
+- the `Type` field is the UUID of the labeled object type.
+- the `zoneType` field is the code for the markup type – rectangle, polygon, etc.
+- the `Angle` and `Racurs` fields are additional properties of the labeled object, can be set during manual labeling and used for filtering images.
+- the `left`, `top`, `right`, `bottom` fields define the bounding box dimensions of the labeled area.
+
+In the case of manual labeling using Image Marker, the markup file is generated automatically when selecting an object in the image (described in more detail in the [Image Marker manual](https://github.com/olgashemagina/BAISim/tree/main/Documentation/IM_pr_description_user_manual.docx)).
+
+

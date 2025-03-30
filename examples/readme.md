@@ -180,3 +180,173 @@ auto vec = opt_detected_items.value();
 ```
 
 
+---
+
+# Library Usage Examples
+
+After building the library, you can try its main features using the examples below.
+
+## Command Line Scenarios
+
+The repository provides ready-made scripts for common tasks. Run them via double-click or console:
+
+### Agent Training
+
+The `train_correctors.cmd` script runs the `supervisor_correctors` module in training mode. It uses the specified base detector and labeled dataset and trains the correctors. A new agent XML file with trained correctors will be saved after completion. A similar GPU-enabled script is `train_correctors_gpu.cmd`.  
+To run this script properly, the [Railway_rtank_test](../dataset/README.md) dataset must be installed.
+
+### Agent Testing
+
+The `test_correctors.cmd` script runs `supervisor_correctors` in test mode. It takes a trained agent, runs it on a test image set, and outputs performance metrics (e.g., detection rate, number of errors) for a given overlap threshold (IoU). A GPU variant is available in `test_correctors_gpu.cmd`.  
+Requires the [Railway_rtank_test](../dataset/README.md) dataset.
+
+### Detector Construction Testing
+
+The `examples/` folder contains `.bat` files demonstrating step-by-step training of a face cascade detector:
+
+- `build_face_ff0p1.bat` – Builds a detector using the [Face_Test](../dataset/README.md) dataset.
+- `build_face_ms1000_ff0p2.bat` – Demonstrates adjusting the agent's precision.
+- `build_face_ms5000_ff0p1.bat` – Measures time for training 5000 agents.
+
+Requires installed [Face_Test](../dataset/README.md) and [Background](../dataset/README.md) datasets.
+
+### Training with a Reduced Dataset of 100 Examples
+
+- Download and extract the [Face_Test_100images](../dataset/README.md) dataset to the root `dataset` folder.
+- Also download and extract the [Background](../dataset/README.md) dataset to the same folder.
+- Then run `build_face_ms1000_100_ff0p1.bat` from the `examples` directory.
+
+Example structure of `dataset` after extraction:
+
+```
+dataset
+    face_100 
+        dbexport - image folder with objects
+    bg – image folder without objects
+```
+
+### Export/Merge Tree Detectors
+
+The `tree_builder` module supports export and merging of detector trees. The script `tree_builder_export.cmd` exports an agent to XML, and `tree_builder_merge.cmd` merges several files into a composite detector.
+
+### Quantitative Characteristic Testing
+
+The `tests_agent.cmd` script tests the performance of agents and corrector trainers. A successful test run will be marked with `PASSED`.
+
+## API Usage (C++)
+
+### Agent Creation Example (`example_agent.cpp`)
+
+This example shows how to create and use an object detection agent:
+
+```cpp
+#include "LFAgent.h"
+#include "LFEngine.h"
+
+// 1. Initialize agent from XML
+auto agent = load_xml("path_to_agent.xml", [](TiXmlElement* node) {
+	auto agent = std::make_unique<TLFAgent>();
+	if (node && agent->LoadXML(node))
+		return agent;
+	return std::unique_ptr<TLFAgent>{};
+});
+
+// Alternatively create from detector config
+agent = LoadAgentFromEngine("path_to_detector.xml");
+
+if (!agent) {
+	std::cerr << "Load error!" << std::endl;
+	return -1;
+}
+
+agent->SetNmsThreshold(0.5f); 
+
+// 2. Set up supervisor and load dataset
+auto supervisor = std::make_shared<agent::TDBSupervisor>();
+supervisor->LoadDB("path_to_dataset");
+
+agent->SetSupervisor(supervisor);
+
+// 3. Load test image
+std::shared_ptr<TLFImage> img = supervisor->LoadImg(0);
+
+// 4. Perform detection
+auto detections = agent->Detect(img);
+
+// 5. Print results
+std::cout << "Objects found: " << detections.size() << std::endl;
+for (const auto& detection : detections) {
+	TLFRect rect = detection.detected.GetBounds();
+	std::cout << "Found at: (" << rect.Left() << ", " << rect.Top() << ") - [Width: "
+		<< rect.Width() << ", Height: " << rect.Height() << "]" << std::endl;
+}
+
+// 6. Save updated agent
+save_xml("new_agent.xml", agent->SaveXML());
+```
+
+### Detector Building Example (`example_build.cpp`)
+
+Demonstrates building and training a cascade detector:
+
+```cpp
+#include "LF.h"
+#include "LFBuilder.h"
+
+
+//1. Create TCSBuildDetector object
+TCSBuildDetector builder;
+
+//2. Load params from XML
+if (!builder.LoadConfig("detector_config.xml")) {
+    std::cerr << "Ошибка загрузки конфигурационного файла!" << std::endl;
+    return -1;
+}
+
+//3. Show detector information
+builder.PrintDetectorInfo();
+
+//4.1 Add new classifier
+builder.AddNewClassifier();
+   
+
+//4.2 Or build detector from scratch
+if (!builder.Build()) {
+    std::cerr << "Training error!" << std::endl;
+    return -1;
+}
+```
+
+### Tree Detector Example (`example_tree_builder.cpp`)
+
+Shows how to use a tree detector:
+
+```cpp
+#include "LFAgent.h"
+#include "LFEngine.h"
+
+TLFTreeEngine tree_engine;
+std::string tree_path = "../../../../models/railway/rw_tree_numbers_num3.xml";
+
+if (!tree_engine.Load(tree_path)) {
+	std::cerr << "Failed to load: " << tree_path << std::endl;
+	return -1;
+}
+
+std::string img_path = "../../../../images/vagon3.jpg";
+std::shared_ptr<TLFImage> img = std::make_shared<TLFImage>();
+
+if (!img->LoadFromFile(img_path.c_str())) {
+	std::cerr << "Failed to load: " << img_path << std::endl;
+	return -1;
+}
+
+auto opt_detected_items = tree_engine.Detect(img);
+if (!opt_detected_items) {
+	std::cerr << "tree_engine returned false for " << img_path << std::endl;
+	return false;
+}
+
+auto vec = opt_detected_items.value();
+```
+

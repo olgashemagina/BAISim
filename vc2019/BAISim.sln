@@ -39,6 +39,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{90542E44-4C9F-4F98-9A76-EE17A8FA466A}"
+	ProjectSection(SolutionItems) = preProject
+		..\examples\readme.md = ..\examples\readme.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dataset", "dataset", "{71E5C846-53CE-471B-B0C6-588F1695B262}"
+	ProjectSection(SolutionItems) = preProject
+		..\dataset\README.md = ..\dataset\README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -104,6 +114,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{90542E44-4C9F-4F98-9A76-EE17A8FA466A} = {0B9D7BA2-EF91-4FA3-B558-8847AA4843C7}
+		{71E5C846-53CE-471B-B0C6-588F1695B262} = {0B9D7BA2-EF91-4FA3-B558-8847AA4843C7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A381F8A8-AB57-43AE-9EF0-1FCD2B78BE4F}
