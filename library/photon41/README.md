@@ -89,6 +89,5 @@ Before you begin, ensure the following software is installed on your system:
 
 ### 3. Сборка ObjectMarker
 
-- Инсталлируйте в Embarcadero C++ Builder
 - Откройте PhotonGroup.groupproj
 - Соберите ObjectMarker.exe
