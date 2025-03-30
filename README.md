@@ -127,13 +127,9 @@ BAISim может быть использован для:
 
    При успехе появится сообщение **"Test passed!"**
 
----
-
 ## Примеры
 
    После сборки библиотеки можно опробовать ее возможности на примерах из папки `examples/`.
-
----
 
 ## Структура репозитория
 
@@ -152,22 +148,16 @@ BAISim может быть использован для:
    - **README.md** – Основное описание проекта
    - **LICENSE** – Лицензия (GNU GPL v3.0)
 
----
-
 ## Используемые датасеты
 
    `BAISim` может работать с любыми датасетами, подготовленными в нужном формате.  
    Примеры и формат описаны в папке `dataset/`.
-
----
 
 ## Лицензия
 
    Проект распространяется под лицензией [GNU GPL v3.0](https://www.gnu.org/licenses/gpl-3.0.html).  
    Вы можете свободно использовать, изменять и распространять программный продукт, сохраняя лицензию для производных работ.  
    Текст лицензии — в файле `LICENSE`.
-
----
 
 ## Документация
 
@@ -177,8 +167,6 @@ BAISim может быть использован для:
    - **XML-конфигурации** – примеры конфишгураций для обучения детекторов в `models/face/`
    - **README (установка)** – текущее описание
 
----
-
 ## Публикации
 
 1. Gorban et al. (2021). [High-Dimensional Separability](https://doi.org/10.3390/e23081090). *Entropy*, 23(8), 1090.
@@ -187,5 +175,3 @@ BAISim может быть использован для:
 4. Stasenko et al. (2022). *Biomorphic AI system with adaptive error correction*, *IEEE CNN 2022*.
 5. Stasenko et al. (2024). [Adaptive Correction of the Multi-Cascade Detector](https://ieeexplore.ieee.org/document/XXXXXXX). *IEEE CNN 2024*.
 6. Telnykh et al. (2021). [A Biomorphic Model of Cortical Column](https://doi.org/10.3390/e23111458). *Entropy*, 23(11), 1458.
-
-
