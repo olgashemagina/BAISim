@@ -2,11 +2,15 @@
 
 - `csbuild_face_ms1000_ff0p1.xml` - Конфигурационный файл для демонстрации возможности построения детектора по 100 изображениям.
 
+- `csbuild_face_ms1000_ff0p3.xml` - Конфигурационный файл для демонстрации возможности построения детектора на примере базы данных Face_Test.
+
 - `csbuild_face_ms1000_ff0p2.xml` - Конфигурационный файл для демонстрации возможности изменения точности интеллектуального агента.
 
 - `csbuild_face_ms5000_ff0p1.xml` - Конфигурационный файл для измерения времени построения 5000 интеллектуальных агентов.
 
 - `csbuild_face_ms1000_ff0p1.xml` - Configuration file for demonstrating the ability to build a detector from 100 images.
+
+- `csbuild_face_ms1000_ff0p3.xml` - Configuration file for demonstrating the ability to build a detector using Face_Test database.
 
 - `csbuild_face_ms1000_ff0p2.xml` - Configuration file for demonstrating the ability to change the accuracy of the intelligent agent.
 
@@ -75,8 +79,8 @@ CSBuilder.exe -b <path_to_parameters.xml>
 - `min_negative` - Минимальное количество фоновых образцов для создания нового каскада.\
   Minimum number of background samples for building a new cascade.
 
-- `base_height`, `base_width` - Размеры детектора в пикселях.\
-  Detector dimensions in pixels.
+- `base_height`, `base_width` - Минимальные размеры анализируемого фрагмента в пикселях.\
+  Minimum size of the analyzed fragment in pixels.
 
 - `detector_name` - Имя созданного детектора.\
   Name of the created detector.
