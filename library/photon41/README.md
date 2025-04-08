@@ -26,7 +26,7 @@ Before you begin, ensure the following software is installed on your system:
 
 - Download C++ Builder 12 from the official website:  
   [C++ Builder Download](https://www.embarcadero.com/products/cbuilder/starter)
-- Install C++ Builder. When you will be prompted to choose the components to install, set the VCLTree Standard on the right side of the screen.
+- Install C++ Builder. When you will be prompted to choose the components to install, set the TeeChart Standard on the right side of the screen.
 
 ### 2. Install photon41
 
@@ -76,7 +76,7 @@ Before you begin, ensure the following software is installed on your system:
 
 - Загрузите C++ Builder 12 с официального сайта:  
   [C++ Builder Download](https://www.embarcadero.com/products/cbuilder/starter)
-- Установите C++ Builder. При выборе компонент для установки отметьте VCLTree Standard в правой части экрана
+- Установите C++ Builder. При выборе компонент для установки отметьте TeeChart Standard в правой части экрана
 
 ### 2. Установка photon41
 
