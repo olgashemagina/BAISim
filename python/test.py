@@ -30,7 +30,7 @@ if(a.test()):
 
 # Создание и теcтирование модуля экспорта интеллектуальных агентов TreeBuilder
 # Creating and testing the export module for intelligent agents TreeBuilder
-b = tb(tree_engine_path=f"{models_path}\\agent\\agent_tree_merge_python.xml", agent_path=f"{models_path}\\agent\\random_agent.xml", tree_paths=("RandomAgent",))
+b = tb(tree_engine_path=f"{models_path}\\agent\\agent_tree_merge_python.xml", agent_path=f"{models_path}\\agent\\example_agent1.xml", tree_paths=("RandomAgent",))
 
 # Создается объект типа TLFTreeEngine из его описания по пути <tree_engine_path> и добавляет агент(<agent_path>) по путям иерархии, определяемые параметром tree_paths. 
 # An object of type TLFTreeEngine is created from its description located at <tree_engine_path> and adds an agent (<agent_path>) along the hierarchy paths defined by the tree_paths parameter.
@@ -39,7 +39,7 @@ if(b.merge()):
 
 # Изменение параметров класса TreeBuilder
 # Modifying the parameters of the TreeBuilder class
-b.agent_path=f"{models_path}\\agent\\random_agent2.xml"
+b.agent_path=f"{models_path}\\agent\\example_agent2.xml"
 b.tree_paths=("RandomAgent.Agent2",)
 
 # В существующий объект типа TLFTreeEngine по пути <tree_engine_path> добавляется еще один агент(<agent_path>) по путям иерархии, определяемые параметром tree_paths. 

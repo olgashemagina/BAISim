@@ -172,14 +172,14 @@ private:
 	}
 
 	bool TBaselineCorrectorTrainer::LoadXML(TiXmlElement* parent) {
-		if (TCorrectorTrainerBase::LoadXML(parent))
-		{
-			auto trainer_node = parent->FirstChildElement("TBaselineCorrectorTrainer");
-			if (!trainer_node) {
+		if (TCorrectorTrainerBase::LoadXML(parent)) {
+
+			if (parent->ValueStr() != "TBaselineCorrectorTrainer") {
 				return false;
 			}
-			trainer_node->QueryValueAttribute("numPCA", &numPCA_);
-			trainer_node->QueryValueAttribute("numClusters", &numClusters_);
+
+			parent->QueryValueAttribute("numPCA", &numPCA_);
+			parent->QueryValueAttribute("numClusters", &numClusters_);
 		}	
 
 		return true;

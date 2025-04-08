@@ -1,12 +1,16 @@
 import os
+import sys
 
 awplf_root_path = '\\'.join(os.path.dirname(os.path.realpath(__file__)).split('\\')[0:-1])+ '\\'
 #awplf_root_path = os.path.dirname(os.path.realpath(__file__)) + '\\..\\'
-awplf_bin_path = awplf_root_path + 'build\\bin\\x64\\Release\\' 
+awplf_bin_path = awplf_root_path + 'build\\bin\\x64\\Release\\'
+# Path to python3xx.dll is needed
+py_path = os.path.dirname(sys.executable)
 
 if not "3rdparty/Boost/lib/" in os.environ["PATH"]:
     library_path = awplf_root_path + '3rdparty\\Boost\\lib\\' 
-    os.environ["PATH"] += library_path
+    os.environ["PATH"] += ';' + library_path
+    os.environ["PATH"] += ';' + py_path
 #    os.add_dll_directory(library_path)
 script_path = awplf_root_path + 'library\\awplflib\\scripts'
 os.environ["pyscript_path"] = script_path

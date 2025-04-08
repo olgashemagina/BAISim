@@ -188,22 +188,28 @@ bool TLFAgent::LoadXML(TiXmlElement* agent_node) {
 
 	auto trainer_interface_node = agent_node->FirstChildElement("ICorrectorTrainer");
 
-	if (!trainer_interface_node) {
-		return false;
-	}
-
-	auto trainer_node = trainer_interface_node->FirstChildElement();
-
 	decltype(trainer_)	tr;
 
-	if (trainer_node) {
-		if (trainer_node->ValueStr() == "TCorrectorTrainerBase") {
+	if (trainer_interface_node) {
+		auto trainer_node = trainer_interface_node->FirstChildElement();
 
-			auto trainer = std::make_unique<TCorrectorTrainerBase>();
-			
-			if (!trainer->LoadXML(trainer_node))
-				return false;
-			tr = std::move(trainer);
+		if (trainer_node) {
+			if (trainer_node->ValueStr() == "TCorrectorTrainerBase") {
+
+				auto trainer = std::make_unique<TCorrectorTrainerBase>();
+
+				if (!trainer->LoadXML(trainer_node))
+					return false;
+				tr = std::move(trainer);
+			}
+			else if (trainer_node->ValueStr() == "TBaselineCorrectorTrainer") {
+				auto trainer = agent::CreateBaselineTrainer("create_class_corr1.py", "");
+				if (trainer) {
+					if (!trainer->LoadXML(trainer_node))
+						return false;
+					tr = std::move(trainer);
+				}
+			}
 		}
 	}
 

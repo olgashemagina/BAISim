@@ -15,11 +15,11 @@ BAISim может быть использован с разными датасе
   - [Лицензия](https://opendatacommons.org/licenses/dbcl/1-0/)
 
 - **Railway_rtank_test:** датасет изображений цистерн с разметкой. Демонстрирует возможности построения агентов с корректорами и их тестирование.
-  - [Ссылка на Railway_rtank_test](https://kaggle.com/datasets/3266611f5a350adf9309967982d67b51a9a3027449ef524ec1e2c8833143a1a4)
+  - [Ссылка на Railway_rtank_test](https://www.kaggle.com/datasets/nuidelirina/railway-rtank-test)
   - [Лицензия](https://cdla.dev/permissive-1-0/)
 
 - **Railway:** датасет с данными, относящимися к различным объектам железной дороги (номера на железнодорожных вагонах, цифры от 0 до 9 с номеров вагонов, железнодорожный состав из нескольких вагонов, товарный вагон, цистерна).
-  - [Ссылка на Railway](https://kaggle.com/datasets/fbfe48ad425a0d4ef55a30aaf5f5997fca2d8d34b43cba94943ce4a88c3e3026)
+  - [Ссылка на Railway](https://www.kaggle.com/datasets/nuidelirina/railway)
   - [Лицензия](https://cdla.dev/permissive-1-0/)
 
 - **Road types:** датасет с дорогами трех типов: дороги с асфальтовым покрытием, дороги с грунтовым покрытием, заснеженные дороги.
@@ -36,7 +36,7 @@ BAISim может быть использован с разными датасе
 
 ---
 
-Во всех датасетах, кроме `Face`, `Face_100` и `Railway_rtank_test` содержатся каталоги `correct`, `test`, `train` (внутри которого находится каталог `dbexport` с экспортированными фрагментами для построения детектора). Изображения и одноименные файлы в формате XML (разметка) находятся в одной папке. Изображения в форматах jpg или awp, поддерживаемые BAISim. Файл разметки содержит информацию о размеченных объектах.
+Во всех датасетах, кроме `Face`, `Face_100` и `Railway_rtank_test` содержатся каталоги `correct`, `test`, `train` (внутри которого находится каталог `dbexport` с экспортированными фрагментами для построения детектора). Изображения и одноименные файлы в формате XML (разметка) находятся в одной папке. Изображения могут быть в форматах **jpg** или **awp**, поддерживаемые BAISim. Файл разметки содержит информацию о размеченных объектах.
 
 ## Формат данных
 
@@ -102,7 +102,7 @@ BAISim can be used with different datasets, provided they are prepared in a supp
 
 ---
 
-All datasets except `Face`, `Face_100`, and `Railway_rtank_test` contain the directories `correct`, `test`, `train` (inside which is the `dbexport` directory with exported fragments for building a detector). Images and XML files (markup) with the same name are located in the same folder. Images can be in jpg or awp formats supported by BAISim. The markup file contains information about the labeled objects.
+All datasets except `Face`, `Face_100`, and `Railway_rtank_test` contain the directories `correct`, `test`, `train` (inside which is the `dbexport` directory with exported fragments for building a detector). Images and XML files (markup) with the same name are located in the same folder. Images can be in **jpg** or **awp** formats supported by BAISim. The markup file contains information about the labeled objects.
 
 ## Data Format
 
