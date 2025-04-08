@@ -26,14 +26,16 @@ Before you begin, ensure the following software is installed on your system:
 
 - Download C++ Builder 12 from the official website:  
   [C++ Builder Download](https://www.embarcadero.com/products/cbuilder/starter)
-- Install C++ Builder
+- Install C++ Builder. When you will be prompted to choose the components to install, set the VCLTree Standard on the right side of the screen.
 
 ### 2. Install photon41
 
 - Open PhotonLibs.groupproj in C++ Builder
 - Build and install photon41.bpl
 - In case of problems with linking ([ilink64 Error] Fatal: Error detected (EXE1832)) run using CLI:
+  ```
   "c:\program files (x86)\embarcadero\studio\23.0\bin\ilink64.exe" -G8 -L.\Win64\Release;"c:\program files (x86)\embarcadero\studio\23.0\lib\Win64\Release";photon;..\..\build\lib\borland\Win64\Release;"c:\program files (x86)\embarcadero\studio\23.0\lib\win64\release";"c:\program files (x86)\embarcadero\studio\23.0\lib\win64\release\psdk";C:\Users\Public\Documents\Embarcadero\Studio\23.0\Dcp\Win64;C:\Users\Public\Documents\Embarcadero\Studio\23.0\DCP\Win64\Release;C:\Users\Public\Documents\Embarcadero\Studio\23.0\Dcp\Win64 -j.\Win64\Release;"c:\program files (x86)\embarcadero\studio\23.0\lib\Win64\Release";photon;..\..\build\lib\borland\Win64\Release;"c:\program files (x86)\embarcadero\studio\23.0\lib\win64\release";"c:\program files (x86)\embarcadero\studio\23.0\lib\win64\release\psdk";C:\Users\Public\Documents\Embarcadero\Studio\23.0\Dcp\Win64;C:\Users\Public\Documents\Embarcadero\Studio\23.0\DCP\Win64\Release;C:\Users\Public\Documents\Embarcadero\Studio\23.0\Dcp\Win64 -lC:\Users\Public\Documents\Embarcadero\Studio\23.0\DCP\Win64\Release -v -Gi -Gn -GBphoton41 -Tpd c0pkg64 rtl.bpi vcl.bpi memmgr.a sysinit.o .\Win64\Release\photon41.o .\Win64\Release\DIBImage41.o .\Win64\Release\ExportRaster.o .\Win64\Release\FImage41.o .\Win64\Release\ImportRaster.o .\Win64\Release\PhBatchProcessor.o .\Win64\Release\PhFrames.o .\Win64\Release\PhImageTool.o .\Win64\Release\PhLandmarksTool.o .\Win64\Release\PhLenzTool.o .\Win64\Release\PhMediaSource.o .\Win64\Release\PhPalette.o .\Win64\Release\PhPaneTool.o .\Win64\Release\PhReadImagesThread.o .\Win64\Release\PhRulerTool.o .\Win64\Release\PhSelectRectTool.o .\Win64\Release\PhTrackBar.o .\Win64\Release\PhTriangleTool.o .\Win64\Release\PhUtils.o .\Win64\Release\PhVideoTrackBar.o .\Win64\Release\PhZonesTool.o .\Win64\Release\PhZoomToRectTool.o .\Win64\Release\pnglibio.o .\Win64\Release\tifflibio.o , C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\Win64\photon41.dll , C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\Win64\photon41.map , import64.a cp64mti.a , , .\Win64\Release\photon41.res
+  ```
 - If Embarcadero C++ Builder 12 Community Edition is installed in a different path, change it in the command line accordingly.
   The Photon41.dll file, which will appear as a result of linking, is sufficient for building Image Marker.
 
@@ -74,7 +76,7 @@ Before you begin, ensure the following software is installed on your system:
 
 - Загрузите C++ Builder 12 с официального сайта:  
   [C++ Builder Download](https://www.embarcadero.com/products/cbuilder/starter)
-- Установите C++ Builder
+- Установите C++ Builder. При выборе компонент для установки отметьте VCLTree Standard в правой части экрана
 
 ### 2. Установка photon41
 
