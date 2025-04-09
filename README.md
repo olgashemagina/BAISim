@@ -124,8 +124,13 @@ BAISim может быть использован для:
    ```bash
    python python/test.py
    ```
+   Или , если установлен **Py Launcher**:
 
-   При успехе появится сообщение **"Test passed!"**
+   ```bash
+   py python/test.py
+   ```
+
+   При успехе появятся сообщения **"Test passed!"** для каждого теста.
 
 ## Примеры
 
@@ -290,7 +295,13 @@ Workflow:
    ```bash
    python python/test.py
    ```
-   On success: **"Test passed!"**
+   Or, using **Py Launcher**:
+
+   ```bash
+   py python/test.py
+   ```
+
+   On success you will see **"Test passed!"** for each test.
 
 ## Examples
 
