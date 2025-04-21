@@ -91,14 +91,24 @@ BAISim может быть использован для:
 
 4. **Установка Boost 1.87**
    Скачайте архив Boost 1.87 и распакуйте, либо склонируйте его в папку `3rdparty/boost` внутри `BAISim`.
-   Откройте консоль **Developer Command Prompt for VS** и выполните:
+   Откройте командную строку Windows cmd.exe, перейдите в каталог, куда распакован исходный код библиотеки Boost 1.87 и выполните:
    
    ```bat
    bootstrap.bat
    b2 --build-type=complete --prefix="C:\Path\to\BAISim\3rdparty\boost" -a --reconfigure install
    ```
    
-   Замените `C:\Path\to\BAISim` на фактический путь к папке BAISim.
+   Замените `C:\Path\to\BAISim` на фактический путь к папке BAISim.README.md
+   
+   Признаком успешной сборки и инсталляции является наличие в папке C:\Path\to\BAISim\3rdparty\boost\lib файлов:
+   - boost_numpy311-vc142-mt-gd-x64-1_87.dll
+   - boost_numpy311-vc142-mt-gd-x64-1_87.lib 
+   - boost_numpy311-vc142-mt-x64-1_87.dll 
+   - boost_numpy311-vc142-mt-x64-1_87.lib 
+   - boost_python311-vc142-mt-gd-x64-1_87.dll 
+   - boost_python311-vc142-mt-gd-x64-1_87.lib 
+   - boost_python311-vc142-mt-x64-1_87.dll 
+   - boost_python311-vc142-mt-x64-1_87.lib 
 
 5. **Конфигурация пути к Python**  
    Откройте файл `vc2019/BAISim.props` в любом редакторе и найдите параметр `PythonPath`. Пропишите путь к установленному Python 3.11 (например, `C:\Python311\python.exe`).
@@ -268,11 +278,20 @@ Workflow:
 
 4. **Install Boost 1.87**  
    Download/unpack or clone into `3rdparty/boost`.  
-   From Developer Command Prompt for VS:
+   Open the Windows command line (cmd.exe), navigate to the directory where the Boost 1.87 source code has been extracted, and execute:
    ```bat
    bootstrap.bat
-   b2 --build-type=complete --prefix="C:\Path	o\BAISimrdpartyoost" -a --reconfigure install
+   b2 --build-type=complete --prefix="C:\Path\to\BAISim\3rdparty\boost" -a --reconfigure install
    ```
+   In case of successful build and installation the following files should be in the folder C:\Path\to\BAISim\3rdparty\boost\lib:
+   - boost_numpy311-vc142-mt-gd-x64-1_87.dll
+   - boost_numpy311-vc142-mt-gd-x64-1_87.lib 
+   - boost_numpy311-vc142-mt-x64-1_87.dll 
+   - boost_numpy311-vc142-mt-x64-1_87.lib 
+   - boost_python311-vc142-mt-gd-x64-1_87.dll 
+   - boost_python311-vc142-mt-gd-x64-1_87.lib 
+   - boost_python311-vc142-mt-x64-1_87.dll 
+   - boost_python311-vc142-mt-x64-1_87.lib
 
 5. **Set Python Path**  
    Edit `vc2019/BAISim.props`, set `PythonPath` to installed Python (e.g., `C:\Python311\python.exe`).
