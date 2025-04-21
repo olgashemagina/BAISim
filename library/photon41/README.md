@@ -47,7 +47,7 @@ Before you begin, ensure the following software is installed on your system:
 
 - Open PhotonGroup.groupproj
 - Build ObjectMarker.exe
-
+[Installation guide](https://drive.google.com/file/d/1K7gk3vurmj6394RXOvqVA454ZFc_dnxE/view?usp=sharing)
 
 # ImageMarker Инструкция по установке
 
@@ -95,3 +95,4 @@ Before you begin, ensure the following software is installed on your system:
 
 - Откройте PhotonGroup.groupproj
 - Соберите ObjectMarker.exe
+[Видео-инструкция по сборке](https://drive.google.com/file/d/1K7gk3vurmj6394RXOvqVA454ZFc_dnxE/view?usp=sharing)
