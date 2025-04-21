@@ -81,11 +81,11 @@ BAISim can be used with different datasets, provided they are prepared in a supp
   - [License](https://opendatacommons.org/licenses/dbcl/1-0/)
 
 - **Railway_rtank_test:** A dataset of tank car images with markup. Demonstrates the capabilities of building agents with correctors and testing them.
-  - [Link to Railway_rtank_test](https://kaggle.com/datasets/3266611f5a350adf9309967982d67b51a9a3027449ef524ec1e2c8833143a1a4)
+  - [Link to Railway_rtank_test](https://www.kaggle.com/datasets/nuidelirina/railway-rtank-test)
   - [License](https://cdla.dev/permissive-1-0/)
 
 - **Railway:** A dataset with data related to various railway objects (numbers on railcars, digits 0 to 9 from car numbers, a train of several cars, a freight car, a tank car).
-  - [Link to Railway](https://kaggle.com/datasets/fbfe48ad425a0d4ef55a30aaf5f5997fca2d8d34b43cba94943ce4a88c3e3026)
+  - [Link to Railway](https://www.kaggle.com/datasets/nuidelirina/railway)
   - [License](https://cdla.dev/permissive-1-0/)
 
 - **Road types:** A dataset with roads of three types: asphalt roads, dirt roads, snowy roads.
